@@ -1,10 +1,26 @@
 import request from '@/utils/request'
 
-export function getUserPage(currentPage, query) {
+export function getUserPage(query) {
   return request({
-    url: '/user/page/' + currentPage,
-    method: 'get',
-    params: query
+    url: '/user/page/' + query.currentPage,
+    method: 'get'
+    // params: query
+  })
+}
+
+export function enabled(id, value) {
+  return request({
+    url: '/user/enabled/' + id,
+    method: 'put',
+    params: { enabled: value }
+  })
+}
+
+export function createUser(user) {
+  return request({
+    url: '/user',
+    method: 'post',
+    user
   })
 }
 
@@ -21,14 +37,6 @@ export function fetchPv(pv) {
     url: '/vue-element-admin/article/pv',
     method: 'get',
     params: { pv }
-  })
-}
-
-export function createArticle(data) {
-  return request({
-    url: '/vue-element-admin/article/create',
-    method: 'post',
-    data
   })
 }
 

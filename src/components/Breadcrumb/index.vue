@@ -31,7 +31,6 @@ export default {
       // only show routes with meta.title
       let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
       const first = matched[0]
-
       if (!this.isDashboard(first)) {
         matched = [{ path: '/index', meta: { title: '管理系统' }}].concat(matched)
       }
