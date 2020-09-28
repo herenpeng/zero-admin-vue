@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
-export function getUserPage(query) {
+export function getUserPage(page, query) {
   return request({
-    url: '/user/page/' + query.currentPage,
-    method: 'get'
-    // params: query
+    url: '/user/page/' + page.currentPage,
+    method: 'get',
+    params: { size: page.size }
   })
 }
 
@@ -20,15 +20,14 @@ export function createUser(user) {
   return request({
     url: '/user',
     method: 'post',
-    user
+    params: user
   })
 }
 
-export function fetchArticle(id) {
+export function deleteUser(id) {
   return request({
-    url: '/vue-element-admin/article/detail',
-    method: 'get',
-    params: { id }
+    url: '/user/' + id,
+    method: 'delete'
   })
 }
 

@@ -3,11 +3,15 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
+// axios.defaults.withCredentials = true
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 5000, // request timeout
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  }
 })
 
 // request interceptor
@@ -20,7 +24,6 @@ service.interceptors.request.use(
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
       config.headers['X-Token'] = getToken()
-      // config.headers['Access-Control-Allow-Origin'] = '*'
     }
     return config
   },
@@ -51,7 +54,7 @@ service.interceptors.response.use(
 
       if (res.code === 50000 || res.code === 50001) {
         Message({
-          message: res.data.msg || 'Error',
+          message: res.data.msg || '系统错误',
           type: 'error',
           duration: 5 * 1000
         })

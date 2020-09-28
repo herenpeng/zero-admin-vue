@@ -51,13 +51,15 @@ module.exports = [
     url: '/vue-admin-template/user/info\.*',
     type: 'get',
     response: config => {
-      // const { token } = config.query
-      // const info = users[token]
+      let { token } = config.query
+      let userinfo = token.split('.')
+      let id = userinfo[0]
+      let username = userinfo[1]
+      let password = userinfo[2]
       const info = {
-        roles: ['admin'],
-        introduction: 'I am a super administrator',
-        avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-        name: 'Super Admin'
+        id,
+        username,
+        password
       }
 
       // mock error

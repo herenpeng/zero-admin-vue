@@ -106,7 +106,6 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          console.log('登录' + this.loginForm.username + '++==' + this.loginForm.password)
           this.$store.dispatch('user/login', this.loginForm).then((res) => {
             this.$router.push({ path: '/' })
             this.loading = false

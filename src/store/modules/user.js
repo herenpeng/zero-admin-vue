@@ -32,10 +32,10 @@ const actions = {
   login({ commit }, loginForm) {
     return new Promise((resolve, reject) => {
       const { username, password } = loginForm
-      login(username.trim(), password).then(response => {
-        const data = 'admin-token'
-        setToken(data)
-        commit('SET_TOKEN', data)
+      login(username.trim(), password).then(res => {
+        const accessToken = res.data
+        setToken(accessToken)
+        commit('SET_TOKEN', accessToken)
         resolve()
       }).catch(error => {
         reject(error)
@@ -44,11 +44,10 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getInfo({ commit }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getInfo().then(response => {
         const { data } = response
-        console.log(data)
         if (!data) {
           return reject('验证失败，请重新登录。')
         }
