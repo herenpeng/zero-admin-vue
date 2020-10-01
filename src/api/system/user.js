@@ -20,7 +20,7 @@ export function createUser(user) {
   return request({
     url: '/user',
     method: 'post',
-    params: user
+    data: user
   })
 }
 
