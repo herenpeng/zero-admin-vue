@@ -24,6 +24,14 @@ export function createUser(user) {
   })
 }
 
+export function updateUser(user) {
+  return request({
+    url: '/user',
+    method: 'put',
+    data: user
+  })
+}
+
 export function deleteUser(id) {
   return request({
     url: '/user/' + id,
@@ -31,18 +39,25 @@ export function deleteUser(id) {
   })
 }
 
-export function fetchPv(pv) {
+export function deleteUserRole(userId, roleId) {
   return request({
-    url: '/vue-element-admin/article/pv',
-    method: 'get',
-    params: { pv }
+    url: '/user/role/' + userId,
+    method: 'delete',
+    params: { roleId }
   })
 }
 
-export function updateArticle(data) {
+export function getRoleList(userId) {
   return request({
-    url: '/vue-element-admin/article/update',
+    url: '/user/role/' + userId,
+    method: 'get'
+  })
+}
+
+export function addUserRole(userId, roleId) {
+  return request({
+    url: '/user/role/' + userId,
     method: 'post',
-    data
+    params: { roleId }
   })
 }

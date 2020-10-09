@@ -79,11 +79,22 @@
             :key="index"
             closable
             :type="tagType[role.id]"
-            @close="handleClose(row, role)"
+            @close="deleteUserRole(row.id, role.id)"
             style="margin-right: 5px;border-radius: 15px;"
             :title="role.description">
             {{ role.name }}
           </el-tag>
+          <el-dropdown @command="addUserRole(row.id, $event)" trigger="click">
+            <el-button style="border-radius: 20px;" size="small" @click="getRoleList(row.id)">+</el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                v-for="(role,index) in roleList"
+                :key="index"
+                :title="role.description"
+                :command="role.id"
+              >{{ role.name }}</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -156,7 +167,7 @@
     </el-dialog>
 
     <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
+      <el-table border fit highlight-current-row style="width: 100%">
         <el-table-column prop="key" label="Channel"/>
         <el-table-column prop="pv" label="Pv"/>
       </el-table>
@@ -168,244 +179,253 @@
 </template>
 
 <script>
-  import { getUserPage, enabled, deleteUser, fetchPv, createUser, updateArticle } from '@/api/system/user'
-  import Pagination from '@/components/Pagination'
-  // import waves from '@/directive/waves' // waves directive
-  // import { parseTime } from '@/utils'
-  // import axios from 'axios'
+import { getUserPage, enabled, createUser, updateUser, deleteUser, deleteUserRole, getRoleList, addUserRole } from '@/api/system/user'
+import Pagination from '@/components/Pagination'
+// import waves from '@/directive/waves' // waves directive
+// import { parseTime } from '@/utils'
+// import axios from 'axios'
 
-  export default {
-    name: 'User',
-    components: { Pagination },
-    // directives: { waves },
-    filters: {
-      enabledFilter(enabledValue) {
-        if (enabledValue) {
-          return '启用'
-        } else {
-          return '禁用'
-        }
-      },
-      lockedFilter(lockedValue) {
-        if (lockedValue) {
-          return '锁定'
-        } else {
-          return '未锁定'
-        }
-      },
-      expireFilter(expireValue) {
-        if (expireValue) {
-          return '过期'
-        } else {
-          return '未过期'
-        }
+export default {
+  name: 'User',
+  components: { Pagination },
+  // directives: { waves },
+  filters: {
+    enabledFilter(enabledValue) {
+      if (enabledValue) {
+        return '启用'
+      } else {
+        return '禁用'
       }
     },
-    data() {
-      return {
-        tableKey: 0,
-        list: null,
-        page: {
-          currentPage: 1,
-          size: 10,
-          total: 0
-        },
-        listLoading: true,
-        listQuery: {
-          // currentPage: 1,
-          // size: 10,
-          username: '',
-          enabled: undefined,
-          locked: undefined,
-          accountExpire: undefined,
-          passwordExpire: undefined
-        },
-        tagType: ['', 'success', 'info', 'warning', 'danger'],
-        user: {
-          id: 1,
-          username: '123',
-          enabled: true,
-          locked: false,
-          accountExpire: false,
-          passwordExpire: false
-        },
-        dialogFormVisible: false,
-        dialogStatus: '',
-        textMap: {
-          create: '添加',
-          update: '编辑'
-        },
-        dialogPvVisible: false,
-        pvData: [],
-        rules: {
-          username: [{ required: true, message: '请输入用户名', trigger: 'change' }]
-        },
-        downloadLoading: false
+    lockedFilter(lockedValue) {
+      if (lockedValue) {
+        return '锁定'
+      } else {
+        return '未锁定'
       }
     },
-    created() {
+    expireFilter(expireValue) {
+      if (expireValue) {
+        return '过期'
+      } else {
+        return '未过期'
+      }
+    }
+  },
+  data() {
+    return {
+      tableKey: 0,
+      list: null,
+      page: {
+        currentPage: 1,
+        size: 10,
+        total: 0
+      },
+      listLoading: true,
+      listQuery: {
+        username: '',
+        enabled: undefined,
+        locked: undefined,
+        accountExpire: undefined,
+        passwordExpire: undefined
+      },
+      tagType: ['', 'success', 'info', 'warning', 'danger'],
+      user: {
+        id: undefined,
+        username: '',
+        enabled: true,
+        locked: false,
+        accountExpire: false,
+        passwordExpire: false
+      },
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        create: '添加',
+        update: '编辑'
+      },
+      dialogPvVisible: false,
+      roleList: [],
+      rules: {
+        username: [{ required: true, message: '请输入用户名', trigger: 'change' }]
+      },
+      downloadLoading: false
+    }
+  },
+  created() {
+    this.loadData()
+  },
+  methods: {
+    loadData() {
+      this.listLoading = true
+      getUserPage(this.page, this.listQuery).then(res => {
+        const page = res.data
+        this.list = page.records
+        this.page.total = page.total
+        setTimeout(() => {
+          this.listLoading = false
+        }, 1.5 * 1000)
+      })
+    },
+    handlePagination(page) {
+      console.log(page)
+      this.page.currentPage = page.page
+      this.page.size = page.limit
       this.loadData()
     },
-    methods: {
-      loadData() {
-        this.listLoading = true
-        getUserPage(this.page, this.listQuery).then(res => {
-          const page = res.data
-          this.list = page.records
-          this.page.total = page.total
-          setTimeout(() => {
-            this.listLoading = false
-          }, 1.5 * 1000)
-        })
-      },
-      handlePagination(page) {
-        console.log(page)
-        this.page.currentPage = page.page
-        this.page.size = page.limit
-        this.loadData()
-      },
-      enabled(row, value) {
-        enabled(row.id, value).then(res => {
-          row.enabled = value
-        })
-      },
-      handleCreate() {
-        this.resetTemp()
-        this.dialogStatus = 'create'
-        this.dialogFormVisible = true
-        this.$nextTick(() => {
-          this.$refs['dataForm'].clearValidate()
-        })
-      },
-      createData() {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            // axios.post('http://127.0.0.1:8080/user', JSON.stringify(this.data)).then(res => {
-            //   this.list.unshift(this.user)
-            //   this.dialogFormVisible = false
-            //   this.$notify({
-            //     title: '成功',
-            //     message: '创建成功',
-            //     type: 'success',
-            //     duration: 2000
-            //   })
-            // }).catch(reason => {
-            //   alert('错误')
-            // })
-            // const userData = Object.assign({}, this.user)
-            createUser(this.user).then(() => {
-              this.list.unshift(this.user)
-              this.dialogFormVisible = false
-              this.$notify({
-                title: '成功',
-                message: '创建成功',
-                type: 'success',
-                duration: 2000
-              })
+    enabled(row, value) {
+      enabled(row.id, value).then(res => {
+        row.enabled = value
+      })
+    },
+    handleCreate() {
+      this.resetTemp()
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    createData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          createUser(this.user).then(() => {
+            // this.list.unshift(this.user)
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: res.data,
+              type: 'success',
+              duration: 2000
             })
-          }
-        })
-      },
-      handleUpdate(row) {
-        this.user = Object.assign({}, row) // copy obj
-        this.dialogStatus = 'update'
-        this.dialogFormVisible = true
-        this.$nextTick(() => {
-          this.$refs['dataForm'].clearValidate()
-        })
-      },
-      updateData() {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            const tempData = Object.assign({}, this.temp)
-            tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-            updateArticle(tempData).then(() => {
-              const index = this.list.findIndex(v => v.id === this.temp.id)
-              this.list.splice(index, 1, this.temp)
-              this.dialogFormVisible = false
-              this.$notify({
-                title: '成功',
-                message: '更新成功',
-                type: 'success',
-                duration: 2000
-              })
+            this.loadData()
+          })
+        }
+      })
+    },
+    handleUpdate(row) {
+      this.user = Object.assign({}, row) // copy obj
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    updateData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          const tempData = Object.assign({}, this.temp)
+          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
+          updateUser(tempData).then(() => {
+            const index = this.list.findIndex(v => v.id === this.temp.id)
+            this.list.splice(index, 1, this.temp)
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: res.data,
+              type: 'success',
+              duration: 2000
             })
-          }
-        })
-      },
-      deleteData(row, index) {
+          })
+        }
+      })
+    },
+    deleteData(row, index) {
+      this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
         deleteUser(row.id).then(res => {
-          this.$notify({
-            title: '成功',
-            message: '删除成功',
+          this.$message({
             type: 'success',
-            duration: 2000
+            message: res.data
           })
           this.loadData()
           // this.list.splice(index, 1)
         })
-      },
-      handleClose(row, role) {
-        alert('删除角色成功')
-      },
-      handleFilter() {
-        this.listQuery.page = 1
-        this.getList()
-      },
-      handleModifyStatus(row, status) {
+      }).catch(() => {
         this.$message({
-          message: '操作成功',
-          type: 'success'
+          type: 'info',
+          message: '已取消删除'
         })
-        row.status = status
-      },
-      sortChange(data) {
-        const { prop, order } = data
-        if (prop === 'id') {
-          this.sortByID(order)
-        }
-      },
-      sortByID(order) {
-        if (order === 'ascending') {
-          this.listQuery.sort = '+id'
-        } else {
-          this.listQuery.sort = '-id'
-        }
-        this.handleFilter()
-      },
-      resetTemp() {
-        this.temp = {
-          id: undefined,
-          importance: 1,
-          remark: '',
-          timestamp: new Date(),
-          title: '',
-          status: 'published',
-          type: ''
-        }
-      },
-      handleFetchPv(pv) {
-        fetchPv(pv).then(response => {
-          this.pvData = response.data.pvData
-          this.dialogPvVisible = true
+      })
+    },
+    deleteUserRole(userId, roleId) {
+      deleteUserRole(userId, roleId).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data
         })
-      },
-      handleDownload() {
-        this.downloadLoading = true
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-          const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-          const data = this.formatJson(filterVal)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: 'table-list'
-          })
-          this.downloadLoading = false
+        this.loadData()
+      })
+    },
+    getRoleList(id) {
+      getRoleList(id).then(res => {
+        this.roleList = res.data
+      })
+    },
+    addUserRole(userId, roleId) {
+      addUserRole(userId, roleId).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data
         })
+        this.loadData()
+      })
+    },
+    handleFilter() {
+      this.listQuery.page = 1
+      this.getList()
+    },
+    handleModifyStatus(row, status) {
+      this.$message({
+        message: '操作成功',
+        type: 'success'
+      })
+      row.status = status
+    },
+    sortChange(data) {
+      const { prop, order } = data
+      if (prop === 'id') {
+        this.sortByID(order)
       }
+    },
+    sortByID(order) {
+      if (order === 'ascending') {
+        this.listQuery.sort = '+id'
+      } else {
+        this.listQuery.sort = '-id'
+      }
+      this.handleFilter()
+    },
+    resetTemp() {
+      this.temp = {
+        id: undefined,
+        importance: 1,
+        remark: '',
+        timestamp: new Date(),
+        title: '',
+        status: 'published',
+        type: ''
+      }
+    },
+    handleDownload() {
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
+        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
+        const data = this.formatJson(filterVal)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: 'table-list'
+        })
+        this.downloadLoading = false
+      })
     }
   }
+}
 </script>
 <style scoped>
 
