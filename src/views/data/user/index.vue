@@ -2,35 +2,41 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.username" placeholder="用户名" style="width: 200px;" class="filter-item"
-                @keyup.enter.native="handleFilter"/>
+                @keyup.enter.native="handleFilter"
+      />
       <el-select v-model="listQuery.enabled" placeholder="是否启用" clearable style="width: 120px" class="filter-item">
-        <el-option value="true" label="是"/>
-        <el-option value="false" label="否"/>
+        <el-option value="true" label="是" />
+        <el-option value="false" label="否" />
       </el-select>
       <el-select v-model="listQuery.locked" placeholder="是否锁定" clearable class="filter-item"
-                 style="width: 130px">
-        <el-option value="true" label="是"/>
-        <el-option value="false" label="否"/>
+                 style="width: 130px"
+      >
+        <el-option value="true" label="是" />
+        <el-option value="false" label="否" />
       </el-select>
       <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" style="width: 140px" class="filter-item"
-                 @change="handleFilter">
-        <el-option value="true" label="是"/>
-        <el-option value="false" label="否"/>
+                 @change="handleFilter"
+      >
+        <el-option value="true" label="是" />
+        <el-option value="false" label="否" />
       </el-select>
       <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" style="width: 140px;margin-right: 10px;"
-                 class="filter-item" @change="handleFilter">
-        <el-option value="true" label="是"/>
-        <el-option value="false" label="否"/>
+                 class="filter-item" @change="handleFilter"
+      >
+        <el-option value="true" label="是" />
+        <el-option value="false" label="否" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
-                 @click="handleCreate">
+                 @click="handleCreate"
+      >
         添加
       </el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
-                 @click="handleDownload">
+                 @click="handleDownload"
+      >
         导出
       </el-button>
     </div>
@@ -45,8 +51,7 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80">
-      </el-table-column>
+      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
       <el-table-column label="用户名" width="150px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.username }}</span>
@@ -79,12 +84,13 @@
             :key="index"
             closable
             :type="tagType[role.id]"
-            @close="deleteUserRole(row.id, role.id)"
             style="margin-right: 5px;border-radius: 15px;"
-            :title="role.description">
+            :title="role.description"
+            @close="deleteUserRole(row.id, role.id)"
+          >
             {{ role.name }}
           </el-tag>
-          <el-dropdown @command="addUserRole(row.id, $event)" trigger="click">
+          <el-dropdown trigger="click" @command="addUserRole(row.id, $event)">
             <el-button style="border-radius: 20px;" size="small" @click="getRoleList(row.id)">+</el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
@@ -92,7 +98,8 @@
                 :key="index"
                 :title="role.description"
                 :command="role.id"
-              >{{ role.name }}</el-dropdown-item>
+              >{{ role.name }}
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -119,41 +126,43 @@
                 :total="page.total"
                 :page="page.currentPage"
                 :limit="page.size"
-                @pagination="handlePagination"/>
+                @pagination="handlePagination"
+    />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="user" label-position="left" label-width="120px"
-               style="width: 400px; margin-left:50px;">
+               style="width: 400px; margin-left:50px;"
+      >
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="user.username" placeholder="请输入用户名"></el-input>
+          <el-input v-model="user.username" placeholder="请输入用户名" />
         </el-form-item>
         <el-form-item label="是否启用" prop="enabled">
           <el-switch
             v-model="user.enabled"
             active-text="启用"
-            inactive-text="禁用">
-          </el-switch>
+            inactive-text="禁用"
+          />
         </el-form-item>
         <el-form-item label="是否锁定" prop="locked">
           <el-switch
             v-model="user.locked"
             active-text="锁定"
-            inactive-text="未锁定">
-          </el-switch>
+            inactive-text="未锁定"
+          />
         </el-form-item>
         <el-form-item label="账号是否过期">
           <el-switch
             v-model="user.accountExpire"
             active-text="过期"
-            inactive-text="未过期">
-          </el-switch>
+            inactive-text="未过期"
+          />
         </el-form-item>
         <el-form-item label="密码是否过期">
           <el-switch
             v-model="user.passwordExpire"
             active-text="过期"
-            inactive-text="未过期">
-          </el-switch>
+            inactive-text="未过期"
+          />
         </el-form-item>
         <el-form-item label="用户角色">
           <!--          <el-input v-model="user.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea"-->
@@ -168,8 +177,8 @@
 
     <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
       <el-table border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel"/>
-        <el-table-column prop="pv" label="Pv"/>
+        <el-table-column prop="key" label="Channel" />
+        <el-table-column prop="pv" label="Pv" />
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogPvVisible = false">{{ ('table.confirm') }}</el-button>
@@ -179,11 +188,19 @@
 </template>
 
 <script>
-import { getUserPage, enabled, createUser, updateUser, deleteUser, deleteUserRole, getRoleList, addUserRole } from '@/api/system/user'
+import {
+  getUserPage,
+  enabled,
+  createUser,
+  updateUser,
+  deleteUser,
+  deleteUserRole,
+  getRoleList,
+  addUserRole
+} from '@/api/system/user'
 import Pagination from '@/components/Pagination'
 // import waves from '@/directive/waves' // waves directive
 // import { parseTime } from '@/utils'
-// import axios from 'axios'
 
 export default {
   name: 'User',
@@ -262,9 +279,7 @@ export default {
         const page = res.data
         this.list = page.records
         this.page.total = page.total
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
+        this.listLoading = false
       })
     },
     handlePagination(page) {
@@ -362,7 +377,15 @@ export default {
     },
     getRoleList(id) {
       getRoleList(id).then(res => {
-        this.roleList = res.data
+        const list = res.data
+        if (list.length === 0) {
+          this.$message({
+            type: 'warning',
+            message: '该用户已拥有所有角色，无法添加'
+          })
+        } else {
+          this.roleList = list
+        }
       })
     },
     addUserRole(userId, roleId) {

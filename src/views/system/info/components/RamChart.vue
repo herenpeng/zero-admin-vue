@@ -4,10 +4,12 @@
 
 <script>
 import echarts from 'echarts'
+
 require('echarts/theme/macarons') // echarts theme
 import resize from '@/components/mixins/resize'
 
 export default {
+  name: 'RamChart',
   mixins: [resize],
   props: {
     className: {
@@ -25,7 +27,11 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      chartValue: [
+        { value: 0, name: '内存已使用' },
+        { value: 5000, name: '内存未使用' }
+      ]
     }
   },
   mounted() {
@@ -52,27 +58,25 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+          data: ['内存已使用', '内存未使用']
         },
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: '服务器内存占用情况',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
-            data: [
-              { value: 320, name: 'Industries' },
-              { value: 240, name: 'Technology' },
-              { value: 149, name: 'Forex' },
-              { value: 100, name: 'Gold' },
-              { value: 59, name: 'Forecasts' }
-            ],
+            data: this.chartValue,
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }
         ]
       })
+      // setInterval(() => {
+      //   this.chartValue[0].value = this.chartValue[0].value + 100
+      //   this.initChart()
+      // }, 1000)
     }
   }
 }

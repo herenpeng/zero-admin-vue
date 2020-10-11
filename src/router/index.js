@@ -34,23 +34,45 @@ export const constantRoutes = [
   },
 
   {
-    path: '/system',
+    path: '/data',
     component: Layout,
-    redirect: '/system/user',
-    name: 'System',
+    redirect: '/data/user',
+    name: 'Data',
     meta: { title: '数据管理', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'user',
         name: 'User',
-        component: () => import('@/views/system/user/index'),
-        meta: { title: '用户管理', icon: 'table' }
+        component: () => import('@/views/data/user/index'),
+        meta: { title: '用户管理', icon: 'el-icon-user' }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
         meta: { title: 'Tree', icon: 'tree' }
+      }
+    ]
+  },
+
+  {
+    path: '/system',
+    component: Layout,
+    redirect: '/system/info',
+    name: 'System',
+    meta: { title: '系统监控', icon: 'el-icon-view' },
+    children: [
+      {
+        path: 'info',
+        name: 'Info',
+        component: () => import('@/views/system/info/index'),
+        meta: { title: '服务器监控', icon: 'el-icon-monitor' }
+      },
+      {
+        path: 'info',
+        name: 'Info',
+        component: () => import('@/views/system/info/index'),
+        meta: { title: '日志管理', icon: 'el-icon-tickets' }
       }
     ]
   },

@@ -4,10 +4,12 @@
 
 <script>
 import echarts from 'echarts'
+
 require('echarts/theme/macarons') // echarts theme
 import resize from '@/components/mixins/resize'
 
 export default {
+  name: 'JvmChart',
   mixins: [resize],
   props: {
     className: {
@@ -52,21 +54,18 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+          data: ['JVM已使用', 'JVM未使用']
         },
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: 'JVM占用情况',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
             data: [
-              { value: 320, name: 'Industries' },
-              { value: 240, name: 'Technology' },
-              { value: 149, name: 'Forex' },
-              { value: 100, name: 'Gold' },
-              { value: 59, name: 'Forecasts' }
+              { value: 320, name: 'JVM已使用' },
+              { value: 1024, name: 'JVM未使用' }
             ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600

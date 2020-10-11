@@ -1,13 +1,15 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}" />
+  <div :class="className" :style="{height:height,width:width}"/>
 </template>
 
 <script>
 import echarts from 'echarts'
+
 require('echarts/theme/macarons') // echarts theme
 import resize from '@/components/mixins/resize'
 
 export default {
+  name: 'CpuChart',
   mixins: [resize],
   props: {
     className: {
@@ -52,21 +54,18 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+          data: ['CPU已使用', 'CPU未使用']
         },
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: '服务器CPU占用情况',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
             data: [
-              { value: 320, name: 'Industries' },
-              { value: 240, name: 'Technology' },
-              { value: 149, name: 'Forex' },
-              { value: 100, name: 'Gold' },
-              { value: 59, name: 'Forecasts' }
+              { value: 320, name: 'CPU已使用' },
+              { value: 240, name: 'CPU未使用' }
             ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600
