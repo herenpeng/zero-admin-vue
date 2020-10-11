@@ -46,21 +46,25 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    // if (res.code === 50000) {
-    //   store.dispatch('/login').then(r => {})
-    // }
-    // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 20000) {
-
-      if (res.code === 50000 || res.code === 50001) {
+      // 50000：系统错误
+      if (res.code === 50000) {
         Message({
           message: res.data.msg || '系统错误',
           type: 'error',
           duration: 5 * 1000
         })
       }
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      // 30000：登录错误
+      if (res.code === 30000) {
+        Message({
+          message: res.data.msg || '登录错误',
+          type: 'error',
+          duration: 5 * 1000
+        })
+      }
+      // 30001：未登录
+      if (res.code === 30001) {
         // to re-login
         MessageBox.confirm('您的账号已登出，可以取消以保留在该页面上，或者再次登录', '确定登出', {
           confirmButtonText: '重新登录',
