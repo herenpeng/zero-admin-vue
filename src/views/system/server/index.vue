@@ -21,7 +21,7 @@
     </el-row>
 
     <el-row :gutter="64">
-      <el-col :xs="72" :sm="72" :lg="24">
+      <el-col :xs="36" :sm="36" :lg="12">
         <el-table
           :data="cpuInfo"
           :show-header="false"
@@ -32,25 +32,22 @@
                 <el-form-item label="核心数">
                   <span>{{ props.row.cpuNum }}</span>
                 </el-form-item>
+                <el-form-item label="当前空闲率">
+                  <span>{{ props.row.free }}%</span>
+                </el-form-item>
                 <el-form-item label="用户使用率">
                   <span>{{ props.row.used }}%</span>
                 </el-form-item>
                 <el-form-item label="系统使用率">
                   <span>{{ props.row.sys }}%</span>
                 </el-form-item>
-                <el-form-item label="当前空闲率">
-                  <span>{{ props.row.free }}%</span>
-                </el-form-item>
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column>系统CPU详细参数</el-table-column>
+          <el-table-column>系统CPU信息</el-table-column>
         </el-table>
       </el-col>
-    </el-row>
-
-    <el-row :gutter="64">
-      <el-col :xs="72" :sm="72" :lg="24">
+      <el-col :xs="36" :sm="36" :lg="12">
         <el-table
           :data="memInfo"
           :show-header="false"
@@ -73,7 +70,121 @@
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column>系统内存详细参数</el-table-column>
+          <el-table-column>系统内存信息</el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :xs="72" :sm="72" :lg="24">
+        <el-table
+          :data="sysInfo"
+          :show-header="false"
+          style="width: 100%">
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="主机名称">
+                  <span>{{ props.row.computerName }}</span>
+                </el-form-item>
+                <el-form-item label="主机IP">
+                  <span>{{ props.row.computerIp }}</span>
+                </el-form-item>
+                <el-form-item label="操作系统">
+                  <span>{{ props.row.osName }}</span>
+                </el-form-item>
+                <el-form-item label="系统架构">
+                  <span>{{ props.row.osArch }}</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column>服务器信息</el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="64">
+      <el-col :xs="72" :sm="72" :lg="24">
+        <el-table
+          :data="jvmInfo"
+          :show-header="false"
+          style="width: 100%">
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="占用的内存总数">
+                  <span>{{ props.row.total }}MB</span>
+                </el-form-item>
+                <el-form-item label="最大可用内存总数">
+                  <span>{{ props.row.max }}MB</span>
+                </el-form-item>
+                <el-form-item label="空闲内存">
+                  <span>{{ props.row.free }}MB</span>
+                </el-form-item>
+                <el-form-item label="使用内存">
+                  <span>{{ props.row.used }}MB</span>
+                </el-form-item>
+                <el-form-item label="内存使用率">
+                  <span>{{ props.row.usage }}%</span>
+                </el-form-item>
+                <el-form-item label="JDK版本">
+                  <span>{{ props.row.version }}</span>
+                </el-form-item>
+                <el-form-item label="JDK路径">
+                  <span>{{ props.row.home }}</span>
+                </el-form-item>
+                <el-form-item label="JVM名称">
+                  <span>{{ props.row.name }}</span>
+                </el-form-item>
+                <el-form-item label="JVM启动时间">
+                  <span>{{ props.row.startTime }}</span>
+                </el-form-item>
+                <el-form-item label="JVM运行时间">
+                  <span>{{ props.row.runTime }}</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column>Java虚拟机（JVM）信息</el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="64">
+      <el-col :xs="72" :sm="72" :lg="24">
+        <el-table
+          :data="sysFiles"
+          stripe
+          style="width: 100%">
+          <el-table-column
+            prop="dirName"
+            label="盘符路径">
+          </el-table-column>
+          <el-table-column
+            prop="sysTypeName"
+            label="盘符类型">
+          </el-table-column>
+          <el-table-column
+            prop="typeName"
+            label="文件类型">
+          </el-table-column>
+          <el-table-column
+            prop="total"
+            label="总大小">
+          </el-table-column>
+          <el-table-column
+            prop="free"
+            label="剩余大小">
+          </el-table-column>
+          <el-table-column
+            prop="used"
+            label="已经使用量">
+          </el-table-column>
+          <el-table-column
+            prop="usage"
+            label="资源的使用率">
+          </el-table-column>
         </el-table>
       </el-col>
     </el-row>
@@ -97,7 +208,10 @@ export default {
   data() {
     return {
       cpuInfo: [],
-      memInfo: []
+      memInfo: [],
+      sysInfo: [],
+      jvmInfo: [],
+      sysFiles: []
     }
   },
   created() {
@@ -108,15 +222,9 @@ export default {
       getServerInfo().then(res => {
         this.cpuInfo.push(res.data.cpu)
         this.memInfo.push(res.data.mem)
-        // this.cpuInfo[0].value = res.data.cpu.cpuNum
-        // this.cpuInfo[1].value = res.data.cpu.used + '%'
-        // this.cpuInfo[2].value = res.data.cpu.sys + '%'
-        // this.cpuInfo[3].value = res.data.cpu.free + '%'
-
-        // this.memInfo[0].value = res.data.mem.total + 'G'
-        // this.memInfo[1].value = res.data.mem.used + 'G'
-        // this.memInfo[2].value = res.data.mem.free + 'G'
-        // this.memInfo[3].value = res.data.mem.usage + '%'
+        this.sysInfo.push(res.data.sys)
+        this.jvmInfo.push(res.data.jvm)
+        this.sysFiles = res.data.sysFiles
       })
     }
   }

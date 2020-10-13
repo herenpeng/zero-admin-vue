@@ -1,5 +1,5 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}"/>
+  <div :class="className" :style="{height:height,width:width}" />
 </template>
 
 <script>
@@ -29,10 +29,7 @@ export default {
   data() {
     return {
       chart: null,
-      pieChartData: [
-        { value: 320, name: 'CPU已使用' },
-        { value: 240, name: 'CPU未使用' }
-      ]
+      cpu: {}
     }
   },
   mounted() {
@@ -46,6 +43,12 @@ export default {
     }
     this.chart.dispose()
     this.chart = null
+  },
+  created() {
+    setInterval(() => {
+      this.getCpuInfo()
+    }, 3000)
+    getCpuInfo()
   },
   methods: {
     initChart() {
@@ -62,27 +65,30 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['CPU已使用', 'CPU未使用']
+          data: ['用户使用率', '系统使用率']
         },
         series: [
           {
-            name: '服务器CPU占用情况',
+            name: '服务器CPU使用情况',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
-            data: this.pieChartData,
+            data: [
+              { value: this.cpu.used, name: '用户使用率' },
+              { value: this.cpu.sys, name: '系统使用率' }
+            ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }
         ]
       })
-      // setInterval(() => {
-      //   getCpuInfo().then(res => {
-      //     this.pieChartData = res.data
-      //   })
-      //   this.initChart()
-      // }, 1000)
+    },
+    getCpuInfo() {
+      getCpuInfo().then(res => {
+        this.cpu = res.data
+        this.initChart()
+      })
     }
   }
 }
