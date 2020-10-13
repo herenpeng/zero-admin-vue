@@ -43,7 +43,7 @@ const actions = {
     })
   },
 
-  // get user info
+  // get user server
   getInfo({ commit }) {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {

@@ -197,7 +197,7 @@ import {
   deleteUserRole,
   getRoleList,
   addUserRole
-} from '@/api/system/user'
+} from '@/api/data/user'
 import Pagination from '@/components/Pagination'
 // import waves from '@/directive/waves' // waves directive
 // import { parseTime } from '@/utils'

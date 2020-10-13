@@ -46,9 +46,9 @@ module.exports = [
     }
   },
 
-  // get user info
+  // get user server
   {
-    url: '/vue-admin-template/user/info\.*',
+    url: '/vue-admin-template/user/server\.*',
     type: 'get',
     response: config => {
       let { token } = config.query

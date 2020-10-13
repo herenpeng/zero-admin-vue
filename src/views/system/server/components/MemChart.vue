@@ -1,5 +1,5 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}"/>
+  <div :class="className" :style="{height:height,width:width}" />
 </template>
 
 <script>
@@ -9,7 +9,7 @@ require('echarts/theme/macarons') // echarts theme
 import resize from '@/components/mixins/resize'
 
 export default {
-  name: 'CpuChart',
+  name: 'RamChart',
   mixins: [resize],
   props: {
     className: {
@@ -22,12 +22,16 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: '320px'
     }
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      pieChartData: [
+        { value: 2300, name: '内存已使用' },
+        { value: 5000, name: '内存未使用' }
+      ]
     }
   },
   mounted() {
@@ -47,6 +51,9 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
 
       this.chart.setOption({
+        title: {
+          text: '服务器内存'
+        },
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)'
@@ -54,24 +61,25 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['CPU已使用', 'CPU未使用']
+          data: ['内存已使用', '内存未使用']
         },
         series: [
           {
-            name: '服务器CPU占用情况',
+            name: '服务器内存占用情况',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
-            data: [
-              { value: 320, name: 'CPU已使用' },
-              { value: 240, name: 'CPU未使用' }
-            ],
+            data: this.pieChartData,
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }
         ]
       })
+      // setInterval(() => {
+      //   this.chartValue[0].value = this.chartValue[0].value + 100
+      //   this.initChart()
+      // }, 1000)
     }
   }
 }

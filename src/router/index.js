@@ -58,20 +58,20 @@ export const constantRoutes = [
   {
     path: '/system',
     component: Layout,
-    redirect: '/system/info',
+    redirect: '/system/server',
     name: 'System',
     meta: { title: '系统监控', icon: 'el-icon-view' },
     children: [
       {
-        path: 'info',
-        name: 'Info',
-        component: () => import('@/views/system/info/index'),
+        path: 'server',
+        name: 'Server',
+        component: () => import('@/views/system/server/index'),
         meta: { title: '服务器监控', icon: 'el-icon-monitor' }
       },
       {
-        path: 'info',
-        name: 'Info',
-        component: () => import('@/views/system/info/index'),
+        path: 'log',
+        name: 'Log',
+        component: () => import('@/views/system/log/index'),
         meta: { title: '日志管理', icon: 'el-icon-tickets' }
       }
     ]
