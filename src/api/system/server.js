@@ -14,7 +14,7 @@ export function getJvmInfo() {
   })
 }
 
-export function getCMemInfo() {
+export function getMemInfo() {
   return request({
     url: '/server/mem',
     method: 'get'

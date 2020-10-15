@@ -7,6 +7,7 @@ import echarts from 'echarts'
 
 require('echarts/theme/macarons') // echarts theme
 import resize from '@/components/mixins/resize'
+import { getMemInfo } from '@/api/system/server'
 
 export default {
   name: 'RamChart',
@@ -28,10 +29,8 @@ export default {
   data() {
     return {
       chart: null,
-      pieChartData: [
-        { value: 2300, name: '内存已使用' },
-        { value: 5000, name: '内存未使用' }
-      ]
+      mem: {},
+      timer: null
     }
   },
   mounted() {
@@ -45,6 +44,14 @@ export default {
     }
     this.chart.dispose()
     this.chart = null
+    clearInterval(this.timer)
+    this.timer = null
+  },
+  created() {
+    this.getMemInfo()
+    this.timer = setInterval(() => {
+      this.getMemInfo()
+    }, 3000)
   },
   methods: {
     initChart() {
@@ -61,25 +68,30 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['内存已使用', '内存未使用']
+          data: ['已用内存', '剩余内存']
         },
         series: [
           {
-            name: '服务器内存占用情况',
+            name: '服务器内存使用情况',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
-            data: this.pieChartData,
+            data: [
+              { value: this.mem.used, name: '已用内存' },
+              { value: this.mem.free, name: '剩余内存' }
+            ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }
         ]
       })
-      // setInterval(() => {
-      //   this.chartValue[0].value = this.chartValue[0].value + 100
-      //   this.initChart()
-      // }, 1000)
+    },
+    getMemInfo() {
+      getMemInfo().then(res => {
+        this.mem = res.data
+        this.initChart()
+      })
     }
   }
 }

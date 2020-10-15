@@ -7,6 +7,7 @@ import echarts from 'echarts'
 
 require('echarts/theme/macarons') // echarts theme
 import resize from '@/components/mixins/resize'
+import { getJvmInfo } from '@/api/system/server'
 
 export default {
   name: 'JvmChart',
@@ -27,7 +28,9 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      jvm: {},
+      timer: null
     }
   },
   mounted() {
@@ -41,6 +44,14 @@ export default {
     }
     this.chart.dispose()
     this.chart = null
+    clearInterval(this.timer)
+    this.timer = null
+  },
+  created() {
+    this.getJvmInfo()
+    this.timer = setInterval(() => {
+      this.getJvmInfo()
+    }, 3000)
   },
   methods: {
     initChart() {
@@ -57,23 +68,29 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['JVM已使用', 'JVM未使用']
+          data: ['JVM已使用内存', 'JVM未使用内存']
         },
         series: [
           {
-            name: 'JVM占用情况',
+            name: 'JVM内存使用情况',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
             data: [
-              { value: 320, name: 'JVM已使用' },
-              { value: 1024, name: 'JVM未使用' }
+              { value: this.jvm.used, name: 'JVM已使用内存' },
+              { value: this.jvm.free, name: 'JVM未使用内存' }
             ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }
         ]
+      })
+    },
+    getJvmInfo() {
+      getJvmInfo().then(res => {
+        this.jvm = res.data
+        this.initChart()
       })
     }
   }

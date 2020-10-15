@@ -29,7 +29,8 @@ export default {
   data() {
     return {
       chart: null,
-      cpu: {}
+      cpu: {},
+      timer: null
     }
   },
   mounted() {
@@ -43,12 +44,14 @@ export default {
     }
     this.chart.dispose()
     this.chart = null
+    clearInterval(this.timer)
+    this.timer = null
   },
   created() {
-    setInterval(() => {
+    this.getCpuInfo()
+    this.timer = setInterval(() => {
       this.getCpuInfo()
     }, 3000)
-    getCpuInfo()
   },
   methods: {
     initChart() {
