@@ -7,7 +7,6 @@ import echarts from 'echarts'
 
 require('echarts/theme/macarons') // echarts theme
 import resize from '@/components/mixins/resize'
-import { getJvmInfo } from '@/api/system/server'
 
 export default {
   name: 'JvmChart',
@@ -24,13 +23,18 @@ export default {
     height: {
       type: String,
       default: '320px'
-    }
+    },
+    jvm: {}
   },
   data() {
     return {
-      chart: null,
-      jvm: {},
-      timer: null
+      chart: null
+    }
+  },
+  watch: {
+    // n为新值,o为旧值;
+    jvm(newValue, oloValue) {
+      this.initChart()
     }
   },
   mounted() {
@@ -44,19 +48,13 @@ export default {
     }
     this.chart.dispose()
     this.chart = null
-    clearInterval(this.timer)
-    this.timer = null
   },
   created() {
-    this.getJvmInfo()
-    this.timer = setInterval(() => {
-      this.getJvmInfo()
-    }, 3000)
+    this.initChart()
   },
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-
       this.chart.setOption({
         title: {
           text: 'Java虚拟机（JVM）'
@@ -85,12 +83,6 @@ export default {
             animationDuration: 2600
           }
         ]
-      })
-    },
-    getJvmInfo() {
-      getJvmInfo().then(res => {
-        this.jvm = res.data
-        this.initChart()
       })
     }
   }

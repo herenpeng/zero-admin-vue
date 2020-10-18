@@ -5,17 +5,17 @@
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <cpu-chart />
+          <cpu-chart :cpu="pieChart.cpu" />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <mem-chart />
+          <mem-chart :mem="pieChart.mem" />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <jvm-chart />
+          <jvm-chart :jvm="pieChart.jvm" />
         </div>
       </el-col>
     </el-row>
@@ -25,7 +25,8 @@
         <el-table
           :data="cpuInfo"
           :show-header="false"
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
@@ -51,7 +52,8 @@
         <el-table
           :data="memInfo"
           :show-header="false"
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
@@ -80,7 +82,8 @@
         <el-table
           :data="sysInfo"
           :show-header="false"
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
@@ -109,7 +112,8 @@
         <el-table
           :data="jvmInfo"
           :show-header="false"
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
@@ -156,35 +160,36 @@
         <el-table
           :data="sysFiles"
           stripe
-          style="width: 100%">
+          style="width: 100%"
+        >
           <el-table-column
             prop="dirName"
-            label="盘符路径">
-          </el-table-column>
+            label="盘符路径"
+          />
           <el-table-column
             prop="sysTypeName"
-            label="盘符类型">
-          </el-table-column>
+            label="盘符类型"
+          />
           <el-table-column
             prop="typeName"
-            label="文件类型">
-          </el-table-column>
+            label="文件类型"
+          />
           <el-table-column
             prop="total"
-            label="总大小">
-          </el-table-column>
+            label="总大小"
+          />
           <el-table-column
             prop="free"
-            label="剩余大小">
-          </el-table-column>
+            label="剩余大小"
+          />
           <el-table-column
             prop="used"
-            label="已经使用量">
-          </el-table-column>
+            label="已经使用量"
+          />
           <el-table-column
             prop="usage"
-            label="资源的使用率">
-          </el-table-column>
+            label="资源的使用率"
+          />
         </el-table>
       </el-col>
     </el-row>
@@ -196,7 +201,8 @@
 import CpuChart from './components/CpuChart'
 import MemChart from './components/MemChart'
 import JvmChart from './components/JvmChart'
-import { getServerInfo } from '@/api/system/server'
+import { getServerPieChartInfo, getServerInfo } from '@/api/system/server'
+import { closeWebSocket, connectWebSocket, supportWebSocket } from '@/utils/websocket'
 
 export default {
   name: 'Info',
@@ -211,11 +217,33 @@ export default {
       memInfo: [],
       sysInfo: [],
       jvmInfo: [],
-      sysFiles: []
+      sysFiles: [],
+      pieChart: {
+        cpu: null,
+        mem: null,
+        jvm: null
+      },
+      timer: null,
+      websocket: null
+    }
+  },
+  beforeDestroy() {
+    if (this.websocket === null) {
+      clearInterval(this.timer)
+      this.timer = null
+    } else {
+      closeWebSocket(this.websocket)
+      this.websocket = null
     }
   },
   created() {
     this.loadData()
+    this.getServerPieChartInfo()
+    if (this.websocket === null) {
+      this.timer = setInterval(() => {
+        this.getServerPieChartInfo()
+      }, 3000)
+    }
   },
   methods: {
     loadData() {
@@ -226,6 +254,28 @@ export default {
         this.jvmInfo.push(res.data.jvm)
         this.sysFiles = res.data.sysFiles
       })
+    },
+    getServerPieChartInfo() {
+      const _this = this
+      if (supportWebSocket()) {
+        this.websocket = connectWebSocket('ws://127.0.0.1:8080/websocket/server/piechart',
+          function() {
+
+          },
+          function(evt) {
+            _this.pieChart = JSON.parse(evt.data)
+          },
+          function() {
+
+          },
+          function() {
+            console.log('连接错误')
+          })
+      } else {
+        getServerPieChartInfo().then(res => {
+          this.pieChart = res.data
+        })
+      }
     }
   }
 }

@@ -7,7 +7,6 @@ import echarts from 'echarts'
 
 require('echarts/theme/macarons') // echarts theme
 import resize from '@/components/mixins/resize'
-import { getMemInfo } from '@/api/system/server'
 
 export default {
   name: 'RamChart',
@@ -24,13 +23,18 @@ export default {
     height: {
       type: String,
       default: '320px'
-    }
+    },
+    mem: {}
   },
   data() {
     return {
-      chart: null,
-      mem: {},
-      timer: null
+      chart: null
+    }
+  },
+  watch: {
+    // newValue为新值,oldValue为旧值;
+    mem(newValue, oldValue) {
+      this.initChart()
     }
   },
   mounted() {
@@ -44,19 +48,13 @@ export default {
     }
     this.chart.dispose()
     this.chart = null
-    clearInterval(this.timer)
-    this.timer = null
   },
   created() {
-    this.getMemInfo()
-    this.timer = setInterval(() => {
-      this.getMemInfo()
-    }, 3000)
+    this.initChart()
   },
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-
       this.chart.setOption({
         title: {
           text: '服务器内存'
@@ -85,12 +83,6 @@ export default {
             animationDuration: 2600
           }
         ]
-      })
-    },
-    getMemInfo() {
-      getMemInfo().then(res => {
-        this.mem = res.data
-        this.initChart()
       })
     }
   }

@@ -1,22 +1,8 @@
 import request from '@/utils/request'
 
-export function getCpuInfo() {
+export function getServerPieChartInfo() {
   return request({
-    url: '/server/cpu',
-    method: 'get'
-  })
-}
-
-export function getJvmInfo() {
-  return request({
-    url: '/server/jvm',
-    method: 'get'
-  })
-}
-
-export function getMemInfo() {
-  return request({
-    url: '/server/mem',
+    url: '/server/piechart',
     method: 'get'
   })
 }

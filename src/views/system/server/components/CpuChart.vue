@@ -7,7 +7,6 @@ import echarts from 'echarts'
 
 require('echarts/theme/macarons') // echarts theme
 import resize from '@/components/mixins/resize'
-import { getCpuInfo } from '@/api/system/server'
 
 export default {
   name: 'CpuChart',
@@ -24,13 +23,18 @@ export default {
     height: {
       type: String,
       default: '320px'
-    }
+    },
+    cpu: {}
   },
   data() {
     return {
-      chart: null,
-      cpu: {},
-      timer: null
+      chart: null
+    }
+  },
+  watch: {
+    // newValue为新值,oldValue为旧值;
+    cpu(newValue, oldValue) {
+      this.initChart()
     }
   },
   mounted() {
@@ -44,19 +48,13 @@ export default {
     }
     this.chart.dispose()
     this.chart = null
-    clearInterval(this.timer)
-    this.timer = null
   },
   created() {
-    this.getCpuInfo()
-    this.timer = setInterval(() => {
-      this.getCpuInfo()
-    }, 3000)
+    this.initChart()
   },
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-
       this.chart.setOption({
         title: {
           text: '服务器CPU'
@@ -85,12 +83,6 @@ export default {
             animationDuration: 2600
           }
         ]
-      })
-    },
-    getCpuInfo() {
-      getCpuInfo().then(res => {
-        this.cpu = res.data
-        this.initChart()
       })
     }
   }
