@@ -219,9 +219,18 @@ export default {
       jvmInfo: [],
       sysFiles: [],
       pieChart: {
-        cpu: null,
-        mem: null,
-        jvm: null
+        cpu: {
+          used: 0,
+          sys: 0
+        },
+        mem: {
+          used: 0,
+          free: 0
+        },
+        jvm: {
+          used: 0,
+          free: 0
+        }
       },
       timer: null,
       websocket: null

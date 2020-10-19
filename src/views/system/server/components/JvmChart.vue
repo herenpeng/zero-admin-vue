@@ -24,7 +24,7 @@ export default {
       type: String,
       default: '320px'
     },
-    jvm: {}
+    jvm: null
   },
   data() {
     return {
@@ -50,7 +50,7 @@ export default {
     this.chart = null
   },
   created() {
-    this.initChart()
+    // this.initChart()
   },
   methods: {
     initChart() {
