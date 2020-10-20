@@ -47,6 +47,18 @@ export const constantRoutes = [
         meta: { title: '用户管理', icon: 'el-icon-user' }
       },
       {
+        path: 'role',
+        name: 'Role',
+        component: () => import('@/views/data/role/index'),
+        meta: { title: '角色管理', icon: 'el-icon-discount' }
+      },
+      {
+        path: 'resources',
+        name: 'Resources',
+        component: () => import('@/views/data/resources/index'),
+        meta: { title: '资源管理', icon: 'el-icon-star-on' }
+      },
+      {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),

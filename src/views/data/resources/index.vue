@@ -1,33 +1,20 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.username" placeholder="用户名" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.uri" placeholder="资源路径" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.enabled" placeholder="是否启用" clearable style="width: 120px" class="filter-item"
-                 @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.locked" placeholder="是否锁定" clearable class="filter-item"
+      <el-input v-model="listQuery.description" placeholder="资源描述" style="width: 200px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-select v-model="listQuery.methodType" placeholder="方法类型" clearable class="filter-item"
                  style="width: 130px"
                  @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 140px" class="filter-item"
-                 @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 140px;margin-right: 10px;"
-                 class="filter-item" @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="get" label="GET" />
+        <el-option value="post" label="POST" />
+        <el-option value="put" label="PUT" />
+        <el-option value="delete" label="DELETE" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
@@ -55,32 +42,22 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="用户名" width="150px" align="center">
+      <el-table-column label="资源路径" width="300px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.username }}</span>
+          <span>{{ row.uri }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="150px" align="center">
+      <el-table-column label="资源描述" width="350px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.enabled | enabledFilter }}</span>
+          <span>{{ row.description }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否锁定" width="110px" align="center">
+      <el-table-column label="方法类型" width="80px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.locked | lockedFilter }}</span>
+          <span>{{ row.methodType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号是否过期" width="120px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.accountExpire | expireFilter }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="密码是否过期" width="120px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.passwordExpire | expireFilter }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="用户角色" class-name="status-col" width="300px">
+      <el-table-column label="拥有该资源的角色" class-name="status-col" width="300px">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -89,12 +66,12 @@
             :type="tagType[role.id]"
             style="margin-right: 5px;border-radius: 15px;"
             :title="role.description"
-            @close="deleteUserRole(row.id, role.id)"
+            @close="deleteResourcesRole(row.id, role.id)"
           >
             {{ role.name }}
           </el-tag>
-          <el-dropdown trigger="click" @command="addUserRole(row.id, $event)">
-            <el-button style="border-radius: 20px;" size="small" @click="getUserNotRoleList(row.id)">+</el-button>
+          <el-dropdown trigger="click" @command="addResourcesRole(row.id, $event)">
+            <el-button style="border-radius: 20px;" size="small" @click="getResourcesNotRoleList(row.id)">+</el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
                 v-for="(role,index) in roleList"
@@ -112,12 +89,6 @@
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button v-if="row.enabled === false" size="mini" type="success" @click="enabled(row, true)">
-            启用
-          </el-button>
-          <el-button v-if="row.enabled === true" size="mini" @click="enabled(row, false)">
-            禁用
-          </el-button>
           <el-button size="mini" type="danger" @click="deleteData(row)">
             删除
           </el-button>
@@ -133,39 +104,22 @@
     />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="user" label-position="left" label-width="120px"
+      <el-form ref="dataForm" :rules="rules" :model="resources" label-position="left" label-width="120px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="user.username" placeholder="请输入用户名" />
+        <el-form-item label="资源路径" prop="uri">
+          <el-input v-model="resources.uri" placeholder="请输入资源路径" />
         </el-form-item>
-        <el-form-item label="是否启用" prop="enabled">
-          <el-switch
-            v-model="user.enabled"
-            active-text="启用"
-            inactive-text="禁用"
-          />
+        <el-form-item label="资源描述" prop="description">
+          <el-input v-model="resources.description" placeholder="请输入资源描述" />
         </el-form-item>
-        <el-form-item label="是否锁定" prop="locked">
-          <el-switch
-            v-model="user.locked"
-            active-text="锁定"
-            inactive-text="未锁定"
-          />
-        </el-form-item>
-        <el-form-item label="账号是否过期">
-          <el-switch
-            v-model="user.accountExpire"
-            active-text="过期"
-            inactive-text="未过期"
-          />
-        </el-form-item>
-        <el-form-item label="密码是否过期">
-          <el-switch
-            v-model="user.passwordExpire"
-            active-text="过期"
-            inactive-text="未过期"
-          />
+        <el-form-item label="方法类型" prop="methodType">
+          <el-select v-model="resources.methodType" placeholder="请选择方法类型" clearable class="filter-item">
+            <el-option value="get" label="GET" />
+            <el-option value="post" label="POST" />
+            <el-option value="put" label="PUT" />
+            <el-option value="delete" label="DELETE" />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -179,19 +133,18 @@
 
 <script>
 import {
-  getUserPage,
-  enabled,
-  createUser,
-  updateUser,
-  deleteUser,
-  deleteUserRole,
-  getUserNotRoleList,
-  addUserRole
-} from '@/api/data/user'
+  getResourcesPage,
+  createResources,
+  updateResources,
+  deleteResources,
+  deleteResourcesRole,
+  getResourcesNotRoleList,
+  addResourcesRole
+} from '@/api/data/resources'
 import Pagination from '@/components/Pagination'
 
 export default {
-  name: 'User',
+  name: 'Resources',
   components: { Pagination },
   filters: {
     enabledFilter(enabledValue) {
@@ -199,20 +152,6 @@ export default {
         return '启用'
       } else {
         return '禁用'
-      }
-    },
-    lockedFilter(lockedValue) {
-      if (lockedValue) {
-        return '锁定'
-      } else {
-        return '未锁定'
-      }
-    },
-    expireFilter(expireValue) {
-      if (expireValue) {
-        return '过期'
-      } else {
-        return '未过期'
       }
     }
   },
@@ -227,20 +166,16 @@ export default {
       },
       listLoading: true,
       listQuery: {
-        username: null,
-        enabled: null,
-        locked: null,
-        accountExpire: null,
-        passwordExpire: null
+        uri: null,
+        description: null,
+        methodType: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
-      user: {
+      resources: {
         id: null,
-        username: null,
-        enabled: true,
-        locked: false,
-        accountExpire: false,
-        passwordExpire: false
+        uri: null,
+        description: null,
+        methodType: null
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -250,7 +185,9 @@ export default {
       },
       roleList: [],
       rules: {
-        username: [{ required: true, message: '请输入用户名', trigger: 'change' }]
+        uri: [{ required: true, message: '请输入资源路径', trigger: 'change' }],
+        description: [{ required: true, message: '请输入资源描述', trigger: 'change' }],
+        methodType: [{ required: true, message: '请选择方法类型', trigger: 'change' }]
       },
       downloadLoading: false
     }
@@ -261,7 +198,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getUserPage(this.page, this.listQuery).then(res => {
+      getResourcesPage(this.page, this.listQuery).then(res => {
         const page = res.data
         this.list = page.records
         this.page.total = page.total
@@ -272,11 +209,6 @@ export default {
       this.page.currentPage = page.page
       this.page.size = page.limit
       this.loadData()
-    },
-    enabled(row, value) {
-      enabled(row.id, value).then(res => {
-        row.enabled = value
-      })
     },
     handleCreate() {
       this.resetTemp()
@@ -289,7 +221,7 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          createUser(this.user).then((res) => {
+          createResources(this.resources).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
@@ -303,7 +235,7 @@ export default {
       })
     },
     handleUpdate(row) {
-      this.user = Object.assign({}, row) // copy obj
+      this.resources = Object.assign({}, row) // copy obj
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -313,7 +245,7 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          updateUser(this.user).then((res) => {
+          updateResources(this.resources).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
@@ -327,12 +259,12 @@ export default {
       })
     },
     deleteData(row, index) {
-      this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
+      this.$confirm('此操作将删除该系统资源, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteUser(row.id).then(res => {
+        deleteResources(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.data
@@ -346,8 +278,8 @@ export default {
         })
       })
     },
-    deleteUserRole(userId, roleId) {
-      deleteUserRole(userId, roleId).then(res => {
+    deleteResourcesRole(userId, roleId) {
+      deleteResourcesRole(userId, roleId).then(res => {
         this.$message({
           type: 'success',
           message: res.data
@@ -355,22 +287,22 @@ export default {
         this.loadData()
       })
     },
-    getUserNotRoleList(id) {
-      getUserNotRoleList(id).then(res => {
+    getResourcesNotRoleList(id) {
+      getResourcesNotRoleList(id).then(res => {
         const list = res.data
         if (list.length === 0) {
           this.roleList = null
           this.$message({
             type: 'warning',
-            message: '该用户已拥有所有角色，无法添加'
+            message: '所有角色均已拥有该系统资源，无法添加'
           })
         } else {
           this.roleList = list
         }
       })
     },
-    addUserRole(userId, roleId) {
-      addUserRole(userId, roleId).then(res => {
+    addResourcesRole(resourcesId, roleId) {
+      addResourcesRole(resourcesId, roleId).then(res => {
         this.$message({
           type: 'success',
           message: res.data
@@ -381,6 +313,13 @@ export default {
     handleFilter() {
       this.listQuery.page = 1
       this.loadData()
+    },
+    handleModifyStatus(row, status) {
+      this.$message({
+        message: '操作成功',
+        type: 'success'
+      })
+      row.status = status
     },
     sortChange(data) {
       const { prop, order } = data

@@ -1,10 +1,11 @@
 import request from '@/utils/request'
 
 export function getUserPage(page, query) {
+  query.size = page.size
   return request({
     url: '/user/page/' + page.currentPage,
     method: 'get',
-    params: { size: page.size }
+    params: query
   })
 }
 
@@ -47,7 +48,7 @@ export function deleteUserRole(userId, roleId) {
   })
 }
 
-export function getRoleList(userId) {
+export function getUserNotRoleList(userId) {
   return request({
     url: '/user/role/' + userId,
     method: 'get'
