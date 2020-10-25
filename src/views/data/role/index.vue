@@ -160,7 +160,7 @@ export default {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
-              message: res.data,
+              message: res.message,
               type: 'success',
               duration: 2000
             })
@@ -184,7 +184,7 @@ export default {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
-              message: res.data,
+              message: res.message,
               type: 'success',
               duration: 2000
             })
@@ -202,7 +202,7 @@ export default {
         deleteRole(row.id).then(res => {
           this.$message({
             type: 'success',
-            message: res.data
+            message: res.message
           })
           this.loadData()
         })
@@ -214,7 +214,7 @@ export default {
       })
     },
     handleFilter() {
-      this.listQuery.page = 1
+      this.page.currentPage = 1
       this.loadData()
     },
     sortChange(data) {

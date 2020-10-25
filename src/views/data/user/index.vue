@@ -290,10 +290,11 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           createUser(this.user).then((res) => {
+
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
-              message: res.data,
+              message: res.message,
               type: 'success',
               duration: 2000
             })
@@ -317,7 +318,7 @@ export default {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
-              message: res.data,
+              message: res.message,
               type: 'success',
               duration: 2000
             })
@@ -335,7 +336,7 @@ export default {
         deleteUser(row.id).then(res => {
           this.$message({
             type: 'success',
-            message: res.data
+            message: res.message
           })
           this.loadData()
         })
@@ -350,7 +351,7 @@ export default {
       deleteUserRole(userId, roleId).then(res => {
         this.$message({
           type: 'success',
-          message: res.data
+          message: res.message
         })
         this.loadData()
       })
@@ -373,13 +374,13 @@ export default {
       addUserRole(userId, roleId).then(res => {
         this.$message({
           type: 'success',
-          message: res.data
+          message: res.message
         })
         this.loadData()
       })
     },
     handleFilter() {
-      this.listQuery.page = 1
+      this.page.currentPage = 1
       this.loadData()
     },
     sortChange(data) {

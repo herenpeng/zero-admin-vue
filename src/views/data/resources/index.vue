@@ -225,7 +225,7 @@ export default {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
-              message: res.data,
+              message: res.message,
               type: 'success',
               duration: 2000
             })
@@ -249,7 +249,7 @@ export default {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
-              message: res.data,
+              message: res.message,
               type: 'success',
               duration: 2000
             })
@@ -267,7 +267,7 @@ export default {
         deleteResources(row.id).then(res => {
           this.$message({
             type: 'success',
-            message: res.data
+            message: res.message
           })
           this.loadData()
         })
@@ -282,7 +282,7 @@ export default {
       deleteResourcesRole(userId, roleId).then(res => {
         this.$message({
           type: 'success',
-          message: res.data
+          message: res.message
         })
         this.loadData()
       })
@@ -305,13 +305,13 @@ export default {
       addResourcesRole(resourcesId, roleId).then(res => {
         this.$message({
           type: 'success',
-          message: res.data
+          message: res.message
         })
         this.loadData()
       })
     },
     handleFilter() {
-      this.listQuery.page = 1
+      this.page.currentPage = 1
       this.loadData()
     },
     handleModifyStatus(row, status) {

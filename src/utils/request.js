@@ -6,9 +6,9 @@ import { getToken } from '@/utils/auth'
 // axios.defaults.withCredentials = true
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: process.env.VUE_APP_BASE_API // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000, // request timeout
+  // timeout: 5000 // request timeout
   // headers: {
   //   'Access-Control-Allow-Origin': '*'
   // }
@@ -50,7 +50,7 @@ service.interceptors.response.use(
       // 50000：系统错误
       if (res.code === 50000) {
         Message({
-          message: res.data.msg || '系统错误',
+          message: res.message || '系统错误',
           type: 'error',
           duration: 5 * 1000
         })
@@ -63,8 +63,8 @@ service.interceptors.response.use(
           duration: 5 * 1000
         })
       }
-      // 30001：未登录
-      if (res.code === 30001) {
+      // 40002：未登录或者访问凭证失效，需要重新登录
+      if (res.code === 40002) {
         // to re-login
         MessageBox.confirm('您的账号已登出，可以取消以保留在该页面上，或者再次登录', '确定登出', {
           confirmButtonText: '重新登录',
@@ -76,16 +76,15 @@ service.interceptors.response.use(
           })
         })
       }
-      return Promise.reject(new Error(res.data.msg || 'Error'))
+      return Promise.reject(new Error(res.message || '系统错误'))
     } else {
       return res
     }
   },
   error => {
-    console.log('err' + error) // for debug
     Message({
-      message: error.message,
-      type: 'error',
+      message: '您的权限不足，无法进行此操作',
+      type: 'warning',
       duration: 5 * 1000
     })
     return Promise.reject(error)
