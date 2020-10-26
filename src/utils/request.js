@@ -3,8 +3,7 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
-// axios.defaults.withCredentials = true
-// create an axios instance
+// 创建一个axios实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
@@ -52,7 +51,7 @@ service.interceptors.response.use(
         Message({
           message: res.message || '系统错误',
           type: 'error',
-          duration: 5 * 1000
+          duration: 2 * 1000
         })
       }
       // 30000：登录错误
@@ -60,7 +59,14 @@ service.interceptors.response.use(
         Message({
           message: res.data.msg || '登录错误',
           type: 'error',
-          duration: 5 * 1000
+          duration: 2 * 1000
+        })
+      }
+      if (res.code === 40003) {
+        Message({
+          message: res.message || '您的访问权限不足，无法进行此操作',
+          type: 'warning',
+          duration: 1000
         })
       }
       // 40002：未登录或者访问凭证失效，需要重新登录
@@ -83,9 +89,9 @@ service.interceptors.response.use(
   },
   error => {
     Message({
-      message: '您的权限不足，无法进行此操作',
-      type: 'warning',
-      duration: 5 * 1000
+      message: error.message,
+      type: 'error',
+      duration: 2 * 1000
     })
     return Promise.reject(error)
   }
