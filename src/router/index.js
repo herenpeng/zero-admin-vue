@@ -17,7 +17,12 @@ export const constantRoutes = [
 
   {
     path: '/404',
-    component: () => import('@/views/404'),
+    component: () => import('@/views/error/404'),
+    hidden: true
+  },
+  {
+    path: '/403',
+    component: () => import('@/views/error/403'),
     hidden: true
   },
 

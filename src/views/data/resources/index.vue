@@ -8,13 +8,12 @@
                 @keyup.enter.native="handleFilter"
       />
       <el-select v-model="listQuery.methodType" placeholder="方法类型" clearable class="filter-item"
-                 style="width: 130px"
-                 @change="handleFilter"
+                 style="width: 130px" @change="handleFilter"
       >
-        <el-option value="get" label="GET" />
-        <el-option value="post" label="POST" />
-        <el-option value="put" label="PUT" />
-        <el-option value="delete" label="DELETE" />
+        <el-option value="GET" label="GET" />
+        <el-option value="POST" label="POST" />
+        <el-option value="PUT" label="PUT" />
+        <el-option value="DELETE" label="DELETE" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
@@ -115,10 +114,10 @@
         </el-form-item>
         <el-form-item label="方法类型" prop="methodType">
           <el-select v-model="resources.methodType" placeholder="请选择方法类型" clearable class="filter-item">
-            <el-option value="get" label="GET" />
-            <el-option value="post" label="POST" />
-            <el-option value="put" label="PUT" />
-            <el-option value="delete" label="DELETE" />
+            <el-option value="GET" label="GET" />
+            <el-option value="POST" label="POST" />
+            <el-option value="PUT" label="PUT" />
+            <el-option value="DELETE" label="DELETE" />
           </el-select>
         </el-form-item>
       </el-form>

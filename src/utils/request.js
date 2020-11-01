@@ -2,6 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import router from '@/router'
 
 // 创建一个axios实例
 const service = axios.create({
@@ -63,11 +64,7 @@ service.interceptors.response.use(
         })
       }
       if (res.code === 40003) {
-        Message({
-          message: res.message || '您的访问权限不足，无法进行此操作',
-          type: 'warning',
-          duration: 1000
-        })
+        router.push('/403')
       }
       // 40002：未登录或者访问凭证失效，需要重新登录
       if (res.code === 40002) {
