@@ -88,6 +88,21 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    path: '/development',
+    component: Layout,
+    redirect: '/development/swagger2',
+    name: 'Development',
+    meta: { title: '系统开发', icon: 'el-icon-view' },
+    children: [
+      {
+        path: process.env.VUE_APP_BASE_API + '/swagger-ui.html',
+        name: 'Swagger2',
+        meta: { title: '项目文档', icon: 'el-icon-notebook-2' }
+      }
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

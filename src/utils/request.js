@@ -6,9 +6,9 @@ import router from '@/router'
 
 // 创建一个axios实例
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
-  // timeout: 5000 // request timeout
+  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  timeout: 5000 // request timeout
+  // withCredentials: true, // send constokies when cross-domain requests
   // headers: {
   //   'Access-Control-Allow-Origin': '*'
   // }
