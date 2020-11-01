@@ -46,7 +46,6 @@
       border
       fit
       style="width: 100%;"
-      @sort-change="sortChange"
     >
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -66,13 +65,13 @@
           </el-form>
         </template>
       </el-table-column>
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
+      <el-table-column label="序号" type="index" align="center" width="80" />
       <el-table-column label="操作用户" width="150px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="访问时间" width="200px" align="center" sortable="true">
+      <el-table-column label="访问时间" width="200px" align="center" sortable prop="accessTime">
         <template slot-scope="{row}">
           <span>{{ row.accessTime }}</span>
         </template>
@@ -153,7 +152,34 @@ export default {
         queryEndDate: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
-      downloadLoading: false
+      downloadLoading: false,
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      }
     }
   },
   watch: {
