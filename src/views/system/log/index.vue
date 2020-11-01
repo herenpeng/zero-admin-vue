@@ -57,10 +57,10 @@
             <el-form-item label="访问方法">
               <span>{{ props.row.method }}</span>
             </el-form-item>
-            <el-form-item label="异常名称">
+            <el-form-item label="异常名称" v-if="props.row.exceptionName != null">
               <span>{{ props.row.exceptionName }}</span>
             </el-form-item>
-            <el-form-item label="异常信息">
+            <el-form-item label="异常信息" v-if="props.row.exceptionMessage != null">
               <span>{{ props.row.exceptionMessage }}</span>
             </el-form-item>
           </el-form>
@@ -77,24 +77,32 @@
           <span>{{ row.accessTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="访问IP地址" width="150px" align="center">-->
+      <el-table-column label="访问IP地址" width="120px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.ip }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="访问URI" width="220px" align="center">-->
+      <el-table-column label="访问URI" width="200px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.uri }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="访问方法类型" width="150px" align="center">-->
+      <el-table-column label="访问方法类型" width="120px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.methodType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作执行时间" width="150px" align="center">-->
+      <el-table-column label="操作执行时间" width="120px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.executionTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="执行结果" width="80px" align="center">
+        <template slot-scope="{row}">
+          <span>
+            <el-button v-if="row.exceptionName == null" type="success" icon="el-icon-check" circle></el-button>
+            <el-button v-if="row.exceptionName != null" type="warning" icon="el-icon-message-solid" circle></el-button>
+          </span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
