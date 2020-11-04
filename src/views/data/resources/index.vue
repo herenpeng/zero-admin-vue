@@ -41,7 +41,7 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="资源路径" width="300px" align="center">
+      <el-table-column label="资源路径" width="280px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.uri }}</span>
         </template>
@@ -56,7 +56,7 @@
           <span>{{ row.methodType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="拥有该资源的角色" class-name="status-col" width="300px">
+      <el-table-column label="拥有该资源的角色" class-name="status-col" width="310px">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -85,10 +85,10 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button size="mini" type="danger" @click="deleteData(row)">
+          <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
           </el-button>
         </template>

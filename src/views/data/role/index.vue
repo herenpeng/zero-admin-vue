@@ -45,10 +45,10 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button size="mini" type="danger" @click="deleteData(row,$index)">
+          <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row,$index)">
             删除
           </el-button>
         </template>
@@ -70,7 +70,7 @@
           <el-input v-model="role.name" placeholder="请输入角色名称" />
         </el-form-item>
         <el-form-item label="角色描述" prop="description">
-          <el-input v-model="role.description" placeholder="请输入角色描述" />
+          <el-input type="textarea" style="height: 100px;" v-model="role.description" placeholder="请输入角色描述" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
