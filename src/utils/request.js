@@ -64,7 +64,13 @@ service.interceptors.response.use(
         })
       }
       if (res.code === 40003) {
-        router.push('/403')
+        Message({
+          message: res.message || '您的访问权限不足，无法访问该页面数据，或进行该操作',
+          type: 'warning',
+          duration: 1000
+        })
+        return res
+        // router.push('/403')
       }
       // 40002：未登录或者访问凭证失效，需要重新登录
       if (res.code === 40002) {

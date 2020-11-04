@@ -198,6 +198,11 @@ export default {
     loadData() {
       this.listLoading = true
       getResourcesPage(this.page, this.listQuery).then(res => {
+        setTimeout(() => {
+          if (this.listLoading === true) {
+            this.listLoading = false
+          }
+        }, 1000)
         const page = res.data
         this.list = page.records
         this.page.total = page.total

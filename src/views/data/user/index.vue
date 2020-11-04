@@ -262,6 +262,11 @@ export default {
     loadData() {
       this.listLoading = true
       getUserPage(this.page, this.listQuery).then(res => {
+        setTimeout(() => {
+          if (this.listLoading === true) {
+            this.listLoading = false
+          }
+        }, 1000)
         const page = res.data
         this.list = page.records
         this.page.total = page.total
@@ -290,7 +295,6 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           createUser(this.user).then((res) => {
-
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
