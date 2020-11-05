@@ -41,7 +41,7 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="资源路径" width="280px" align="center">
+      <el-table-column label="资源路径" width="260px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.uri }}</span>
         </template>
