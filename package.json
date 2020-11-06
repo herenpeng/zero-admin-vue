@@ -1,7 +1,7 @@
 {
-  "name": "vue-admin-template",
-  "version": "4.4.0",
-  "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
+  "name": "zero-admin-vue",
+  "version": "1.0.0",
+  "description": "一个通用的后台管理系统，使用Vue+ElementUI开发",
   "author": "herenpeng",
   "private": true,
   "scripts": {
