@@ -91,10 +91,16 @@ export const constantRoutes = [
   {
     path: '/development',
     component: Layout,
-    redirect: '/development/swagger2',
-    name: 'Development',
-    meta: { title: '系统开发', icon: 'el-icon-view' },
+    redirect: '/development/code-generation',
+    name: 'CodeGeneration',
+    meta: { title: '系统开发', icon: 'el-icon-monitor' },
     children: [
+      {
+        path: 'code-generation',
+        name: 'CodeGeneration',
+        component: () => import('@/views/development/code-generation/index'),
+        meta: { title: '代码生成', icon: 'el-icon-refresh-right' }
+      },
       {
         path: process.env.VUE_APP_BASE_API + '/swagger-ui.html',
         name: 'Swagger2',

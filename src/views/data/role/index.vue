@@ -70,7 +70,7 @@
           <el-input v-model="role.name" placeholder="请输入角色名称" />
         </el-form-item>
         <el-form-item label="角色描述" prop="description">
-          <el-input type="textarea" style="height: 100px;" v-model="role.description" placeholder="请输入角色描述" />
+          <el-input type="textarea" v-model="role.description" placeholder="请输入角色描述" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -151,7 +151,6 @@ export default {
       this.loadData()
     },
     handleCreate() {
-      this.resetTemp()
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -235,17 +234,6 @@ export default {
         this.listQuery.sort = '-id'
       }
       this.handleFilter()
-    },
-    resetTemp() {
-      this.temp = {
-        id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        status: 'published',
-        type: ''
-      }
     },
     handleDownload() {
       this.downloadLoading = true

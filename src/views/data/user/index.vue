@@ -11,19 +11,19 @@
         <el-option value="false" label="否" />
       </el-select>
       <el-select v-model="listQuery.locked" placeholder="是否锁定" clearable class="filter-item"
-                 style="width: 130px"
+                 style="width: 120px"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 140px" class="filter-item"
+      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 120px" class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 140px;margin-right: 10px;"
+      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 120px;margin-right: 10px;"
                  class="filter-item" @change="handleFilter"
       >
         <el-option value="true" label="是" />
@@ -284,7 +284,7 @@ export default {
       })
     },
     handleCreate() {
-      this.resetTemp()
+      this.user.username = null
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -302,6 +302,7 @@ export default {
               type: 'success',
               duration: 2000
             })
+            this.user = null
             this.loadData()
           })
         }
@@ -326,6 +327,7 @@ export default {
               type: 'success',
               duration: 2000
             })
+            this.user = null
             this.loadData()
           })
         }
@@ -400,17 +402,6 @@ export default {
         this.listQuery.sort = '-id'
       }
       this.handleFilter()
-    },
-    resetTemp() {
-      this.temp = {
-        id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        status: 'published',
-        type: ''
-      }
     },
     handleDownload() {
       this.downloadLoading = true

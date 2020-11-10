@@ -1,20 +1,21 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.uri" placeholder="资源路径" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.name" placeholder="数据库表名称" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.description" placeholder="资源描述" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.comment" placeholder="数据库表描述" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.methodType" placeholder="方法类型" clearable class="filter-item"
-                 style="width: 130px" @change="handleFilter"
-      >
-        <el-option value="GET" label="GET" />
-        <el-option value="POST" label="POST" />
-        <el-option value="PUT" label="PUT" />
-        <el-option value="DELETE" label="DELETE" />
-      </el-select>
+      <el-input v-model="listQuery.entityName" placeholder="实体类名称" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.basePackageName" placeholder="基础包名称" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.codeAuthor" placeholder="代码作者" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
@@ -41,46 +42,34 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="资源路径" width="260px" align="center">
+      <el-table-column label="数据库表名称" width="150px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.uri }}</span>
+          <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="资源描述" width="350px" align="center">
+      <el-table-column label="数据库表描述" width="220px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.description }}</span>
+          <span>{{ row.comment }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="方法类型" width="80px" align="center">
+      <el-table-column label="实体类名称" width="100px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.methodType }}</span>
+          <span>{{ row.entityName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="拥有该资源的角色" class-name="status-col" width="310px">
+      <el-table-column label="基础包名称" width="120px" align="center">
         <template slot-scope="{row}">
-          <el-tag
-            v-for="(role,index) in row.roles"
-            :key="index"
-            closable
-            :type="tagType[role.id]"
-            style="margin-right: 5px;border-radius: 15px;"
-            :title="role.description"
-            @close="deleteResourcesRole(row.id, role.id)"
-          >
-            {{ role.name }}
-          </el-tag>
-          <el-dropdown trigger="click" @command="addResourcesRole(row.id, $event)">
-            <el-button style="border-radius: 20px;" size="small" @click="getResourcesNotRoleList(row.id)">+</el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                v-for="(role,index) in roleList"
-                :key="index"
-                :title="role.description"
-                :command="role.id"
-              >{{ role.name }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <span>{{ row.basePackageName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="代码生成路径" width="200px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.codeGenerationPath }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="代码作者" width="120px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.codeAuthor }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -90,6 +79,9 @@
           </el-button>
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
+          </el-button>
+          <el-button icon="el-icon-refresh-right" size="mini" type="success" @click="enabled(row, true)">
+            代码生成
           </el-button>
         </template>
       </el-table-column>
@@ -103,22 +95,30 @@
     />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="resources" label-position="left" label-width="120px"
+      <el-form ref="dataForm" :rules="rules" :model="tableInfo" label-position="left" label-width="120px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="资源路径" prop="uri">
-          <el-input v-model="resources.uri" placeholder="请输入资源路径" />
-        </el-form-item>
-        <el-form-item label="资源描述" prop="description">
-          <el-input v-model="resources.description" placeholder="请输入资源描述" />
-        </el-form-item>
-        <el-form-item label="方法类型" prop="methodType">
-          <el-select v-model="resources.methodType" placeholder="请选择方法类型" clearable class="filter-item">
-            <el-option value="GET" label="GET" />
-            <el-option value="POST" label="POST" />
-            <el-option value="PUT" label="PUT" />
-            <el-option value="DELETE" label="DELETE" />
+        <el-form-item label="数据库表名称" prop="name">
+          <el-select v-model="tableInfo.name" placeholder="请选择数据表名称" clearable style="width: 280px;"
+                     class="filter-item" :disabled="dialogStatus==='update'" @change="handleTableName"
+          >
+            <el-option v-for="(tableInfo,index) in tableInfoList" :key="index" :value="tableInfo" :label="tableInfo.name" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="数据库表描述" prop="comment">
+          <el-input v-model="tableInfo.comment" placeholder="请输入数据库表描述" />
+        </el-form-item>
+        <el-form-item label="实体类名称" prop="entityName">
+          <el-input v-model="tableInfo.entityName" placeholder="请输入实体类名称" />
+        </el-form-item>
+        <el-form-item label="基础包名称" prop="basePackageName">
+          <el-input v-model="tableInfo.basePackageName" placeholder="请输入基础包名称" />
+        </el-form-item>
+        <el-form-item label="代码生成路径" prop="codeGenerationPath">
+          <el-input v-model="tableInfo.codeGenerationPath" placeholder="请输入代码生成路径" />
+        </el-form-item>
+        <el-form-item label="代码作者" prop="codeAuthor">
+          <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -132,28 +132,17 @@
 
 <script>
 import {
-  getResourcesPage,
-  createResources,
-  updateResources,
-  deleteResources,
-  deleteResourcesRole,
-  getResourcesNotRoleList,
-  addResourcesRole
-} from '@/api/data/resources'
+  getTableInfoPage,
+  getNotAddList,
+  createTableInfo,
+  updateTableInfo,
+  deleteTableInfo
+} from '@/api/development/code-generation'
 import Pagination from '@/components/Pagination'
 
 export default {
-  name: 'Resources',
+  name: 'CodeGeneration',
   components: { Pagination },
-  filters: {
-    enabledFilter(enabledValue) {
-      if (enabledValue) {
-        return '启用'
-      } else {
-        return '禁用'
-      }
-    }
-  },
   data() {
     return {
       tableKey: 0,
@@ -165,17 +154,23 @@ export default {
       },
       listLoading: true,
       listQuery: {
-        uri: null,
-        description: null,
-        methodType: null
+        username: null,
+        enabled: null,
+        locked: null,
+        accountExpire: null,
+        passwordExpire: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
-      resources: {
+      tableInfo: {
         id: null,
-        uri: null,
-        description: null,
-        methodType: null
+        name: null,
+        comment: null,
+        entityName: null,
+        basePackageName: null,
+        codeGenerationPath: null,
+        codeAuthor: null
       },
+      tableInfoList: [],
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
@@ -184,9 +179,12 @@ export default {
       },
       roleList: [],
       rules: {
-        uri: [{ required: true, message: '请输入资源路径', trigger: 'change' }],
-        description: [{ required: true, message: '请输入资源描述', trigger: 'change' }],
-        methodType: [{ required: true, message: '请选择方法类型', trigger: 'change' }]
+        name: [{ required: true, message: '请选择数据表名称', trigger: 'change' }],
+        comment: [{ required: true, message: '请输入数据库表描述', trigger: 'change' }],
+        entityName: [{ required: true, message: '请输入实体类名称', trigger: 'change' }],
+        basePackageName: [{ required: true, message: '请输入基础包名称', trigger: 'change' }],
+        codeGenerationPath: [{ required: true, message: '请输入代码生成路径', trigger: 'change' }],
+        codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
       },
       downloadLoading: false
     }
@@ -197,7 +195,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getResourcesPage(this.page, this.listQuery).then(res => {
+      getTableInfoPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -215,6 +213,10 @@ export default {
       this.loadData()
     },
     handleCreate() {
+      getNotAddList().then((res) => {
+        this.tableInfoList = res.data
+      })
+      this.tableInfo = {}
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -224,7 +226,7 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          createResources(this.resources).then((res) => {
+          createTableInfo(this.tableInfo).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
@@ -237,8 +239,33 @@ export default {
         }
       })
     },
+    handleTableName(tableInfo) {
+      this.tableInfo.name = tableInfo.name
+      this.tableInfo.comment = tableInfo.comment
+      this.setEntityName(tableInfo.name)
+    },
+    setEntityName(name) {
+      const entity = name.substring(name.indexOf('_') + 1)
+      this.tableInfo.entityName = this.convertToCamelCase(entity)
+    },
+    convertToCamelCase(str) {
+      // 去除下划线分隔符获取单词数组
+      const strArr = str.split('_')
+      // 如果第一个为空，则去掉
+      if (strArr[0] === '') {
+        strArr.shift()
+      }
+      // 遍历第一个单词到最后一个单词，并转换单词首字母为答谢
+      for (let i = 0, len = strArr.length; i < len; i++) {
+        // 如果不为空，则转成大写
+        if (strArr[i] !== '') {
+          strArr[i] = strArr[i][0].toUpperCase() + strArr[i].substring(1)
+        }
+      }
+      return strArr.join('')
+    },
     handleUpdate(row) {
-      this.resources = Object.assign({}, row) // copy obj
+      this.tableInfo = Object.assign({}, row) // copy obj
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -248,7 +275,7 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          updateResources(this.resources).then((res) => {
+          updateTableInfo(this.tableInfo).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
@@ -262,12 +289,12 @@ export default {
       })
     },
     deleteData(row, index) {
-      this.$confirm('此操作将删除该系统资源, 是否继续?', '提示', {
+      this.$confirm('此操作将删除该表信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteResources(row.id).then(res => {
+        deleteTableInfo(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message
@@ -281,48 +308,9 @@ export default {
         })
       })
     },
-    deleteResourcesRole(userId, roleId) {
-      deleteResourcesRole(userId, roleId).then(res => {
-        this.$message({
-          type: 'success',
-          message: res.message
-        })
-        this.loadData()
-      })
-    },
-    getResourcesNotRoleList(id) {
-      getResourcesNotRoleList(id).then(res => {
-        const list = res.data
-        if (list.length === 0) {
-          this.roleList = null
-          this.$message({
-            type: 'warning',
-            message: '所有角色均已拥有该系统资源，无法添加'
-          })
-        } else {
-          this.roleList = list
-        }
-      })
-    },
-    addResourcesRole(resourcesId, roleId) {
-      addResourcesRole(resourcesId, roleId).then(res => {
-        this.$message({
-          type: 'success',
-          message: res.message
-        })
-        this.loadData()
-      })
-    },
     handleFilter() {
       this.page.currentPage = 1
       this.loadData()
-    },
-    handleModifyStatus(row, status) {
-      this.$message({
-        message: '操作成功',
-        type: 'success'
-      })
-      row.status = status
     },
     sortChange(data) {
       const { prop, order } = data
