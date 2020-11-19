@@ -48,7 +48,7 @@
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row,$index)">
+          <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
           </el-button>
         </template>
@@ -103,7 +103,7 @@ export default {
         size: 8,
         total: 0
       },
-      listLoading: true,
+      listLoading: false,
       listQuery: {
         name: null,
         description: null

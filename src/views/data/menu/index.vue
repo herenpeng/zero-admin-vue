@@ -48,63 +48,41 @@
       :key="tableKey"
       v-loading="listLoading"
       :data="list"
-      border
-      fit
-      highlight-current-row
       style="width: 100%;"
+      row-key="id"
+      border
+      :tree-props="{children: 'childrenMenuList', hasChildren: 'hasChildren'}"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="用户名" width="150px" align="center">
+      <el-table-column label="序号" sortable="true" align="center" width="80" />
+      <el-table-column label="菜单名称" width="180">
         <template slot-scope="{row}">
-          <span>{{ row.username }}</span>
+          <span :style="{'padding-left': row.parentId != 0 ? '30px' : ''}">{{ row.metaTitle }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="100px" align="center">
+      <el-table-column label="菜单路由路径" width="150">
         <template slot-scope="{row}">
-          <span>{{ row.enabled | enabledFilter }}</span>
+          <span>{{ row.path }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否锁定" width="110px" align="center">
+      <el-table-column label="菜单模块名称" width="120">
         <template slot-scope="{row}">
-          <span>{{ row.locked | lockedFilter }}</span>
+          <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号是否过期" width="120px" align="center">
+      <el-table-column label="菜单模块路径" width="180">
         <template slot-scope="{row}">
-          <span>{{ row.accountExpire | expireFilter }}</span>
+          <span>{{ row.component }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="密码是否过期" width="120px" align="center">
+      <el-table-column label="是否隐藏" width="80" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.passwordExpire | expireFilter }}</span>
+          <span>{{ row.hidden | hiddenFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户角色" class-name="status-col" width="300px">
+      <el-table-column label="菜单排序" width="80" align="center">
         <template slot-scope="{row}">
-          <el-tag
-            v-for="(role,index) in row.roles"
-            :key="index"
-            closable
-            :type="tagType[role.id]"
-            style="margin-right: 5px;border-radius: 15px;"
-            :title="role.description"
-            @close="deleteUserRole(row.id, role.id)"
-          >
-            {{ role.name }}
-          </el-tag>
-          <el-dropdown trigger="click" @command="addUserRole(row.id, $event)">
-            <el-button style="border-radius: 20px;" size="small" @click="getUserNotRoleList(row.id)">+</el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                v-for="(role,index) in roleList"
-                :key="index"
-                :title="role.description"
-                :command="role.id"
-              >{{ role.name }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -112,11 +90,11 @@
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button v-if="row.enabled === false" icon="el-icon-check" size="mini" type="success" @click="enabled(row, true)">
-            启用
+          <el-button v-if="row.hidden === false" icon="el-icon-close" size="mini" @click="enabled(row, true)">
+            隐藏
           </el-button>
-          <el-button v-if="row.enabled === true" icon="el-icon-close" size="mini" @click="enabled(row, false)">
-            禁用
+          <el-button v-if="row.hidden === true" icon="el-icon-check" size="mini" type="success" @click="enabled(row, false)">
+            显示
           </el-button>
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
@@ -133,38 +111,35 @@
     />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="user" label-position="left" label-width="120px"
+      <el-form ref="dataForm" :rules="rules" :model="menu" label-position="left" label-width="160px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="user.username" placeholder="请输入用户名" />
+        <el-form-item label="菜单路由路径" prop="path">
+          <el-input v-model="menu.path" placeholder="请输入菜单路由路径" />
         </el-form-item>
-        <el-form-item label="是否启用" prop="enabled">
-          <el-switch
-            v-model="user.enabled"
-            active-text="启用"
-            inactive-text="禁用"
-          />
+        <el-form-item label="菜单模块名称" prop="name">
+          <el-input v-model="menu.name" placeholder="请输入菜单模块名称" />
         </el-form-item>
-        <el-form-item label="是否锁定" prop="locked">
-          <el-switch
-            v-model="user.locked"
-            active-text="锁定"
-            inactive-text="未锁定"
-          />
+        <el-form-item label="菜单模块路径" prop="component">
+          <el-input v-model="menu.component" placeholder="请输入菜单模块路径" />
         </el-form-item>
-        <el-form-item label="账号是否过期">
-          <el-switch
-            v-model="user.accountExpire"
-            active-text="过期"
-            inactive-text="未过期"
-          />
+        <el-form-item label="菜单名称" prop="metaTitle">
+          <el-input v-model="menu.metaTitle" placeholder="请输入菜单名称" />
         </el-form-item>
-        <el-form-item label="密码是否过期">
+        <el-form-item label="菜单图标" prop="metaIcon">
+          <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" />
+        </el-form-item>
+        <el-form-item label="父级菜单定向路由路径" prop="redirect">
+          <el-input v-model="menu.redirect" placeholder="请输入父级菜单定向路由路径" />
+        </el-form-item>
+        <el-form-item label="菜单排序" prop="sort">
+          <el-input v-model="menu.sort" placeholder="请输入菜单排序" />
+        </el-form-item>
+        <el-form-item label="是否隐藏" prop="hidden">
           <el-switch
-            v-model="user.passwordExpire"
-            active-text="过期"
-            inactive-text="未过期"
+            v-model="menu.hidden"
+            active-text="隐藏"
+            inactive-text="展示"
           />
         </el-form-item>
       </el-form>
@@ -176,43 +151,19 @@
 
   </div>
 </template>
-
 <script>
-import {
-  getUserPage,
-  enabled,
-  createUser,
-  updateUser,
-  deleteUser,
-  deleteUserRole,
-  getUserNotRoleList,
-  addUserRole
-} from '@/api/data/user'
-import Pagination from '@/components/Pagination'
+import Pagination from '@/components/Pagination/index'
+import { getMenuPage, createMenu, deleteUser, deleteUserRole, updateUser } from '@/api/data/menu'
 
 export default {
-  name: 'User',
+  name: 'Menu',
   components: { Pagination },
   filters: {
-    enabledFilter(enabledValue) {
-      if (enabledValue) {
-        return '启用'
+    hiddenFilter(hiddenValue) {
+      if (hiddenValue) {
+        return '隐藏'
       } else {
-        return '禁用'
-      }
-    },
-    lockedFilter(lockedValue) {
-      if (lockedValue) {
-        return '锁定'
-      } else {
-        return '未锁定'
-      }
-    },
-    expireFilter(expireValue) {
-      if (expireValue) {
-        return '过期'
-      } else {
-        return '未过期'
+        return '显示'
       }
     }
   },
@@ -227,20 +178,21 @@ export default {
       },
       listLoading: false,
       listQuery: {
-        username: null,
-        enabled: null,
-        locked: null,
-        accountExpire: null,
-        passwordExpire: null
+        path: null,
+        name: null,
+        component: null,
+        metaTitle: null
       },
-      tagType: ['', 'success', 'info', 'warning', 'danger'],
-      user: {
-        id: null,
-        username: null,
-        enabled: true,
-        locked: false,
-        accountExpire: false,
-        passwordExpire: false
+      menu: {
+        path: null,
+        name: null,
+        component: null,
+        metaTitle: null,
+        metaIcon: null,
+        redirect: null,
+        hidden: false,
+        sort: null,
+        parentId: null
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -250,7 +202,10 @@ export default {
       },
       roleList: [],
       rules: {
-        username: [{ required: true, message: '请输入用户名', trigger: 'change' }]
+        path: [{ required: true, message: '请输入菜单路由路径', trigger: 'change' }],
+        component: [{ required: true, message: '请输入菜单模块路径', trigger: 'change' }],
+        sort: [{ required: true, message: '请输入菜单排序', trigger: 'change' }],
+        hidden: [{ required: true, message: '请选择菜单是否隐藏', trigger: 'change' }]
       },
       downloadLoading: false
     }
@@ -261,7 +216,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getUserPage(this.page, this.listQuery).then(res => {
+      getMenuPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -278,13 +233,7 @@ export default {
       this.page.size = page.limit
       this.loadData()
     },
-    enabled(row, value) {
-      enabled(row.id, value).then(res => {
-        row.enabled = value
-      })
-    },
     handleCreate() {
-      this.user.username = null
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -294,7 +243,7 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          createUser(this.user).then((res) => {
+          createMenu(this.menu).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
@@ -302,7 +251,7 @@ export default {
               type: 'success',
               duration: 2000
             })
-            this.user = null
+            this.menu = null
             this.loadData()
           })
         }
@@ -333,7 +282,7 @@ export default {
         }
       })
     },
-    deleteData(row) {
+    deleteData(row, index) {
       this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -362,32 +311,26 @@ export default {
         this.loadData()
       })
     },
-    getUserNotRoleList(id) {
-      getUserNotRoleList(id).then(res => {
-        const list = res.data
-        if (list.length === 0) {
-          this.roleList = null
-          this.$message({
-            type: 'warning',
-            message: '该用户已拥有所有角色，无法添加'
-          })
-        } else {
-          this.roleList = list
-        }
-      })
-    },
-    addUserRole(userId, roleId) {
-      addUserRole(userId, roleId).then(res => {
-        this.$message({
-          type: 'success',
-          message: res.message
-        })
-        this.loadData()
-      })
-    },
     handleFilter() {
       this.page.currentPage = 1
       this.loadData()
+    },
+    load(tree, treeNode, resolve) {
+      setTimeout(() => {
+        resolve([
+          {
+            id: 31,
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+          }, {
+            id: 32,
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+          }
+        ])
+      }, 1000)
     },
     sortChange(data) {
       const { prop, order } = data
@@ -420,6 +363,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-
-</style>

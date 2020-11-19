@@ -141,7 +141,7 @@ export default {
         size: 8,
         total: 0
       },
-      listLoading: true,
+      listLoading: false,
       queryDate: null,
       listQuery: {
         username: null,
@@ -216,7 +216,7 @@ export default {
       this.page.size = page.limit
       this.loadData()
     },
-    deleteData(row, index) {
+    deleteData(row) {
       this.$confirm('此操作将删除该操作日志, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

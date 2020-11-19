@@ -1,0 +1,80 @@
+import { constantRoutes, errorRoutes } from '@/router'
+import { getList } from '@/api/data/menu'
+import Layout from '@/layout'
+import { Message } from 'element-ui'
+
+/**
+ * 后台查询的菜单数据拼装成路由格式的数据
+ * 这里是demo使用的是以前项目的后台数据，这里强制修改了一下
+ * @param menuList
+ */
+export function getMenuList(menuList) {
+  const routes = []
+  menuList.forEach(item => {
+    const menu = {}
+    if (item.component) {
+      // 判断 item.component 是否等于 'Layout',若是则直接替换成引入的 Layout 组件
+      if (item.component === 'Layout') {
+        menu.component = Layout
+      } else {
+        //  item.component 不等于 'Layout',则说明它是组件路径地址，因此直接替换成路由引入的方法
+        menu.component = (resolve) => require([`@/views/${item.component}`], resolve)
+      }
+    }
+    menu.path = item.path
+    menu.redirect = item.redirect
+    menu.name = item.name
+    menu.meta = {}
+    menu.meta.title = item.metaTitle
+    menu.meta.icon = item.metaIcon
+    menu.hidden = item.hidden
+    // 若遍历的当前路由存在子路由，需要对子路由进行递归遍历
+    if (item.childrenMenuList && item.childrenMenuList.length) {
+      menu.children = getMenuList(item.childrenMenuList)
+    }
+    routes.push(menu)
+  })
+  return routes
+}
+
+const state = {
+  routes: [],
+  addRoutes: []
+}
+
+const mutations = {
+  SET_ROUTES: (state, routes) => {
+    state.addRoutes = routes
+    state.routes = constantRoutes.concat(routes).concat(errorRoutes)
+  }
+}
+
+const actions = {
+  generateRoutes({ commit }) {
+    return new Promise(resolve => {
+      // 先查询后台并返回左侧菜单数据并把数据添加到路由
+      getList().then(res => {
+        if (res.code !== 20000) {
+          Message({
+            message: '菜单数据加载异常',
+            type: 0,
+            duration: 2 * 1000
+          })
+        } else {
+          const routes = getMenuList(res.data)
+          commit('SET_ROUTES', routes)
+          resolve(routes)
+        }
+      }).catch(error => {
+        console.log(error)
+      })
+    })
+  }
+}
+
+export default {
+  namespaced: true,
+  state,
+  mutations,
+  actions
+}

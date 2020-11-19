@@ -13,13 +13,10 @@ const whiteList = ['/login'] // no redirect whitelist
 router.beforeEach(async(to, from, next) => {
   // start progress bar
   NProgress.start()
-
   // 设置页面标题
   document.title = getPageTitle(to.meta.title)
-
   // 获取token
   const hasToken = getToken()
-
   if (hasToken) {
     if (to.path === '/login') {
       // 如果已经有token，说明已经登录，直接跳转到首页
@@ -33,6 +30,8 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user server
           await store.dispatch('user/getInfo')
+          const accessRoutes = await store.dispatch('permission/generateRoutes')
+          router.addRoutes(accessRoutes)
           next()
         } catch (error) {
           // remove token and go to login page to re-login

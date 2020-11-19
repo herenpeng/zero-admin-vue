@@ -10,7 +10,7 @@
       <el-input v-model="listQuery.entityName" placeholder="实体类名称" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.basePackageName" placeholder="基础包名称" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.basePackageName" placeholder="包前缀名称" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-input v-model="listQuery.codeAuthor" placeholder="代码作者" style="width: 150px;" class="filter-item"
@@ -57,7 +57,7 @@
           <span>{{ row.entityName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="基础包名称" width="120px" align="center">
+      <el-table-column label="包前缀名称" width="120px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.basePackageName }}</span>
         </template>
@@ -80,7 +80,7 @@
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
           </el-button>
-          <el-button icon="el-icon-refresh-right" size="mini" type="success" @click="enabled(row, true)">
+          <el-button icon="el-icon-refresh-right" size="mini" type="success" @click="codeGeneration(row)">
             代码生成
           </el-button>
         </template>
@@ -111,8 +111,8 @@
         <el-form-item label="实体类名称" prop="entityName">
           <el-input v-model="tableInfo.entityName" placeholder="请输入实体类名称" />
         </el-form-item>
-        <el-form-item label="基础包名称" prop="basePackageName">
-          <el-input v-model="tableInfo.basePackageName" placeholder="请输入基础包名称" />
+        <el-form-item label="包前缀名称" prop="basePackageName">
+          <el-input v-model="tableInfo.basePackageName" placeholder="请输入包前缀名称" />
         </el-form-item>
         <el-form-item label="代码生成路径" prop="codeGenerationPath">
           <el-input v-model="tableInfo.codeGenerationPath" placeholder="请输入代码生成路径" />
@@ -136,7 +136,8 @@ import {
   getNotAddList,
   createTableInfo,
   updateTableInfo,
-  deleteTableInfo
+  deleteTableInfo,
+  codeGeneration
 } from '@/api/development/code-generation'
 import Pagination from '@/components/Pagination'
 
@@ -152,7 +153,7 @@ export default {
         size: 8,
         total: 0
       },
-      listLoading: true,
+      listLoading: false,
       listQuery: {
         username: null,
         enabled: null,
@@ -182,7 +183,7 @@ export default {
         name: [{ required: true, message: '请选择数据表名称', trigger: 'change' }],
         comment: [{ required: true, message: '请输入数据库表描述', trigger: 'change' }],
         entityName: [{ required: true, message: '请输入实体类名称', trigger: 'change' }],
-        basePackageName: [{ required: true, message: '请输入基础包名称', trigger: 'change' }],
+        basePackageName: [{ required: true, message: '请输入包前缀名称', trigger: 'change' }],
         codeGenerationPath: [{ required: true, message: '请输入代码生成路径', trigger: 'change' }],
         codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
       },
@@ -288,7 +289,7 @@ export default {
         }
       })
     },
-    deleteData(row, index) {
+    deleteData(row) {
       this.$confirm('此操作将删除该表信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -311,6 +312,25 @@ export default {
     handleFilter() {
       this.page.currentPage = 1
       this.loadData()
+    },
+    codeGeneration(row) {
+      this.$confirm('此操作将会覆盖代码生成路径下的同名文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        codeGeneration(row.id).then(res => {
+          this.$message({
+            type: 'success',
+            message: res.message
+          })
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消操作'
+        })
+      })
     },
     sortChange(data) {
       const { prop, order } = data
