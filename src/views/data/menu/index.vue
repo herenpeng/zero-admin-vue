@@ -57,7 +57,10 @@
       <el-table-column label="序号" sortable="true" align="center" width="80" />
       <el-table-column label="菜单名称" width="180">
         <template slot-scope="{row}">
-          <span :style="{'padding-left': row.parentId != 0 ? '30px' : ''}">{{ row.metaTitle }}</span>
+          <span :style="{'padding-left': row.parentId != 0 ? '20px' : '', 'font-weight': row.parentId == 0 ? 'bolder' : ''}">
+            <i v-if="row.parentId != 0" class="el-icon-map-location"></i>
+            {{ row.metaTitle }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column label="菜单路由路径" width="150">
@@ -75,9 +78,9 @@
           <span>{{ row.component }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否隐藏" width="80" align="center">
+      <el-table-column label="是否启用" width="80" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.hidden | hiddenFilter }}</span>
+          <span>{{ row.enabled | enabledFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="菜单排序" width="80" align="center">
@@ -90,11 +93,11 @@
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button v-if="row.hidden === false" icon="el-icon-close" size="mini" @click="enabled(row, true)">
-            隐藏
+          <el-button v-if="row.enabled === false" icon="el-icon-check" size="mini" type="success" @click="enabled(row, true)">
+            启用
           </el-button>
-          <el-button v-if="row.hidden === true" icon="el-icon-check" size="mini" type="success" @click="enabled(row, false)">
-            显示
+          <el-button v-if="row.enabled === true" icon="el-icon-close" size="mini" @click="enabled(row, false)">
+            禁用
           </el-button>
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
@@ -153,17 +156,17 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination/index'
-import { getMenuPage, createMenu, deleteUser, deleteUserRole, updateUser } from '@/api/data/menu'
+import { getMenuPage, createMenu, enabled, deleteMenu, deleteUserRole, updateUser } from '@/api/data/menu'
 
 export default {
   name: 'Menu',
   components: { Pagination },
   filters: {
-    hiddenFilter(hiddenValue) {
-      if (hiddenValue) {
-        return '隐藏'
+    enabledFilter(enabledValue) {
+      if (enabledValue) {
+        return '启用'
       } else {
-        return '显示'
+        return '禁用'
       }
     }
   },
@@ -233,6 +236,11 @@ export default {
       this.page.size = page.limit
       this.loadData()
     },
+    enabled(row, value) {
+      enabled(row.id, value).then(res => {
+        row.enabled = value
+      })
+    },
     handleCreate() {
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
@@ -283,12 +291,12 @@ export default {
       })
     },
     deleteData(row, index) {
-      this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
+      this.$confirm('此操作将删除该菜单, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteUser(row.id).then(res => {
+        deleteMenu(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message

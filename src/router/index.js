@@ -6,8 +6,19 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 export const errorRoutes = [
+  {
+    path: '/404',
+    component: () => import('@/views/error/404'),
+    hidden: true
+  },
+  {
+    path: '/403',
+    component: () => import('@/views/error/403'),
+    hidden: true
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/index', hidden: true }
 ]
 
 /**
@@ -20,16 +31,7 @@ export const constantRoutes = [
     hidden: true
   },
 
-  {
-    path: '/404',
-    component: () => import('@/views/error/404'),
-    hidden: true
-  },
-  {
-    path: '/403',
-    component: () => import('@/views/error/403'),
-    hidden: true
-  },
+
 
   {
     path: '/',

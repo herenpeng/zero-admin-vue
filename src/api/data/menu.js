@@ -11,7 +11,7 @@ export function getMenuPage(page, query) {
 
 export function enabled(id, value) {
   return request({
-    url: '/user/enabled/' + id,
+    url: '/menu/enabled/' + id,
     method: 'put',
     params: { enabled: value }
   })
@@ -33,9 +33,9 @@ export function updateUser(user) {
   })
 }
 
-export function deleteUser(id) {
+export function deleteMenu(id) {
   return request({
-    url: '/user/' + id,
+    url: '/menu/' + id,
     method: 'delete'
   })
 }

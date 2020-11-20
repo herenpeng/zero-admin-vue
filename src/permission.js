@@ -25,14 +25,26 @@ router.beforeEach(async(to, from, next) => {
     } else {
       const hasGetUserInfo = store.getters.username
       if (hasGetUserInfo) {
+        // 当正常跳转的路由路径存入sessionStorage中
+        sessionStorage.setItem('previousRoute', to.path)
         next()
       } else {
         try {
-          // get user server
-          await store.dispatch('user/getInfo')
+          // 如果没有获取到用户信息，可能是用户刚刚登录或者刷新了页面，重新从后台获取动态路由
           const accessRoutes = await store.dispatch('permission/generateRoutes')
           router.addRoutes(accessRoutes)
-          next()
+          const previousRoute = sessionStorage.getItem('previousRoute')
+          // 如果sessionStorage中有上一个路由信息，说明是刷新页面，不是刚刚登录
+          if (previousRoute !== null) {
+            sessionStorage.removeItem('previousRoute')
+            next(previousRoute)
+          } else {
+            // 刚刚登录，或者刷新后进入页面也将路由路径存放入sessionStorage中
+            sessionStorage.setItem('previousRoute', to.path)
+            // 从后台获取用户信息，并存入Vuex中
+            await store.dispatch('user/getInfo')
+            next()
+          }
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
@@ -43,12 +55,12 @@ router.beforeEach(async(to, from, next) => {
       }
     }
   } else {
-    /* has no token*/
+    // 未获取token，代表用户未登录，跳转登录页面
     if (whiteList.indexOf(to.path) !== -1) {
-      // in the free login whitelist, go directly
+      // 如果跳转的页面为/login，直接跳转页面
       next()
     } else {
-      // other pages that do not have permission to access are redirected to the login page.
+      // 如果不是/login页面，重定向到/login页面
       next(`/login?redirect=${to.path}`)
       NProgress.done()
     }

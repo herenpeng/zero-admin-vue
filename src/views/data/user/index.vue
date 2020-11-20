@@ -17,13 +17,13 @@
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 120px" class="filter-item"
+      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 150px" class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 120px;margin-right: 10px;"
+      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 150px;margin-right: 10px;"
                  class="filter-item" @change="handleFilter"
       >
         <el-option value="true" label="是" />
