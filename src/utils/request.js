@@ -73,15 +73,16 @@ service.interceptors.response.use(
       // 40002：未登录或者访问凭证失效，需要重新登录
       if (res.code === 40002) {
         // to re-login
-        MessageBox.confirm('您的账号已登出，可以取消以保留在该页面上，或者再次登录', '确定登出', {
+        MessageBox.confirm('您的账号已登出，可以取消以保留在该页面上，或者重新登录', '重新登录', {
           confirmButtonText: '重新登录',
-          cancelButtonText: '关闭',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           store.dispatch('user/resetToken').then(() => {
             location.reload()
           })
         })
+        return res
       }
       return Promise.reject(new Error(res.message || '系统错误'))
     } else {
