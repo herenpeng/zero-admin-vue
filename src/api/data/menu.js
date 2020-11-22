@@ -40,32 +40,32 @@ export function deleteMenu(id) {
   })
 }
 
-export function deleteUserRole(userId, roleId) {
+export function deleteMenuRole(menuId, roleId) {
   return request({
-    url: '/user/role/' + userId,
+    url: '/menu/role/' + menuId,
     method: 'delete',
     params: { roleId }
   })
 }
 
-export function getUserNotRoleList(userId) {
+export function getMenuNotRoleList(menuId) {
   return request({
-    url: '/user/role/' + userId,
+    url: '/menu/role/' + menuId,
     method: 'get'
   })
 }
 
-export function addUserRole(userId, roleId) {
+export function addMenuRole(menuId, roleId) {
   return request({
-    url: '/user/role/' + userId,
+    url: '/menu/role/' + menuId,
     method: 'post',
     params: { roleId }
   })
 }
 
-export function getList() {
+export function getRoutes() {
   return request({
-    url: '/menu/list',
+    url: '/menu/routes',
     method: 'get'
   })
 }

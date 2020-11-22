@@ -1,14 +1,9 @@
 import { constantRoutes, errorRoutes } from '@/router'
-import { getList } from '@/api/data/menu'
+import { getRoutes } from '@/api/data/menu'
 import Layout from '@/layout'
 import { Message } from 'element-ui'
 
-/**
- * 后台查询的菜单数据拼装成路由格式的数据
- * 这里是demo使用的是以前项目的后台数据，这里强制修改了一下
- * @param menuList
- */
-export function getMenuList(menuList) {
+export function generateMenu(menuList) {
   const routes = []
   menuList.forEach(item => {
     const menu = {}
@@ -29,8 +24,8 @@ export function getMenuList(menuList) {
     menu.meta.icon = item.metaIcon
     menu.hidden = item.hidden
     // 若遍历的当前路由存在子路由，需要对子路由进行递归遍历
-    if (item.childrenMenuList && item.childrenMenuList.length) {
-      menu.children = getMenuList(item.childrenMenuList)
+    if (item.children && item.children.length) {
+      menu.children = generateMenu(item.children)
     }
     routes.push(menu)
   })
@@ -53,7 +48,7 @@ const actions = {
   generateRoutes({ commit }) {
     return new Promise(resolve => {
       // 先查询后台并返回左侧菜单数据并把数据添加到路由
-      getList().then(res => {
+      getRoutes().then(res => {
         if (res.code !== 20000) {
           Message({
             message: '菜单数据加载异常',
@@ -61,7 +56,7 @@ const actions = {
             duration: 2 * 1000
           })
         } else {
-          const routes = getMenuList(res.data)
+          const routes = generateMenu(res.data)
           commit('SET_ROUTES', routes)
           resolve(routes)
         }

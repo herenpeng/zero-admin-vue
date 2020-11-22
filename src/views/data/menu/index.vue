@@ -51,29 +51,29 @@
       style="width: 100%;"
       row-key="id"
       border
-      :tree-props="{children: 'childrenMenuList', hasChildren: 'hasChildren'}"
+      :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       @sort-change="sortChange"
     >
       <el-table-column label="序号" sortable="true" align="center" width="80" />
-      <el-table-column label="菜单名称" width="180">
+      <el-table-column label="菜单名称" width="120">
         <template slot-scope="{row}">
-          <span :style="{'padding-left': row.parentId != 0 ? '20px' : '', 'font-weight': row.parentId == 0 ? 'bolder' : ''}">
-            <i v-if="row.parentId != 0" class="el-icon-map-location"></i>
+          <span :style="{'font-weight': row.parentId == 0 ? 'bolder' : ''}">
+            <i v-if="row.parentId != 0" class="el-icon-map-location" />
             {{ row.metaTitle }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单路由路径" width="150">
+      <el-table-column label="菜单路由路径" width="110">
         <template slot-scope="{row}">
           <span>{{ row.path }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单模块名称" width="120">
+      <el-table-column label="菜单模块名称" width="110">
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单模块路径" width="180">
+      <el-table-column label="菜单模块路径" width="150">
         <template slot-scope="{row}">
           <span>{{ row.component }}</span>
         </template>
@@ -86,6 +86,33 @@
       <el-table-column label="菜单排序" width="80" align="center">
         <template slot-scope="{row}">
           <span>{{ row.sort }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="菜单角色" class-name="status-col" width="280px">
+        <template slot-scope="{row}">
+          <el-tag
+            v-for="(role,index) in row.roles"
+            :key="index"
+            closable
+            :type="tagType[role.id]"
+            style="margin-right: 5px;border-radius: 15px;"
+            :title="role.description"
+            @close="deleteMenuRole(row.id, role.id)"
+          >
+            {{ role.name }}
+          </el-tag>
+          <el-dropdown trigger="click" @command="addMenuRole(row.id, $event)">
+            <el-button style="border-radius: 20px;" size="small" @click="getMenuNotRoleList(row.id)">+</el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                v-for="(role,index) in roleList"
+                :key="index"
+                :title="role.description"
+                :command="role.id"
+              >{{ role.name }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -156,7 +183,7 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination/index'
-import { getMenuPage, createMenu, enabled, deleteMenu, deleteUserRole, updateUser } from '@/api/data/menu'
+import { getMenuPage, createMenu, enabled, deleteMenu, deleteMenuRole, updateUser, getMenuNotRoleList, addMenuRole } from '@/api/data/menu'
 
 export default {
   name: 'Menu',
@@ -186,6 +213,7 @@ export default {
         component: null,
         metaTitle: null
       },
+      tagType: ['', 'success', 'info', 'warning', 'danger'],
       menu: {
         path: null,
         name: null,
@@ -310,8 +338,31 @@ export default {
         })
       })
     },
-    deleteUserRole(userId, roleId) {
-      deleteUserRole(userId, roleId).then(res => {
+    deleteMenuRole(menuId, roleId) {
+      deleteMenuRole(menuId, roleId).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.message
+        })
+        this.loadData()
+      })
+    },
+    getMenuNotRoleList(id) {
+      getMenuNotRoleList(id).then(res => {
+        const list = res.data
+        if (list.length === 0) {
+          this.roleList = null
+          this.$message({
+            type: 'warning',
+            message: '所有角色均已拥有该菜单，无法添加'
+          })
+        } else {
+          this.roleList = list
+        }
+      })
+    },
+    addMenuRole(menuId, roleId) {
+      addMenuRole(menuId, roleId).then(res => {
         this.$message({
           type: 'success',
           message: res.message
@@ -322,23 +373,6 @@ export default {
     handleFilter() {
       this.page.currentPage = 1
       this.loadData()
-    },
-    load(tree, treeNode, resolve) {
-      setTimeout(() => {
-        resolve([
-          {
-            id: 31,
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            id: 32,
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }
-        ])
-      }, 1000)
     },
     sortChange(data) {
       const { prop, order } = data
