@@ -1,30 +1,20 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.username" placeholder="用户名" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.metaTitle" placeholder="菜单名称" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.path" placeholder="菜单路由路径" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.name" placeholder="菜单模块名称" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.component" placeholder="菜单模块路径" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-select v-model="listQuery.enabled" placeholder="是否启用" clearable style="width: 120px" class="filter-item"
                  @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.locked" placeholder="是否锁定" clearable class="filter-item"
-                 style="width: 120px"
-                 @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 120px" class="filter-item"
-                 @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 120px;margin-right: 10px;"
-                 class="filter-item" @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
@@ -165,11 +155,11 @@
         <el-form-item label="菜单排序" prop="sort">
           <el-input v-model="menu.sort" placeholder="请输入菜单排序" />
         </el-form-item>
-        <el-form-item label="是否隐藏" prop="hidden">
+        <el-form-item label="是否启用" prop="hidden">
           <el-switch
-            v-model="menu.hidden"
-            active-text="隐藏"
-            inactive-text="展示"
+            v-model="menu.enabled"
+            active-text="启用"
+            inactive-text="禁用"
           />
         </el-form-item>
       </el-form>
