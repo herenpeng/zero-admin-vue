@@ -150,7 +150,7 @@ export default {
       list: null,
       page: {
         currentPage: 1,
-        size: 8,
+        size: 10,
         total: 0
       },
       listLoading: false,

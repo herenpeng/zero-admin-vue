@@ -28,7 +28,7 @@
       :data="list"
       border
       fit
-      highlight-current-row
+      size="mini"
       style="width: 100%;"
       @sort-change="sortChange"
     >
@@ -70,7 +70,7 @@
           <el-input v-model="role.name" placeholder="请输入角色名称" />
         </el-form-item>
         <el-form-item label="角色描述" prop="description">
-          <el-input type="textarea" v-model="role.description" placeholder="请输入角色描述" />
+          <el-input v-model="role.description" type="textarea" placeholder="请输入角色描述" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -100,7 +100,7 @@ export default {
       list: null,
       page: {
         currentPage: 1,
-        size: 8,
+        size: 10,
         total: 0
       },
       listLoading: false,
@@ -151,6 +151,7 @@ export default {
       this.loadData()
     },
     handleCreate() {
+      this.role = {}
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {

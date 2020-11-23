@@ -50,7 +50,7 @@
       :data="list"
       border
       fit
-      highlight-current-row
+      size="mini"
       style="width: 100%;"
       @sort-change="sortChange"
     >
@@ -87,7 +87,7 @@
             :key="index"
             closable
             :type="tagType[role.id]"
-            style="margin-right: 5px;border-radius: 15px;"
+            style="margin-right: 3px;border-radius: 15px;"
             :title="role.description"
             @close="deleteUserRole(row.id, role.id)"
           >
@@ -222,7 +222,7 @@ export default {
       list: null,
       page: {
         currentPage: 1,
-        size: 8,
+        size: 10,
         total: 0
       },
       listLoading: false,
@@ -284,7 +284,7 @@ export default {
       })
     },
     handleCreate() {
-      this.user.username = null
+      this.user = {}
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -302,7 +302,6 @@ export default {
               type: 'success',
               duration: 2000
             })
-            this.user = null
             this.loadData()
           })
         }
@@ -327,7 +326,6 @@ export default {
               type: 'success',
               duration: 2000
             })
-            this.user = null
             this.loadData()
           })
         }

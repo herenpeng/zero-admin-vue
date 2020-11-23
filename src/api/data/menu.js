@@ -25,11 +25,11 @@ export function createMenu(menu) {
   })
 }
 
-export function updateUser(user) {
+export function updateMenu(menu) {
   return request({
-    url: '/user',
+    url: '/menu',
     method: 'put',
-    data: user
+    data: menu
   })
 }
 

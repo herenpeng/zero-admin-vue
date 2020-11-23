@@ -45,6 +45,7 @@
       :data="list"
       border
       fit
+      size="mini"
       style="width: 100%;"
     >
       <el-table-column type="expand">
@@ -56,10 +57,10 @@
             <el-form-item label="访问方法">
               <span>{{ props.row.method }}</span>
             </el-form-item>
-            <el-form-item label="异常名称" v-if="props.row.exceptionName != null">
+            <el-form-item v-if="props.row.exceptionName != null" label="异常名称">
               <span>{{ props.row.exceptionName }}</span>
             </el-form-item>
-            <el-form-item label="异常信息" v-if="props.row.exceptionMessage != null">
+            <el-form-item v-if="props.row.exceptionMessage != null" label="异常信息">
               <span>{{ props.row.exceptionMessage }}</span>
             </el-form-item>
           </el-form>
@@ -99,8 +100,8 @@
       <el-table-column label="执行结果" width="80px" align="center">
         <template slot-scope="{row}">
           <span>
-            <el-button v-if="row.exceptionName == null" type="success" icon="el-icon-check" circle></el-button>
-            <el-button v-if="row.exceptionName != null" type="warning" icon="el-icon-message-solid" circle></el-button>
+            <el-button v-if="row.exceptionName == null" type="success" icon="el-icon-check" circle />
+            <el-button v-if="row.exceptionName != null" type="warning" icon="el-icon-message-solid" circle />
           </span>
         </template>
       </el-table-column>
@@ -138,7 +139,7 @@ export default {
       list: null,
       page: {
         currentPage: 1,
-        size: 8,
+        size: 10,
         total: 0
       },
       listLoading: false,

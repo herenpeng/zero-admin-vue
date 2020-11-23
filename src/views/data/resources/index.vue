@@ -36,7 +36,7 @@
       :data="list"
       border
       fit
-      highlight-current-row
+      size="mini"
       style="width: 100%;"
       @sort-change="sortChange"
     >
@@ -63,7 +63,7 @@
             :key="index"
             closable
             :type="tagType[role.id]"
-            style="margin-right: 5px;border-radius: 15px;"
+            style="margin-right: 3px;border-radius: 15px;"
             :title="role.description"
             @close="deleteResourcesRole(row.id, role.id)"
           >
@@ -160,7 +160,7 @@ export default {
       list: null,
       page: {
         currentPage: 1,
-        size: 8,
+        size: 10,
         total: 0
       },
       listLoading: false,
@@ -215,6 +215,7 @@ export default {
       this.loadData()
     },
     handleCreate() {
+      this.resources = {}
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {

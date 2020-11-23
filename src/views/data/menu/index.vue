@@ -23,7 +23,7 @@
         查询
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
-                 @click="handleCreate"
+                 @click="handleCreate(null)"
       >
         添加
       </el-button>
@@ -38,42 +38,44 @@
       :key="tableKey"
       v-loading="listLoading"
       :data="list"
-      style="width: 100%;"
       row-key="id"
       border
+      fit
+      size="mini"
+      style="width: 100%;"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       @sort-change="sortChange"
     >
       <el-table-column label="序号" sortable="true" align="center" width="80" />
-      <el-table-column label="菜单名称" width="120">
+      <el-table-column label="菜单名称" width="100">
         <template slot-scope="{row}">
-          <span :style="{'font-weight': row.parentId == 0 ? 'bolder' : ''}">
-            <i v-if="row.parentId != 0" class="el-icon-map-location" />
+          <span :style="{'font-weight': row.parentId === 0 ? 'bolder' : '','padding-left': row.parentId !== 0 ? '10px' : ''}">
+            <i :class="row.metaIcon" />
             {{ row.metaTitle }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单路由路径" width="110">
+      <el-table-column label="菜单路由路径" width="100">
         <template slot-scope="{row}">
           <span>{{ row.path }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单模块名称" width="110">
+      <el-table-column label="菜单模块名称" width="100">
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单模块路径" width="150">
+      <el-table-column label="菜单模块路径" width="140">
         <template slot-scope="{row}">
           <span>{{ row.component }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="80" align="center">
+      <el-table-column label="是否启用" width="70" align="center">
         <template slot-scope="{row}">
           <span>{{ row.enabled | enabledFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单排序" width="80" align="center">
+      <el-table-column label="菜单排序" width="70" align="center">
         <template slot-scope="{row}">
           <span>{{ row.sort }}</span>
         </template>
@@ -85,18 +87,19 @@
             :key="index"
             closable
             :type="tagType[role.id]"
-            style="margin-right: 5px;border-radius: 15px;"
+            style="margin-right: 3px;border-radius: 15px;"
             :title="role.description"
             @close="deleteMenuRole(row.id, role.id)"
           >
             {{ role.name }}
           </el-tag>
           <el-dropdown trigger="click" @command="addMenuRole(row.id, $event)">
-            <el-button style="border-radius: 20px;" size="small" @click="getMenuNotRoleList(row.id)">+</el-button>
+            <el-button style="border-radius: 20px;" size="mini" @click="getMenuNotRoleList(row.id)">+</el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
                 v-for="(role,index) in roleList"
                 :key="index"
+                size="mini"
                 :title="role.description"
                 :command="role.id"
               >{{ role.name }}
@@ -119,6 +122,7 @@
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
           </el-button>
+          <el-button size="mini" type="warning" icon="el-icon-circle-plus-outline" @click="handleCreate(row)" />
         </template>
       </el-table-column>
     </el-table>
@@ -130,10 +134,13 @@
                 @pagination="handlePagination"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="menu" label-position="left" label-width="160px"
-               style="width: 400px; margin-left:50px;"
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="60%">
+      <el-form ref="dataForm" :rules="rules" :model="menu" label-position="left" label-width="180px"
+               style="width: 800px; margin-left:50px;" :inline="true"
       >
+        <el-form-item label="菜单名称" prop="metaTitle">
+          <el-input v-model="menu.metaTitle" placeholder="请输入菜单名称" />
+        </el-form-item>
         <el-form-item label="菜单路由路径" prop="path">
           <el-input v-model="menu.path" placeholder="请输入菜单路由路径" />
         </el-form-item>
@@ -141,21 +148,18 @@
           <el-input v-model="menu.name" placeholder="请输入菜单模块名称" />
         </el-form-item>
         <el-form-item label="菜单模块路径" prop="component">
-          <el-input v-model="menu.component" placeholder="请输入菜单模块路径" />
-        </el-form-item>
-        <el-form-item label="菜单名称" prop="metaTitle">
-          <el-input v-model="menu.metaTitle" placeholder="请输入菜单名称" />
+          <el-input v-model="menu.component" placeholder="请输入菜单模块路径" :disabled="menu.parentId === 0" />
         </el-form-item>
         <el-form-item label="菜单图标" prop="metaIcon">
           <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" />
         </el-form-item>
-        <el-form-item label="父级菜单定向路由路径" prop="redirect">
+        <el-form-item v-if="menu.parentId === 0" label="父级菜单定向路由路径" prop="redirect">
           <el-input v-model="menu.redirect" placeholder="请输入父级菜单定向路由路径" />
         </el-form-item>
         <el-form-item label="菜单排序" prop="sort">
           <el-input v-model="menu.sort" placeholder="请输入菜单排序" />
         </el-form-item>
-        <el-form-item label="是否启用" prop="hidden">
+        <el-form-item label="是否启用" prop="enabled">
           <el-switch
             v-model="menu.enabled"
             active-text="启用"
@@ -173,7 +177,7 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination/index'
-import { getMenuPage, createMenu, enabled, deleteMenu, deleteMenuRole, updateUser, getMenuNotRoleList, addMenuRole } from '@/api/data/menu'
+import { getMenuPage, createMenu, enabled, deleteMenu, deleteMenuRole, updateMenu, getMenuNotRoleList, addMenuRole } from '@/api/data/menu'
 
 export default {
   name: 'Menu',
@@ -193,7 +197,7 @@ export default {
       list: null,
       page: {
         currentPage: 1,
-        size: 8,
+        size: 10,
         total: 0
       },
       listLoading: false,
@@ -201,19 +205,20 @@ export default {
         path: null,
         name: null,
         component: null,
-        metaTitle: null
+        metaTitle: null,
+        enabled: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
       menu: {
         path: null,
         name: null,
-        component: null,
+        component: 'Layout',
         metaTitle: null,
         metaIcon: null,
         redirect: null,
-        hidden: false,
+        enabled: true,
         sort: null,
-        parentId: null
+        parentId: 0
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -223,10 +228,14 @@ export default {
       },
       roleList: [],
       rules: {
+        metaTitle: [{ required: true, message: '请输入菜单名称', trigger: 'change' }],
         path: [{ required: true, message: '请输入菜单路由路径', trigger: 'change' }],
+        name: [{ required: true, message: '请输入菜单模块名称', trigger: 'change' }],
         component: [{ required: true, message: '请输入菜单模块路径', trigger: 'change' }],
+        metaIcon: [{ required: true, message: '请输入菜单图标', trigger: 'change' }],
+        redirect: [{ required: true, message: '请输入父级菜单定向路由路径', trigger: 'change' }],
         sort: [{ required: true, message: '请输入菜单排序', trigger: 'change' }],
-        hidden: [{ required: true, message: '请选择菜单是否隐藏', trigger: 'change' }]
+        enabled: [{ required: true, message: '请选择菜单是否启用', trigger: 'change' }]
       },
       downloadLoading: false
     }
@@ -259,7 +268,14 @@ export default {
         row.enabled = value
       })
     },
-    handleCreate() {
+    handleCreate(row) {
+      if (row !== null) {
+        this.menu.component = null
+        this.menu.parentId = row.id
+      } else {
+        this.menu.component = 'Layout'
+        this.menu.parentId = 0
+      }
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -277,14 +293,13 @@ export default {
               type: 'success',
               duration: 2000
             })
-            this.menu = null
             this.loadData()
           })
         }
       })
     },
     handleUpdate(row) {
-      this.user = Object.assign({}, row) // copy obj
+      this.menu = Object.assign({}, row) // copy obj
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -294,21 +309,21 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          updateUser(this.user).then((res) => {
+          updateMenu(this.menu).then((res) => {
             this.dialogFormVisible = false
+            console.log(this.dialogFormVisible)
             this.$notify({
               title: '成功',
               message: res.message,
               type: 'success',
               duration: 2000
             })
-            this.user = null
             this.loadData()
           })
         }
       })
     },
-    deleteData(row, index) {
+    deleteData(row) {
       this.$confirm('此操作将删除该菜单, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
