@@ -100,8 +100,8 @@
       <el-table-column label="执行结果" width="80px" align="center">
         <template slot-scope="{row}">
           <span>
-            <el-button v-if="row.exceptionName == null" type="success" icon="el-icon-check" circle />
-            <el-button v-if="row.exceptionName != null" type="warning" icon="el-icon-message-solid" circle />
+            <el-button v-if="row.exceptionName == null" size="mini" type="success" icon="el-icon-check" circle />
+            <el-button v-if="row.exceptionName != null" size="mini" type="warning" icon="el-icon-message-solid" circle />
           </span>
         </template>
       </el-table-column>
