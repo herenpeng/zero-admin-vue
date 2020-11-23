@@ -47,7 +47,7 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" sortable="true" align="center" width="80" />
-      <el-table-column label="菜单名称" width="100">
+      <el-table-column label="菜单名称" width="110">
         <template slot-scope="{row}">
           <span :style="{'font-weight': row.parentId === 0 ? 'bolder' : '','padding-left': row.parentId !== 0 ? '10px' : ''}">
             <i :class="row.metaIcon" />
@@ -65,7 +65,7 @@
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单模块路径" width="140">
+      <el-table-column label="菜单模块路径" width="135">
         <template slot-scope="{row}">
           <span>{{ row.component }}</span>
         </template>
@@ -80,7 +80,7 @@
           <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单角色" class-name="status-col" width="280px">
+      <el-table-column label="菜单角色" class-name="status-col" width="275px">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -108,7 +108,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="left" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
@@ -122,7 +122,7 @@
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
           </el-button>
-          <el-button size="mini" type="warning" icon="el-icon-circle-plus-outline" @click="handleCreate(row)" />
+          <el-button size="mini" type="warning" icon="el-icon-circle-plus-outline" @click="handleCreate(row)" v-if="row.parentId === 0"/>
         </template>
       </el-table-column>
     </el-table>
