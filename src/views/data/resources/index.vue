@@ -15,6 +15,16 @@
         <el-option value="PUT" label="PUT" />
         <el-option value="DELETE" label="DELETE" />
       </el-select>
+      <el-select v-model="listQuery.roleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
+                 class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
+      >
+        <el-option
+          v-for="role in roles"
+          :key="role.id"
+          :label="role.name"
+          :value="role.id"
+        />
+      </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
@@ -141,6 +151,7 @@ import {
   addResourcesRole
 } from '@/api/data/resources'
 import Pagination from '@/components/Pagination'
+import { getRoleList } from '@/api/data/role'
 
 export default {
   name: 'Resources',
@@ -167,7 +178,8 @@ export default {
       listQuery: {
         uri: null,
         description: null,
-        methodType: null
+        methodType: null,
+        roleId: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
       resources: {
@@ -176,6 +188,7 @@ export default {
         description: null,
         methodType: null
       },
+      roles: null,
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
@@ -317,6 +330,13 @@ export default {
     handleFilter() {
       this.page.currentPage = 1
       this.loadData()
+    },
+    getRoleList(callback) {
+      if (callback === true && this.roles === null) {
+        getRoleList(null).then(res => {
+          this.roles = res.data
+        })
+      }
     },
     handleModifyStatus(row, status) {
       this.$message({

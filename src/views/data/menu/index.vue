@@ -19,6 +19,16 @@
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
+      <el-select v-model="listQuery.roleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
+                 class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
+      >
+        <el-option
+          v-for="role in roles"
+          :key="role.id"
+          :label="role.name"
+          :value="role.id"
+        />
+      </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
@@ -178,6 +188,7 @@
 <script>
 import Pagination from '@/components/Pagination/index'
 import { getMenuPage, createMenu, enabled, deleteMenu, deleteMenuRole, updateMenu, getMenuNotRoleList, addMenuRole } from '@/api/data/menu'
+import { getRoleList } from '@/api/data/role'
 
 export default {
   name: 'Menu',
@@ -206,7 +217,8 @@ export default {
         name: null,
         component: null,
         metaTitle: null,
-        enabled: null
+        enabled: null,
+        roleId: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
       menu: {
@@ -220,6 +232,7 @@ export default {
         sort: null,
         parentId: 0
       },
+      roles: null,
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
@@ -378,6 +391,13 @@ export default {
     handleFilter() {
       this.page.currentPage = 1
       this.loadData()
+    },
+    getRoleList(callback) {
+      if (callback === true && this.roles === null) {
+        getRoleList(null).then(res => {
+          this.roles = res.data
+        })
+      }
     },
     sortChange(data) {
       const { prop, order } = data

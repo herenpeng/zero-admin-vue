@@ -4,7 +4,7 @@
       <el-input v-model="listQuery.name" placeholder="角色名称" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.description" placeholder="角色描述" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.description" placeholder="角色描述" style="width: 200px;margin-right: 10px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">

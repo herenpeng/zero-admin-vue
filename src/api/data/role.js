@@ -9,6 +9,14 @@ export function getRolePage(page, query) {
   })
 }
 
+export function getRoleList(query) {
+  return request({
+    url: '/role/list',
+    method: 'get',
+    params: query
+  })
+}
+
 export function createRole(role) {
   return request({
     url: '/role',

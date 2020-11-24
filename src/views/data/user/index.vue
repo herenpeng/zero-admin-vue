@@ -17,17 +17,27 @@
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 150px" class="filter-item"
+      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 140px" class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 150px;margin-right: 10px;"
-                 class="filter-item" @change="handleFilter"
+      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 140px;" class="filter-item"
+                 @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
+      </el-select>
+      <el-select v-model="listQuery.roleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
+                 class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
+      >
+        <el-option
+          v-for="role in roles"
+          :key="role.id"
+          :label="role.name"
+          :value="role.id"
+        />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
@@ -97,7 +107,7 @@
             <el-button style="border-radius: 20px;" size="small" @click="getUserNotRoleList(row.id)">+</el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
-                v-for="(role,index) in roleList"
+                v-for="(role,index) in notRoleList"
                 :key="index"
                 :title="role.description"
                 :command="role.id"
@@ -188,6 +198,7 @@ import {
   getUserNotRoleList,
   addUserRole
 } from '@/api/data/user'
+import { getRoleList } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
 
 export default {
@@ -231,7 +242,8 @@ export default {
         enabled: null,
         locked: null,
         accountExpire: null,
-        passwordExpire: null
+        passwordExpire: null,
+        roleId: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
       user: {
@@ -242,13 +254,14 @@ export default {
         accountExpire: false,
         passwordExpire: false
       },
+      roles: null,
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
         create: '添加',
         update: '编辑'
       },
-      roleList: [],
+      notRoleList: [],
       rules: {
         username: [{ required: true, message: '请输入用户名', trigger: 'change' }]
       },
@@ -364,13 +377,13 @@ export default {
       getUserNotRoleList(id).then(res => {
         const list = res.data
         if (list.length === 0) {
-          this.roleList = null
+          this.notRoleList = null
           this.$message({
             type: 'warning',
             message: '该用户已拥有所有角色，无法添加'
           })
         } else {
-          this.roleList = list
+          this.notRoleList = list
         }
       })
     },
@@ -386,6 +399,13 @@ export default {
     handleFilter() {
       this.page.currentPage = 1
       this.loadData()
+    },
+    getRoleList(callback) {
+      if (callback === true && this.roles === null) {
+        getRoleList(null).then(res => {
+          this.roles = res.data
+        })
+      }
     },
     sortChange(data) {
       const { prop, order } = data

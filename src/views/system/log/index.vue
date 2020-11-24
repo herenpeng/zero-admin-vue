@@ -22,7 +22,7 @@
                 @keyup.enter.native="handleFilter"
       />
       <el-select v-model="listQuery.methodType" placeholder="方法类型" clearable class="filter-item"
-                 style="width: 130px" @change="handleFilter"
+                 style="width: 130px;margin-right: 10px;" @change="handleFilter"
       >
         <el-option value="GET" label="GET" />
         <el-option value="POST" label="POST" />

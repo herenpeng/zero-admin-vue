@@ -13,7 +13,7 @@
       <el-input v-model="listQuery.basePackageName" placeholder="包前缀名称" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.codeAuthor" placeholder="代码作者" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.codeAuthor" placeholder="代码作者" style="width: 150px;margin-right: 10px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
