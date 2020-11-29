@@ -75,12 +75,13 @@
             :type="tagType[role.id]"
             style="margin-right: 3px;border-radius: 15px;"
             :title="role.description"
+            size="mini"
             @close="deleteResourcesRole(row.id, role.id)"
           >
             {{ role.name }}
           </el-tag>
           <el-dropdown trigger="click" @command="addResourcesRole(row.id, $event)">
-            <el-button style="border-radius: 20px;" size="small" @click="getResourcesNotRoleList(row.id)">+</el-button>
+            <el-button style="border-radius: 20px;" size="mini" @click="getResourcesNotRoleList(row.id)">+</el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
                 v-for="(role,index) in roleList"

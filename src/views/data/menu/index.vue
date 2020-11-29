@@ -99,6 +99,7 @@
             :type="tagType[role.id]"
             style="margin-right: 3px;border-radius: 15px;"
             :title="role.description"
+            size="mini"
             @close="deleteMenuRole(row.id, role.id)"
           >
             {{ role.name }}
@@ -132,7 +133,7 @@
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
           </el-button>
-          <el-button size="mini" type="warning" icon="el-icon-circle-plus-outline" @click="handleCreate(row)" v-if="row.parentId === 0"/>
+          <el-button v-if="row.parentId === 0" size="mini" type="warning" icon="el-icon-circle-plus-outline" @click="handleCreate(row)" />
         </template>
       </el-table-column>
     </el-table>
@@ -283,11 +284,14 @@ export default {
     },
     handleCreate(row) {
       if (row !== null) {
-        this.menu.component = null
-        this.menu.parentId = row.id
+        this.menu = {
+          parentId: row.id
+        }
       } else {
-        this.menu.component = 'Layout'
-        this.menu.parentId = 0
+        this.menu = {
+          component: 'Layout',
+          parentId: 0
+        }
       }
       this.dialogStatus = 'create'
       this.dialogFormVisible = true

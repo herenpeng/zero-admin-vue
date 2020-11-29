@@ -42,11 +42,6 @@
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
-                 @click="handleCreate"
-      >
-        添加
-      </el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
                  @click="handleDownload"
       >
@@ -95,42 +90,22 @@
           <el-tag
             v-for="(role,index) in row.roles"
             :key="index"
-            closable
             :type="tagType[role.id]"
             style="margin-right: 3px;border-radius: 15px;"
             :title="role.description"
             size="mini"
-            @close="deleteUserRole(row.id, role.id)"
           >
             {{ role.name }}
           </el-tag>
-          <el-dropdown trigger="click" @command="addUserRole(row.id, $event)">
-            <el-button style="border-radius: 20px;" size="mini" @click="getUserNotRoleList(row.id)">+</el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                v-for="(role,index) in notRoleList"
-                :key="index"
-                :title="role.description"
-                :command="role.id"
-              >{{ role.name }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
-            编辑
-          </el-button>
-          <el-button v-if="row.enabled === false" icon="el-icon-check" size="mini" type="success" @click="enabled(row, true)">
-            启用
-          </el-button>
-          <el-button v-if="row.enabled === true" icon="el-icon-close" size="mini" @click="enabled(row, false)">
-            禁用
+          <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
+            数据恢复
           </el-button>
           <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteData(row)">
-            删除
+            彻底删除
           </el-button>
         </template>
       </el-table-column>
@@ -143,61 +118,14 @@
                 @pagination="handlePagination"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="user" label-position="left" label-width="120px"
-               style="width: 400px; margin-left:50px;"
-      >
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="user.username" placeholder="请输入用户名" />
-        </el-form-item>
-        <el-form-item label="是否启用" prop="enabled">
-          <el-switch
-            v-model="user.enabled"
-            active-text="启用"
-            inactive-text="禁用"
-          />
-        </el-form-item>
-        <el-form-item label="是否锁定" prop="locked">
-          <el-switch
-            v-model="user.locked"
-            active-text="锁定"
-            inactive-text="未锁定"
-          />
-        </el-form-item>
-        <el-form-item label="账号是否过期">
-          <el-switch
-            v-model="user.accountExpire"
-            active-text="过期"
-            inactive-text="未过期"
-          />
-        </el-form-item>
-        <el-form-item label="密码是否过期">
-          <el-switch
-            v-model="user.passwordExpire"
-            active-text="过期"
-            inactive-text="未过期"
-          />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">关闭</el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">保存</el-button>
-      </div>
-    </el-dialog>
-
   </div>
 </template>
 
 <script>
 import {
-  getUserPage,
-  enabled,
-  createUser,
-  updateUser,
-  deleteUser,
-  deleteUserRole,
-  getUserNotRoleList,
-  addUserRole
+  getUserDeletePage,
+  recoverUser,
+  deleteUser
 } from '@/api/data/user'
 import { getRoleList } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
@@ -275,7 +203,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getUserPage(this.page, this.listQuery).then(res => {
+      getUserDeletePage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -292,57 +220,9 @@ export default {
       this.page.size = page.limit
       this.loadData()
     },
-    enabled(row, value) {
-      enabled(row.id, value).then(res => {
-        row.enabled = value
-      })
-    },
-    handleCreate() {
-      this.user = {}
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    createData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          createUser(this.user).then((res) => {
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: res.message,
-              type: 'success',
-              duration: 2000
-            })
-            this.loadData()
-          })
-        }
-      })
-    },
-    handleUpdate(row) {
-      this.user = Object.assign({}, row) // copy obj
-      this.dialogStatus = 'update'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          updateUser(this.user).then((res) => {
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: res.message,
-              type: 'success',
-              duration: 2000
-            })
-            this.loadData()
-          })
-        }
+    handleRecover(row) {
+      recoverUser(row.id).then(res => {
+        this.loadData()
       })
     },
     deleteData(row) {
@@ -363,38 +243,6 @@ export default {
           type: 'info',
           message: '已取消删除'
         })
-      })
-    },
-    deleteUserRole(userId, roleId) {
-      deleteUserRole(userId, roleId).then(res => {
-        this.$message({
-          type: 'success',
-          message: res.message
-        })
-        this.loadData()
-      })
-    },
-    getUserNotRoleList(id) {
-      getUserNotRoleList(id).then(res => {
-        const list = res.data
-        if (list.length === 0) {
-          this.notRoleList = null
-          this.$message({
-            type: 'warning',
-            message: '该用户已拥有所有角色，无法添加'
-          })
-        } else {
-          this.notRoleList = list
-        }
-      })
-    },
-    addUserRole(userId, roleId) {
-      addUserRole(userId, roleId).then(res => {
-        this.$message({
-          type: 'success',
-          message: res.message
-        })
-        this.loadData()
       })
     },
     handleFilter() {

@@ -38,6 +38,7 @@
       border
       fit
       highlight-current-row
+      size="mini"
       style="width: 100%;"
       @sort-change="sortChange"
     >
