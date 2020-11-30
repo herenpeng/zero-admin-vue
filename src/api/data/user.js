@@ -9,15 +9,6 @@ export function getUserPage(page, query) {
   })
 }
 
-export function getUserDeletePage(page, query) {
-  query.size = page.size
-  return request({
-    url: '/user/delete/page/' + page.currentPage,
-    method: 'get',
-    params: query
-  })
-}
-
 export function enabled(id, value) {
   return request({
     url: '/user/enabled/' + id,
@@ -72,9 +63,25 @@ export function addUserRole(userId, roleId) {
   })
 }
 
+export function getUserRecoverPage(page, query) {
+  query.size = page.size
+  return request({
+    url: '/user/recover/page/' + page.currentPage,
+    method: 'get',
+    params: query
+  })
+}
+
 export function recoverUser(id) {
   return request({
     url: '/user/recover/' + id,
     method: 'put'
+  })
+}
+
+export function recoverDeleteUser(id) {
+  return request({
+    url: '/user/recover/' + id,
+    method: 'delete'
   })
 }

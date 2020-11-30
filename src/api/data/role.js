@@ -39,3 +39,26 @@ export function deleteRole(id) {
     method: 'delete'
   })
 }
+
+export function getRoleRecoverPage(page, query) {
+  query.size = page.size
+  return request({
+    url: '/role/recover/page/' + page.currentPage,
+    method: 'get',
+    params: query
+  })
+}
+
+export function recoverRole(id) {
+  return request({
+    url: '/role/recover/' + id,
+    method: 'put'
+  })
+}
+
+export function recoverDeleteRole(id) {
+  return request({
+    url: '/role/recover/' + id,
+    method: 'delete'
+  })
+}

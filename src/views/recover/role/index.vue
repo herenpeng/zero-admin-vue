@@ -10,11 +10,6 @@
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
-                 @click="handleCreate"
-      >
-        添加
-      </el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
                  @click="handleDownload"
       >
@@ -38,18 +33,18 @@
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="角色描述" width="850px" align="center">
+      <el-table-column label="角色描述" width="750px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.description }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
-            编辑
+          <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
+            数据恢复
           </el-button>
-          <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
-            删除
+          <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleRecoverDelete(row)">
+            彻底删除
           </el-button>
         </template>
       </el-table-column>
@@ -62,32 +57,14 @@
                 @pagination="handlePagination"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="role" label-position="left" label-width="120px"
-               style="width: 400px; margin-left:50px;"
-      >
-        <el-form-item label="角色名称" prop="name">
-          <el-input v-model="role.name" placeholder="请输入角色名称" />
-        </el-form-item>
-        <el-form-item label="角色描述" prop="description">
-          <el-input v-model="role.description" type="textarea" placeholder="请输入角色描述" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">关闭</el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">保存</el-button>
-      </div>
-    </el-dialog>
-
   </div>
 </template>
 
 <script>
 import {
-  getRolePage,
-  createRole,
-  updateRole,
-  deleteRole
+  getRoleRecoverPage,
+  recoverRole,
+  recoverDeleteRole
 } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
 
@@ -133,7 +110,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getRolePage(this.page, this.listQuery).then(res => {
+      getRoleRecoverPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -150,61 +127,18 @@ export default {
       this.page.size = page.limit
       this.loadData()
     },
-    handleCreate() {
-      this.role = {}
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
+    handleRecover(row) {
+      recoverRole(row.id).then(res => {
+        this.loadData()
       })
     },
-    createData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          createRole(this.role).then((res) => {
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: res.message,
-              type: 'success',
-              duration: 2000
-            })
-            this.loadData()
-          })
-        }
-      })
-    },
-    handleUpdate(row) {
-      this.role = Object.assign({}, row) // copy obj
-      this.dialogStatus = 'update'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          updateRole(this.role).then((res) => {
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: res.message,
-              type: 'success',
-              duration: 2000
-            })
-            this.loadData()
-          })
-        }
-      })
-    },
-    deleteData(row) {
-      this.$confirm('此操作将删除该角色, 是否继续?', '提示', {
+    handleRecoverDelete(row) {
+      this.$confirm('此操作将删除该角色,数据将不可恢复,是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteRole(row.id).then(res => {
+        recoverDeleteRole(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message

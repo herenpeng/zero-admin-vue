@@ -104,7 +104,7 @@
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复
           </el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteData(row)">
+          <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleRecoverDelete(row)">
             彻底删除
           </el-button>
         </template>
@@ -123,9 +123,9 @@
 
 <script>
 import {
-  getUserDeletePage,
+  getUserRecoverPage,
   recoverUser,
-  deleteUser
+  recoverDeleteUser
 } from '@/api/data/user'
 import { getRoleList } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
@@ -203,7 +203,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getUserDeletePage(this.page, this.listQuery).then(res => {
+      getUserRecoverPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -225,13 +225,13 @@ export default {
         this.loadData()
       })
     },
-    deleteData(row) {
-      this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
+    handleRecoverDelete(row) {
+      this.$confirm('此操作将彻底删除该用户,数据将不可恢复,是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteUser(row.id).then(res => {
+        recoverDeleteUser(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message
