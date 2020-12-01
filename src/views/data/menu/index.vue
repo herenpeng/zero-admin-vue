@@ -57,7 +57,7 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" sortable="true" align="center" width="80" />
-      <el-table-column label="菜单名称" width="110">
+      <el-table-column label="菜单名称" width="120">
         <template slot-scope="{row}">
           <span :style="{'font-weight': row.parentId === 0 ? 'bolder' : '','padding-left': row.parentId !== 0 ? '10px' : ''}">
             <i :class="row.metaIcon" />
@@ -341,7 +341,7 @@ export default {
       })
     },
     deleteData(row) {
-      this.$confirm('此操作将删除该菜单,是否继续?', '提示', {
+      this.$confirm('此操作将删除该菜单, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

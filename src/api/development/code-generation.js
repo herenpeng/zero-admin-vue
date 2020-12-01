@@ -46,3 +46,27 @@ export function codeGeneration(id) {
   })
 }
 
+
+export function getTableInfoRecoverPage(page, query) {
+  query.size = page.size
+  return request({
+    url: '/table/info/recover/page/' + page.currentPage,
+    method: 'get',
+    params: query
+  })
+}
+
+export function recoverTableInfo(id) {
+  return request({
+    url: '/table/info/recover/' + id,
+    method: 'put'
+  })
+}
+
+export function recoverDeleteTableInfo(id) {
+  return request({
+    url: '/table/info/recover/' + id,
+    method: 'delete'
+  })
+}
+
