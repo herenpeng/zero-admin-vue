@@ -97,7 +97,6 @@ import {
   recoverDeleteTableInfo
 } from '@/api/development/code-generation'
 import Pagination from '@/components/Pagination'
-import { recoverUser } from '@/api/data/user'
 
 export default {
   name: 'CodeGeneration',
