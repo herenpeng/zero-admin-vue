@@ -69,3 +69,26 @@ export function getRoutes() {
     method: 'get'
   })
 }
+
+export function getMenuRecoverPage(page, query) {
+  query.size = page.size
+  return request({
+    url: '/menu/recover/page/' + page.currentPage,
+    method: 'get',
+    params: query
+  })
+}
+
+export function recoverMenu(id) {
+  return request({
+    url: '/menu/recover/' + id,
+    method: 'put'
+  })
+}
+
+export function recoverDeleteMenu(id) {
+  return request({
+    url: '/menu/recover/' + id,
+    method: 'delete'
+  })
+}

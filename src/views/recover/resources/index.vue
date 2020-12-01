@@ -1,33 +1,19 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.username" placeholder="用户名" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.uri" placeholder="资源路径" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.enabled" placeholder="是否启用" clearable style="width: 120px" class="filter-item"
-                 @change="handleFilter"
+      <el-input v-model="listQuery.description" placeholder="资源描述" style="width: 200px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-select v-model="listQuery.methodType" placeholder="方法类型" clearable class="filter-item"
+                 style="width: 130px" @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.locked" placeholder="是否锁定" clearable class="filter-item"
-                 style="width: 120px"
-                 @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 140px" class="filter-item"
-                 @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 140px;" class="filter-item"
-                 @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="GET" label="GET" />
+        <el-option value="POST" label="POST" />
+        <el-option value="PUT" label="PUT" />
+        <el-option value="DELETE" label="DELETE" />
       </el-select>
       <el-select v-model="listQuery.roleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
                  class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
@@ -60,32 +46,22 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="用户名" width="150px" align="center">
+      <el-table-column label="资源路径" width="260px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.username }}</span>
+          <span>{{ row.uri }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="100px" align="center">
+      <el-table-column label="资源描述" width="350px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.enabled | enabledFilter }}</span>
+          <span>{{ row.description }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否锁定" width="110px" align="center">
+      <el-table-column label="方法类型" width="80px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.locked | lockedFilter }}</span>
+          <span>{{ row.methodType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号是否过期" width="120px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.accountExpire | expireFilter }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="密码是否过期" width="120px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.passwordExpire | expireFilter }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="用户角色" class-name="status-col" width="300px">
+      <el-table-column label="拥有该资源的角色" class-name="status-col" width="280px">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -123,15 +99,15 @@
 
 <script>
 import {
-  getUserRecoverPage,
-  recoverUser,
-  recoverDeleteUser
-} from '@/api/data/user'
-import { getRoleList } from '@/api/data/role'
+  getResourcesRecoverPage,
+  recoverResources,
+  recoverDeleteResources
+} from '@/api/data/resources'
 import Pagination from '@/components/Pagination'
+import { getRoleList } from '@/api/data/role'
 
 export default {
-  name: 'User',
+  name: 'Resources',
   components: { Pagination },
   filters: {
     enabledFilter(enabledValue) {
@@ -139,20 +115,6 @@ export default {
         return '启用'
       } else {
         return '禁用'
-      }
-    },
-    lockedFilter(lockedValue) {
-      if (lockedValue) {
-        return '锁定'
-      } else {
-        return '未锁定'
-      }
-    },
-    expireFilter(expireValue) {
-      if (expireValue) {
-        return '过期'
-      } else {
-        return '未过期'
       }
     }
   },
@@ -167,14 +129,18 @@ export default {
       },
       listLoading: false,
       listQuery: {
-        username: null,
-        enabled: null,
-        locked: null,
-        accountExpire: null,
-        passwordExpire: null,
+        uri: null,
+        description: null,
+        methodType: null,
         roleId: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
+      resources: {
+        id: null,
+        uri: null,
+        description: null,
+        methodType: null
+      },
       roles: null,
       downloadLoading: false
     }
@@ -185,7 +151,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getUserRecoverPage(this.page, this.listQuery).then(res => {
+      getResourcesRecoverPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -203,17 +169,17 @@ export default {
       this.loadData()
     },
     handleRecover(row) {
-      recoverUser(row.id).then(res => {
+      recoverResources(row.id).then(res => {
         this.loadData()
       })
     },
     handleRecoverDelete(row) {
-      this.$confirm('此操作将彻底删除该用户,数据将不可恢复,是否继续?', '提示', {
+      this.$confirm('此操作将彻底删除该系统资源,数据将不可恢复,是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        recoverDeleteUser(row.id).then(res => {
+        recoverDeleteResources(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message
@@ -237,6 +203,13 @@ export default {
           this.roles = res.data
         })
       }
+    },
+    handleModifyStatus(row, status) {
+      this.$message({
+        message: '操作成功',
+        type: 'success'
+      })
+      row.status = status
     },
     sortChange(data) {
       const { prop, order } = data

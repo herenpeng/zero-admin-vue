@@ -85,22 +85,6 @@ export default {
         name: null,
         description: null
       },
-      role: {
-        id: null,
-        name: null,
-        description: null
-      },
-      dialogFormVisible: false,
-      dialogStatus: '',
-      textMap: {
-        create: '添加',
-        update: '编辑'
-      },
-      roleList: [],
-      rules: {
-        name: [{ required: true, message: '请输入角色名称', trigger: 'change' }],
-        description: [{ required: true, message: '请输入角色描述', trigger: 'change' }]
-      },
       downloadLoading: false
     }
   },
@@ -133,7 +117,7 @@ export default {
       })
     },
     handleRecoverDelete(row) {
-      this.$confirm('此操作将删除该角色,数据将不可恢复,是否继续?', '提示', {
+      this.$confirm('此操作将彻底删除该角色,数据将不可恢复,是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

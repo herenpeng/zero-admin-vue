@@ -43,7 +43,7 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="数据库表名称" width="150px" align="center">
+      <el-table-column label="数据库表名称" width="120px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
         </template>

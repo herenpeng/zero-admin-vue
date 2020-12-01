@@ -54,3 +54,26 @@ export function addResourcesRole(resourcesId, roleId) {
     params: { roleId }
   })
 }
+
+export function getResourcesRecoverPage(page, query) {
+  query.size = page.size
+  return request({
+    url: '/resources/recover/page/' + page.currentPage,
+    method: 'get',
+    params: query
+  })
+}
+
+export function recoverResources(id) {
+  return request({
+    url: '/resources/recover/' + id,
+    method: 'put'
+  })
+}
+
+export function recoverDeleteResources(id) {
+  return request({
+    url: '/resources/recover/' + id,
+    method: 'delete'
+  })
+}

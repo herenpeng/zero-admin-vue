@@ -1,29 +1,19 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.username" placeholder="用户名" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.metaTitle" placeholder="菜单名称" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.path" placeholder="菜单路由路径" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.name" placeholder="菜单模块名称" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.component" placeholder="菜单模块路径" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-select v-model="listQuery.enabled" placeholder="是否启用" clearable style="width: 120px" class="filter-item"
-                 @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.locked" placeholder="是否锁定" clearable class="filter-item"
-                 style="width: 120px"
-                 @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 140px" class="filter-item"
-                 @change="handleFilter"
-      >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
-      </el-select>
-      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 140px;" class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
@@ -53,39 +43,49 @@
       :key="tableKey"
       v-loading="listLoading"
       :data="list"
+      row-key="id"
       border
       fit
       size="mini"
       style="width: 100%;"
+      :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="用户名" width="150px" align="center">
+      <el-table-column label="菜单名称" width="110">
         <template slot-scope="{row}">
-          <span>{{ row.username }}</span>
+          <span>
+            <i :class="row.metaIcon" />
+            {{ row.metaTitle }}
+          </span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="100px" align="center">
+      <el-table-column label="菜单路由路径" width="150">
+        <template slot-scope="{row}">
+          <span>{{ row.path }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="菜单模块名称" width="120">
+        <template slot-scope="{row}">
+          <span>{{ row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="菜单模块路径" width="150">
+        <template slot-scope="{row}">
+          <span>{{ row.component }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否启用" width="70" align="center">
         <template slot-scope="{row}">
           <span>{{ row.enabled | enabledFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否锁定" width="110px" align="center">
+      <el-table-column label="菜单排序" width="70" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.locked | lockedFilter }}</span>
+          <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号是否过期" width="120px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.accountExpire | expireFilter }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="密码是否过期" width="120px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.passwordExpire | expireFilter }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="用户角色" class-name="status-col" width="300px">
+      <el-table-column label="菜单角色" class-name="status-col" width="275px">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -120,18 +120,13 @@
 
   </div>
 </template>
-
 <script>
-import {
-  getUserRecoverPage,
-  recoverUser,
-  recoverDeleteUser
-} from '@/api/data/user'
+import Pagination from '@/components/Pagination/index'
+import { getMenuRecoverPage, recoverMenu, recoverDeleteMenu } from '@/api/data/menu'
 import { getRoleList } from '@/api/data/role'
-import Pagination from '@/components/Pagination'
 
 export default {
-  name: 'User',
+  name: 'Menu',
   components: { Pagination },
   filters: {
     enabledFilter(enabledValue) {
@@ -139,20 +134,6 @@ export default {
         return '启用'
       } else {
         return '禁用'
-      }
-    },
-    lockedFilter(lockedValue) {
-      if (lockedValue) {
-        return '锁定'
-      } else {
-        return '未锁定'
-      }
-    },
-    expireFilter(expireValue) {
-      if (expireValue) {
-        return '过期'
-      } else {
-        return '未过期'
       }
     }
   },
@@ -167,11 +148,11 @@ export default {
       },
       listLoading: false,
       listQuery: {
-        username: null,
+        path: null,
+        name: null,
+        component: null,
+        metaTitle: null,
         enabled: null,
-        locked: null,
-        accountExpire: null,
-        passwordExpire: null,
         roleId: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
@@ -185,7 +166,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getUserRecoverPage(this.page, this.listQuery).then(res => {
+      getMenuRecoverPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -203,17 +184,17 @@ export default {
       this.loadData()
     },
     handleRecover(row) {
-      recoverUser(row.id).then(res => {
+      recoverMenu(row.id).then(res => {
         this.loadData()
       })
     },
     handleRecoverDelete(row) {
-      this.$confirm('此操作将彻底删除该用户,数据将不可恢复,是否继续?', '提示', {
+      this.$confirm('此操作将彻底删除该菜单,数据将不可恢复,是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        recoverDeleteUser(row.id).then(res => {
+        recoverDeleteMenu(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message
@@ -269,6 +250,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-
-</style>
