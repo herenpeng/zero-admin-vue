@@ -197,11 +197,11 @@ import {
   deleteUser,
   deleteUserRole,
   getUserNotRoleList,
-  addUserRole,
-  exportExcel
+  addUserRole
 } from '@/api/data/user'
 import { getRoleList } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
+import { getToken } from '@/utils/auth'
 
 export default {
   name: 'User',
@@ -424,7 +424,34 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportExcel(this.listQuery)
+      if ('download' in document.createElement('a')) {
+        // 支持a标签download的浏览器
+        const link = document.createElement('a')
+        // 创建a标签link.download = '标注数据.xls' //a标签添加属性
+        link.style.display = 'none'
+        link.setAttribute('download', '用户数据.xlsx')
+        link.href = 'http://127.0.0.1:8080/user/export/excel?accessToken=' + getToken()
+        document.body.appendChild(link)
+        link.click() // 执行下载
+        URL.revokeObjectURL(link.href) // 释放url
+        document.body.removeChild(link) // 释放标签
+      }
+      // exportExcel(this.listQuery).then((res) => {
+      //   const blob = new Blob([res], { type: 'application/octet-stream' })
+      //   // IE10以上支持blob但是依然不支持download
+      //   if ('download' in document.createElement('a')) {
+      //     // 支持a标签download的浏览器
+      //     const link = document.createElement('a')
+      //     // 创建a标签link.download = '标注数据.xls' //a标签添加属性
+      //     link.style.display = 'none'
+      //     link.setAttribute('download', '用户数据.xlsx')
+      //     link.href = URL.createObjectURL(blob)
+      //     document.body.appendChild(link)
+      //     link.click() // 执行下载
+      //     URL.revokeObjectURL(link.href) // 释放url
+      //     document.body.removeChild(link) // 释放标签
+      //   }
+      // })
     }
   }
 }

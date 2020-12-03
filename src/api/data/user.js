@@ -85,12 +85,3 @@ export function recoverDeleteUser(id) {
     method: 'delete'
   })
 }
-
-export function exportExcel(query) {
-  query.size = null
-  return request({
-    url: '/user/export/excel',
-    method: 'get',
-    params: query
-  })
-}
