@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { exportExcel } from '@/utils/export-file'
 
 export function getLogPage(page, query) {
   query.size = page.size
@@ -37,4 +38,8 @@ export function recoverDeleteLog(id) {
     url: '/log/recover/' + id,
     method: 'delete'
   })
+}
+
+export function exportLogExcel(query) {
+  exportExcel('/log/export/excel', query)
 }

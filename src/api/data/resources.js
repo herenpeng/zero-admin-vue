@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { exportExcel } from '@/utils/export-file'
 
 export function getResourcesPage(page, query) {
   query.size = page.size
@@ -76,4 +77,8 @@ export function recoverDeleteResources(id) {
     url: '/resources/recover/' + id,
     method: 'delete'
   })
+}
+
+export function exportResourcesExcel(query) {
+  exportExcel('/resources/export/excel', query)
 }

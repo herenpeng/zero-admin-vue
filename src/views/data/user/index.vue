@@ -197,11 +197,11 @@ import {
   deleteUser,
   deleteUserRole,
   getUserNotRoleList,
-  addUserRole
+  addUserRole,
+  exportUserExcel
 } from '@/api/data/user'
 import { getRoleList } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
-import { exportExcel } from '@/utils/export-file'
 
 export default {
   name: 'User',
@@ -424,7 +424,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportExcel('/user/export/excel', '用户数据', this.listQuery)
+      exportUserExcel(this.listQuery)
     }
   }
 }

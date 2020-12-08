@@ -142,15 +142,15 @@
 </template>
 
 <script>
-import {
-  getResourcesPage,
-  createResources,
-  updateResources,
-  deleteResources,
-  deleteResourcesRole,
-  getResourcesNotRoleList,
-  addResourcesRole
-} from '@/api/data/resources'
+  import {
+    getResourcesPage,
+    createResources,
+    updateResources,
+    deleteResources,
+    deleteResourcesRole,
+    getResourcesNotRoleList,
+    addResourcesRole, exportResourcesExcel
+  } from '@/api/data/resources'
 import Pagination from '@/components/Pagination'
 import { getRoleList } from '@/api/data/role'
 
@@ -361,18 +361,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-        const data = this.formatJson(filterVal)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: 'table-list'
-        })
-        this.downloadLoading = false
-      })
+      exportResourcesExcel(this.listQuery)
     }
   }
 }

@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { exportExcel } from '@/utils/export-file'
 
 export function getRolePage(page, query) {
   query.size = page.size
@@ -61,4 +62,8 @@ export function recoverDeleteRole(id) {
     url: '/role/recover/' + id,
     method: 'delete'
   })
+}
+
+export function exportRoleExcel(query) {
+  exportExcel('/role/export/excel', query)
 }

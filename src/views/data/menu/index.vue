@@ -188,7 +188,17 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination/index'
-import { getMenuPage, createMenu, enabled, deleteMenu, deleteMenuRole, updateMenu, getMenuNotRoleList, addMenuRole } from '@/api/data/menu'
+import {
+  getMenuPage,
+  createMenu,
+  enabled,
+  deleteMenu,
+  deleteMenuRole,
+  updateMenu,
+  getMenuNotRoleList,
+  addMenuRole,
+  exportMenuExcel
+} from '@/api/data/menu'
 import { getRoleList } from '@/api/data/role'
 
 export default {
@@ -418,18 +428,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-        const data = this.formatJson(filterVal)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: 'table-list'
-        })
-        this.downloadLoading = false
-      })
+      exportMenuExcel(this.listQuery)
     }
   }
 }

@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { exportExcel } from '@/utils/export-file'
 
 export function getUserPage(page, query) {
   query.size = page.size
@@ -84,4 +85,8 @@ export function recoverDeleteUser(id) {
     url: '/user/recover/' + id,
     method: 'delete'
   })
+}
+
+export function exportUserExcel(query) {
+  exportExcel('/user/export/excel', query)
 }
