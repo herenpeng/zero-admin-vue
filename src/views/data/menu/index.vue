@@ -428,7 +428,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportMenuExcel(this.listQuery)
+      exportMenuExcel(this.listQuery, '系统菜单列表')
     }
   }
 }

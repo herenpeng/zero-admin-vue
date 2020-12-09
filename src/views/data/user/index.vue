@@ -424,7 +424,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportUserExcel(this.listQuery)
+      exportUserExcel(this.listQuery, '用户列表')
     }
   }
 }

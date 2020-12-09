@@ -40,6 +40,6 @@ export function recoverDeleteLog(id) {
   })
 }
 
-export function exportLogExcel(query) {
-  exportExcel('/log/export/excel', query)
+export function exportLogExcel(query, fileName) {
+  exportExcel('/log/export/excel', query, fileName)
 }

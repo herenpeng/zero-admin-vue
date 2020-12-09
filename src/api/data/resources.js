@@ -79,6 +79,6 @@ export function recoverDeleteResources(id) {
   })
 }
 
-export function exportResourcesExcel(query) {
-  exportExcel('/resources/export/excel', query)
+export function exportResourcesExcel(query, fileName) {
+  exportExcel('/resources/export/excel', query, fileName)
 }

@@ -64,6 +64,6 @@ export function recoverDeleteRole(id) {
   })
 }
 
-export function exportRoleExcel(query) {
-  exportExcel('/role/export/excel', query)
+export function exportRoleExcel(query, fileName) {
+  exportExcel('/role/export/excel', query, fileName)
 }

@@ -87,6 +87,6 @@ export function recoverDeleteUser(id) {
   })
 }
 
-export function exportUserExcel(query) {
-  exportExcel('/user/export/excel', query)
+export function exportUserExcel(query, fileName) {
+  exportExcel('/user/export/excel', query, fileName)
 }

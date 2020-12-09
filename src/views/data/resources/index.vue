@@ -361,7 +361,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportResourcesExcel(this.listQuery)
+      exportResourcesExcel(this.listQuery,'系统资源列表')
     }
   }
 }

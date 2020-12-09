@@ -257,7 +257,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportLogExcel(this.listQuery)
+      exportLogExcel(this.listQuery, '系统日志列表')
     }
   }
 }

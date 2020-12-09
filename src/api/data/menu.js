@@ -94,6 +94,6 @@ export function recoverDeleteMenu(id) {
   })
 }
 
-export function exportMenuExcel(query) {
-  exportExcel('/menu/export/excel', query)
+export function exportMenuExcel(query, fileName) {
+  exportExcel('/menu/export/excel', query, fileName)
 }

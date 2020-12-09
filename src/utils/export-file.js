@@ -1,30 +1,41 @@
-export function exportExcel(path, params) {
-  if ('download' in document.createElement('a')) {
-    // 支持a标签download的浏览器
-    const link = document.createElement('a')
-    // 创建a标签link.download 并设置a标签添加属性
-    link.style.display = 'none'
-    let url = process.env.VUE_APP_BASE_API + path + '?'
-    // 如果参数是一个对象
-    if (Object.prototype.toString.call(params) === '[object Object]') {
-      for (const key in params) {
-        const value = params[key]
-        if (value !== null) {
-          if (url.endsWith('?')) {
-            url += key + '=' + value
-          } else {
-            url += '&' + key + '=' + value
-          }
-        }
+import axios from 'axios'
+import { getToken } from '@/utils/auth'
+import { Message } from 'element-ui'
+
+export function exportExcel(path, params, fileName) {
+  return new Promise((resolve, reject) => {
+    axios.defaults.headers.common['accessToken'] = getToken()
+    axios({
+      url: process.env.VUE_APP_BASE_API + path,
+      method: 'get',
+      data: params,
+      responseType: 'blob'
+    }).then(response => {
+      const downloadName = fileName + '.xlsx'
+      const res = response.data
+      const blob = new Blob([res])
+      // 非IE下载
+      if ('download' in document.createElement('a')) {
+        const link = document.createElement('a')
+        link.download = downloadName
+        link.style.display = 'none'
+        link.href = URL.createObjectURL(blob)
+        document.body.appendChild(link)
+        link.click()
+        // 释放URL 对象
+        URL.revokeObjectURL(link.href)
+        document.body.removeChild(link)
+      } else {
+        // IE10+下载
+        navigator.msSaveBlob(blob, downloadName)
       }
-    }
-    link.href = url
-    document.body.appendChild(link)
-    // 执行下载
-    link.click()
-    // 释放url
-    URL.revokeObjectURL(link.href)
-    // 释放标签
-    document.body.removeChild(link)
-  }
+    }).catch(err => {
+      Message({
+        message: '系统错误',
+        type: 'error',
+        duration: 2 * 1000
+      })
+      reject(err)
+    })
+  })
 }
