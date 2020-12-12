@@ -64,7 +64,7 @@ service.interceptors.response.use(
           type: 'warning',
           duration: 2 * 1000
         })
-        return res
+        return null
       }
       // 40002：未登录或者访问凭证失效，需要重新登录
       if (res.code === 40002) {

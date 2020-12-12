@@ -88,6 +88,7 @@ import {
   createRole,
   updateRole,
   deleteRole,
+  checkName,
   exportRoleExcel
 } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
@@ -96,6 +97,15 @@ export default {
   name: 'Role',
   components: { Pagination },
   data() {
+    const checkName = (rule, value, callback) => {
+      this.checkName(value).then(res => {
+        if (res.data) {
+          callback(new Error('该角色已存在'))
+        } else {
+          callback()
+        }
+      })
+    }
     return {
       tableKey: 0,
       list: null,
@@ -122,7 +132,10 @@ export default {
       },
       roleList: [],
       rules: {
-        name: [{ required: true, message: '请输入角色名称', trigger: 'change' }],
+        name: [
+          { required: true, message: '请输入角色名称', trigger: 'change' },
+          { validator: checkName, trigger: 'change' }
+        ],
         description: [{ required: true, message: '请输入角色描述', trigger: 'change' }]
       },
       downloadLoading: false
@@ -150,6 +163,9 @@ export default {
       this.page.currentPage = page.page
       this.page.size = page.limit
       this.loadData()
+    },
+    checkName(value) {
+      return checkName(value)
     },
     handleCreate() {
       this.role = {}

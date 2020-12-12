@@ -41,6 +41,14 @@ export function deleteRole(id) {
   })
 }
 
+export function checkName(name) {
+  return request({
+    url: '/role/check/name',
+    method: 'get',
+    params: { name }
+  })
+}
+
 export function getRoleRecoverPage(page, query) {
   query.size = page.size
   return request({
