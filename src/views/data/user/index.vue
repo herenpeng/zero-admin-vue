@@ -198,6 +198,7 @@ import {
   deleteUserRole,
   getUserNotRoleList,
   addUserRole,
+  checkUsername,
   exportUserExcel
 } from '@/api/data/user'
 import { getRoleList } from '@/api/data/role'
@@ -230,6 +231,15 @@ export default {
     }
   },
   data() {
+    const checkUsername = (rule, value, callback) => {
+      this.checkUsername(value).then(res => {
+        if (res.data) {
+          callback(new Error('该用户已存在'))
+        } else {
+          callback()
+        }
+      })
+    }
     return {
       tableKey: 0,
       list: null,
@@ -265,7 +275,10 @@ export default {
       },
       notRoleList: [],
       rules: {
-        username: [{ required: true, message: '请输入用户名', trigger: 'change' }]
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'change' },
+          { validator: checkUsername, trigger: 'change' }
+        ]
       },
       downloadLoading: false
     }
@@ -297,6 +310,9 @@ export default {
       enabled(row.id, value).then(res => {
         row.enabled = value
       })
+    },
+    checkUsername(value) {
+      return checkUsername(value)
     },
     handleCreate() {
       this.user = {}

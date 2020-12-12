@@ -64,6 +64,14 @@ export function addUserRole(userId, roleId) {
   })
 }
 
+export function checkUsername(username) {
+  return request({
+    url: '/user/check/username',
+    method: 'get',
+    params: { username }
+  })
+}
+
 export function getUserRecoverPage(page, query) {
   query.size = page.size
   return request({
