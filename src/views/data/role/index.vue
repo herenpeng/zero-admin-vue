@@ -98,13 +98,17 @@ export default {
   components: { Pagination },
   data() {
     const checkName = (rule, value, callback) => {
-      this.checkName(value).then(res => {
-        if (res.data) {
-          callback(new Error('该角色已存在'))
-        } else {
-          callback()
-        }
-      })
+      if (value === this.oldRoleName && this.dialogStatus === 'update') {
+        callback()
+      } else {
+        this.checkName(value).then(res => {
+          if (res.data) {
+            callback(new Error('该角色已存在'))
+          } else {
+            callback()
+          }
+        })
+      }
     }
     return {
       tableKey: 0,
@@ -124,6 +128,7 @@ export default {
         name: null,
         description: null
       },
+      oldRoleName: null,
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
@@ -192,7 +197,8 @@ export default {
       })
     },
     handleUpdate(row) {
-      this.role = Object.assign({}, row) // copy obj
+      this.role = Object.assign({}, row)
+      this.oldRoleName = this.role.name
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
