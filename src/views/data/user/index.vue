@@ -232,13 +232,17 @@ export default {
   },
   data() {
     const checkUsername = (rule, value, callback) => {
-      this.checkUsername(value).then(res => {
-        if (res.data) {
-          callback(new Error('该用户已存在'))
-        } else {
-          callback()
-        }
-      })
+      if (value === this.oldUsername && this.dialogStatus === 'update') {
+        callback()
+      } else {
+        this.checkUsername(value).then(res => {
+          if (res.data) {
+            callback(new Error('该用户已存在'))
+          } else {
+            callback()
+          }
+        })
+      }
     }
     return {
       tableKey: 0,
@@ -266,6 +270,7 @@ export default {
         accountExpire: false,
         passwordExpire: false
       },
+      oldUsername: null,
       roles: null,
       dialogFormVisible: false,
       dialogStatus: '',
@@ -339,7 +344,8 @@ export default {
       })
     },
     handleUpdate(row) {
-      this.user = Object.assign({}, row) // copy obj
+      this.user = Object.assign({}, row)
+      this.oldUsername = this.user.username
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
