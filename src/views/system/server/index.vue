@@ -267,7 +267,7 @@ export default {
     getServerPieChartInfo() {
       const _this = this
       if (supportWebSocket()) {
-        this.websocket = connectWebSocket('ws://127.0.0.1:10000/websocket/server/piechart',
+        this.websocket = connectWebSocket('/websocket/server/piechart',
           function() {
 
           },
