@@ -90,7 +90,7 @@
           <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单角色" class-name="status-col" width="275px">
+      <el-table-column label="菜单角色" class-name="status-col" width="265px">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -162,7 +162,9 @@
           <el-input v-model="menu.component" placeholder="请输入菜单模块路径" :disabled="menu.parentId === 0" />
         </el-form-item>
         <el-form-item label="菜单图标" prop="metaIcon">
-          <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" />
+          <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" style="width: 190px;" :disabled="true">
+            <i slot="suffix" class="el-icon-s-promotion" @click="drawer = true" />
+          </el-input>
         </el-form-item>
         <el-form-item v-if="menu.parentId === 0" label="父级菜单定向路由路径" prop="redirect">
           <el-input v-model="menu.redirect" placeholder="请输入父级菜单定向路由路径" />
@@ -184,10 +186,21 @@
       </div>
     </el-dialog>
 
+    <el-drawer
+      title="菜单图标"
+      :visible.sync="drawer"
+      :direction="direction"
+      :with-header="false"
+      :before-close="handleClose"
+    >
+      <icon></icon>
+    </el-drawer>
+
   </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination/index'
+import Icon from './components/Icon'
 import {
   getMenuPage,
   createMenu,
@@ -203,7 +216,7 @@ import { getRoleList } from '@/api/data/role'
 
 export default {
   name: 'Menu',
-  components: { Pagination },
+  components: { Pagination, Icon },
   filters: {
     enabledFilter(enabledValue) {
       if (enabledValue) {
@@ -261,7 +274,9 @@ export default {
         sort: [{ required: true, message: '请输入菜单排序', trigger: 'change' }],
         enabled: [{ required: true, message: '请选择菜单是否启用', trigger: 'change' }]
       },
-      downloadLoading: false
+      downloadLoading: false,
+      drawer: false,
+      direction: 'rtl'
     }
   },
   created() {
@@ -412,6 +427,9 @@ export default {
           this.roles = res.data
         })
       }
+    },
+    handleClose(done) {
+      done()
     },
     sortChange(data) {
       const { prop, order } = data

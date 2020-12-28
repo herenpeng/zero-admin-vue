@@ -36,16 +36,6 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    // 配置跨域
-    // proxy: {
-    //   '/dev-api': {
-    //     target: 'http://127.0.0.1:8080',
-    //     changOrigin: true,
-    //     pathRewrite: {
-    //       '^/dev-api': ''
-    //     }
-    //   }
-    // },
     before: require('./mock/mock-server.js')
   },
   configureWebpack: {

@@ -1,14 +1,12 @@
-// const webSocketBaseUrl = 'ws://47.114.99.214:10000'
-const webSocketBaseUrl = 'ws://127.0.0.1:10000'
 // 判断当前的浏览器是否支持websocket协议
 export function supportWebSocket() {
-  return 'WebSocket' in window;
+  return 'WebSocket' in window
 }
 
 // 打开websocket连接
 export function connectWebSocket(url, onopen, onmessage, onclose, onerror) {
   // 打开一个 web socket
-  const websocket = new WebSocket(webSocketBaseUrl + url)
+  const websocket = new WebSocket(process.env.VUE_APP_BASE_WX_API + url)
   websocket.onopen = function() {
     onopen()
   }
