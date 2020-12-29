@@ -192,7 +192,7 @@
       :with-header="false"
       :before-close="handleClose"
     >
-      <icon @select-icon="selectIcon"/>
+      <icon :select="menu.metaIcon" @select-icon="selectIcon"/>
     </el-drawer>
 
   </div>
