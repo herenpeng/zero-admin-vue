@@ -162,8 +162,8 @@
           <el-input v-model="menu.component" placeholder="请输入菜单模块路径" :disabled="menu.parentId === 0" />
         </el-form-item>
         <el-form-item label="菜单图标" prop="metaIcon">
-          <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" style="width: 190px;" :disabled="true">
-            <i slot="suffix" class="el-icon-s-promotion" @click="drawer = true" />
+          <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" style="width: 190px;" readonly>
+            <template slot="append"><i class="el-icon-s-operation" @click="drawer = true" /></template>
           </el-input>
         </el-form-item>
         <el-form-item v-if="menu.parentId === 0" label="父级菜单定向路由路径" prop="redirect">
@@ -189,11 +189,10 @@
     <el-drawer
       title="菜单图标"
       :visible.sync="drawer"
-      :direction="direction"
       :with-header="false"
       :before-close="handleClose"
     >
-      <icon></icon>
+      <icon @select-icon="selectIcon"/>
     </el-drawer>
 
   </div>
@@ -275,8 +274,7 @@ export default {
         enabled: [{ required: true, message: '请选择菜单是否启用', trigger: 'change' }]
       },
       downloadLoading: false,
-      drawer: false,
-      direction: 'rtl'
+      drawer: false
     }
   },
   created() {
@@ -431,6 +429,9 @@ export default {
     handleClose(done) {
       done()
     },
+    selectIcon(icon) {
+      this.menu.metaIcon = icon
+    },
     sortChange(data) {
       const { prop, order } = data
       if (prop === 'id') {
@@ -451,3 +452,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .el-drawer__body {
+    overflow: auto;
+  }
+</style>
