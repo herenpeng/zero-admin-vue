@@ -80,7 +80,13 @@ service.interceptors.response.use(
         })
         return res
       }
-      return Promise.reject(new Error(res.message || '系统错误'))
+      // 其他类型的异常信息在这里进行处理
+      Message({
+        message: res.message || '系统错误',
+        type: 'error',
+        duration: 2 * 1000
+      })
+      // return Promise.reject(new Error(res.message || '系统错误'))
     } else {
       return res
     }
