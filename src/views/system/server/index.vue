@@ -1,6 +1,5 @@
 <template>
   <div class="dashboard-editor-container">
-    <!--    <github-corner class="github-corner" />-->
 
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="8">
