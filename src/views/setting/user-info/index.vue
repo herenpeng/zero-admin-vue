@@ -8,11 +8,13 @@
         action="#"
         list-type="picture-card"
         :auto-upload="false"
-        :on-success="handlerSuccess"
+        :limit="1"
         :on-preview="handlePictureCardPreview"
         :on-remove="handleRemove"
+        :on-change="handlerChange"
+        :on-exceed="handleExceed"
       >
-        <i class="el-icon-plus"/>
+        <i class="el-icon-plus" />
       </el-upload>
       <el-dialog :visible.sync="dialogVisible">
         <img width="100%" :src="dialogImageUrl" alt="">
@@ -26,22 +28,28 @@ export default {
   name: 'UserInfo',
   data() {
     return {
+      file: null,
       dialogImageUrl: '',
       dialogVisible: false,
       disabled: false
     }
   },
   methods: {
-    handlerSuccess(response, file, fileList) {
-      console.log(file)
-      console.log(fileList)
+    handlerChange(file, fileList) {
+      this.file = file
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     },
     handleRemove(file) {
-      console.log(file)
+      this.file = null
+    },
+    handleExceed(files, fileList) {
+      this.$message({
+        type: 'info',
+        message: '只允许上传一张图片作为头像'
+      })
     }
   }
 }
