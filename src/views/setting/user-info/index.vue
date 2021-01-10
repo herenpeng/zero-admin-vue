@@ -16,14 +16,15 @@
       >
         <i class="el-icon-plus" />
       </el-upload>
+      <el-button @click="uploadImage">点击上传</el-button>
       <el-dialog :visible.sync="dialogVisible">
         <img width="100%" :src="dialogImageUrl" alt="">
       </el-dialog>
     </el-card>
   </div>
-
 </template>
 <script>
+import { uploadImage } from '@/api/setting/user-info'
 export default {
   name: 'UserInfo',
   data() {
@@ -35,8 +36,13 @@ export default {
     }
   },
   methods: {
+    uploadImage() {
+      uploadImage(this.file).then(res => {
+        console.log(res.data)
+      })
+    },
     handlerChange(file, fileList) {
-      this.file = file
+      this.file = file.raw
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url

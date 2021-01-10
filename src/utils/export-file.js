@@ -6,7 +6,7 @@ export function exportExcel(path, params, fileName) {
   return new Promise((resolve, reject) => {
     axios.defaults.headers.common['accessToken'] = getToken()
     axios({
-      url: process.env.VUE_APP_BASE_API + path,
+      url: process.env.VUE_APP_BASE_HTTP_API + path,
       method: 'get',
       data: params,
       responseType: 'blob'
