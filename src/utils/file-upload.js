@@ -18,7 +18,7 @@ export function fileUpload(path, file) {
     }).then(response => {
       const res = response.data
       if (res.code === 20000) {
-        return res
+        resolve(res)
       } else {
         if (res.code === 40003) {
           Message({

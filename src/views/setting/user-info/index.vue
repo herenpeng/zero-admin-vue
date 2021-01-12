@@ -11,6 +11,7 @@
             list-type="picture-card"
             :auto-upload="false"
             :limit="1"
+            fit="scale-down"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
             :on-change="handlerChange"
@@ -18,7 +19,7 @@
           >
             <i class="el-icon-plus" />
           </el-upload>
-          <el-button style="margin-top: 10px;" type="primary" @click="uploadImage">点击上传</el-button>
+          <el-button style="margin-top: 10px;" type="primary" @click="uploadAvatar">点击上传</el-button>
         </el-col>
         <el-col :span="12" style="text-align: center">
           <div class="banner">
@@ -33,7 +34,7 @@
   </div>
 </template>
 <script>
-import { uploadImage } from '@/api/setting/user-info'
+import { uploadAvatar } from '@/api/setting/user-info'
 export default {
   name: 'UserInfo',
   data() {
@@ -42,13 +43,25 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       disabled: false,
+      // avatar: ''
       avatar: 'http://127.0.0.1:10000/api/image/1819b431-42d1-44c8-9e27-e074cd8a3b93.jpg'
     }
   },
   methods: {
-    uploadImage() {
-      uploadImage(this.file).then(res => {
-        console.log(res.data)
+    uploadAvatar() {
+      this.$confirm('上传该图片作为头像, 将会覆盖原头像, 是否继续?', '提示', {
+        confirmButtonText: '继续上传',
+        cancelButtonText: '取消上传',
+        type: 'warning'
+      }).then(() => {
+        uploadAvatar(this.file).then(res => {
+          this.avatar = res.data
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消上传'
+        })
       })
     },
     handlerChange(file, fileList) {
