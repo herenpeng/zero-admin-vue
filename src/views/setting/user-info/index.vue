@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import { uploadAvatar } from '@/api/setting/user-info'
+import { getAvatar,uploadAvatar } from '@/api/setting/user-info'
 export default {
   name: 'UserInfo',
   data() {
@@ -43,11 +43,18 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       disabled: false,
-      // avatar: ''
-      avatar: 'http://127.0.0.1:10000/api/image/1819b431-42d1-44c8-9e27-e074cd8a3b93.jpg'
+      avatar: ''
     }
   },
+  created() {
+    this.getAvatar()
+  },
   methods: {
+    getAvatar() {
+      getAvatar().then(res => {
+        this.avatar = res.data
+      })
+    },
     uploadAvatar() {
       this.$confirm('上传该图片作为头像, 将会覆盖原头像, 是否继续?', '提示', {
         confirmButtonText: '继续上传',
