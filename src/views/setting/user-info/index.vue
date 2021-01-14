@@ -31,10 +31,57 @@
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
+
+    <el-card shadow="hover" style="margin-top: 20px;">
+      <el-row style="line-height: 50px;text-align: center;">
+        <el-col :span="2">
+          姓名：
+        </el-col>
+        <el-col :span="8">
+          <template v-if="edit.name">
+            <el-input v-model="userInfo.name" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-button
+              class="cancel-btn"
+              size="small"
+              type="warning"
+              icon="el-icon-close"
+              @click="cancelEdit('name')"
+            >
+              关闭
+            </el-button>
+          </template>
+          <span v-else>{{ userInfo.name }}</span>
+        </el-col>
+        <el-col :span="2">
+          <el-button
+            v-if="edit.name"
+            type="success"
+            size="small"
+            icon="el-icon-check"
+            @click="confirmEdit('name')"
+          >
+            确定
+          </el-button>
+          <el-button
+            v-else
+            type="primary"
+            size="small"
+            icon="el-icon-edit"
+            @click="edit.name=!edit.name"
+          >
+            编辑
+          </el-button>
+        </el-col>
+        <el-col :span="3">
+          性别：
+        </el-col>
+        <el-col :span="9" />
+      </el-row>
+    </el-card>
   </div>
 </template>
 <script>
-import { getAvatar,uploadAvatar } from '@/api/setting/user-info'
+import { getAvatar, uploadAvatar } from '@/api/setting/user-info'
 export default {
   name: 'UserInfo',
   data() {
@@ -43,7 +90,15 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       disabled: false,
-      avatar: ''
+      avatar: '',
+      userInfo: {
+        name: '何任鹏',
+        gender: '男'
+      },
+      edit: {
+        name: false,
+        gender: false
+      }
     }
   },
   created() {
@@ -86,6 +141,12 @@ export default {
         type: 'info',
         message: '只允许上传一张图片作为头像'
       })
+    },
+    cancelEdit(key) {
+      this.edit[key] = !this.edit[key]
+    },
+    confirmEdit(key) {
+      this.edit[key] = !this.edit[key]
     }
   }
 }
