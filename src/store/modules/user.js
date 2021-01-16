@@ -34,7 +34,9 @@ const actions = {
       const { username, password } = loginForm
       login(username.trim(), password).then(res => {
         const accessToken = res.data
+        // 将登陆之后返回的token信息设置到cookie中
         setToken(accessToken)
+        // 将登陆之后返回的token信息存储到store中
         commit('SET_TOKEN', accessToken)
         resolve()
       }).catch(error => {
@@ -51,9 +53,9 @@ const actions = {
         if (!data) {
           return reject('验证失败，请重新登录。')
         }
-        const { username } = data
+        const { username, userInfo } = data
         commit('SET_USERNAME', username)
-        // commit('SET_AVATAR', avatar)
+        commit('SET_AVATAR', userInfo.avatar)
         resolve(data)
       }).catch(error => {
         reject(error)

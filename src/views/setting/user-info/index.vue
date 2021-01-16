@@ -23,7 +23,7 @@
         </el-col>
         <el-col :span="12" style="text-align: center">
           <div class="banner">
-            <el-avatar :size="150" :src="avatar" />
+            <el-avatar :size="150" :src="userInfo.avatar" />
           </div>
         </el-col>
       </el-row>
@@ -33,7 +33,7 @@
     </el-dialog>
 
     <el-card shadow="hover" style="margin-top: 20px;">
-      <el-row style="line-height: 50px;text-align: center;">
+      <el-row style="line-height: 50px;text-align: center;width: 100%;">
         <el-col :span="2">
           姓名：
         </el-col>
@@ -50,7 +50,7 @@
               关闭
             </el-button>
           </template>
-          <span v-else>{{ userInfo.name }}</span>
+          <span v-else>{{ userInfo.name || '点击编辑修改姓名' }}</span>
         </el-col>
         <el-col :span="2">
           <el-button
@@ -72,42 +72,322 @@
             编辑
           </el-button>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="2">
           性别：
         </el-col>
-        <el-col :span="9" />
+        <el-col :span="8">
+          <template v-if="edit.gender">
+            <el-switch v-model="userInfo.gender" active-text="男" inactive-text="女" style="width: 300px;margin-right: 30px;padding-left: 150px;" />
+            <el-button
+              class="cancel-btn"
+              size="small"
+              type="warning"
+              icon="el-icon-close"
+              @click="cancelEdit('gender')"
+            >
+              关闭
+            </el-button>
+          </template>
+          <span v-else>{{ userInfo.gender | genderFilter }}</span>
+        </el-col>
+        <el-col :span="2">
+          <el-button
+            v-if="edit.gender"
+            type="success"
+            size="small"
+            icon="el-icon-check"
+            @click="confirmEdit('gender')"
+          >
+            确定
+          </el-button>
+          <el-button
+            v-else
+            type="primary"
+            size="small"
+            icon="el-icon-edit"
+            @click="edit.gender=!edit.gender"
+          >
+            编辑
+          </el-button>
+        </el-col>
+      </el-row>
+      <el-row style="line-height: 50px;text-align: center;width: 100%;">
+        <el-col :span="2">
+          手机号码：
+        </el-col>
+        <el-col :span="8">
+          <template v-if="edit.mobile">
+            <el-input v-model="userInfo.mobile" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-button
+              class="cancel-btn"
+              size="small"
+              type="warning"
+              icon="el-icon-close"
+              @click="cancelEdit('mobile')"
+            >
+              关闭
+            </el-button>
+          </template>
+          <span v-else>{{ userInfo.mobile || '点击编辑修改手机号码' }}</span>
+        </el-col>
+        <el-col :span="2">
+          <el-button
+            v-if="edit.mobile"
+            type="success"
+            size="small"
+            icon="el-icon-check"
+            @click="confirmEdit('mobile')"
+          >
+            确定
+          </el-button>
+          <el-button
+            v-else
+            type="primary"
+            size="small"
+            icon="el-icon-edit"
+            @click="edit.mobile=!edit.mobile"
+          >
+            编辑
+          </el-button>
+        </el-col>
+        <el-col :span="2">
+          电子邮箱：
+        </el-col>
+        <el-col :span="8">
+          <template v-if="edit.mail">
+            <el-input v-model="userInfo.mail" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-button
+              class="cancel-btn"
+              size="small"
+              type="warning"
+              icon="el-icon-close"
+              @click="cancelEdit('mail')"
+            >
+              关闭
+            </el-button>
+          </template>
+          <span v-else>{{ userInfo.mail || '点击编辑修改电子邮箱' }}</span>
+        </el-col>
+        <el-col :span="2">
+          <el-button
+            v-if="edit.mail"
+            type="success"
+            size="small"
+            icon="el-icon-check"
+            @click="confirmEdit('mail')"
+          >
+            确定
+          </el-button>
+          <el-button
+            v-else
+            type="primary"
+            size="small"
+            icon="el-icon-edit"
+            @click="edit.mail=!edit.mail"
+          >
+            编辑
+          </el-button>
+        </el-col>
+      </el-row>
+      <el-row style="line-height: 50px;text-align: center;width: 100%;">
+        <el-col :span="2">
+          出生日期：
+        </el-col>
+        <el-col :span="8">
+          <template v-if="edit.birthday">
+            <el-date-picker
+              v-model="userInfo.birthday"
+              type="date"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              placeholder="选择出生日期">
+            </el-date-picker>
+          </template>
+          <span v-else>{{ userInfo.birthday || '点击编辑修改出生日期' }}</span>
+        </el-col>
+        <el-col :span="2">
+          <el-button
+            v-if="edit.birthday"
+            type="success"
+            size="small"
+            icon="el-icon-check"
+            @click="confirmEdit('birthday')"
+          >
+            确定
+          </el-button>
+          <el-button
+            v-else
+            type="primary"
+            size="small"
+            icon="el-icon-edit"
+            @click="edit.birthday=!edit.birthday"
+          >
+            编辑
+          </el-button>
+        </el-col>
+        <el-col :span="2">
+          身份证号：
+        </el-col>
+        <el-col :span="8">
+          <template v-if="edit.idNumber">
+            <el-input v-model="userInfo.idNumber" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-button
+              class="cancel-btn"
+              size="small"
+              type="warning"
+              icon="el-icon-close"
+              @click="cancelEdit('idNumber')"
+            >
+              关闭
+            </el-button>
+          </template>
+          <span v-else>{{ userInfo.idNumber || '点击编辑修改身份证号' }}</span>
+        </el-col>
+        <el-col :span="2">
+          <el-button
+            v-if="edit.idNumber"
+            type="success"
+            size="small"
+            icon="el-icon-check"
+            @click="confirmEdit('idNumber')"
+          >
+            确定
+          </el-button>
+          <el-button
+            v-else
+            type="primary"
+            size="small"
+            icon="el-icon-edit"
+            @click="edit.idNumber=!edit.idNumber"
+          >
+            编辑
+          </el-button>
+        </el-col>
+      </el-row>
+      <el-row style="line-height: 50px;text-align: center;width: 100%;">
+        <el-col :span="2">
+          QQ：
+        </el-col>
+        <el-col :span="8">
+          <template v-if="edit.qq">
+            <el-input v-model="userInfo.qq" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-button
+              class="cancel-btn"
+              size="small"
+              type="warning"
+              icon="el-icon-close"
+              @click="cancelEdit('qq')"
+            >
+              关闭
+            </el-button>
+          </template>
+          <span v-else>{{ userInfo.qq || '点击编辑修改QQ号码' }}</span>
+        </el-col>
+        <el-col :span="2">
+          <el-button
+            v-if="edit.qq"
+            type="success"
+            size="small"
+            icon="el-icon-check"
+            @click="confirmEdit('qq')"
+          >
+            确定
+          </el-button>
+          <el-button
+            v-else
+            type="primary"
+            size="small"
+            icon="el-icon-edit"
+            @click="edit.qq=!edit.qq"
+          >
+            编辑
+          </el-button>
+        </el-col>
+        <el-col :span="2">
+          微信：
+        </el-col>
+        <el-col :span="8">
+          <template v-if="edit.weChat">
+            <el-input v-model="userInfo.weChat" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-button
+              class="cancel-btn"
+              size="small"
+              type="warning"
+              icon="el-icon-close"
+              @click="cancelEdit('weChat')"
+            >
+              关闭
+            </el-button>
+          </template>
+          <span v-else>{{ userInfo.weChat || '点击编辑修改微信号码' }}</span>
+        </el-col>
+        <el-col :span="2">
+          <el-button
+            v-if="edit.weChat"
+            type="success"
+            size="small"
+            icon="el-icon-check"
+            @click="confirmEdit('weChat')"
+          >
+            确定
+          </el-button>
+          <el-button
+            v-else
+            type="primary"
+            size="small"
+            icon="el-icon-edit"
+            @click="edit.weChat=!edit.weChat"
+          >
+            编辑
+          </el-button>
+        </el-col>
       </el-row>
     </el-card>
   </div>
 </template>
 <script>
-import { getAvatar, uploadAvatar } from '@/api/setting/user-info'
+import { getInfo, updateUserInfo, uploadAvatar } from '@/api/setting/user-info'
 export default {
   name: 'UserInfo',
+  filters: {
+    genderFilter(genderValue) {
+      if (genderValue === null) {
+        return '点击编辑修改性别'
+      }
+      if (genderValue) {
+        return '男'
+      } else {
+        return '女'
+      }
+    }
+  },
   data() {
     return {
       file: null,
       dialogImageUrl: '',
       dialogVisible: false,
       disabled: false,
-      avatar: '',
-      userInfo: {
-        name: '何任鹏',
-        gender: '男'
-      },
+      userInfo: {},
+      sourceUserInfo: {},
       edit: {
         name: false,
-        gender: false
+        gender: false,
+        mobile: false,
+        mail: false,
+        qq: false,
+        weChat: false,
+        birthday: false,
+        idNumber: false
       }
     }
   },
   created() {
-    this.getAvatar()
+    this.getInfo()
   },
   methods: {
-    getAvatar() {
-      getAvatar().then(res => {
-        this.avatar = res.data
+    getInfo() {
+      getInfo().then(res => {
+        this.sourceUserInfo = Object.assign({}, res.data)
+        this.userInfo = res.data
       })
     },
     uploadAvatar() {
@@ -117,7 +397,7 @@ export default {
         type: 'warning'
       }).then(() => {
         uploadAvatar(this.file).then(res => {
-          this.avatar = res.data
+          this.userInfo.avatar = res.data
         })
       }).catch(() => {
         this.$message({
@@ -143,10 +423,20 @@ export default {
       })
     },
     cancelEdit(key) {
+      this.userInfo[key] = this.sourceUserInfo[key]
       this.edit[key] = !this.edit[key]
     },
     confirmEdit(key) {
       this.edit[key] = !this.edit[key]
+      updateUserInfo(this.userInfo).then(res => {
+        this.$notify({
+          title: '成功',
+          message: res.message,
+          type: 'success',
+          duration: 2000
+        })
+        this.getInfo()
+      })
     }
   }
 }

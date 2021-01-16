@@ -7,7 +7,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <el-avatar>{{ username }}</el-avatar>
+          <el-avatar :src="avatar">{{ username }}</el-avatar>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
@@ -36,7 +36,8 @@ export default {
   },
   data() {
     return {
-      username: this.$store.state.user.username
+      username: this.$store.state.user.username,
+      avatar: this.$store.state.user.avatar
     }
   },
   computed: {
