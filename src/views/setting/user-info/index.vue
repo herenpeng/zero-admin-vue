@@ -198,9 +198,20 @@
             <el-date-picker
               v-model="userInfo.birthday"
               type="date"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              placeholder="选择出生日期">
-            </el-date-picker>
+              value-format="yyyy-MM-dd"
+              placeholder="选择出生日期"
+              :picker-options="pickerOptions"
+              style="width: 300px;margin-right: 30px;"
+            />
+            <el-button
+              class="cancel-btn"
+              size="small"
+              type="warning"
+              icon="el-icon-close"
+              @click="cancelEdit('birthday')"
+            >
+              关闭
+            </el-button>
           </template>
           <span v-else>{{ userInfo.birthday || '点击编辑修改出生日期' }}</span>
         </el-col>
@@ -377,6 +388,12 @@ export default {
         weChat: false,
         birthday: false,
         idNumber: false
+      },
+      pickerOptions: {
+        disabledDate(time) {
+          // 如果没有后面的-8.64e6就是不可以选择今天的
+          return time.getTime() > Date.now() - 8.64e6
+        }
       }
     }
   },
