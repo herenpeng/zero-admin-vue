@@ -26,3 +26,19 @@ export function getAvatar() {
 export function uploadAvatar(file) {
   return fileUpload('/user/info/avatar', file)
 }
+
+export function sendVerifyMail(mail) {
+  return request({
+    url: '/user/info/mail/verify/send',
+    method: 'post',
+    params: { mail }
+  })
+}
+
+export function verifyMail(mail, verify) {
+  return request({
+    url: '/user/info/mail/verify',
+    method: 'post',
+    params: { mail, verify }
+  })
+}

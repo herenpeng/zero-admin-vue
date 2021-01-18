@@ -174,7 +174,7 @@
             type="success"
             size="small"
             icon="el-icon-check"
-            @click="confirmEdit('mail')"
+            @click="sendVerifyMail()"
           >
             确定
           </el-button>
@@ -353,10 +353,22 @@
         </el-col>
       </el-row>
     </el-card>
+
+    <el-dialog
+      title="邮件验证"
+      :visible.sync="verifyMailDialogVisible"
+      width="30%"
+    >
+      <el-input v-model="verify" class="edit-input" size="medium" placeholder="请输入邮箱验证码" />
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="verifyMailDialogVisible = false; cancelEdit('mail')">取 消</el-button>
+        <el-button type="primary" @click="verifyMail">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { getInfo, updateUserInfo, uploadAvatar } from '@/api/setting/user-info'
+import { getInfo, updateUserInfo, uploadAvatar, sendVerifyMail, verifyMail } from '@/api/setting/user-info'
 export default {
   name: 'UserInfo',
   filters: {
@@ -394,7 +406,9 @@ export default {
           // 如果没有后面的-8.64e6就是不可以选择今天的
           return time.getTime() > Date.now() - 8.64e6
         }
-      }
+      },
+      verifyMailDialogVisible: false,
+      verify: null
     }
   },
   created() {
@@ -453,6 +467,44 @@ export default {
           duration: 2000
         })
         this.getInfo()
+      })
+    },
+    sendVerifyMail() {
+      if (!this.userInfo.mail) {
+        this.$message({
+          type: 'warning',
+          message: '电子邮箱不允许为空，请输入电子邮箱'
+        })
+        return
+      }
+      this.verifyMailDialogVisible = true
+      sendVerifyMail(this.userInfo.mail).then(res => {
+        if (res.data) {
+          this.$message({
+            type: 'success',
+            message: '邮箱验证码邮件发送成功，请注意查收'
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: '邮箱验证码邮件发送失败，请重新发送'
+          })
+        }
+      })
+    },
+    verifyMail() {
+      verifyMail(this.userInfo.mail, this.verify).then(res => {
+        this.verify = null
+        this.verifyMailDialogVisible = false
+        if (res.data) {
+          this.confirmEdit('mail')
+        } else {
+          this.$message({
+            type: 'error',
+            message: '邮箱验证码错误，验证失败'
+          })
+          this.cancelEdit('mail')
+        }
       })
     }
   }
