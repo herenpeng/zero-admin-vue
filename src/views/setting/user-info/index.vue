@@ -458,6 +458,10 @@ export default {
       this.edit[key] = !this.edit[key]
     },
     confirmEdit(key) {
+      if (this.userInfo[key] === this.sourceUserInfo[key]) {
+        this.cancelEdit(key)
+        return
+      }
       this.edit[key] = !this.edit[key]
       updateUserInfo(this.userInfo).then(res => {
         this.$notify({
@@ -475,6 +479,10 @@ export default {
           type: 'warning',
           message: '电子邮箱不允许为空，请输入电子邮箱'
         })
+        return
+      }
+      if (this.userInfo.mail === this.sourceUserInfo.mail) {
+        this.cancelEdit('mail')
         return
       }
       this.verifyMailDialogVisible = true
