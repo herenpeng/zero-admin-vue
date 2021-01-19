@@ -369,6 +369,8 @@
 </template>
 <script>
 import { getInfo, updateUserInfo, uploadAvatar, sendVerifyMail, verifyMail } from '@/api/setting/user-info'
+import store from '@/store'
+
 export default {
   name: 'UserInfo',
   filters: {
@@ -422,13 +424,27 @@ export default {
       })
     },
     uploadAvatar() {
+      if (this.file === null) {
+        this.$message({
+          type: 'info',
+          message: '请选择需要上传的图片'
+        })
+        return
+      }
       this.$confirm('上传该图片作为头像, 将会覆盖原头像, 是否继续?', '提示', {
         confirmButtonText: '继续上传',
         cancelButtonText: '取消上传',
         type: 'warning'
       }).then(() => {
-        uploadAvatar(this.file).then(res => {
+        uploadAvatar(this.file).then(async(res) => {
+          this.$notify({
+            title: '成功',
+            message: '头像上传成功',
+            type: 'success',
+            duration: 2000
+          })
           this.userInfo.avatar = res.data
+          await store.dispatch('user/resetAvatar', this.userInfo.avatar)
         })
       }).catch(() => {
         this.$message({

@@ -34,17 +34,17 @@ export default {
     Breadcrumb,
     Hamburger
   },
-  data() {
-    return {
-      username: this.$store.state.user.username,
-      avatar: this.$store.state.user.avatar
-    }
-  },
   computed: {
     ...mapGetters([
       'sidebar',
+      'username',
       'avatar'
     ])
+  },
+  watch: {
+    avatar(newValue, oldValue) {
+      this.avatar = newValue
+    }
   },
   methods: {
     toggleSideBar() {
