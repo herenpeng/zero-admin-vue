@@ -47,20 +47,26 @@
       </el-button>
 
       <div class="tips" style="text-align: right;">
-        <span>忘记密码</span>
+        <el-link style="margin-right: 10px;">忘记密码</el-link>
+        <el-link @click="showDialog=true">第三方登录</el-link>
       </div>
 
     </el-form>
+
+    <el-dialog title="第三方登录" :visible.sync="showDialog">
+      <third-part-login />
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { setToken } from '@/utils/auth'
-import { login } from '@/api/login'
+import ThirdPartLogin from './components/ThirdPartLogin'
 
 export default {
   name: 'Login',
+  components: { ThirdPartLogin },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -87,7 +93,8 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      showDialog: false
     }
   },
   watch: {
