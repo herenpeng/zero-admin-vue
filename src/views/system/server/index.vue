@@ -267,17 +267,13 @@ export default {
       const _this = this
       if (supportWebSocket()) {
         this.websocket = connectWebSocket('/websocket/server/piechart',
-          function() {
-
-          },
+          function() {},
           function(evt) {
             _this.pieChart = JSON.parse(evt.data)
           },
+          function() {},
           function() {
-
-          },
-          function() {
-            console.log('连接错误')
+            console.log('WebSocket连接错误')
           })
       } else {
         getServerPieChartInfo().then(res => {
