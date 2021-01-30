@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.username" placeholder="操作用户" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.queryUsername" placeholder="操作用户" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-date-picker
@@ -69,7 +69,7 @@
       <el-table-column label="序号" type="index" align="center" width="80" />
       <el-table-column label="操作用户" width="150px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.username }}</span>
+          <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="访问时间" width="200px" align="center" sortable prop="accessTime">
@@ -146,10 +146,10 @@ export default {
       listLoading: false,
       queryDate: null,
       listQuery: {
-        username: null,
         ip: null,
         uri: null,
         methodType: null,
+        queryUsername: null,
         queryStartDate: null,
         queryEndDate: null
       },
