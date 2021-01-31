@@ -15,7 +15,7 @@
         <el-option value="PUT" label="PUT" />
         <el-option value="DELETE" label="DELETE" />
       </el-select>
-      <el-select v-model="listQuery.roleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
+      <el-select v-model="listQuery.queryRoleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
                  class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
       >
         <el-option
@@ -180,7 +180,7 @@ export default {
         uri: null,
         description: null,
         methodType: null,
-        roleId: null
+        queryRoleId: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
       resources: {

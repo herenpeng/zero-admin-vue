@@ -29,7 +29,7 @@
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.roleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
+      <el-select v-model="listQuery.queryRoleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
                  class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
       >
         <el-option
@@ -259,7 +259,7 @@ export default {
         locked: null,
         accountExpire: null,
         passwordExpire: null,
-        roleId: null
+        queryRoleId: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
       user: {

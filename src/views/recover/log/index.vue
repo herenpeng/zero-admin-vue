@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.username" placeholder="操作用户" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.queryUsername" placeholder="操作用户" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-date-picker
@@ -149,10 +149,10 @@ export default {
       listLoading: false,
       queryDate: null,
       listQuery: {
-        username: null,
         ip: null,
         uri: null,
         methodType: null,
+        queryUsername: null,
         queryStartDate: null,
         queryEndDate: null
       },
