@@ -351,7 +351,6 @@ export default {
         if (valid) {
           updateMenu(this.menu).then((res) => {
             this.dialogFormVisible = false
-            console.log(this.dialogFormVisible)
             this.$notify({
               title: '成功',
               message: res.message,

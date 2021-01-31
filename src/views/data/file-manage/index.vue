@@ -1,15 +1,18 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.metaTitle" placeholder="文件名称" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.name" placeholder="文件名称" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.enabled" placeholder="文件类型" clearable style="width: 120px" class="filter-item"
+      <el-select v-model="listQuery.type" placeholder="文件类型" clearable style="width: 120px" class="filter-item"
                  @change="handleFilter"
       >
-        <el-option value="image" label="图片" />
-        <el-option value="pdf" label="PDF" />
+        <el-option value="IMAGE" label="图片" />
+        <el-option value="PDF" label="PDF" />
       </el-select>
+      <el-input v-model="listQuery.queryUsername" placeholder="上传用户" style="width: 200px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
       <el-date-picker
         v-model="queryDate"
         type="daterange"
@@ -55,70 +58,33 @@
       fit
       size="mini"
       style="width: 100%;"
-      :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+      :tree-props="{children: 'backupFiles', hasChildren: 'hasChildren'}"
       @sort-change="sortChange"
     >
       <el-table-column label="序号" sortable="true" align="center" width="80" />
-      <el-table-column label="菜单名称" width="120">
-        <template slot-scope="{row}">
-          <span :style="{'font-weight': row.parentId === 0 ? 'bolder' : '','padding-left': row.parentId !== 0 ? '10px' : ''}">
-            <i :class="row.metaIcon" />
-            {{ row.metaTitle }}
-          </span>
-        </template>
-      </el-table-column>
-      <el-table-column label="菜单路由路径" width="100">
-        <template slot-scope="{row}">
-          <span>{{ row.path }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="菜单模块名称" width="100">
+      <el-table-column label="文件名称" width="200">
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单模块路径" width="135">
+      <el-table-column label="文件类型" width="80">
         <template slot-scope="{row}">
-          <span>{{ row.component }}</span>
+          <span>{{ row.type }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="上传时间" width="150">
+        <template slot-scope="{row}">
+          <span>{{ row.uploadTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="上传用户" width="135">
+        <template slot-scope="{row}">
+          <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="是否启用" width="70" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.enabled | enabledFilter }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="菜单排序" width="70" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.sort }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="菜单角色" class-name="status-col" width="265px">
-        <template slot-scope="{row}">
-          <el-tag
-            v-for="(role,index) in row.roles"
-            :key="index"
-            closable
-            :type="tagType[role.id]"
-            style="margin-right: 3px;border-radius: 15px;"
-            :title="role.description"
-            size="mini"
-            @close="deleteMenuRole(row.id, role.id)"
-          >
-            {{ role.name }}
-          </el-tag>
-          <el-dropdown trigger="click" @command="addMenuRole(row.id, $event)">
-            <el-button style="border-radius: 20px;" size="mini" @click="getMenuNotRoleList(row.id)">+</el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                v-for="(role,index) in roleList"
-                :key="index"
-                size="mini"
-                :title="role.description"
-                :command="role.id"
-              >{{ role.name }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="left" class-name="small-padding fixed-width">
@@ -148,35 +114,24 @@
     />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="60%">
-      <el-form ref="dataForm" :rules="rules" :model="menu" label-position="left" label-width="180px"
+      <el-form ref="dataForm" :rules="rules" :model="fileManage" label-position="left" label-width="180px"
                style="width: 800px; margin-left:50px;" :inline="true"
       >
-        <el-form-item label="菜单名称" prop="metaTitle">
-          <el-input v-model="menu.metaTitle" placeholder="请输入菜单名称" />
+        <el-form-item label="文件名称" prop="name">
+          <el-input v-model="fileManage.name" placeholder="请输入菜单名称" />
         </el-form-item>
-        <el-form-item label="菜单路由路径" prop="path">
-          <el-input v-model="menu.path" placeholder="请输入菜单路由路径" />
+        <el-form-item label="文件类型" prop="type">
+          <el-input v-model="fileManage.type" placeholder="请输入菜单路由路径" />
         </el-form-item>
         <el-form-item label="菜单模块名称" prop="name">
-          <el-input v-model="menu.name" placeholder="请输入菜单模块名称" />
-        </el-form-item>
-        <el-form-item label="菜单模块路径" prop="component">
-          <el-input v-model="menu.component" placeholder="请输入菜单模块路径" :disabled="menu.parentId === 0" />
-        </el-form-item>
-        <el-form-item label="菜单图标" prop="metaIcon">
-          <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" style="width: 190px;" readonly>
-            <template slot="append"><i class="el-icon-s-operation" @click="drawer = true" /></template>
-          </el-input>
-        </el-form-item>
-        <el-form-item v-if="menu.parentId === 0" label="父级菜单定向路由路径" prop="redirect">
-          <el-input v-model="menu.redirect" placeholder="请输入父级菜单定向路由路径" />
+          <el-input v-model="fileManage.name" placeholder="请输入菜单模块名称" />
         </el-form-item>
         <el-form-item label="菜单排序" prop="sort">
-          <el-input v-model="menu.sort" placeholder="请输入菜单排序" />
+          <el-input v-model="fileManage.sort" placeholder="请输入菜单排序" />
         </el-form-item>
         <el-form-item label="是否启用" prop="enabled">
           <el-switch
-            v-model="menu.enabled"
+            v-model="fileManage.enabled"
             active-text="启用"
             inactive-text="禁用"
           />
@@ -193,20 +148,15 @@
 <script>
 import Pagination from '@/components/Pagination/index'
 import {
-  getMenuPage,
-  createMenu,
-  enabled,
-  deleteMenu,
-  deleteMenuRole,
-  updateMenu,
-  getMenuNotRoleList,
-  addMenuRole,
-  exportMenuExcel
-} from '@/api/data/menu'
-import { getRoleList } from '@/api/data/role'
+  getFileManagePage,
+  createFileManage,
+  updateFileManage,
+  deleteFileManage,
+  exportFileManageExcel
+} from '@/api/data/file-manage'
 
 export default {
-  name: 'File',
+  name: 'FileManage',
   components: { Pagination },
   filters: {
     enabledFilter(enabledValue) {
@@ -227,25 +177,24 @@ export default {
         total: 0
       },
       listLoading: false,
+      queryDate: null,
       listQuery: {
-        path: null,
         name: null,
-        component: null,
-        metaTitle: null,
-        enabled: null,
-        roleId: null
+        type: null,
+        queryUsername: null,
+        queryStartDate: null,
+        queryEndDate: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
-      menu: {
-        path: null,
+      fileManage: {
         name: null,
-        component: 'Layout',
-        metaTitle: null,
-        metaIcon: null,
-        redirect: null,
-        enabled: true,
-        sort: null,
-        parentId: 0
+        type: null,
+        uri: null,
+        path: null,
+        uploadTime: null,
+        uploadUserId: true,
+        parentId: 0,
+        user: null
       },
       roles: null,
       dialogFormVisible: false,
@@ -254,19 +203,17 @@ export default {
         create: '添加',
         update: '编辑'
       },
-      roleList: [],
       rules: {
-        metaTitle: [{ required: true, message: '请输入菜单名称', trigger: 'change' }],
-        path: [{ required: true, message: '请输入菜单路由路径', trigger: 'change' }],
-        name: [{ required: true, message: '请输入菜单模块名称', trigger: 'change' }],
-        component: [{ required: true, message: '请输入菜单模块路径', trigger: 'change' }],
-        metaIcon: [{ required: true, message: '请输入菜单图标', trigger: 'change' }],
-        redirect: [{ required: true, message: '请输入父级菜单定向路由路径', trigger: 'change' }],
-        sort: [{ required: true, message: '请输入菜单排序', trigger: 'change' }],
-        enabled: [{ required: true, message: '请选择菜单是否启用', trigger: 'change' }]
+        // metaTitle: [{ required: true, message: '请输入菜单名称', trigger: 'change' }],
+        // path: [{ required: true, message: '请输入菜单路由路径', trigger: 'change' }],
+        // name: [{ required: true, message: '请输入菜单模块名称', trigger: 'change' }],
+        // component: [{ required: true, message: '请输入菜单模块路径', trigger: 'change' }],
+        // metaIcon: [{ required: true, message: '请输入菜单图标', trigger: 'change' }],
+        // redirect: [{ required: true, message: '请输入父级菜单定向路由路径', trigger: 'change' }],
+        // sort: [{ required: true, message: '请输入菜单排序', trigger: 'change' }],
+        // enabled: [{ required: true, message: '请选择菜单是否启用', trigger: 'change' }]
       },
       downloadLoading: false,
-      drawer: false,
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -296,13 +243,24 @@ export default {
       }
     }
   },
+  watch: {
+    queryDate(newValue, oldValue) {
+      if (newValue === null) {
+        this.listQuery.queryStartDate = null
+        this.listQuery.queryEndDate = null
+      } else {
+        this.listQuery.queryStartDate = newValue[0]
+        this.listQuery.queryEndDate = newValue[1]
+      }
+    }
+  },
   created() {
     this.loadData()
   },
   methods: {
     loadData() {
       this.listLoading = true
-      getMenuPage(this.page, this.listQuery).then(res => {
+      getFileManagePage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -319,20 +277,10 @@ export default {
       this.page.size = page.limit
       this.loadData()
     },
-    enabled(row, value) {
-      enabled(row.id, value).then(res => {
-        row.enabled = value
-      })
-    },
     handleCreate(row) {
       if (row !== null) {
-        this.menu = {
+        this.fileManage = {
           parentId: row.id
-        }
-      } else {
-        this.menu = {
-          component: 'Layout',
-          parentId: 0
         }
       }
       this.dialogStatus = 'create'
@@ -344,7 +292,7 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          createMenu(this.menu).then((res) => {
+          createFileManage(this.fileManage).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
               title: '成功',
@@ -358,7 +306,8 @@ export default {
       })
     },
     handleUpdate(row) {
-      this.menu = Object.assign({}, row) // copy obj
+      // 复制一个新的对象
+      this.fileManage = Object.assign({}, row)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -368,9 +317,8 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          updateMenu(this.menu).then((res) => {
+          updateFileManage(this.fileManage).then((res) => {
             this.dialogFormVisible = false
-            console.log(this.dialogFormVisible)
             this.$notify({
               title: '成功',
               message: res.message,
@@ -383,12 +331,12 @@ export default {
       })
     },
     deleteData(row) {
-      this.$confirm('此操作将删除该菜单, 是否继续?', '提示', {
+      this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteMenu(row.id).then(res => {
+        deleteFileManage(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message
@@ -402,54 +350,12 @@ export default {
         })
       })
     },
-    deleteMenuRole(menuId, roleId) {
-      deleteMenuRole(menuId, roleId).then(res => {
-        this.$message({
-          type: 'success',
-          message: res.message
-        })
-        this.loadData()
-      })
-    },
-    getMenuNotRoleList(id) {
-      getMenuNotRoleList(id).then(res => {
-        const list = res.data
-        if (list.length === 0) {
-          this.roleList = null
-          this.$message({
-            type: 'warning',
-            message: '所有角色均已拥有该菜单，无法添加'
-          })
-        } else {
-          this.roleList = list
-        }
-      })
-    },
-    addMenuRole(menuId, roleId) {
-      addMenuRole(menuId, roleId).then(res => {
-        this.$message({
-          type: 'success',
-          message: res.message
-        })
-        this.loadData()
-      })
-    },
     handleFilter() {
       this.page.currentPage = 1
       this.loadData()
     },
-    getRoleList(callback) {
-      if (callback === true && this.roles === null) {
-        getRoleList(null).then(res => {
-          this.roles = res.data
-        })
-      }
-    },
     handleClose(done) {
       done()
-    },
-    selectIcon(icon) {
-      this.menu.metaIcon = icon
     },
     sortChange(data) {
       const { prop, order } = data
@@ -466,7 +372,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportMenuExcel(this.listQuery, '系统菜单列表')
+      exportFileManageExcel(this.listQuery, '文件管理列表')
     }
   }
 }
