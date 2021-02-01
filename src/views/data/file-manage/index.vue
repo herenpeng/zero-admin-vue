@@ -58,7 +58,7 @@
       fit
       size="mini"
       style="width: 100%;"
-      :tree-props="{children: 'backupFiles', hasChildren: 'hasChildren'}"
+      :tree-props="{children: 'bakFiles', hasChildren: 'hasChildren'}"
       @sort-change="sortChange"
     >
       <el-table-column label="序号" sortable="true" align="center" width="80" />
@@ -82,13 +82,16 @@
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="70" align="center">
+      <el-table-column label="查看" width="70" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.user.username }}</span>
+          <span><el-link type="success" @click="view(row)">查看</el-link></span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="left" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
+          <el-button type="success" size="mini" icon="el-icon-check" @click="bakData(row)" v-if="row.parentId === 0">
+            备份
+          </el-button>
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
           </el-button>
@@ -101,7 +104,6 @@
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
           </el-button>
-          <el-button v-if="row.parentId === 0" size="mini" type="warning" icon="el-icon-circle-plus-outline" @click="handleCreate(row)" />
         </template>
       </el-table-column>
     </el-table>
@@ -118,10 +120,10 @@
                style="width: 800px; margin-left:50px;" :inline="true"
       >
         <el-form-item label="文件名称" prop="name">
-          <el-input v-model="fileManage.name" placeholder="请输入菜单名称" />
+          <el-input v-model="fileManage.name" placeholder="请输入文件名称" />
         </el-form-item>
         <el-form-item label="文件类型" prop="type">
-          <el-input v-model="fileManage.type" placeholder="请输入菜单路由路径" />
+          <el-input v-model="fileManage.type" placeholder="请输入文件类型" />
         </el-form-item>
         <el-form-item label="菜单模块名称" prop="name">
           <el-input v-model="fileManage.name" placeholder="请输入菜单模块名称" />
@@ -143,6 +145,10 @@
       </div>
     </el-dialog>
 
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="">
+    </el-dialog>
+
   </div>
 </template>
 <script>
@@ -151,6 +157,7 @@ import {
   getFileManagePage,
   createFileManage,
   updateFileManage,
+  bakFileManage,
   deleteFileManage,
   exportFileManageExcel
 } from '@/api/data/file-manage'
@@ -240,7 +247,9 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }]
-      }
+      },
+      dialogVisible: false,
+      dialogImageUrl: null
     }
   },
   watch: {
@@ -330,6 +339,26 @@ export default {
         }
       })
     },
+    bakData(row) {
+      this.$confirm('此操作将备份该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        bakFileManage(row.id).then(res => {
+          this.$message({
+            type: 'success',
+            message: res.message
+          })
+          this.loadData()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消备份'
+        })
+      })
+    },
     deleteData(row) {
       this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -349,6 +378,10 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+    view(row) {
+      this.dialogVisible = true
+      this.dialogImageUrl = row.uri
     },
     handleFilter() {
       this.page.currentPage = 1

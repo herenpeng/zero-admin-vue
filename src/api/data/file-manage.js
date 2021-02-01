@@ -26,6 +26,13 @@ export function updateFileManage(fileManage) {
   })
 }
 
+export function bakFileManage(id) {
+  return request({
+    url: '/file/manage/bak/' + id,
+    method: 'post'
+  })
+}
+
 export function deleteFileManage(id) {
   return request({
     url: '/file/manage/' + id,
