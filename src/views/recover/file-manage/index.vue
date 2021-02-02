@@ -27,11 +27,6 @@
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
-                 @click="handleCreate(null)"
-      >
-        添加
-      </el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
                  @click="handleDownload"
       >
@@ -51,7 +46,7 @@
       :tree-props="{children: 'bakFiles', hasChildren: 'hasChildren'}"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" sortable="true" align="center" width="80" />
+      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
       <el-table-column label="文件名称" width="300">
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
@@ -79,20 +74,11 @@
       </el-table-column>
       <el-table-column label="操作" align="left" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="success" size="mini" icon="el-icon-check" @click="bakData(row)" v-if="row.parentId === 0">
-            备份
+          <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
+            数据恢复
           </el-button>
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
-            编辑
-          </el-button>
-          <el-button v-if="row.enabled === false" icon="el-icon-check" size="mini" type="success" @click="enabled(row, true)">
-            启用
-          </el-button>
-          <el-button v-if="row.enabled === true" icon="el-icon-close" size="mini" @click="enabled(row, false)">
-            禁用
-          </el-button>
-          <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
-            删除
+          <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleRecoverDelete(row)">
+            彻底删除
           </el-button>
         </template>
       </el-table-column>
@@ -105,36 +91,6 @@
                 @pagination="handlePagination"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="60%">
-      <el-form ref="dataForm" :rules="rules" :model="fileManage" label-position="left" label-width="180px"
-               style="width: 800px; margin-left:50px;" :inline="true"
-      >
-        <el-form-item label="文件名称" prop="name">
-          <el-input v-model="fileManage.name" placeholder="请输入文件名称" />
-        </el-form-item>
-        <el-form-item label="文件类型" prop="type">
-          <el-input v-model="fileManage.type" placeholder="请输入文件类型" />
-        </el-form-item>
-        <el-form-item label="菜单模块名称" prop="name">
-          <el-input v-model="fileManage.name" placeholder="请输入菜单模块名称" />
-        </el-form-item>
-        <el-form-item label="菜单排序" prop="sort">
-          <el-input v-model="fileManage.sort" placeholder="请输入菜单排序" />
-        </el-form-item>
-        <el-form-item label="是否启用" prop="enabled">
-          <el-switch
-            v-model="fileManage.enabled"
-            active-text="启用"
-            inactive-text="禁用"
-          />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">关闭</el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">保存</el-button>
-      </div>
-    </el-dialog>
-
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
@@ -143,27 +99,11 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination/index'
-import {
-  getFileManagePage,
-  createFileManage,
-  updateFileManage,
-  bakFileManage,
-  deleteFileManage,
-  exportFileManageExcel
-} from '@/api/data/file-manage'
+import { getFileManageRecoverPage, recoverFileManage, recoverDeleteFileManage } from '@/api/data/file-manage'
 
 export default {
   name: 'FileManage',
   components: { Pagination },
-  filters: {
-    enabledFilter(enabledValue) {
-      if (enabledValue) {
-        return '启用'
-      } else {
-        return '禁用'
-      }
-    }
-  },
   data() {
     return {
       tableKey: 0,
@@ -183,33 +123,6 @@ export default {
         queryEndDate: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
-      fileManage: {
-        name: null,
-        type: null,
-        uri: null,
-        path: null,
-        uploadTime: null,
-        uploadUserId: true,
-        parentId: 0,
-        user: null
-      },
-      roles: null,
-      dialogFormVisible: false,
-      dialogStatus: '',
-      textMap: {
-        create: '添加',
-        update: '编辑'
-      },
-      rules: {
-        // metaTitle: [{ required: true, message: '请输入菜单名称', trigger: 'change' }],
-        // path: [{ required: true, message: '请输入菜单路由路径', trigger: 'change' }],
-        // name: [{ required: true, message: '请输入菜单模块名称', trigger: 'change' }],
-        // component: [{ required: true, message: '请输入菜单模块路径', trigger: 'change' }],
-        // metaIcon: [{ required: true, message: '请输入菜单图标', trigger: 'change' }],
-        // redirect: [{ required: true, message: '请输入父级菜单定向路由路径', trigger: 'change' }],
-        // sort: [{ required: true, message: '请输入菜单排序', trigger: 'change' }],
-        // enabled: [{ required: true, message: '请选择菜单是否启用', trigger: 'change' }]
-      },
       downloadLoading: false,
       pickerOptions: {
         shortcuts: [{
@@ -259,7 +172,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getFileManagePage(this.page, this.listQuery).then(res => {
+      getFileManageRecoverPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -276,86 +189,18 @@ export default {
       this.page.size = page.limit
       this.loadData()
     },
-    handleCreate(row) {
-      if (row !== null) {
-        this.fileManage = {
-          parentId: row.id
-        }
-      }
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
+    handleRecover(row) {
+      recoverFileManage(row.id).then(res => {
+        this.loadData()
       })
     },
-    createData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          createFileManage(this.fileManage).then((res) => {
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: res.message,
-              type: 'success',
-              duration: 2000
-            })
-            this.loadData()
-          })
-        }
-      })
-    },
-    handleUpdate(row) {
-      // 复制一个新的对象
-      this.fileManage = Object.assign({}, row)
-      this.dialogStatus = 'update'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          updateFileManage(this.fileManage).then((res) => {
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: res.message,
-              type: 'success',
-              duration: 2000
-            })
-            this.loadData()
-          })
-        }
-      })
-    },
-    bakData(row) {
-      this.$confirm('此操作将备份该文件, 是否继续?', '提示', {
+    handleRecoverDelete(row) {
+      this.$confirm('此操作将彻底删除该文件, 数据将不可恢复, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        bakFileManage(row.id).then(res => {
-          this.$message({
-            type: 'success',
-            message: res.message
-          })
-          this.loadData()
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消备份'
-        })
-      })
-    },
-    deleteData(row) {
-      this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleteFileManage(row.id).then(res => {
+        recoverDeleteFileManage(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message
@@ -392,7 +237,18 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportFileManageExcel(this.listQuery, '文件管理列表')
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
+        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
+        const data = this.formatJson(filterVal)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: 'table-list'
+        })
+        this.downloadLoading = false
+      })
     }
   }
 }

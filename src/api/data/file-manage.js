@@ -40,7 +40,6 @@ export function deleteFileManage(id) {
   })
 }
 
-
 export function getFileManageRecoverPage(page, query) {
   query.size = page.size
   return request({

@@ -430,6 +430,7 @@ export default {
     },
     selectIcon(icon) {
       this.menu.metaIcon = icon
+      this.drawer = false
     },
     sortChange(data) {
       const { prop, order } = data
