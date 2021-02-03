@@ -122,7 +122,6 @@ export default {
         queryStartDate: null,
         queryEndDate: null
       },
-      tagType: ['', 'success', 'info', 'warning', 'danger'],
       downloadLoading: false,
       pickerOptions: {
         shortcuts: [{

@@ -2,15 +2,17 @@ import axios from 'axios'
 import { getToken } from '@/utils/auth'
 import { Message } from 'element-ui'
 
-export function fileUpload(path, file) {
+export function fileUpload(path, file, data) {
   return new Promise((resolve, reject) => {
     const formData = new FormData()
     formData.append('file', file)
+    if (typeof data === 'object') {
+      for (const key in data) {
+        formData.append(key, data[key])
+      }
+    }
     axios.defaults.headers.common['accessToken'] = getToken()
     axios.defaults.headers.common['Content-Type'] = 'multipart/form-data'
-    // axios.post(process.env.VUE_APP_BASE_HTTP_API + path, formData).then(res => {
-    //   console.log(res.data)
-    // })
     axios({
       url: process.env.VUE_APP_BASE_HTTP_API + path,
       method: 'post',

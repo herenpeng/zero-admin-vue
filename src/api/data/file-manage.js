@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import { exportExcel } from '@/utils/export-file'
+import { fileUpload } from '@/utils/file-upload'
 
 export function getFileManagePage(page, query) {
   query.size = page.size
@@ -31,6 +32,10 @@ export function bakFileManage(id) {
     url: '/file/manage/bak/' + id,
     method: 'post'
   })
+}
+
+export function replaceFile(id, file) {
+  return fileUpload('/file/manage/replace', file, { id })
 }
 
 export function deleteFileManage(id) {
