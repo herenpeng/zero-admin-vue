@@ -90,7 +90,13 @@
           <span>{{ row.passwordExpire | expireFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户角色" class-name="status-col" width="300px">
+      <el-table-column label="账号状态" width="80px" align="center">
+        <template slot-scope="{row}">
+          <span v-if="row.onlineLoginLogs.length === 0"><el-link type="info" :underline="false">未登录</el-link></span>
+          <span v-else><el-link type="success" @click="loginLog(row)">在线{{ row.onlineLoginLogs.length }}人</el-link></span>
+        </template>
+      </el-table-column>
+      <el-table-column label="用户角色" class-name="status-col">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -118,7 +124,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
@@ -185,6 +191,10 @@
       </div>
     </el-dialog>
 
+    <el-dialog title="在线账号" :visible.sync="loginLogDialogVisible" width="60%">
+      <login-log :onlineLoginLogs="onlineLoginLogs" @offline="offline"></login-log>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -203,10 +213,12 @@ import {
 } from '@/api/data/user'
 import { getRoleList } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
+import LoginLog from './components/LoginLog'
+import { offline, online } from '@/api/data/login-log'
 
 export default {
   name: 'User',
-  components: { Pagination },
+  components: { Pagination, LoginLog },
   filters: {
     enabledFilter(enabledValue) {
       if (enabledValue) {
@@ -285,7 +297,9 @@ export default {
           { validator: checkUsername, trigger: 'change' }
         ]
       },
-      downloadLoading: false
+      downloadLoading: false,
+      loginLogDialogVisible: false,
+      onlineLoginLogs: []
     }
   },
   created() {
@@ -430,6 +444,22 @@ export default {
           this.roles = res.data
         })
       }
+    },
+    loginLog(row) {
+      this.loginLogDialogVisible = true
+      this.onlineLoginLogs = row.onlineLoginLogs
+    },
+    offline(userId, tokenId) {
+      offline(userId, tokenId).then(res => {
+        online(userId).then(res => {
+          this.onlineLoginLogs = res.data
+          this.loadData()
+        })
+        this.$message({
+          type: 'success',
+          message: '该登入用户已下线'
+        })
+      })
     },
     sortChange(data) {
       const { prop, order } = data

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.queryUsername" placeholder="操作用户" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.queryUsername" placeholder="操作用户" style="width: 180px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-date-picker
@@ -22,12 +22,18 @@
                 @keyup.enter.native="handleFilter"
       />
       <el-select v-model="listQuery.methodType" placeholder="方法类型" clearable class="filter-item"
-                 style="width: 130px;margin-right: 10px;" @change="handleFilter"
+                 style="width: 110px;" @change="handleFilter"
       >
         <el-option value="GET" label="GET" />
         <el-option value="POST" label="POST" />
         <el-option value="PUT" label="PUT" />
         <el-option value="DELETE" label="DELETE" />
+      </el-select>
+      <el-select v-model="listQuery.result" placeholder="执行结果" clearable class="filter-item"
+                 style="width: 110px;margin-right: 10px;" @change="handleFilter"
+      >
+        <el-option value="true" label="成功" />
+        <el-option value="false" label="失败" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
@@ -100,8 +106,8 @@
       <el-table-column label="执行结果" width="80px" align="center">
         <template slot-scope="{row}">
           <span>
-            <el-button v-if="row.exceptionName == null" size="mini" type="success" icon="el-icon-check" circle />
-            <el-button v-if="row.exceptionName != null" size="mini" type="warning" icon="el-icon-message-solid" circle />
+            <el-button v-if="row.result" size="mini" type="success" icon="el-icon-check" circle />
+            <el-button v-else size="mini" type="warning" icon="el-icon-message-solid" circle />
           </span>
         </template>
       </el-table-column>
@@ -149,6 +155,7 @@ export default {
         ip: null,
         uri: null,
         methodType: null,
+        result: null,
         queryUsername: null,
         queryStartDate: null,
         queryEndDate: null

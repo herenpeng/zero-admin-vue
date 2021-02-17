@@ -45,7 +45,7 @@ service.interceptors.response.use(
       // 30000：登录错误
       if (res.code === 30000) {
         Message({
-          message: res.data.msg || '登录错误',
+          message: res.message || '登录错误',
           type: 'error',
           duration: 2 * 1000
         })
@@ -72,14 +72,6 @@ service.interceptors.response.use(
         })
         return res
       }
-      // 50000：系统错误
-      // if (res.code === 50000) {
-      //   Message({
-      //     message: res.message || '系统错误',
-      //     type: 'error',
-      //     duration: 2 * 1000
-      //   })
-      // }
       // 其他类型的异常信息在这里进行处理
       Message({
         message: res.message || '系统错误',
