@@ -214,7 +214,7 @@ import {
 import { getRoleList } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
 import LoginLog from './components/LoginLog'
-import { offline, online } from '@/api/data/login-log'
+import { offline, online } from '@/api/system/login-log'
 
 export default {
   name: 'User',
