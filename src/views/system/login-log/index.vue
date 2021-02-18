@@ -61,7 +61,7 @@
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登入IP地址" width="100px" align="center">
+      <el-table-column label="登入IP地址" width="120px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.ip }}</span>
         </template>
