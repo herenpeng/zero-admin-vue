@@ -9,6 +9,13 @@ export function getTableInfoPage(page, query) {
   })
 }
 
+export function getById(id) {
+  return request({
+    url: '/table/info/' + id,
+    method: 'get'
+  })
+}
+
 export function getNotAddList(id, value) {
   return request({
     url: '/table/info/not/list',

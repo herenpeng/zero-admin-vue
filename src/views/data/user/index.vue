@@ -92,8 +92,8 @@
       </el-table-column>
       <el-table-column label="账号状态" width="80px" align="center">
         <template slot-scope="{row}">
-          <span v-if="row.onlineLoginLogs.length === 0"><el-link type="info" :underline="false">未登录</el-link></span>
-          <span v-else><el-link type="success" @click="loginLog(row)">在线{{ row.onlineLoginLogs.length }}人</el-link></span>
+          <el-link v-if="row.onlineLoginLogs.length === 0" type="info" :underline="false" style="font-size: 12px;">未登录</el-link>
+          <el-link v-else type="success" @click="loginLog(row)" style="font-size: 12px;">在线{{ row.onlineLoginLogs.length }}人</el-link>
         </template>
       </el-table-column>
       <el-table-column label="用户角色" class-name="status-col">

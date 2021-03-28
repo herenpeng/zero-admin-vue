@@ -122,7 +122,6 @@ export default {
             this.loading = false
           })
         } else {
-          console.log('登录表单提交失败!!')
           return false
         }
       })

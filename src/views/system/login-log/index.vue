@@ -102,8 +102,9 @@
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
           </el-button>
-          <el-button size="mini" type="danger" icon="el-icon-thumb" @click="offline(row)"
-                     v-if="row.logout === false && Date.parse(row.logoutTime) > new Date()">
+          <el-button v-if="row.logout === false && Date.parse(row.logoutTime) > new Date()"
+                     size="mini" type="danger" icon="el-icon-thumb" @click="offline(row)"
+          >
             下线
           </el-button>
         </template>

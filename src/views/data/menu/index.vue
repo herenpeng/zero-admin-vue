@@ -57,7 +57,7 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" sortable="true" align="center" width="80" />
-      <el-table-column label="菜单名称" width="120">
+      <el-table-column label="菜单名称" width="110">
         <template slot-scope="{row}">
           <span :style="{'font-weight': row.parentId === 0 ? 'bolder' : '','padding-left': row.parentId !== 0 ? '10px' : ''}">
             <i :class="row.metaIcon" />
@@ -75,9 +75,14 @@
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单模块路径" width="135">
+      <el-table-column label="菜单模块路径" width="120">
         <template slot-scope="{row}">
           <span>{{ row.component }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否隐藏" width="70" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.hidden | hiddenFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="是否启用" width="70" align="center">
@@ -90,7 +95,7 @@
           <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单角色" class-name="status-col" width="265px">
+      <el-table-column label="菜单角色" class-name="status-col">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -119,7 +124,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="left" class-name="small-padding fixed-width" width="330px">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
@@ -172,8 +177,17 @@
         <el-form-item label="菜单排序" prop="sort">
           <el-input v-model="menu.sort" placeholder="请输入菜单排序" />
         </el-form-item>
+        <el-form-item label="是否隐藏" prop="enabled">
+          <el-switch
+            style="width: 190px"
+            v-model="menu.hidden"
+            active-text="隐藏"
+            inactive-text="显示"
+          />
+        </el-form-item>
         <el-form-item label="是否启用" prop="enabled">
           <el-switch
+            style="width: 190px"
             v-model="menu.enabled"
             active-text="启用"
             inactive-text="禁用"
@@ -223,6 +237,13 @@ export default {
       } else {
         return '禁用'
       }
+    },
+    hiddenFilter(hiddenValue) {
+      if (hiddenValue) {
+        return '隐藏'
+      } else {
+        return '显示'
+      }
     }
   },
   data() {
@@ -251,6 +272,7 @@ export default {
         metaTitle: null,
         metaIcon: null,
         redirect: null,
+        hidden: false,
         enabled: true,
         sort: null,
         parentId: 0
@@ -271,6 +293,7 @@ export default {
         metaIcon: [{ required: true, message: '请输入菜单图标', trigger: 'change' }],
         redirect: [{ required: true, message: '请输入父级菜单定向路由路径', trigger: 'change' }],
         sort: [{ required: true, message: '请输入菜单排序', trigger: 'change' }],
+        hidden: [{ required: true, message: '请选择菜单是否隐藏', trigger: 'change' }],
         enabled: [{ required: true, message: '请选择菜单是否启用', trigger: 'change' }]
       },
       downloadLoading: false,

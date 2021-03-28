@@ -69,7 +69,7 @@
       </el-table-column>
       <el-table-column label="查看" width="70" align="center">
         <template slot-scope="{row}">
-          <span><el-link type="success" @click="view(row)">查看</el-link></span>
+          <span><el-link type="success" @click="view(row)" style="font-size: 12px;">查看</el-link></span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="left" class-name="small-padding fixed-width">

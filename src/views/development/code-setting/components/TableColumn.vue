@@ -1,0 +1,199 @@
+<template>
+  <div>
+    <el-table
+      :key="tableKey"
+      v-loading="listLoading"
+      :data="list"
+      border
+      fit
+      size="mini"
+      style="width: 100%;"
+    >
+      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
+      <el-table-column label="字段名称" width="150px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Java属性名称" width="150px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.javaName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="字段类型" width="110px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.databaseType }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="JDBC类型" width="120px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.jdbcType }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Jave类型" width="120px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.javaType }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="字段注释" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.comment }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="字段排序顺序" width="80px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.sort }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="100px">
+        <template slot-scope="{row}">
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdateTableColumn(row)">
+            编辑
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <pagination v-show="page.total > 0"
+                :total="page.total"
+                :page="page.currentPage"
+                :limit="page.size"
+                @pagination="handlePagination"
+    />
+
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+      <el-form ref="dataForm" :rules="rules" :model="tableColumn" label-position="left" label-width="120px"
+               style="width: 400px; margin-left:50px;"
+      >
+        <el-form-item label="字段名称" prop="name">
+          <el-input v-model="tableColumn.name" placeholder="请输入字段名称" disabled="disabled" />
+        </el-form-item>
+        <el-form-item label="Java属性名称" prop="javaName">
+          <el-input v-model="tableColumn.javaName" placeholder="请输入Java属性名称" />
+        </el-form-item>
+        <el-form-item label="字段类型" prop="databaseType">
+          <el-input v-model="tableColumn.databaseType" placeholder="请输入字段类型" />
+        </el-form-item>
+        <el-form-item label="JDBC类型" prop="jdbcType">
+          <el-input v-model="tableColumn.jdbcType" placeholder="请输入JDBC类型" />
+        </el-form-item>
+        <el-form-item label="字段注释" prop="comment">
+          <el-input v-model="tableColumn.comment" placeholder="请输入字段注释" />
+        </el-form-item>
+        <el-form-item label="字段排序顺序" prop="sort">
+          <el-input v-model="tableColumn.sort" placeholder="请输入字段排序顺序" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">关闭</el-button>
+        <el-button type="primary" @click="updateTableColumn()">保存</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import Pagination from '@/components/Pagination'
+import { getTableColumnPage, updateTableColumn } from '@/api/development/code-setting'
+
+export default {
+  name: 'TableColumn',
+  components: { Pagination },
+  props: {
+    tableInfoId: {
+      type: Number,
+      default: null
+    }
+  },
+  data() {
+    return {
+      tableKey: 0,
+      list: null,
+      page: {
+        currentPage: 1,
+        size: 10,
+        total: 0
+      },
+      tableColumn: {
+        id: null,
+        name: null,
+        javaName: null,
+        databaseType: null,
+        jdbcType: null,
+        comment: null,
+        sort: null
+      },
+      listLoading: false,
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        create: '添加',
+        update: '编辑'
+      },
+      rules: {
+        name: [{ required: true, message: '请输入字段名称', trigger: 'change' }],
+        javaName: [{ required: true, message: '请输入Java属性名称', trigger: 'change' }],
+        databaseType: [{ required: true, message: '请输入字段类型', trigger: 'change' }],
+        jdbcType: [{ required: true, message: '请输入JDBC类型', trigger: 'change' }],
+        comment: [{ required: true, message: '请输入字段注释', trigger: 'change' }],
+        sort: [{ required: true, message: '请输入字段排序顺序', trigger: 'change' }]
+      }
+    }
+  },
+  watch: {
+    tableInfoId: function() {
+      this.getTableColumnPage()
+    }
+  },
+  methods: {
+    getTableColumnPage() {
+      this.listLoading = true
+      const tableInfoId = this.tableInfoId
+      getTableColumnPage(this.page, { tableInfoId }).then(res => {
+        setTimeout(() => {
+          if (this.listLoading === true) {
+            this.listLoading = false
+          }
+        }, 1000)
+        const page = res.data
+        this.list = page.records
+        this.page.total = page.total
+        this.listLoading = false
+      })
+    },
+    handlePagination(page) {
+      this.page.currentPage = page.page
+      this.page.size = page.limit
+      this.getTableColumnPage()
+    },
+    handleUpdateTableColumn(row) {
+      this.tableColumn = Object.assign({}, row)
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    updateTableColumn() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          updateTableColumn(this.tableColumn).then((res) => {
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: res.message,
+              type: 'success',
+              duration: 2000
+            })
+            this.getTableColumnPage()
+          })
+        }
+      })
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

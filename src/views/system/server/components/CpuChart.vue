@@ -24,7 +24,10 @@ export default {
       type: String,
       default: '320px'
     },
-    cpu: null
+    cpu: {
+      type: Object,
+      default: null
+    }
   },
   data() {
     return {

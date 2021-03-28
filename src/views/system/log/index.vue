@@ -103,6 +103,11 @@
           <span>{{ row.executionTime }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="请求参数" width="80px" align="center">
+        <template slot-scope="{row}">
+          <span><el-link type="success" @click="viewRequestArgs(row)" style="font-size: 12px;">查看</el-link></span>
+        </template>
+      </el-table-column>
       <el-table-column label="执行结果" width="80px" align="center">
         <template slot-scope="{row}">
           <span>
@@ -126,6 +131,11 @@
                 :limit="page.size"
                 @pagination="handlePagination"
     />
+
+    <el-dialog :visible.sync="dialogVisible">
+      <json-editor ref="jsonEditor" v-model="requestArgs"/>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -136,10 +146,11 @@ import {
   exportLogExcel
 } from '@/api/system/log'
 import Pagination from '@/components/Pagination'
+import JsonEditor from '@/components/JsonEditor'
 
 export default {
   name: 'Log',
-  components: { Pagination },
+  components: { Pagination, JsonEditor },
   data() {
     return {
       tableKey: 0,
@@ -188,7 +199,9 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }]
-      }
+      },
+      dialogVisible: false,
+      requestArgs: null
     }
   },
   watch: {
@@ -248,6 +261,10 @@ export default {
     handleFilter() {
       this.page.currentPage = 1
       this.loadData()
+    },
+    viewRequestArgs(row) {
+      this.dialogVisible = true
+      this.requestArgs = JSON.parse(row.requestArgs)
     },
     sortChange(data) {
       const { prop, order } = data

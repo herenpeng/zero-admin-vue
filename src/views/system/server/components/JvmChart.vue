@@ -24,7 +24,10 @@ export default {
       type: String,
       default: '320px'
     },
-    jvm: null
+    jvm: {
+      type: Object,
+      default: null
+    }
   },
   data() {
     return {

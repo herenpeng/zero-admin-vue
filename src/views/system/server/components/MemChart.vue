@@ -24,7 +24,10 @@ export default {
       type: String,
       default: '320px'
     },
-    mem: null
+    mem: {
+      type: Object,
+      default: null
+    }
   },
   data() {
     return {

@@ -13,7 +13,8 @@
       <el-input v-model="listQuery.basePackageName" placeholder="包前缀名称" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.codeAuthor" placeholder="代码作者" style="width: 150px;margin-right: 10px;" class="filter-item"
+      <el-input v-model="listQuery.codeAuthor" placeholder="代码作者" style="width: 150px;margin-right: 10px;"
+                class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
@@ -53,9 +54,14 @@
           <span>{{ row.comment }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="实体类名称" width="100px" align="center">
+      <el-table-column label="实体类名称" width="90px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.entityName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="类请求路径" width="90px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.requestMapping }}</span>
         </template>
       </el-table-column>
       <el-table-column label="包前缀名称" width="120px" align="center">
@@ -63,21 +69,23 @@
           <span>{{ row.basePackageName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="代码生成路径" width="200px" align="center">
+      <el-table-column label="代码生成路径" align="center">
         <template slot-scope="{row}">
           <span>{{ row.codeGenerationPath }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="代码作者" width="120px" align="center">
+      <el-table-column label="代码作者" width="100px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.codeAuthor }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
-            编辑
-          </el-button>
+          <router-link :to="{path:'/development/code-setting',query: {id: row.id}}" style="margin-right: 10px">
+            <el-button type="primary" size="mini" icon="el-icon-edit">
+              编辑
+            </el-button>
+          </router-link>
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
           </el-button>
@@ -103,7 +111,9 @@
           <el-select v-model="tableInfo.name" placeholder="请选择数据表名称" clearable style="width: 280px;"
                      class="filter-item" :disabled="dialogStatus==='update'" @change="handleTableName"
           >
-            <el-option v-for="(tableInfo,index) in tableInfoList" :key="index" :value="tableInfo" :label="tableInfo.name" />
+            <el-option v-for="(tableInfo,index) in tableInfoList" :key="index" :value="tableInfo"
+                       :label="tableInfo.name"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="数据库表描述" prop="comment">
@@ -111,6 +121,9 @@
         </el-form-item>
         <el-form-item label="实体类名称" prop="entityName">
           <el-input v-model="tableInfo.entityName" placeholder="请输入实体类名称" />
+        </el-form-item>
+        <el-form-item label="类请求路径" prop="entityName">
+          <el-input v-model="tableInfo.requestMapping" placeholder="请输入类请求路径" />
         </el-form-item>
         <el-form-item label="包前缀名称" prop="basePackageName">
           <el-input v-model="tableInfo.basePackageName" placeholder="请输入包前缀名称" />
@@ -136,7 +149,6 @@ import {
   getTableInfoPage,
   getNotAddList,
   createTableInfo,
-  updateTableInfo,
   deleteTableInfo,
   codeGeneration
 } from '@/api/development/code-generation'
@@ -168,6 +180,7 @@ export default {
         name: null,
         comment: null,
         entityName: null,
+        requestMapping: null,
         basePackageName: null,
         codeGenerationPath: null,
         codeAuthor: null
@@ -184,6 +197,7 @@ export default {
         name: [{ required: true, message: '请选择数据表名称', trigger: 'change' }],
         comment: [{ required: true, message: '请输入数据库表描述', trigger: 'change' }],
         entityName: [{ required: true, message: '请输入实体类名称', trigger: 'change' }],
+        requestMapping: [{ required: true, message: '请输入类请求路径', trigger: 'change' }],
         basePackageName: [{ required: true, message: '请输入包前缀名称', trigger: 'change' }],
         codeGenerationPath: [{ required: true, message: '请输入代码生成路径', trigger: 'change' }],
         codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
@@ -249,6 +263,7 @@ export default {
     setEntityName(name) {
       const entity = name.substring(name.indexOf('_') + 1)
       this.tableInfo.entityName = this.convertToCamelCase(entity)
+      this.tableInfo.requestMapping = entity.replace('_', '/')
     },
     convertToCamelCase(str) {
       // 去除下划线分隔符获取单词数组
@@ -265,30 +280,6 @@ export default {
         }
       }
       return strArr.join('')
-    },
-    handleUpdate(row) {
-      this.tableInfo = Object.assign({}, row) // copy obj
-      this.dialogStatus = 'update'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    updateData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          updateTableInfo(this.tableInfo).then((res) => {
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: res.message,
-              type: 'success',
-              duration: 2000
-            })
-            this.loadData()
-          })
-        }
-      })
     },
     deleteData(row) {
       this.$confirm('此操作将删除该表信息, 是否继续?', '提示', {
