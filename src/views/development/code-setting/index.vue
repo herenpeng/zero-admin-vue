@@ -20,8 +20,14 @@
           <el-form-item label="包前缀名称" prop="basePackageName">
             <el-input v-model="tableInfo.basePackageName" placeholder="请输入包前缀名称" />
           </el-form-item>
-          <el-form-item label="代码生成路径" prop="codeGenerationPath">
-            <el-input v-model="tableInfo.codeGenerationPath" placeholder="请输入代码生成路径" />
+          <el-form-item label="Java代码路径" prop="javaCodePath">
+            <el-input v-model="tableInfo.javaCodePath" placeholder="请输入Java代码路径" />
+          </el-form-item>
+          <el-form-item label="Vue代码路径" prop="vueCodePath">
+            <el-input v-model="tableInfo.vueCodePath" placeholder="请输入Vue代码路径" />
+          </el-form-item>
+          <el-form-item label="Vue包路径" prop="vuePackage">
+            <el-input v-model="tableInfo.vuePackage" placeholder="Vue包路径" />
           </el-form-item>
           <el-form-item label="代码作者" prop="codeAuthor">
             <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" />
@@ -51,6 +57,19 @@ export default {
   name: 'CodeSetting',
   components: { TableColumn },
   data() {
+    const vuePackage = (rule, value, callback) => {
+      if (value !== '' && value !== null && value !== undefined) {
+        let vuePackage = this.tableInfo.vuePackage
+        if (!vuePackage.startsWith('/')) {
+          vuePackage = '/' + vuePackage
+        }
+        if (vuePackage.endsWith('/')) {
+          vuePackage = vuePackage.substr(0, vuePackage.length - 1)
+        }
+        this.tableInfo.vuePackage = vuePackage
+      }
+      callback()
+    }
     return {
       activeName: 'tableInfo',
       disabled: false,
@@ -61,7 +80,9 @@ export default {
         entityName: null,
         requestMapping: null,
         basePackageName: null,
-        codeGenerationPath: null,
+        javaCodePath: null,
+        vueCodePath: null,
+        vuePackage: null,
         codeAuthor: null
       },
       dialogStatus: '',
@@ -75,7 +96,11 @@ export default {
         entityName: [{ required: true, message: '请输入实体类名称', trigger: 'change' }],
         requestMapping: [{ required: true, message: '请输入类请求路径', trigger: 'change' }],
         basePackageName: [{ required: true, message: '请输入包前缀名称', trigger: 'change' }],
-        codeGenerationPath: [{ required: true, message: '请输入代码生成路径', trigger: 'change' }],
+        javaCodePath: [{ required: true, message: '请输入Java代码路径', trigger: 'change' }],
+        vueCodePath: [{ required: true, message: '请输入Vue代码路径', trigger: 'change' }],
+        vuePackage: [
+          { required: true, message: '请输入Vue包路径', trigger: 'change' },
+          { validator: vuePackage, trigger: 'blur' }],
         codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
       }
     }

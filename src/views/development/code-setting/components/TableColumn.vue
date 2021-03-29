@@ -15,24 +15,24 @@
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Java属性名称" width="150px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.javaName }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="字段类型" width="110px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.databaseType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="JDBC类型" width="120px" align="center">
+      <el-table-column label="Java属性" width="150px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.jdbcType }}</span>
+          <span>{{ row.javaName }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Jave类型" width="120px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.javaType }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="JDBC类型" width="120px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.jdbcType }}</span>
         </template>
       </el-table-column>
       <el-table-column label="字段注释" align="center">
@@ -47,7 +47,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{row}">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdateTableColumn(row)">
+          <el-button v-if="baseColumn(row.name)" type="primary" size="mini" icon="el-icon-edit" @click="handleUpdateTableColumn(row)">
             编辑
           </el-button>
         </template>
@@ -68,14 +68,42 @@
         <el-form-item label="字段名称" prop="name">
           <el-input v-model="tableColumn.name" placeholder="请输入字段名称" disabled="disabled" />
         </el-form-item>
-        <el-form-item label="Java属性名称" prop="javaName">
-          <el-input v-model="tableColumn.javaName" placeholder="请输入Java属性名称" />
-        </el-form-item>
         <el-form-item label="字段类型" prop="databaseType">
-          <el-input v-model="tableColumn.databaseType" placeholder="请输入字段类型" />
+          <el-input v-model="tableColumn.databaseType" placeholder="请输入字段类型" disabled="disabled" />
+        </el-form-item>
+        <el-form-item label="Java属性" prop="javaName">
+          <el-input v-model="tableColumn.javaName" placeholder="请输入Java属性" />
+        </el-form-item>
+        <el-form-item label="Java类型" prop="javaType">
+          <el-select v-model="tableColumn.javaType" placeholder="请输入Java类型" clearable class="filter-item"
+                     style="width: 280px"
+          >
+            <el-option value="Integer" label="Integer" />
+            <el-option value="Long" label="Long" />
+            <el-option value="String" label="String" />
+            <el-option value="Date" label="Date" />
+            <el-option value="Boolean" label="Boolean" />
+            <el-option value="BigDecimal" label="BigDecimal" />
+            <el-option value="Double" label="Double" />
+          </el-select>
         </el-form-item>
         <el-form-item label="JDBC类型" prop="jdbcType">
-          <el-input v-model="tableColumn.jdbcType" placeholder="请输入JDBC类型" />
+          <el-select v-model="tableColumn.jdbcType" placeholder="请输入JDBC类型" clearable class="filter-item"
+                     style="width: 280px"
+          >
+            <el-option value="INTEGER" label="INTEGER" />
+            <el-option value="BIGINT" label="BIGINT" />
+            <el-option value="CHAR" label="CHAR" />
+            <el-option value="VARCHAR" label="VARCHAR" />
+            <el-option value="TIMESTAMP" label="TIMESTAMP" />
+            <el-option value="DATE" label="DATE" />
+            <el-option value="TIME" label="TIME" />
+            <el-option value="BOOLEAN" label="BOOLEAN" />
+            <el-option value="DECIMAL" label="DECIMAL" />
+            <el-option value="NUMERIC" label="NUMERIC" />
+            <el-option value="FLOAT" label="FLOAT" />
+            <el-option value="DOUBLE" label="DOUBLE" />
+          </el-select>
         </el-form-item>
         <el-form-item label="字段注释" prop="comment">
           <el-input v-model="tableColumn.comment" placeholder="请输入字段注释" />
@@ -117,8 +145,9 @@ export default {
       tableColumn: {
         id: null,
         name: null,
-        javaName: null,
         databaseType: null,
+        javaName: null,
+        javaType: null,
         jdbcType: null,
         comment: null,
         sort: null
@@ -132,12 +161,14 @@ export default {
       },
       rules: {
         name: [{ required: true, message: '请输入字段名称', trigger: 'change' }],
-        javaName: [{ required: true, message: '请输入Java属性名称', trigger: 'change' }],
         databaseType: [{ required: true, message: '请输入字段类型', trigger: 'change' }],
+        javaName: [{ required: true, message: '请输入Java属性', trigger: 'change' }],
+        javaType: [{ required: true, message: '请输入Java类型', trigger: 'change' }],
         jdbcType: [{ required: true, message: '请输入JDBC类型', trigger: 'change' }],
         comment: [{ required: true, message: '请输入字段注释', trigger: 'change' }],
         sort: [{ required: true, message: '请输入字段排序顺序', trigger: 'change' }]
-      }
+      },
+      baseColumnArray: ['id', 'create_time', 'create_user_id', 'update_time', 'update_user_id', 'deleted']
     }
   },
   watch: {
@@ -189,6 +220,13 @@ export default {
           })
         }
       })
+    },
+    baseColumn(name) {
+      // 如果是基础字段，不允许编辑修改
+      if (this.baseColumnArray.indexOf(name) !== -1) {
+        return false
+      }
+      return true
     }
   }
 }

@@ -43,13 +43,13 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="数据库表名称" width="120px" align="center">
+      <el-table-column label="序号" type="index" sortable="true" align="center" width="60" />
+      <el-table-column label="数据库表名称" width="100px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="数据库表描述" width="220px" align="center">
+      <el-table-column label="数据库表描述" width="160px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.comment }}</span>
         </template>
@@ -64,14 +64,24 @@
           <span>{{ row.requestMapping }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="包前缀名称" width="120px" align="center">
+      <el-table-column label="包前缀名称" width="100px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.basePackageName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="代码生成路径" align="center">
+      <el-table-column label="Java代码路径" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.codeGenerationPath }}</span>
+          <span>{{ row.javaCodePath }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Vue代码路径" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.vueCodePath }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Vue包路径" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.vuePackage }}</span>
         </template>
       </el-table-column>
       <el-table-column label="代码作者" width="100px" align="center">
@@ -128,8 +138,14 @@
         <el-form-item label="包前缀名称" prop="basePackageName">
           <el-input v-model="tableInfo.basePackageName" placeholder="请输入包前缀名称" />
         </el-form-item>
-        <el-form-item label="代码生成路径" prop="codeGenerationPath">
-          <el-input v-model="tableInfo.codeGenerationPath" placeholder="请输入代码生成路径" />
+        <el-form-item label="Java代码路径" prop="javaCodePath">
+          <el-input v-model="tableInfo.javaCodePath" placeholder="请输入Java代码路径" />
+        </el-form-item>
+        <el-form-item label="Vue代码路径" prop="vueCodePath">
+          <el-input v-model="tableInfo.vueCodePath" placeholder="请输入Vue代码路径" />
+        </el-form-item>
+        <el-form-item label="Vue包路径" prop="vuePackage">
+          <el-input v-model="tableInfo.vuePackage" placeholder="Vue包路径" />
         </el-form-item>
         <el-form-item label="代码作者" prop="codeAuthor">
           <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" />
@@ -158,6 +174,19 @@ export default {
   name: 'CodeGeneration',
   components: { Pagination },
   data() {
+    const vuePackage = (rule, value, callback) => {
+      if (value !== '' && value !== null && value !== undefined) {
+        let vuePackage = this.tableInfo.vuePackage
+        if (!vuePackage.startsWith('/')) {
+          vuePackage = '/' + vuePackage
+        }
+        if (vuePackage.endsWith('/')) {
+          vuePackage = vuePackage.substr(0, vuePackage.length - 1)
+        }
+        this.tableInfo.vuePackage = vuePackage
+      }
+      callback()
+    }
     return {
       tableKey: 0,
       list: null,
@@ -182,7 +211,9 @@ export default {
         entityName: null,
         requestMapping: null,
         basePackageName: null,
-        codeGenerationPath: null,
+        javaCodePath: null,
+        vueCodePath: null,
+        vuePackage: null,
         codeAuthor: null
       },
       tableInfoList: [],
@@ -199,7 +230,11 @@ export default {
         entityName: [{ required: true, message: '请输入实体类名称', trigger: 'change' }],
         requestMapping: [{ required: true, message: '请输入类请求路径', trigger: 'change' }],
         basePackageName: [{ required: true, message: '请输入包前缀名称', trigger: 'change' }],
-        codeGenerationPath: [{ required: true, message: '请输入代码生成路径', trigger: 'change' }],
+        javaCodePath: [{ required: true, message: '请输入Java代码路径', trigger: 'change' }],
+        vueCodePath: [{ required: true, message: '请输入Vue代码路径', trigger: 'change' }],
+        vuePackage: [
+          { required: true, message: '请输入Vue包路径', trigger: 'change' },
+          { validator: vuePackage, trigger: 'blur' }],
         codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
       },
       downloadLoading: false

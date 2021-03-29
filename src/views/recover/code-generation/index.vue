@@ -37,33 +37,48 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="数据库表名称" width="120px" align="center">
+      <el-table-column label="序号" type="index" sortable="true" align="center" width="60" />
+      <el-table-column label="数据库表名称" width="100px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="数据库表描述" width="220px" align="center">
+      <el-table-column label="数据库表描述" width="160px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.comment }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="实体类名称" width="100px" align="center">
+      <el-table-column label="实体类名称" width="90px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.entityName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="包前缀名称" width="120px" align="center">
+      <el-table-column label="类请求路径" width="90px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.requestMapping }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="包前缀名称" width="100px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.basePackageName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="代码生成路径" width="200px" align="center">
+      <el-table-column label="Java代码路径" width="140px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.codeGenerationPath }}</span>
+          <span>{{ row.javaCodePath }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="代码作者" width="120px" align="center">
+      <el-table-column label="Vue代码路径" width="140px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.vueCodePath }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Vue包路径" width="80px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.vuePackage }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="代码作者" width="90px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.codeAuthor }}</span>
         </template>
