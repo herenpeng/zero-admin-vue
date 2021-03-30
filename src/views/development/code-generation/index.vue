@@ -174,19 +174,6 @@ export default {
   name: 'CodeGeneration',
   components: { Pagination },
   data() {
-    const vuePackage = (rule, value, callback) => {
-      if (value !== '' && value !== null && value !== undefined) {
-        let vuePackage = this.tableInfo.vuePackage
-        if (!vuePackage.startsWith('/')) {
-          vuePackage = '/' + vuePackage
-        }
-        if (vuePackage.endsWith('/')) {
-          vuePackage = vuePackage.substr(0, vuePackage.length - 1)
-        }
-        this.tableInfo.vuePackage = vuePackage
-      }
-      callback()
-    }
     return {
       tableKey: 0,
       list: null,
@@ -232,9 +219,7 @@ export default {
         basePackageName: [{ required: true, message: '请输入包前缀名称', trigger: 'change' }],
         javaCodePath: [{ required: true, message: '请输入Java代码路径', trigger: 'change' }],
         vueCodePath: [{ required: true, message: '请输入Vue代码路径', trigger: 'change' }],
-        vuePackage: [
-          { required: true, message: '请输入Vue包路径', trigger: 'change' },
-          { validator: vuePackage, trigger: 'blur' }],
+        vuePackage: [{ required: true, message: '请输入Vue包路径', trigger: 'change' }],
         codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
       },
       downloadLoading: false
