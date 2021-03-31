@@ -17,8 +17,8 @@
           <el-form-item label="类请求路径" prop="entityName">
             <el-input v-model="tableInfo.requestMapping" placeholder="请输入类请求路径" />
           </el-form-item>
-          <el-form-item label="包前缀名称" prop="basePackageName">
-            <el-input v-model="tableInfo.basePackageName" placeholder="请输入包前缀名称" />
+          <el-form-item label="包前缀名称" prop="javaPackageName">
+            <el-input v-model="tableInfo.javaPackageName" placeholder="请输入包前缀名称" />
           </el-form-item>
           <el-form-item label="Java代码路径" prop="javaCodePath">
             <el-input v-model="tableInfo.javaCodePath" placeholder="请输入Java代码路径" />
@@ -66,7 +66,7 @@ export default {
         comment: null,
         entityName: null,
         requestMapping: null,
-        basePackageName: null,
+        javaPackageName: null,
         javaCodePath: null,
         vueCodePath: null,
         vuePackage: null,
@@ -82,7 +82,7 @@ export default {
         comment: [{ required: true, message: '请输入数据库表描述', trigger: 'change' }],
         entityName: [{ required: true, message: '请输入实体类名称', trigger: 'change' }],
         requestMapping: [{ required: true, message: '请输入类请求路径', trigger: 'change' }],
-        basePackageName: [{ required: true, message: '请输入包前缀名称', trigger: 'change' }],
+        javaPackageName: [{ required: true, message: '请输入包前缀名称', trigger: 'change' }],
         javaCodePath: [{ required: true, message: '请输入Java代码路径', trigger: 'change' }],
         vueCodePath: [{ required: true, message: '请输入Vue代码路径', trigger: 'change' }],
         vuePackage: [{ required: true, message: '请输入Vue包路径', trigger: 'change' }],

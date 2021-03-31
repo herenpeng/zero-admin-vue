@@ -40,6 +40,11 @@
           <span>{{ row.comment }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="是否为查询字段" width="80px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.query | queryFilter }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="字段排序顺序" width="80px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.sort }}</span>
@@ -108,6 +113,13 @@
         <el-form-item label="字段注释" prop="comment">
           <el-input v-model="tableColumn.comment" placeholder="请输入字段注释" />
         </el-form-item>
+        <el-form-item label="是否为查询字段" prop="query">
+          <el-switch
+            v-model="tableColumn.query"
+            active-text="是"
+            inactive-text="否"
+          />
+        </el-form-item>
         <el-form-item label="字段排序顺序" prop="sort">
           <el-input v-model="tableColumn.sort" placeholder="请输入字段排序顺序" />
         </el-form-item>
@@ -133,6 +145,15 @@ export default {
       default: null
     }
   },
+  filters: {
+    queryFilter(queryValue) {
+      if (queryValue) {
+        return '是'
+      } else {
+        return '否'
+      }
+    }
+  },
   data() {
     return {
       tableKey: 0,
@@ -149,6 +170,7 @@ export default {
         javaName: null,
         javaType: null,
         jdbcType: null,
+        query: false,
         comment: null,
         sort: null
       },
@@ -166,6 +188,7 @@ export default {
         javaType: [{ required: true, message: '请输入Java类型', trigger: 'change' }],
         jdbcType: [{ required: true, message: '请输入JDBC类型', trigger: 'change' }],
         comment: [{ required: true, message: '请输入字段注释', trigger: 'change' }],
+        query: [{ required: true, message: '请输入选择是否为查询字段', trigger: 'change' }],
         sort: [{ required: true, message: '请输入字段排序顺序', trigger: 'change' }]
       },
       baseColumnArray: ['id', 'create_time', 'create_user_id', 'update_time', 'update_user_id', 'deleted']

@@ -10,7 +10,7 @@
       <el-input v-model="listQuery.entityName" placeholder="实体类名称" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.basePackageName" placeholder="包前缀名称" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.javaPackageName" placeholder="包前缀名称" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-input v-model="listQuery.codeAuthor" placeholder="代码作者" style="width: 150px;margin-right: 10px;"
@@ -66,7 +66,7 @@
       </el-table-column>
       <el-table-column label="包前缀名称" width="100px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.basePackageName }}</span>
+          <span>{{ row.javaPackageName }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Java代码路径" align="center">
@@ -135,8 +135,8 @@
         <el-form-item label="类请求路径" prop="entityName">
           <el-input v-model="tableInfo.requestMapping" placeholder="请输入类请求路径" />
         </el-form-item>
-        <el-form-item label="包前缀名称" prop="basePackageName">
-          <el-input v-model="tableInfo.basePackageName" placeholder="请输入包前缀名称" />
+        <el-form-item label="包前缀名称" prop="javaPackageName">
+          <el-input v-model="tableInfo.javaPackageName" placeholder="请输入包前缀名称" />
         </el-form-item>
         <el-form-item label="Java代码路径" prop="javaCodePath">
           <el-input v-model="tableInfo.javaCodePath" placeholder="请输入Java代码路径" />
@@ -197,7 +197,7 @@ export default {
         comment: null,
         entityName: null,
         requestMapping: null,
-        basePackageName: null,
+        javaPackageName: null,
         javaCodePath: null,
         vueCodePath: null,
         vuePackage: null,
@@ -216,7 +216,7 @@ export default {
         comment: [{ required: true, message: '请输入数据库表描述', trigger: 'change' }],
         entityName: [{ required: true, message: '请输入实体类名称', trigger: 'change' }],
         requestMapping: [{ required: true, message: '请输入类请求路径', trigger: 'change' }],
-        basePackageName: [{ required: true, message: '请输入包前缀名称', trigger: 'change' }],
+        javaPackageName: [{ required: true, message: '请输入包前缀名称', trigger: 'change' }],
         javaCodePath: [{ required: true, message: '请输入Java代码路径', trigger: 'change' }],
         vueCodePath: [{ required: true, message: '请输入Vue代码路径', trigger: 'change' }],
         vuePackage: [{ required: true, message: '请输入Vue包路径', trigger: 'change' }],
