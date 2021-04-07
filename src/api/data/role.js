@@ -34,6 +34,14 @@ export function updateRole(role) {
   })
 }
 
+export function setAcquiescence(id, acquiescence) {
+  return request({
+    url: '/role/acquiescence',
+    method: 'put',
+    data: { id, acquiescence }
+  })
+}
+
 export function deleteRole(id) {
   return request({
     url: '/role/' + id,

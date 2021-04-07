@@ -4,9 +4,16 @@
       <el-input v-model="listQuery.name" placeholder="角色名称" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.description" placeholder="角色描述" style="width: 200px;margin-right: 10px;" class="filter-item"
+      <el-input v-model="listQuery.description" placeholder="角色描述" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
+      <el-select v-model="listQuery.acquiescence" placeholder="是否为默认角色" style="width: 150px;margin-right: 10px;"
+                 clearable class="filter-item"
+                 @change="handleFilter"
+      >
+        <el-option value="true" label="是" />
+        <el-option value="false" label="否" />
+      </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
@@ -38,9 +45,19 @@
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="角色描述" width="850px" align="center">
+      <el-table-column label="角色描述" width="600px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.description }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否为默认角色" width="200px" align="center">
+        <template slot-scope="{row}">
+          <el-switch
+            v-model="row.acquiescence"
+            active-text="是"
+            inactive-text="否"
+            @change="setAcquiescence(row.id, row.acquiescence)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -89,7 +106,8 @@ import {
   updateRole,
   deleteRole,
   checkName,
-  exportRoleExcel
+  exportRoleExcel,
+  setAcquiescence
 } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
 
@@ -121,12 +139,14 @@ export default {
       listLoading: false,
       listQuery: {
         name: null,
-        description: null
+        description: null,
+        acquiescence: null
       },
       role: {
         id: null,
         name: null,
-        description: null
+        description: null,
+        acquiescence: false
       },
       oldRoleName: null,
       dialogFormVisible: false,
@@ -219,6 +239,17 @@ export default {
             this.loadData()
           })
         }
+      })
+    },
+    setAcquiescence(id, acquiescence) {
+      setAcquiescence(id, acquiescence).then((res) => {
+        this.$notify({
+          title: '成功',
+          message: res.message,
+          type: 'success',
+          duration: 2000
+        })
+        this.loadData()
       })
     },
     deleteData(row) {
