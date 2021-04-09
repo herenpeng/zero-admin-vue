@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import openWindow from '@/utils/open-window'
+import store from '@/store'
+import router from '@/router'
 
 export default {
   name: 'ThirdPartLogin',
@@ -38,23 +39,22 @@ export default {
       // openWindow(url, thirdpart, 540, 540)
     },
     githubHandleClick(thirdPart) {
+      let flag = true
       window.addEventListener('message', function(e) {
-        // e.data 就是后端颁发的token
-        // 执行vuex里面的方法 可以理解拿到了token 去请求获取用户信息的接口
-        // this.$store.dispatch('loginByOauth', e.data)
-        alert(JSON.stringify(e.data))
+        // e.data 就是后端颁发的token，执行vuex里面的方法 可以理解拿到了token 去请求获取用户信息的接口
+        if (flag) {
+          store.dispatch('user/loginByOauth', e.data).then((res) => {
+            flag = false
+            router.push({ path: '/' })
+          }).catch(() => {
+          })
+        }
       }, false)
-      // this.$store.commit('SET_AUTH_TYPE', thirdPart)
-      const clientId = '4eeb8ec1e2e70c599f5a'
-      const redirectUri = encodeURIComponent('http://127.0.0.1:10000/api/oauth/github/login')
+      const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID
+      const redirectUri = encodeURIComponent(process.env.VUE_APP_BASE_HTTP_API + '/oauth/github/login')
       const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&state=STATE&redirect_uri=${redirectUri}`
       window.open(url, '_blank')
-      // 监听回调方法 方法文档地址：https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener
-      this.show = false
     }
-  },
-  postMessage(message, callable) {
-    window.postMessage(message, callable)
   }
 }
 </script>

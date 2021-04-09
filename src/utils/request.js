@@ -13,7 +13,7 @@ const service = axios.create({
   // }
 })
 
-// request interceptor
+// 请求拦截器
 service.interceptors.request.use(
   config => {
     if (store.getters.token) {

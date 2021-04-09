@@ -28,7 +28,7 @@ const mutations = {
 }
 
 const actions = {
-  // user login
+  // 用户登录
   login({ commit }, loginForm) {
     return new Promise((resolve, reject) => {
       const { username, password } = loginForm
@@ -45,7 +45,7 @@ const actions = {
     })
   },
 
-  // get user server
+  // 获取用户的详细信息
   getInfo({ commit }) {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
@@ -63,7 +63,7 @@ const actions = {
     })
   },
 
-  // user logout
+  // 用户退出系统
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
@@ -76,8 +76,19 @@ const actions = {
       })
     })
   },
+  // 通过OAuth授权登录
+  loginByOauth({ commit }, accessToken) {
+    return new Promise((resolve, reject) => {
+      // 将第三方授权之后返回的token信息设置到cookie中
+      console.log('accessToken:' + accessToken)
+      setToken(accessToken)
+      // 将登陆之后返回的token信息存储到store中
+      commit('SET_TOKEN', accessToken)
+      resolve()
+    })
+  },
 
-  // remove token
+  // 移除cookie和vuex中的Token
   resetToken({ commit }) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
