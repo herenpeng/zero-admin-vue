@@ -70,9 +70,14 @@
           <span>{{ row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="100px" align="center">
+      <el-table-column label="是否启用" width="150px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.enabled | enabledFilter }}</span>
+          <el-switch
+            v-model="row.enabled"
+            active-text="是"
+            inactive-text="否"
+            @change="enabled(row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="是否锁定" width="110px" align="center">
@@ -124,16 +129,10 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200px">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
-          </el-button>
-          <el-button v-if="row.enabled === false" icon="el-icon-check" size="mini" type="success" @click="enabled(row, true)">
-            启用
-          </el-button>
-          <el-button v-if="row.enabled === true" icon="el-icon-close" size="mini" @click="enabled(row, false)">
-            禁用
           </el-button>
           <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteData(row)">
             删除
@@ -325,9 +324,15 @@ export default {
       this.page.size = page.limit
       this.loadData()
     },
-    enabled(row, value) {
-      enabled(row.id, value).then(res => {
-        row.enabled = value
+    enabled(row) {
+      enabled(row.id, row.enabled).then(res => {
+        this.$notify({
+          title: '成功',
+          message: res.message,
+          type: 'success',
+          duration: 2000
+        })
+        this.loadData()
       })
     },
     checkUsername(value) {

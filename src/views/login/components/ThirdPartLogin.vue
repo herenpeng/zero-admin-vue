@@ -9,7 +9,7 @@
       QQ
     </div>
     <div class="sign-btn" @click="githubHandleClick('github')">
-      <span class="qq-svg-container"><svg-icon icon-class="github" class="icon" /></span>
+      <span class="github-svg-container"><svg-icon icon-class="github" class="icon" /></span>
       GitHub
     </div>
   </div>
@@ -23,7 +23,7 @@ export default {
   name: 'ThirdPartLogin',
   methods: {
     wechatHandleClick(thirdpart) {
-      alert('ok')
+      alert('微信登录功能待开发……')
       // this.$store.commit('SET_AUTH_TYPE', thirdpart)
       // const appid = 'xxxxx'
       // const redirect_uri = encodeURIComponent('xxx/redirect?redirect=' + window.location.origin + '/auth-redirect')
@@ -31,7 +31,7 @@ export default {
       // openWindow(url, thirdpart, 540, 540)
     },
     qqHandleClick(thirdpart) {
-      alert('ok')
+      alert('QQ登录功能待开发……')
       // this.$store.commit('SET_AUTH_TYPE', thirdpart)
       // const client_id = 'xxxxx'
       // const redirect_uri = encodeURIComponent('xxx/redirect?redirect=' + window.location.origin + '/auth-redirect')
@@ -75,7 +75,8 @@ export default {
     }
 
     .wx-svg-container,
-    .qq-svg-container {
+    .qq-svg-container,
+    .github-svg-container {
       display: inline-block;
       width: 40px;
       height: 40px;
@@ -93,6 +94,11 @@ export default {
 
     .qq-svg-container {
       background-color: #6BA2D6;
+      margin-left: 50px;
+    }
+
+    .github-svg-container {
+      background-color: #1296db;
       margin-left: 50px;
     }
   }
