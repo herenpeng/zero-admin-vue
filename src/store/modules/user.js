@@ -80,7 +80,6 @@ const actions = {
   loginByOauth({ commit }, accessToken) {
     return new Promise((resolve, reject) => {
       // 将第三方授权之后返回的token信息设置到cookie中
-      console.log('accessToken:' + accessToken)
       setToken(accessToken)
       // 将登陆之后返回的token信息存储到store中
       commit('SET_TOKEN', accessToken)

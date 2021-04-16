@@ -69,7 +69,7 @@
           <span>{{ row.javaPackageName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Java代码路径" align="center">
+      <el-table-column label="Java代码路径" width="100px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.javaCodePath }}</span>
         </template>
