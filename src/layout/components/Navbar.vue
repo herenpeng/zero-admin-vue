@@ -5,22 +5,36 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
-          <el-avatar :src="avatar">{{ username }}</el-avatar>
-        </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              首页
+      <template>
+        <weather id="weather" class="right-menu-item hover-effect" />
+        <screenfull id="screenfull" class="right-menu-item hover-effect" />
+      </template>
+
+      <div class="right-menu">
+        <el-dropdown class="avatar-container" trigger="click">
+          <div class="avatar-wrapper">
+            <el-avatar :src="avatar">{{ username }}</el-avatar>
+          </div>
+          <el-dropdown-menu slot="dropdown" class="user-dropdown">
+            <router-link to="/">
+              <el-dropdown-item>
+                首页
+              </el-dropdown-item>
+            </router-link>
+            <a target="_blank" href="https://github.com/herenpeng/zero-admin-vue">
+              <el-dropdown-item>
+                项目地址
+              </el-dropdown-item>
+            </a>
+            <el-dropdown-item divided @click.native="logout">
+              <span style="display:block;">退出系统</span>
             </el-dropdown-item>
-          </router-link>
-          <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">退出系统</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+
     </div>
+
   </div>
 </template>
 
@@ -28,11 +42,15 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import Screenfull from '@/components/Screenfull'
+import Weather from '@/components/Weather'
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    Screenfull,
+    Weather
   },
   computed: {
     ...mapGetters([

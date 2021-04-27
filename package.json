@@ -31,7 +31,8 @@
     "vuex": "3.1.0",
     "xlsx": "0.14.1",
     "jsonlint": "1.6.3",
-    "script-loader": "0.7.2"
+    "script-loader": "0.7.2",
+    "screenfull": "4.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.4.4",
