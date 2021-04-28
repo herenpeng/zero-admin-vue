@@ -6,3 +6,17 @@ export function getWeather() {
     method: 'get'
   })
 }
+
+export function getPanelGroup() {
+  return request({
+    url: '/index/panel/group',
+    method: 'get'
+  })
+}
+
+export function getLoginMap() {
+  return request({
+    url: '/index/login/map',
+    method: 'get'
+  })
+}

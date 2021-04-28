@@ -110,17 +110,20 @@ export default {
     }
   }
 }
-</script>script
+</script>
 
+<style>
+  .el-drawer__body {
+    overflow: auto;
+  }
+</style>
 <style scoped>
   .text {
     font-size: 14px;
   }
-
   .item {
     padding: 0px 0px;
   }
-
   .box-card {
     margin: 10px auto;
     width: 420px;

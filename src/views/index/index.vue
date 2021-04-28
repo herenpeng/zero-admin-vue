@@ -5,6 +5,9 @@
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+      <login-map />
+    </el-row>
+    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <line-chart :chart-data="lineChartData" />
     </el-row>
 
@@ -46,6 +49,7 @@ import PieChart from './components/PieChart'
 import BarChart from './components/BarChart'
 import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
+import LoginMap from './components/LoginMap'
 
 const lineChartData = {
   newVisitis: {
@@ -76,7 +80,8 @@ export default {
     PieChart,
     BarChart,
     TodoList,
-    BoxCard
+    BoxCard,
+    LoginMap
   },
   data() {
     return {

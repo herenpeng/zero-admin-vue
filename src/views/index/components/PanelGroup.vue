@@ -7,35 +7,35 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            当前登录用户数量
+            用户
           </div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="panelGroup.user" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('messages')">
         <div class="card-panel-icon-wrapper icon-message">
-          <svg-icon icon-class="message" class-name="card-panel-icon" />
+          <svg-icon icon-class="international" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            消息
+            访问
           </div>
-          <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="panelGroup.access" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('purchases')">
         <div class="card-panel-icon-wrapper icon-money">
-          <svg-icon icon-class="money" class-name="card-panel-icon" />
+          <svg-icon icon-class="message" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            消费
+            消息
           </div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="panelGroup.message" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -48,7 +48,7 @@
           <div class="card-panel-text">
             购物
           </div>
-          <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="13600" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -57,12 +57,31 @@
 
 <script>
 import CountTo from 'vue-count-to'
+import { getPanelGroup } from '@/api/index/index'
 
 export default {
+  name: 'PanelGroup',
   components: {
     CountTo
   },
+  data() {
+    return {
+      panelGroup: {
+        user: 0,
+        access: 0,
+        message: 0
+      }
+    }
+  },
+  created() {
+    this.loadData()
+  },
   methods: {
+    loadData() {
+      getPanelGroup().then(res => {
+        this.panelGroup = res.data
+      })
+    },
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
     }
