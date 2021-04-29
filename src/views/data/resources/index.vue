@@ -66,7 +66,7 @@
           <span>{{ row.methodType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="拥有该资源的角色" class-name="status-col" width="310px">
+      <el-table-column label="拥有该资源的角色" class-name="status-col">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -94,7 +94,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="200px" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑

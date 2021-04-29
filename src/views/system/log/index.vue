@@ -88,7 +88,7 @@
           <span>{{ row.ip }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="访问URI" width="200px" align="center">
+      <el-table-column label="访问URI" align="center">
         <template slot-scope="{row}">
           <span>{{ row.uri }}</span>
         </template>
@@ -116,7 +116,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="120px" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除

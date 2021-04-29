@@ -219,13 +219,6 @@ export default {
   name: 'User',
   components: { Pagination, LoginLog },
   filters: {
-    enabledFilter(enabledValue) {
-      if (enabledValue) {
-        return '启用'
-      } else {
-        return '禁用'
-      }
-    },
     lockedFilter(lockedValue) {
       if (lockedValue) {
         return '锁定'

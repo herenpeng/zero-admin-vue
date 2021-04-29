@@ -61,7 +61,7 @@
           <span>{{ row.methodType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="拥有该资源的角色" class-name="status-col" width="280px">
+      <el-table-column label="拥有该资源的角色" class-name="status-col">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -75,7 +75,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="250px" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复

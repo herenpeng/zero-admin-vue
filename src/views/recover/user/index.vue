@@ -67,7 +67,12 @@
       </el-table-column>
       <el-table-column label="是否启用" width="100px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.enabled | enabledFilter }}</span>
+          <el-switch
+            v-model="row.enabled"
+            active-text="是"
+            inactive-text="否"
+            disabled="true"
+          />
         </template>
       </el-table-column>
       <el-table-column label="是否锁定" width="110px" align="center">
@@ -85,7 +90,7 @@
           <span>{{ row.passwordExpire | expireFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户角色" class-name="status-col" width="300px">
+      <el-table-column label="用户角色" class-name="status-col">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -99,7 +104,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="250px" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复
@@ -134,13 +139,6 @@ export default {
   name: 'User',
   components: { Pagination },
   filters: {
-    enabledFilter(enabledValue) {
-      if (enabledValue) {
-        return '启用'
-      } else {
-        return '禁用'
-      }
-    },
     lockedFilter(lockedValue) {
       if (lockedValue) {
         return '锁定'

@@ -43,7 +43,7 @@
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="数据库表描述" width="160px" align="center">
+      <el-table-column label="数据库表描述" align="center">
         <template slot-scope="{row}">
           <span>{{ row.comment }}</span>
         </template>
@@ -63,17 +63,17 @@
           <span>{{ row.basePackageName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Java代码路径" width="140px" align="center">
+      <el-table-column label="Java代码路径" width="140" align="center">
         <template slot-scope="{row}">
           <span>{{ row.javaCodePath }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Vue代码路径" width="140px" align="center">
+      <el-table-column label="Vue代码路径" width="140" align="center">
         <template slot-scope="{row}">
           <span>{{ row.vueCodePath }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Vue包路径" width="80px" align="center">
+      <el-table-column label="Vue包路径" width="80" align="center">
         <template slot-scope="{row}">
           <span>{{ row.vuePackage }}</span>
         </template>
@@ -83,7 +83,7 @@
           <span>{{ row.codeAuthor }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="250" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复

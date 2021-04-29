@@ -61,12 +61,12 @@
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登入IP地址" width="100px" align="center">
+      <el-table-column label="登入IP地址" width="120px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.ip }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登入地址" width="180px" align="center">
+      <el-table-column label="登入地址" align="center">
         <template slot-scope="{row}">
           <span>{{ row.country }} {{ row.region }} {{ row.city }}</span>
         </template>
@@ -97,7 +97,7 @@
           <span v-else>已登出</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="250" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复

@@ -15,10 +15,10 @@
         value-format="yyyy-MM-dd HH:mm:ss"
         :picker-options="pickerOptions"
       />
-      <el-input v-model="listQuery.ip" placeholder="访问IP地址" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.ip" placeholder="访问IP地址" style="width: 150px" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.uri" placeholder="访问URI" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.uri" placeholder="访问URI" style="width: 150px" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-select v-model="listQuery.methodType" placeholder="方法类型" clearable class="filter-item"
@@ -88,7 +88,7 @@
           <span>{{ row.ip }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="访问URI" width="200px" align="center">
+      <el-table-column label="访问URI" align="center">
         <template slot-scope="{row}">
           <span>{{ row.uri }}</span>
         </template>
@@ -111,7 +111,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="250" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复

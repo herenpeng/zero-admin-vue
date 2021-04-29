@@ -85,9 +85,14 @@
           <span>{{ row.hidden | hiddenFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="70" align="center">
+      <el-table-column label="是否启用" width="150" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.enabled | enabledFilter }}</span>
+          <el-switch
+            v-model="row.enabled"
+            active-text="启用"
+            inactive-text="禁用"
+            @change="enabled(row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="菜单排序" width="70" align="center">
@@ -124,16 +129,10 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left" class-name="small-padding fixed-width" width="330px">
+      <el-table-column label="操作" align="left" class-name="small-padding fixed-width" width="250px">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
-          </el-button>
-          <el-button v-if="row.enabled === false" icon="el-icon-check" size="mini" type="success" @click="enabled(row, true)">
-            启用
-          </el-button>
-          <el-button v-if="row.enabled === true" icon="el-icon-close" size="mini" @click="enabled(row, false)">
-            禁用
           </el-button>
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
@@ -231,13 +230,6 @@ export default {
   name: 'Menu',
   components: { Pagination, Icon },
   filters: {
-    enabledFilter(enabledValue) {
-      if (enabledValue) {
-        return '启用'
-      } else {
-        return '禁用'
-      }
-    },
     hiddenFilter(hiddenValue) {
       if (hiddenValue) {
         return '隐藏'
@@ -323,9 +315,15 @@ export default {
       this.page.size = page.limit
       this.loadData()
     },
-    enabled(row, value) {
-      enabled(row.id, value).then(res => {
-        row.enabled = value
+    enabled(row) {
+      enabled(row.id, row.enabled).then(res => {
+        this.$notify({
+          title: '成功',
+          message: res.message,
+          type: 'success',
+          duration: 2000
+        })
+        this.loadData()
       })
     },
     handleCreate(row) {

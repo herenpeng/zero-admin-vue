@@ -40,7 +40,7 @@
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="角色描述" width="600px" align="center">
+      <el-table-column label="角色描述" align="center">
         <template slot-scope="{row}">
           <span>{{ row.description }}</span>
         </template>
@@ -55,7 +55,7 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="250px" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复

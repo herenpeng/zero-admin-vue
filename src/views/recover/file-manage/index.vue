@@ -47,7 +47,7 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="文件名称" width="300">
+      <el-table-column label="文件名称">
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
         </template>
@@ -72,7 +72,7 @@
           <span><el-link type="success" @click="view(row)">查看</el-link></span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="left"  width="250" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复

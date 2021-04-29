@@ -75,9 +75,19 @@
           <span>{{ row.component }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="70" align="center">
+      <el-table-column label="是否隐藏" width="70" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.enabled | enabledFilter }}</span>
+          <span>{{ row.hidden | hiddenFilter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否启用" width="150" align="center">
+        <template slot-scope="{row}">
+          <el-switch
+            v-model="row.enabled"
+            active-text="启用"
+            inactive-text="禁用"
+            disabled="true"
+          />
         </template>
       </el-table-column>
       <el-table-column label="菜单排序" width="70" align="center">
@@ -85,7 +95,7 @@
           <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单角色" class-name="status-col" width="275px">
+      <el-table-column label="菜单角色" class-name="status-col">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -99,7 +109,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="250px" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复
@@ -129,11 +139,11 @@ export default {
   name: 'Menu',
   components: { Pagination },
   filters: {
-    enabledFilter(enabledValue) {
-      if (enabledValue) {
-        return '启用'
+    hiddenFilter(hiddenValue) {
+      if (hiddenValue) {
+        return '隐藏'
       } else {
-        return '禁用'
+        return '显示'
       }
     }
   },
