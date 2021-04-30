@@ -6,6 +6,7 @@
 
     <div class="right-menu">
       <template>
+        <search id="header-search" class="right-menu-item" />
         <weather id="weather" class="right-menu-item hover-effect" />
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
       </template>
@@ -44,13 +45,15 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
 import Weather from '@/components/Weather'
+import Search from '@/components/HeaderSearch'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
     Screenfull,
-    Weather
+    Weather,
+    Search
   },
   computed: {
     ...mapGetters([

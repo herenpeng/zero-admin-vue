@@ -102,7 +102,9 @@ export default {
   methods: {
     loadData() {
       getWeather().then(res => {
-        this.weather = res.data
+        if (res.data) {
+          this.weather = res.data
+        }
       })
     },
     handleClose(done) {
