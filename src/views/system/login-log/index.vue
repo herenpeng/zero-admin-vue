@@ -97,7 +97,7 @@
           <span v-else>已登出</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="120px" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="left" width="200px" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
