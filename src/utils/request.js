@@ -5,15 +5,17 @@ import { getToken } from '@/utils/auth'
 
 // 创建一个axios实例
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_HTTP_API, // url = base url + request url
-  timeout: 5000 // request timeout
+  // 请求基本路径
+  baseURL: process.env.VUE_APP_BASE_HTTP_API,
+  // 请求超时时间，5000毫秒
+  timeout: 5000
   // withCredentials: true, // send constokies when cross-domain requests
   // headers: {
   //   'Access-Control-Allow-Origin': '*'
   // }
 })
 
-// 请求拦截器
+// HTTP请求拦截器
 service.interceptors.request.use(
   config => {
     if (store.getters.token) {
@@ -27,18 +29,8 @@ service.interceptors.request.use(
   }
 )
 
-// response interceptor
+// HTTP响应拦截器
 service.interceptors.response.use(
-  /**
-   * If you want to get http information such as headers or status
-   * Please return  response => response
-   */
-
-  /**
-   * Determine the request status by custom code
-   * Here is just an example
-   * You can also judge the status by HTTP Status Code
-   */
   response => {
     const res = response.data
     if (res.code !== 20000) {
