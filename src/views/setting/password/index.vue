@@ -136,6 +136,9 @@ export default {
               type: 'success',
               duration: 2000
             })
+            setTimeout(() => {
+              this.logout()
+            }, 2000)
           })
         }
       })
@@ -145,6 +148,10 @@ export default {
     },
     resetForm() {
       this.$refs['settingForm'].resetFields()
+    },
+    async logout() {
+      await this.$store.dispatch('user/logout')
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
 }
