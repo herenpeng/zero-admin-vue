@@ -34,7 +34,8 @@
     "script-loader": "0.7.2",
     "screenfull": "4.2.0",
     "fuse.js": "3.4.4",
-    "pinyin": "2.9.0"
+    "pinyin": "2.9.0",
+    "vue-i18n": "7.3.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.4.4",

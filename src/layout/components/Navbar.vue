@@ -9,6 +9,7 @@
         <search id="header-search" class="right-menu-item" />
         <weather id="weather" class="right-menu-item hover-effect" />
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
+        <lang-select class="right-menu-item hover-effect" />
       </template>
 
       <div class="right-menu">
@@ -44,6 +45,7 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
+import LangSelect from '@/components/LangSelect'
 import Weather from '@/components/Weather'
 import Search from '@/components/HeaderSearch'
 
@@ -52,6 +54,7 @@ export default {
     Breadcrumb,
     Hamburger,
     Screenfull,
+    LangSelect,
     Weather,
     Search
   },

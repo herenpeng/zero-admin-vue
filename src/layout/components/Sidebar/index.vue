@@ -12,7 +12,6 @@
         :collapse-transition="false"
         mode="vertical"
       >
-<!--                <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />-->
         <sidebar-item v-for="route in permissionRoutes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>

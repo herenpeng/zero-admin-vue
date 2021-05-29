@@ -38,7 +38,8 @@ export const constantRoutes = [
       path: 'index',
       name: 'Index',
       component: () => import('@/views/index/index'),
-      meta: { title: '首页', icon: 'dashboard' }
+      // affix 是 tagsView 标签中是否有关闭按钮，true值没有关闭按钮，常驻 tagsView 标签上
+      meta: { title: '首页', icon: 'dashboard', affix: true }
     }]
   }
 ]

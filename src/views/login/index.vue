@@ -5,7 +5,8 @@
     >
 
       <div class="title-container">
-        <h3 class="title">Zero Admin管理后台系统</h3>
+        <h3 class="title">{{ $t('login.title') }}</h3>
+        <lang-select class="set-language" />
       </div>
 
       <el-form-item prop="username">
@@ -15,7 +16,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="用户名"
+          :placeholder="$t('login.username')"
           name="username"
           type="text"
           tabindex="1"
@@ -32,7 +33,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="密码"
+          :placeholder="$t('login.password')"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -45,17 +46,17 @@
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
                  @click.native.prevent="handleLogin"
-      >登录
+      >{{ $t('login.logIn') }}
       </el-button>
 
       <div class="tips" style="text-align: right;">
-        <el-link style="margin-right: 10px;">忘记密码</el-link>
-        <el-link @click="showDialog=true">第三方登录</el-link>
+<!--        <el-link style="margin-right: 10px;">忘记密码</el-link>-->
+        <el-link @click="showDialog=true">{{ $t('login.thirdParty') }}</el-link>
       </div>
 
     </el-form>
 
-    <el-dialog title="第三方登录" :visible.sync="showDialog">
+    <el-dialog :title="$t('login.thirdParty')" :visible.sync="showDialog">
       <third-part-login />
     </el-dialog>
 
@@ -65,10 +66,11 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import ThirdPartLogin from './components/ThirdPartLogin'
+import LangSelect from '@/components/LangSelect'
 
 export default {
   name: 'Login',
-  components: { ThirdPartLogin },
+  components: { ThirdPartLogin, LangSelect },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -233,6 +235,15 @@ $light_gray: #eee;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
+    }
+
+    .set-language {
+      color: #fff;
+      position: absolute;
+      top: 3px;
+      font-size: 18px;
+      right: 0px;
+      cursor: pointer;
     }
   }
 
