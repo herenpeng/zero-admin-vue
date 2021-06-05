@@ -337,6 +337,8 @@ export default {
           parentId: 0
         }
       }
+      this.menu.hidden = false
+      this.menu.enabled = true
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {
