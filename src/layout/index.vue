@@ -11,6 +11,7 @@
       <right-panel v-if="showSettings">
         <settings />
       </right-panel>
+      <div class="footer">赣ICP备2020014777号</div>
     </div>
   </div>
 </template>
@@ -96,5 +97,12 @@ export default {
 
   .mobile .fixed-header {
     width: 100%;
+  }
+
+  .footer {
+    margin-top: -30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #304156;
   }
 </style>

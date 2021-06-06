@@ -33,6 +33,14 @@ export function deleteConfigConst(id) {
   })
 }
 
+export function getKeyList(key) {
+  return request({
+    url: '/config/const/list/key',
+    method: 'get',
+    params: { key }
+  })
+}
+
 export function getConfigConstRecoverPage(page, query) {
   query.size = page.size
   return request({

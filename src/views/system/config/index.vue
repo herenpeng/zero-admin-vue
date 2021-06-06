@@ -1,8 +1,12 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.key" placeholder="常量键值" style="width: 200px;" class="filter-item"
-                @keyup.enter.native="handleFilter"
+      <el-autocomplete
+        v-model="listQuery.key"
+        :fetch-suggestions="getKeyList"
+        placeholder="常量键值"
+        clearable
+        @select="handleFilter"
       />
       <el-input v-model="listQuery.description" placeholder="键值描述信息" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
@@ -39,17 +43,17 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="常量键值" width="150px" align="center">
+      <el-table-column label="常量键值" width="200px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.key }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="键值描述信息" width="150px" align="center">
+      <el-table-column label="键值描述信息" align="center">
         <template slot-scope="{row}">
           <span>{{ row.description }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="系统配置的默认值" width="150px" align="center">
+      <el-table-column label="系统配置的默认值" width="200px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.defaultValue }}</span>
         </template>
@@ -59,7 +63,7 @@
           <span>{{ row.userable | userableFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200px">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
@@ -82,14 +86,14 @@
       <el-form ref="dataForm" :rules="rules" :model="configConst" label-position="left" label-width="120px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="常量键值，标识，唯一" prop="key">
+        <el-form-item label="常量键值" prop="key">
           <el-input v-model="configConst.key" placeholder="请输入常量键值" />
         </el-form-item>
         <el-form-item label="键值描述信息" prop="description">
           <el-input v-model="configConst.description" placeholder="请输入键值描述信息" />
         </el-form-item>
-        <el-form-item label="系统配置的默认值" prop="defaultValue">
-          <el-input v-model="configConst.defaultValue" placeholder="请输入系统配置的默认值" />
+        <el-form-item label="默认值" prop="defaultValue">
+          <el-input v-model="configConst.defaultValue" placeholder="请输入默认值" />
         </el-form-item>
         <el-form-item label="用户是否可配置" prop="userable">
           <el-switch
@@ -114,6 +118,7 @@ import {
   createConfigConst,
   updateConfigConst,
   deleteConfigConst,
+  getKeyList,
   exportConfigConstExcel
 } from '@/api/system/config'
 import Pagination from '@/components/Pagination'
@@ -121,6 +126,15 @@ import Pagination from '@/components/Pagination'
 export default {
   name: 'ConfigConst',
   components: { Pagination },
+  filters: {
+    userableFilter(ableValue) {
+      if (ableValue) {
+        return '是'
+      } else {
+        return '否'
+      }
+    }
+  },
   data() {
     return {
       tableKey: 0,
@@ -142,7 +156,7 @@ export default {
         key: null,
         description: null,
         defaultValue: null,
-        userable: null
+        userable: false
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -248,6 +262,16 @@ export default {
           type: 'info',
           message: '已取消删除'
         })
+      })
+    },
+    getKeyList(key, callback) {
+      getKeyList(key).then(res => {
+        const keyList = []
+        for (const k of res.data) {
+          const keyObj = { value: k }
+          keyList.push(keyObj)
+        }
+        callback(keyList)
       })
     },
     handleFilter() {
