@@ -154,16 +154,16 @@
                style="width: 800px; margin-left:50px;" :inline="true"
       >
         <el-form-item label="菜单名称" prop="metaTitle">
-          <el-input v-model="menu.metaTitle" placeholder="请输入菜单名称" />
+          <el-input v-model="menu.metaTitle" placeholder="用户管理" />
         </el-form-item>
         <el-form-item label="菜单路由路径" prop="path">
-          <el-input v-model="menu.path" placeholder="请输入菜单路由路径" />
+          <el-input v-model="menu.path" placeholder="user" />
         </el-form-item>
         <el-form-item label="菜单模块名称" prop="name">
-          <el-input v-model="menu.name" placeholder="请输入菜单模块名称" />
+          <el-input v-model="menu.name" placeholder="User" />
         </el-form-item>
         <el-form-item label="菜单模块路径" prop="component">
-          <el-input v-model="menu.component" placeholder="请输入菜单模块路径" :disabled="menu.parentId === 0" />
+          <el-input v-model="menu.component" placeholder="data/user/index" :disabled="menu.parentId === 0" />
         </el-form-item>
         <el-form-item label="菜单图标" prop="metaIcon">
           <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" style="width: 190px;" readonly>
