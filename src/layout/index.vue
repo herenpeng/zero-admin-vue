@@ -8,10 +8,10 @@
         <tags-view v-if="needTagsView" />
       </div>
       <app-main />
+      <footer>{{ recordNumber }}</footer>
       <right-panel v-if="showSettings">
         <settings />
       </right-panel>
-      <div class="footer">赣ICP备2021xxxxxxx号</div>
     </div>
   </div>
 </template>
@@ -21,6 +21,7 @@ import RightPanel from '@/components/RightPanel'
 import { Navbar, Sidebar, AppMain, Settings, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
+import { getByKey } from '@/api/system/config'
 
 export default {
   name: 'Layout',
@@ -50,7 +51,20 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      recordNumber: null
+    }
+  },
+  created() {
+    this.loadRecordNumber()
+  },
   methods: {
+    loadRecordNumber() {
+      getByKey('RECORD_NUMBER').then(res => {
+        this.recordNumber = res.data
+      })
+    },
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
@@ -99,8 +113,7 @@ export default {
     width: 100%;
   }
 
-  .footer {
-    margin-top: -30px;
+  footer {
     line-height: 30px;
     text-align: center;
     background-color: #304156;

@@ -136,16 +136,16 @@
           <el-input v-model="tableInfo.requestMapping" placeholder="请输入类请求路径" />
         </el-form-item>
         <el-form-item label="包前缀名称" prop="javaPackageName">
-          <el-input v-model="tableInfo.javaPackageName" placeholder="请输入包前缀名称" />
+          <el-input v-model="tableInfo.javaPackageName" placeholder="com.zero.sys" />
         </el-form-item>
         <el-form-item label="Java代码路径" prop="javaCodePath">
-          <el-input v-model="tableInfo.javaCodePath" placeholder="请输入Java代码路径" />
+          <el-input v-model="tableInfo.javaCodePath" placeholder="F:\IdeaCode\zero-admin\zero-sys" />
         </el-form-item>
         <el-form-item label="Vue代码路径" prop="vueCodePath">
-          <el-input v-model="tableInfo.vueCodePath" placeholder="请输入Vue代码路径" />
+          <el-input v-model="tableInfo.vueCodePath" placeholder="F:\Js\zero-admin-vue" />
         </el-form-item>
         <el-form-item label="Vue包路径" prop="vuePackage">
-          <el-input v-model="tableInfo.vuePackage" placeholder="Vue包路径" />
+          <el-input v-model="tableInfo.vuePackage" placeholder="data.user" />
         </el-form-item>
         <el-form-item label="代码作者" prop="codeAuthor">
           <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" />
