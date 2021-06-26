@@ -22,6 +22,7 @@ import { Navbar, Sidebar, AppMain, Settings, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
 import { getByKey } from '@/api/system/config'
+const config = require('@/config')
 
 export default {
   name: 'Layout',
@@ -61,7 +62,7 @@ export default {
   },
   methods: {
     loadRecordNumber() {
-      getByKey('RECORD_NUMBER').then(res => {
+      getByKey(config.RECORD_NUMBER).then(res => {
         this.recordNumber = res.data
       })
     },

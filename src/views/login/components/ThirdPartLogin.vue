@@ -99,7 +99,7 @@ export default {
 
     .github-svg-container {
       background-color: #1296db;
-      margin-left: 50px;
+      margin-left: 60px;
     }
   }
 </style>

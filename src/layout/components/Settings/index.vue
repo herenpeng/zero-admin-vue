@@ -34,25 +34,22 @@
 
 <script>
 import ThemePicker from '@/components/ThemePicker'
+const config = require('@/config')
+import { loadConfig, setConfig, updateUserConfig } from '@/utils/config-util'
 
 export default {
+  name: 'Settings',
   components: { ThemePicker },
   data() {
     return {}
   },
   computed: {
-    isShowJob() {
-      return this.$store.getters.language === 'zh'
-    },
     fixedHeader: {
       get() {
         return this.$store.state.settings.fixedHeader
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
-          key: 'fixedHeader',
-          value: val
-        })
+        this.setConfigChange('fixedHeader', val)
       }
     },
     tagsView: {
@@ -60,10 +57,7 @@ export default {
         return this.$store.state.settings.tagsView
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
-          key: 'tagsView',
-          value: val
-        })
+        this.setConfigChange('tagsView', val)
       }
     },
     sidebarLogo: {
@@ -71,10 +65,7 @@ export default {
         return this.$store.state.settings.sidebarLogo
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
-          key: 'sidebarLogo',
-          value: val
-        })
+        this.setConfigChange('sidebarLogo', val)
       }
     },
     supportPinyinSearch: {
@@ -82,57 +73,55 @@ export default {
         return this.$store.state.settings.supportPinyinSearch
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
-          key: 'supportPinyinSearch',
-          value: val
-        })
+        this.setConfigChange('supportPinyinSearch', val)
       }
     },
     lang() {
       return this.$store.getters.language
     }
   },
+  created() {
+    loadConfig()
+  },
   methods: {
     themeChange(val) {
-      this.$store.dispatch('settings/changeSetting', {
-        key: 'theme',
-        value: val
-      })
+      updateUserConfig(config.THEME_COLOR, val)
+      setConfig('theme', val)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.drawer-container {
-  padding: 24px;
-  font-size: 14px;
-  line-height: 1.5;
-  word-wrap: break-word;
-
-  .drawer-title {
-    margin-bottom: 12px;
-    color: rgba(0, 0, 0, .85);
+  .drawer-container {
+    padding: 24px;
     font-size: 14px;
-    line-height: 22px;
-  }
+    line-height: 1.5;
+    word-wrap: break-word;
 
-  .drawer-item {
-    color: rgba(0, 0, 0, .65);
-    font-size: 14px;
-    padding: 12px 0;
-  }
+    .drawer-title {
+      margin-bottom: 12px;
+      color: rgba(0, 0, 0, .85);
+      font-size: 14px;
+      line-height: 22px;
+    }
 
-  .drawer-switch {
-    float: right
-  }
+    .drawer-item {
+      color: rgba(0, 0, 0, .65);
+      font-size: 14px;
+      padding: 12px 0;
+    }
 
-  .job-link{
-    display: block;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: 0;
+    .drawer-switch {
+      float: right
+    }
+
+    .job-link {
+      display: block;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 0;
+    }
   }
-}
 </style>

@@ -65,6 +65,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { loadConfig } from '@/utils/config-util'
 import ThirdPartLogin from './components/ThirdPartLogin'
 import LangSelect from '@/components/LangSelect'
 
@@ -120,6 +121,8 @@ export default {
           this.$store.dispatch('user/login', this.loginForm).then((res) => {
             this.$router.push({ path: '/' })
             this.loading = false
+            // 加载用户配置
+            loadConfig()
           }).catch(() => {
             this.loading = false
           })

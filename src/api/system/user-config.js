@@ -26,6 +26,14 @@ export function updateUserConfig(userConfig) {
   })
 }
 
+export function updateUserConfigByKey(key, value) {
+  return request({
+    url: '/user/config/key',
+    method: 'put',
+    params: { key, value }
+  })
+}
+
 export function deleteUserConfig(id) {
   return request({
     url: '/user/config/' + id,
