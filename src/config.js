@@ -8,6 +8,11 @@ module.exports = {
   /**
    * 主题颜色
    */
-  THEME_COLOR: 'THEME_COLOR'
+  THEME_COLOR: 'THEME_COLOR',
+
+  /**
+   * 开启页面顶部标签 Tags-View
+   */
+  TAGS_VIEW: 'TAGS_VIEW'
 
 }

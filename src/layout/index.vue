@@ -21,8 +21,6 @@ import RightPanel from '@/components/RightPanel'
 import { Navbar, Sidebar, AppMain, Settings, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
-import { getByKey } from '@/api/system/config'
-const config = require('@/config')
 
 export default {
   name: 'Layout',
@@ -41,7 +39,8 @@ export default {
       device: state => state.app.device,
       showSettings: state => state.settings.showSettings,
       needTagsView: state => state.settings.tagsView,
-      fixedHeader: state => state.settings.fixedHeader
+      fixedHeader: state => state.settings.fixedHeader,
+      recordNumber: state => state.settings.recordNumber
     }),
     classObj() {
       return {
@@ -53,19 +52,9 @@ export default {
     }
   },
   data() {
-    return {
-      recordNumber: null
-    }
-  },
-  created() {
-    this.loadRecordNumber()
+    return {}
   },
   methods: {
-    loadRecordNumber() {
-      getByKey(config.RECORD_NUMBER).then(res => {
-        this.recordNumber = res.data
-      })
-    },
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }

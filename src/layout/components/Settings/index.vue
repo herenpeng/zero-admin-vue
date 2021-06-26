@@ -10,7 +10,7 @@
 
       <div class="drawer-item">
         <span>{{ $t('settings.tagsView') }}</span>
-        <el-switch v-model="tagsView" class="drawer-switch" />
+        <el-switch v-model="tagsView" class="drawer-switch" @change="tagsViewChange"/>
       </div>
 
       <div class="drawer-item">
@@ -23,11 +23,6 @@
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
       </div>
 
-      <div v-if="lang === 'zh'" class="drawer-item">
-        <span>菜单支持拼音搜索</span>
-        <el-switch v-model="supportPinyinSearch" class="drawer-switch" />
-      </div>
-
     </div>
   </div>
 </template>
@@ -36,6 +31,7 @@
 import ThemePicker from '@/components/ThemePicker'
 const config = require('@/config')
 import { loadConfig, setConfig, updateUserConfig } from '@/utils/config-util'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Settings',
@@ -44,38 +40,13 @@ export default {
     return {}
   },
   computed: {
-    fixedHeader: {
-      get() {
-        return this.$store.state.settings.fixedHeader
-      },
-      set(val) {
-        this.setConfigChange('fixedHeader', val)
-      }
-    },
-    tagsView: {
-      get() {
-        return this.$store.state.settings.tagsView
-      },
-      set(val) {
-        this.setConfigChange('tagsView', val)
-      }
-    },
-    sidebarLogo: {
-      get() {
-        return this.$store.state.settings.sidebarLogo
-      },
-      set(val) {
-        this.setConfigChange('sidebarLogo', val)
-      }
-    },
-    supportPinyinSearch: {
-      get() {
-        return this.$store.state.settings.supportPinyinSearch
-      },
-      set(val) {
-        this.setConfigChange('supportPinyinSearch', val)
-      }
-    },
+    ...mapState({
+      recordNumber: state => state.settings.recordNumber,
+      tagsView: state => state.settings.tagsView,
+      showSettings: state => state.settings.showSettings,
+      fixedHeader: state => state.settings.fixedHeader,
+      sidebarLogo: state => state.settings.sidebarLogo
+    }),
     lang() {
       return this.$store.getters.language
     }
@@ -87,6 +58,10 @@ export default {
     themeChange(val) {
       updateUserConfig(config.THEME_COLOR, val)
       setConfig('theme', val)
+    },
+    tagsViewChange(val) {
+      updateUserConfig(config.TAGS_VIEW, val)
+      setConfig('tagsView', val)
     }
   }
 }
