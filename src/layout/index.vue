@@ -104,8 +104,11 @@ export default {
   }
 
   footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     line-height: 30px;
-    text-align: center;
+    text-align: left;
     background-color: #304156;
     color: white;
   }

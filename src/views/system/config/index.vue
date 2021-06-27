@@ -11,7 +11,7 @@
       <el-input v-model="listQuery.description" placeholder="键值描述信息" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.userable" placeholder="用户是否可配置" clearable class="filter-item"
+      <el-select v-model="listQuery.userable" placeholder="用户是否可配置" clearable style="margin-right: 10px;" class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />

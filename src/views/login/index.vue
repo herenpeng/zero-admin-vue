@@ -121,8 +121,6 @@ export default {
           this.$store.dispatch('user/login', this.loginForm).then((res) => {
             this.$router.push({ path: '/' })
             this.loading = false
-            // 加载用户配置
-            loadConfig()
           }).catch(() => {
             this.loading = false
           })

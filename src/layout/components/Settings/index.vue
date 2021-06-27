@@ -10,17 +10,17 @@
 
       <div class="drawer-item">
         <span>{{ $t('settings.tagsView') }}</span>
-        <el-switch v-model="tagsView" class="drawer-switch" @change="tagsViewChange"/>
+        <el-switch v-model="tagsView" class="drawer-switch" @change="tagsViewChange" />
       </div>
 
       <div class="drawer-item">
         <span>{{ $t('settings.fixedHeader') }}</span>
-        <el-switch v-model="fixedHeader" class="drawer-switch" />
+        <el-switch v-model="fixedHeader" class="drawer-switch" @change="fixedHeaderChange" />
       </div>
 
       <div class="drawer-item">
         <span>{{ $t('settings.sidebarLogo') }}</span>
-        <el-switch v-model="sidebarLogo" class="drawer-switch" />
+        <el-switch v-model="sidebarLogo" class="drawer-switch" @change="sidebarLogoChange" />
       </div>
 
     </div>
@@ -56,12 +56,20 @@ export default {
   },
   methods: {
     themeChange(val) {
-      updateUserConfig(config.THEME_COLOR, val)
-      setConfig('theme', val)
+      this.configChange(config.THEME_COLOR, 'theme', val)
     },
     tagsViewChange(val) {
-      updateUserConfig(config.TAGS_VIEW, val)
-      setConfig('tagsView', val)
+      this.configChange(config.TAGS_VIEW, 'tagsView', val)
+    },
+    fixedHeaderChange(val) {
+      this.configChange(config.FIXED_HEADER, 'fixedHeader', val)
+    },
+    sidebarLogoChange(val) {
+      this.configChange(config.SIDEBAR_LOGO, 'sidebarLogo', val)
+    },
+    configChange(configKey, storeKey, value) {
+      updateUserConfig(configKey, value)
+      setConfig(storeKey, value)
     }
   }
 }

@@ -1,7 +1,17 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-            <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+      <el-autocomplete
+        v-model="listQuery.queryKey"
+        :fetch-suggestions="getKeyList"
+        placeholder="常量键值"
+        clearable
+        @select="handleFilter"
+      />
+      <el-input v-model="listQuery.queryUsername" placeholder="配置用户" style="width: 180px; margin-right: 10px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
@@ -27,12 +37,32 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
+      <el-table-column label="常量键值" width="200px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.configConst.key }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="用户名" width="200px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.user.username }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="键值描述信息" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.configConst.description }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="系统配置的默认值" width="200px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.configConst.defaultValue }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="用户配置值" width="150px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.value }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200px">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
@@ -76,6 +106,9 @@ import {
   deleteUserConfig,
   exportUserConfigExcel
 } from '@/api/system/user-config'
+import {
+  getKeyList
+} from '@/api/system/config'
 import Pagination from '@/components/Pagination'
 
 export default {
@@ -93,7 +126,9 @@ export default {
       listLoading: false,
       listQuery: {
         userId: null,
-        configId: null
+        configId: null,
+        queryKey: null,
+        queryUsername: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
       userConfig: {
@@ -205,6 +240,16 @@ export default {
           type: 'info',
           message: '已取消删除'
         })
+      })
+    },
+    getKeyList(key, callback) {
+      getKeyList(key, 1).then(res => {
+        const keyList = []
+        for (const k of res.data) {
+          const keyObj = { value: k }
+          keyList.push(keyObj)
+        }
+        callback(keyList)
       })
     },
     handleFilter() {

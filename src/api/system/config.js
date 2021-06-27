@@ -33,11 +33,11 @@ export function deleteConfigConst(id) {
   })
 }
 
-export function getKeyList(key) {
+export function getKeyList(key, userable) {
   return request({
     url: '/config/const/list/key',
     method: 'get',
-    params: { key }
+    params: { key, userable }
   })
 }
 
