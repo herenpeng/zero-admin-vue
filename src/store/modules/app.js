@@ -7,7 +7,7 @@ const state = {
     withoutAnimation: false
   },
   device: 'desktop',
-  language: getLanguage(),
+  language: getLanguage()
 }
 
 const mutations = {
