@@ -17,13 +17,15 @@
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 140px" class="filter-item"
+      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 140px"
+                 class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 140px;" class="filter-item"
+      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 140px;"
+                 class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
@@ -97,8 +99,11 @@
       </el-table-column>
       <el-table-column label="账号状态" width="80px" align="center">
         <template slot-scope="{row}">
-          <el-link v-if="row.onlineLoginLogs.length === 0" type="info" :underline="false" style="font-size: 12px;">未登录</el-link>
-          <el-link v-else type="success" @click="loginLog(row)" style="font-size: 12px;">在线{{ row.onlineLoginLogs.length }}人</el-link>
+          <el-link v-if="row.onlineLoginLogs.length === 0" type="info" :underline="false" style="font-size: 12px;">未登录
+          </el-link>
+          <el-link v-else type="success" style="font-size: 12px;" @click="loginLog(row)">在线{{ row.onlineLoginLogs.length
+          }}人
+          </el-link>
         </template>
       </el-table-column>
       <el-table-column label="用户角色" class-name="status-col">
@@ -191,7 +196,7 @@
     </el-dialog>
 
     <el-dialog title="在线账号" :visible.sync="loginLogDialogVisible" width="60%">
-      <login-log :onlineLoginLogs="onlineLoginLogs" @offline="offline"></login-log>
+      <login-log :online-login-logs="onlineLoginLogs" @offline="offline" />
     </el-dialog>
 
   </div>
@@ -220,18 +225,10 @@ export default {
   components: { Pagination, LoginLog },
   filters: {
     lockedFilter(lockedValue) {
-      if (lockedValue) {
-        return '锁定'
-      } else {
-        return '未锁定'
-      }
+      return lockedValue ? '锁定' : '未锁定'
     },
     expireFilter(expireValue) {
-      if (expireValue) {
-        return '过期'
-      } else {
-        return '未过期'
-      }
+      return expireValue ? '过期' : '过期'
     }
   },
   data() {

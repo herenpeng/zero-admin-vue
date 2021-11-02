@@ -80,9 +80,14 @@
           <span>{{ row.component }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否隐藏" width="70" align="center">
+      <el-table-column label="是否隐藏" width="150" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.hidden | hiddenFilter }}</span>
+          <el-switch
+            v-model="row.hidden"
+            active-text="隐藏"
+            inactive-text="显示"
+            @change="hidden(row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="是否启用" width="150" align="center">
@@ -229,15 +234,6 @@ import { getRoleList } from '@/api/data/role'
 export default {
   name: 'Menu',
   components: { Pagination, Icon },
-  filters: {
-    hiddenFilter(hiddenValue) {
-      if (hiddenValue) {
-        return '隐藏'
-      } else {
-        return '显示'
-      }
-    }
-  },
   data() {
     return {
       tableKey: 0,
@@ -314,6 +310,17 @@ export default {
       this.page.currentPage = page.page
       this.page.size = page.limit
       this.loadData()
+    },
+    hidden(row) {
+      enabled(row.id, row.hidden).then(res => {
+        this.$notify({
+          title: '成功',
+          message: res.message,
+          type: 'success',
+          duration: 2000
+        })
+        this.loadData()
+      })
     },
     enabled(row) {
       enabled(row.id, row.enabled).then(res => {

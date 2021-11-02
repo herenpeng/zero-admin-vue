@@ -1,37 +1,80 @@
 <template>
   <div class="app-container">
-    <el-card shadow="hover">
-      <div slot="header">
-        <span>上传头像</span>
-      </div>
-      <el-row>
-        <el-col :span="12">
-          <el-upload
-            action="#"
-            list-type="picture-card"
-            :auto-upload="false"
-            :limit="1"
-            fit="scale-down"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :on-change="handlerChange"
-            :on-exceed="handleExceed"
-          >
-            <i class="el-icon-plus" />
-          </el-upload>
-          <el-button style="margin-top: 10px;" type="primary" @click="uploadAvatar">点击上传</el-button>
-        </el-col>
-        <el-col :span="12" style="text-align: center">
-          <div class="banner">
-            <el-avatar :size="150" :src="userInfo.avatar" />
+
+    <el-row :gutter="20">
+      <!--上传头像-->
+      <el-col :span="12">
+        <el-card shadow="hover">
+          <div slot="header">
+            <span>上传头像</span>
           </div>
-        </el-col>
-      </el-row>
-    </el-card>
+          <el-row>
+            <el-col :span="12">
+              <el-upload
+                action="#"
+                list-type="picture-card"
+                :auto-upload="false"
+                :limit="1"
+                fit="scale-down"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove"
+                :on-change="handlerChange"
+                :on-exceed="handleExceed"
+              >
+                <i class="el-icon-plus" />
+              </el-upload>
+              <el-button style="margin-top: 54px;" type="primary" @click="uploadAvatar">点击上传</el-button>
+            </el-col>
+            <el-col :span="12">
+              <div class="banner">
+                <el-avatar :size="150" :src="userInfo.avatar" />
+              </div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+      <!--密码设置-->
+      <el-col :span="12">
+        <el-card shadow="hover">
+          <div slot="header">
+            <span>密码设置</span>
+          </div>
+          <el-row>
+            <el-col :span="12">
+              <el-form ref="settingForm" :model="settingForm" status-icon :rules="rules" label-width="100px"
+                       class="demo-ruleForm"
+              >
+                <el-form-item label="旧密码" prop="oldPassword">
+                  <el-input v-model="settingForm.oldPassword" />
+                </el-form-item>
+                <el-form-item label="新密码" prop="newPassword">
+                  <el-input v-model="settingForm.newPassword" type="password" autocomplete="new-password" :show-password="true" />
+                </el-form-item>
+                <el-form-item label="确认密码" prop="checkPassword">
+                  <el-input v-model="settingForm.checkPassword" type="password" autocomplete="new-password" :show-password="true" />
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="submitForm()">提交</el-button>
+                  <el-button @click="resetForm()">重置</el-button>
+                </el-form-item>
+              </el-form>
+            </el-col>
+            <el-col :span="12">
+              <div class="banner">
+                <el-progress type="dashboard" :percentage="percentage" :color="colors" />
+                <div>新密码强度</div>
+              </div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+    </el-row>
+
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
 
+    <!--用户信息-->
     <el-card shadow="hover" style="margin-top: 20px;">
       <el-row style="line-height: 50px;text-align: center;width: 100%;">
         <el-col :span="2">
@@ -369,6 +412,7 @@
 </template>
 <script>
 import { getInfo, updateUserInfo, uploadAvatar, sendVerifyMail, verifyMail } from '@/api/setting/user-info'
+import { checkPassword, resetPassword } from '@/api/setting/password'
 import store from '@/store'
 
 export default {
@@ -378,14 +422,65 @@ export default {
       if (genderValue === null) {
         return '点击编辑修改性别'
       }
-      if (genderValue) {
-        return '男'
-      } else {
-        return '女'
-      }
+      return genderValue ? '男' : '女'
     }
   },
   data() {
+    const checkOldPassword = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('密码不能为空'))
+      } else {
+        this.checkPassword(value).then(res => {
+          if (res.data) {
+            callback()
+          } else {
+            callback(new Error('密码输入错误'))
+          }
+        })
+      }
+    }
+    const validateNewPassword = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('请输入新密码'))
+      } else {
+        if (value.length < 6) {
+          callback(new Error('密码长度不能小于6位数'))
+        }
+        if (this.settingForm.checkPassword !== '') {
+          this.$refs.settingForm.validateField('checkPassword')
+        }
+        callback()
+      }
+    }
+    const validatePasswordStrength = (rule, value, callback) => {
+      this.percentage = value.length
+      const numberRegex = /\d+/
+      const letterRegex = /[a-zA-Z]+/
+      const specialCharactersRegex = /\W+/
+      if (numberRegex.test(value)) {
+        this.percentage += 10
+      }
+      if (letterRegex.test(value)) {
+        this.percentage += 20
+      }
+      if (specialCharactersRegex.test(value)) {
+        this.percentage += 30
+      }
+      if (this.percentage < 30) {
+        callback(new Error('新密码强度不足'))
+      } else {
+        callback()
+      }
+    }
+    const validateCheckPassword = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('请再次输入新密码'))
+      } else if (value !== this.settingForm.newPassword) {
+        callback(new Error('两次输入的新密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
       file: null,
       dialogImageUrl: '',
@@ -410,7 +505,39 @@ export default {
         }
       },
       verifyMailDialogVisible: false,
-      verify: null
+      verify: null,
+      settingForm: {
+        oldPassword: '',
+        newPassword: '',
+        checkPassword: ''
+      },
+      rules: {
+        oldPassword: [{ validator: checkOldPassword, trigger: 'blur' }],
+        newPassword: [
+          { validator: validateNewPassword, trigger: 'blur' },
+          { validator: validatePasswordStrength, trigger: 'change' }
+        ],
+        checkPassword: [{ validator: validateCheckPassword, trigger: 'blur' }]
+      },
+      percentage: 0,
+      colors: [
+        { color: '#fa0000', percentage: 20 },
+        { color: '#ff7700', percentage: 40 },
+        { color: '#fcf700', percentage: 60 },
+        { color: '#007dfc', percentage: 80 },
+        { color: '#09ff00', percentage: 100 }
+      ]
+    }
+  },
+  watch: {
+    // newValue为新值,oldValue为旧值;
+    percentage(newValue, oldValue) {
+      if (newValue < 0) {
+        this.percentage = 0
+      }
+      if (newValue > 100) {
+        this.percentage = 100
+      }
     }
   },
   created() {
@@ -422,6 +549,15 @@ export default {
         this.sourceUserInfo = Object.assign({}, res.data)
         this.userInfo = res.data
       })
+    },
+    updateSuccess(message) {
+      this.$notify({
+        title: '成功',
+        message: message,
+        type: 'success',
+        duration: 2000
+      })
+      this.getInfo()
     },
     uploadAvatar() {
       if (this.file === null) {
@@ -480,13 +616,7 @@ export default {
       }
       this.edit[key] = !this.edit[key]
       updateUserInfo(this.userInfo).then(res => {
-        this.$notify({
-          title: '成功',
-          message: res.message,
-          type: 'success',
-          duration: 2000
-        })
-        this.getInfo()
+        this.updateSuccess(res.message)
       })
     },
     sendVerifyMail() {
@@ -521,7 +651,9 @@ export default {
         this.verify = null
         this.verifyMailDialogVisible = false
         if (res.data) {
-          this.confirmEdit('mail')
+          this.edit['mail'] = !this.edit['mail']
+          this.updateSuccess(res.message)
+          // this.confirmEdit('mail')
         } else {
           this.$message({
             type: 'error',
@@ -530,6 +662,33 @@ export default {
           this.cancelEdit('mail')
         }
       })
+    },
+    submitForm() {
+      this.$refs['settingForm'].validate((valid) => {
+        if (valid) {
+          resetPassword(this.settingForm.oldPassword, this.settingForm.newPassword).then((res) => {
+            this.$notify({
+              title: '成功',
+              message: res.message,
+              type: 'success',
+              duration: 2000
+            })
+            setTimeout(() => {
+              this.logout()
+            }, 2000)
+          })
+        }
+      })
+    },
+    checkPassword(value) {
+      return checkPassword(value)
+    },
+    resetForm() {
+      this.$refs['settingForm'].resetFields()
+    },
+    async logout() {
+      await this.$store.dispatch('user/logout')
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
 }
@@ -538,6 +697,6 @@ export default {
   .banner {
     display:block;
     position:relative;
-    margin:auto;
+    text-align: center;
   }
 </style>

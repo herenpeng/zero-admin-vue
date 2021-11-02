@@ -142,15 +142,15 @@
 </template>
 
 <script>
-  import {
-    getResourcesPage,
-    createResources,
-    updateResources,
-    deleteResources,
-    deleteResourcesRole,
-    getResourcesNotRoleList,
-    addResourcesRole, exportResourcesExcel
-  } from '@/api/data/resources'
+import {
+  getResourcesPage,
+  createResources,
+  updateResources,
+  deleteResources,
+  deleteResourcesRole,
+  getResourcesNotRoleList,
+  addResourcesRole, exportResourcesExcel
+} from '@/api/data/resources'
 import Pagination from '@/components/Pagination'
 import { getRoleList } from '@/api/data/role'
 
@@ -159,11 +159,7 @@ export default {
   components: { Pagination },
   filters: {
     enabledFilter(enabledValue) {
-      if (enabledValue) {
-        return '启用'
-      } else {
-        return '禁用'
-      }
+      return enabledValue ? '启用' : '禁用'
     }
   },
   data() {
@@ -361,7 +357,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportResourcesExcel(this.listQuery,'系统资源列表')
+      exportResourcesExcel(this.listQuery, '系统资源列表')
     }
   }
 }
