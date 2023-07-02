@@ -8,6 +8,8 @@ package-lock.json
 tests/**/coverage/
 
 # Editor directories and files
+.git
+*.iml
 .idea
 .vscode
 *.suo
