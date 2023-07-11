@@ -49,6 +49,14 @@ export function getByKey(key) {
   })
 }
 
+export function getByKeys(keys) {
+  return request({
+    url: '/config/const/keys',
+    method: 'post',
+    data: keys
+  })
+}
+
 export function getConfigConstRecoverPage(page, query) {
   query.size = page.size
   return request({
