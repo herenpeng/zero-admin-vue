@@ -69,6 +69,7 @@ const actions = {
       logout(state.token).then(() => {
         removeToken() // must remove  token  first
         resetRouter()
+        sessionStorage.removeItem('previousRoute')
         commit('RESET_STATE')
         resolve()
       }).catch(error => {
