@@ -148,7 +148,7 @@
           <el-input v-model="tableInfo.vuePackage" placeholder="data.user" />
         </el-form-item>
         <el-form-item label="代码作者" prop="codeAuthor">
-          <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" />
+          <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" disabled="disabled" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -161,6 +161,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import {
   getTableInfoPage,
   getNotAddList,
@@ -173,6 +174,11 @@ import Pagination from '@/components/Pagination'
 export default {
   name: 'CodeGeneration',
   components: { Pagination },
+  computed: {
+    ...mapGetters([
+      'username'
+    ])
+  },
   data() {
     return {
       tableKey: 0,
@@ -220,7 +226,7 @@ export default {
         javaCodePath: [{ required: true, message: '请输入Java代码路径', trigger: 'change' }],
         vueCodePath: [{ required: true, message: '请输入Vue代码路径', trigger: 'change' }],
         vuePackage: [{ required: true, message: '请输入Vue包路径', trigger: 'change' }],
-        codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
+        // codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
       },
       downloadLoading: false
     }
@@ -252,7 +258,7 @@ export default {
       getNotAddList().then((res) => {
         this.tableInfoList = res.data
       })
-      this.tableInfo = {}
+      this.tableInfo = { codeAuthor: this.username }
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {

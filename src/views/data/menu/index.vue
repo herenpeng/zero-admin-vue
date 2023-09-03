@@ -179,7 +179,7 @@
           <el-input v-model="menu.redirect" placeholder="请输入父级菜单定向路由路径" />
         </el-form-item>
         <el-form-item label="菜单排序" prop="sort">
-          <el-input v-model="menu.sort" placeholder="请输入菜单排序" />
+          <el-input v-model="menu.sort" type="number" placeholder="请输入菜单排序" />
         </el-form-item>
         <el-form-item label="是否隐藏" prop="enabled">
           <el-switch

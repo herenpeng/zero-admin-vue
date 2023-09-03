@@ -30,7 +30,7 @@
             <el-input v-model="tableInfo.vuePackage" placeholder="Vue包路径" />
           </el-form-item>
           <el-form-item label="代码作者" prop="codeAuthor">
-            <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" />
+            <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" disabled="disabled" />
           </el-form-item>
         </el-form>
         <div style="text-align: center">
@@ -86,7 +86,7 @@ export default {
         javaCodePath: [{ required: true, message: '请输入Java代码路径', trigger: 'change' }],
         vueCodePath: [{ required: true, message: '请输入Vue代码路径', trigger: 'change' }],
         vuePackage: [{ required: true, message: '请输入Vue包路径', trigger: 'change' }],
-        codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
+        // codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
       }
     }
   },
