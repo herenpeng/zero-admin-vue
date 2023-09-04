@@ -83,7 +83,7 @@
         </el-dialog>
       </el-col>
       <el-col :span="6">
-        <el-tree :data="list" :props="organTreeProps" @node-click="handleNodeClick"></el-tree>
+        <el-tree :data="organTree" :props="organTreeProps" @node-click="handleNodeClick"></el-tree>
       </el-col>
     </el-row>
   </div>
@@ -105,7 +105,7 @@ export default {
   data() {
     return {
       tableKey: 0,
-      list: null,
+      list: [],
       page: {
         currentPage: 1,
         size: 10,
@@ -134,6 +134,7 @@ export default {
         parentId: [{ required: true, message: '请输入父级组织机构主键，如果为顶级组织机构，值为0', trigger: 'change' }]
       },
       downloadLoading: false,
+      organTree: [],
       organTreeProps: {
         label: 'name',
         children: 'children'
@@ -156,7 +157,25 @@ export default {
         this.list = page.records
         this.page.total = page.total
         this.listLoading = false
+        this.buildTree()
       })
+    },
+    buildTree() {
+      this.organTree = []
+      for (const organ of this.list) {
+        const node = JSON.parse(JSON.stringify(organ))
+        this.organTree.push(node)
+        this.buildChildrenTree(node)
+      }
+    },
+    buildChildrenTree(organ) {
+      // 先寻找子组织，否则将用户加入子组织后，循环迭代会有问题
+      for (const node of organ.children) {
+        this.buildChildrenTree(node)
+      }
+      for (const user of organ.users) {
+        organ.children.push({ id: user.id, name: user.username, isUser: true })
+      }
     },
     handlePagination(page) {
       this.page.currentPage = page.page
