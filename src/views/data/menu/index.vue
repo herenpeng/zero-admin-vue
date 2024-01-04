@@ -370,6 +370,8 @@ export default {
     },
     handleUpdate(row) {
       this.menu = Object.assign({}, row) // copy obj
+      this.menu.children = null
+      this.menu.roles = null
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {

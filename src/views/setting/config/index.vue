@@ -120,7 +120,7 @@ import {
   deleteConfigConst,
   getKeyList,
   exportConfigConstExcel
-} from '@/api/system/config'
+} from '@/api/setting/config'
 import Pagination from '@/components/Pagination'
 
 export default {

@@ -141,15 +141,15 @@
 
 <script>
 import {
-  getLogPage,
-  deleteLog,
-  exportLogExcel
-} from '@/api/system/log'
+  getOperationLogPage,
+  deleteOperationLog,
+  exportOperationLogExcel
+} from '@/api/system/operation-log'
 import Pagination from '@/components/Pagination'
 import JsonEditor from '@/components/JsonEditor'
 
 export default {
-  name: 'Log',
+  name: 'OperationLog',
   components: { Pagination, JsonEditor },
   data() {
     return {
@@ -221,7 +221,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getLogPage(this.page, this.listQuery).then(res => {
+      getOperationLogPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -244,7 +244,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteLog(row.id).then(res => {
+        deleteOperationLog(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message
@@ -281,7 +281,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportLogExcel(this.listQuery, '系统日志列表')
+      exportOperationLogExcel(this.listQuery, '系统日志列表')
     }
   }
 }

@@ -105,10 +105,10 @@ import {
   updateUserConfig,
   deleteUserConfig,
   exportUserConfigExcel
-} from '@/api/system/user-config'
+} from '@/api/setting/user-config'
 import {
   getKeyList
-} from '@/api/system/config'
+} from '@/api/setting/config'
 import Pagination from '@/components/Pagination'
 
 export default {

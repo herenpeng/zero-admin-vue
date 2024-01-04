@@ -101,8 +101,7 @@
         <template slot-scope="{row}">
           <el-link v-if="row.onlineLoginLogs.length === 0" type="info" :underline="false" style="font-size: 12px;">未登录
           </el-link>
-          <el-link v-else type="success" style="font-size: 12px;" @click="loginLog(row)">在线{{ row.onlineLoginLogs.length
-          }}人
+          <el-link v-else type="success" style="font-size: 12px;" @click="loginLog(row)">在线{{ row.onlineLoginLogs.length }}人
           </el-link>
         </template>
       </el-table-column>
@@ -228,7 +227,7 @@ export default {
       return lockedValue ? '锁定' : '未锁定'
     },
     expireFilter(expireValue) {
-      return expireValue ? '过期' : '过期'
+      return expireValue ? '过期' : '未过期'
     }
   },
   data() {

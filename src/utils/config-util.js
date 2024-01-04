@@ -1,5 +1,5 @@
-import { updateUserConfigByKey } from '@/api/system/user-config'
-import { getByKeys } from '@/api/system/config'
+import { updateUserConfigByKey } from '@/api/setting/user-config'
+import { getByKeys } from '@/api/setting/config'
 import store from '@/store'
 
 const config = require('@/config')

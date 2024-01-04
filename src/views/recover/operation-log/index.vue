@@ -134,10 +134,10 @@
 
 <script>
 import {
-  getLogRecoverPage,
-  recoverLog,
+  getOperationLogRecoverPage,
+  recoverOperationLog,
   recoverDeleteLog
-} from '@/api/system/log'
+} from '@/api/system/operation-log'
 import Pagination from '@/components/Pagination'
 
 export default {
@@ -211,7 +211,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getLogRecoverPage(this.page, this.listQuery).then(res => {
+      getOperationLogRecoverPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -229,7 +229,7 @@ export default {
       this.loadData()
     },
     handleRecover(row) {
-      recoverLog(row.id).then(res => {
+      recoverOperationLog(row.id).then(res => {
         this.loadData()
       })
     },

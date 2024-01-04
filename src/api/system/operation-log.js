@@ -1,45 +1,45 @@
 import request from '@/utils/request'
 import { exportExcel } from '@/utils/export-file'
 
-export function getLogPage(page, query) {
+export function getOperationLogPage(page, query) {
   query.size = page.size
   return request({
-    url: '/log/page/' + page.currentPage,
+    url: '/operation/log/page/' + page.currentPage,
     method: 'get',
     params: query
   })
 }
 
-export function deleteLog(id) {
+export function deleteOperationLog(id) {
   return request({
-    url: '/log/' + id,
+    url: '/operation/log/' + id,
     method: 'delete'
   })
 }
 
-export function getLogRecoverPage(page, query) {
+export function getOperationLogRecoverPage(page, query) {
   query.size = page.size
   return request({
-    url: '/log/recover/page/' + page.currentPage,
+    url: '/operation/log/recover/page/' + page.currentPage,
     method: 'get',
     params: query
   })
 }
 
-export function recoverLog(id) {
+export function recoverOperationLog(id) {
   return request({
-    url: '/log/recover/' + id,
+    url: '/operation/log/recover/' + id,
     method: 'put'
   })
 }
 
 export function recoverDeleteLog(id) {
   return request({
-    url: '/log/recover/' + id,
+    url: '/operation/log/recover/' + id,
     method: 'delete'
   })
 }
 
 export function exportLogExcel(query, fileName) {
-  exportExcel('/log/export/excel', query, fileName)
+  exportExcel('/operation/log/export/excel', query, fileName)
 }
