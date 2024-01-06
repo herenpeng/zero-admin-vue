@@ -200,7 +200,7 @@
 import CpuChart from './components/CpuChart'
 import MemChart from './components/MemChart'
 import JvmChart from './components/JvmChart'
-import { getServerPieChartInfo, getServerInfo } from '@/api/system/server'
+import { getServerPieChartInfo, getServerInfo } from '@/api/monitor/server'
 import { closeWebSocket, connectWebSocket, supportWebSocket } from '@/utils/websocket'
 
 export default {

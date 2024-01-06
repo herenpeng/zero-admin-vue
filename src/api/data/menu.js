@@ -10,6 +10,13 @@ export function getMenuPage(page, query) {
   })
 }
 
+export function hidden(id, value) {
+  return request({
+    url: '/menu/hidden/' + id,
+    method: 'put',
+    params: { hidden: value }
+  })
+}
 export function enabled(id, value) {
   return request({
     url: '/menu/enabled/' + id,

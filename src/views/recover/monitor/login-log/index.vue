@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.name" placeholder="文件名称" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.queryUsername" placeholder="登入用户" style="width: 120px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.type" placeholder="文件类型" clearable style="width: 120px" class="filter-item"
-                 @change="handleFilter"
-      >
-        <el-option value="IMAGE" label="图片" />
-        <el-option value="PDF" label="PDF" />
-      </el-select>
-      <el-input v-model="listQuery.queryUsername" placeholder="上传用户" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.ip" placeholder="登入IP地址" style="width: 120px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.queryAddress" placeholder="登入地址" style="width: 120px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.isp" placeholder="因特网提供商" style="width: 120px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-date-picker
@@ -19,11 +19,23 @@
         align="right"
         unlink-panels
         range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
+        start-placeholder="登入开始日期"
+        end-placeholder="登入结束日期"
         value-format="yyyy-MM-dd HH:mm:ss"
         :picker-options="pickerOptions"
       />
+      <el-select v-model="listQuery.logout" placeholder="是否主动登出" clearable class="filter-item"
+                 style="width: 130px;" @change="handleFilter"
+      >
+        <el-option value="true" label="是" />
+        <el-option value="false" label="否" />
+      </el-select>
+      <el-select v-model="listQuery.queryOnline" placeholder="账号状态" clearable class="filter-item"
+                 style="width: 110px;margin-right: 10px;" @change="handleFilter"
+      >
+        <el-option value="true" label="在线" />
+        <el-option value="false" label="已登出" />
+      </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
@@ -38,41 +50,54 @@
       :key="tableKey"
       v-loading="listLoading"
       :data="list"
-      row-key="id"
       border
       fit
       size="mini"
       style="width: 100%;"
-      :tree-props="{children: 'bakFiles', hasChildren: 'hasChildren'}"
-      @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="文件名称">
-        <template slot-scope="{row}">
-          <span>{{ row.name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="文件类型" width="80">
-        <template slot-scope="{row}">
-          <span>{{ row.type }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="上传时间" width="200">
-        <template slot-scope="{row}">
-          <span>{{ row.uploadTime }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="上传用户" width="135">
+      <el-table-column label="序号" type="index" align="center" width="80" />
+      <el-table-column label="登入用户" width="120px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="查看" width="70" align="center">
+      <el-table-column label="登入IP地址" width="120px" align="center">
         <template slot-scope="{row}">
-          <span><el-link type="success" @click="view(row)">查看</el-link></span>
+          <span>{{ row.ip }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left"  width="250" class-name="small-padding fixed-width">
+      <el-table-column label="登入地址" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.country }} {{ row.region }} {{ row.city }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="因特网提供商" width="100px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.isp }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="登入时间" width="140px" align="center" sortable prop="accessTime">
+        <template slot-scope="{row}">
+          <span>{{ row.loginTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="登出时间" width="140px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.logoutTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否主动登出" width="100px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.logout | logoutFilter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="账号状态" width="80px" align="center">
+        <template slot-scope="{row}">
+          <span v-if="row.logout === false && Date.parse(row.logoutTime) > new Date()">在线</span>
+          <span v-else>已登出</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="250" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复
@@ -90,20 +115,29 @@
                 :limit="page.size"
                 @pagination="handlePagination"
     />
-
-    <el-dialog :visible.sync="dialogVisible">
-      <img width="100%" :src="dialogImageUrl" alt="">
-    </el-dialog>
-
   </div>
 </template>
+
 <script>
-import Pagination from '@/components/Pagination/index'
-import { getFileManageRecoverPage, recoverFileManage, recoverDeleteFileManage } from '@/api/data/file-manage'
+import {
+  getLoginLogRecoverPage,
+  recoverLoginLog,
+  recoverDeleteLoginLog
+} from '@/api/monitor/login-log'
+import Pagination from '@/components/Pagination/index.vue'
 
 export default {
-  name: 'FileManage',
+  name: 'LoginLog',
   components: { Pagination },
+  filters: {
+    logoutFilter(logoutValue) {
+      if (logoutValue) {
+        return '是'
+      } else {
+        return '否'
+      }
+    }
+  },
   data() {
     return {
       tableKey: 0,
@@ -116,12 +150,16 @@ export default {
       listLoading: false,
       queryDate: null,
       listQuery: {
-        name: null,
-        type: null,
+        ip: null,
+        isp: null,
+        logout: null,
         queryUsername: null,
+        queryAddress: null,
         queryStartDate: null,
-        queryEndDate: null
+        queryEndDate: null,
+        queryOnline: null
       },
+      tagType: ['', 'success', 'info', 'warning', 'danger'],
       downloadLoading: false,
       pickerOptions: {
         shortcuts: [{
@@ -149,9 +187,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }]
-      },
-      dialogVisible: false,
-      dialogImageUrl: null
+      }
     }
   },
   watch: {
@@ -171,7 +207,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getFileManageRecoverPage(this.page, this.listQuery).then(res => {
+      getLoginLogRecoverPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -189,17 +225,17 @@ export default {
       this.loadData()
     },
     handleRecover(row) {
-      recoverFileManage(row.id).then(res => {
+      recoverLoginLog(row.id).then(res => {
         this.loadData()
       })
     },
     handleRecoverDelete(row) {
-      this.$confirm('此操作将彻底删除该文件, 数据将不可恢复, 是否继续?', '提示', {
+      this.$confirm('此操作将彻底删除该登入日志, 数据将不可恢复, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        recoverDeleteFileManage(row.id).then(res => {
+        recoverDeleteLoginLog(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message
@@ -212,10 +248,6 @@ export default {
           message: '已取消删除'
         })
       })
-    },
-    view(row) {
-      this.dialogVisible = true
-      this.dialogImageUrl = row.uri
     },
     handleFilter() {
       this.page.currentPage = 1
@@ -252,3 +284,19 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .demo-table-expand {
+    font-size: 0;
+  }
+
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+</style>

@@ -1,16 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.queryUsername" placeholder="登入用户" style="width: 120px;" class="filter-item"
-                @keyup.enter.native="handleFilter"
-      />
-      <el-input v-model="listQuery.ip" placeholder="登入IP地址" style="width: 120px;" class="filter-item"
-                @keyup.enter.native="handleFilter"
-      />
-      <el-input v-model="listQuery.queryAddress" placeholder="登入地址" style="width: 120px;" class="filter-item"
-                @keyup.enter.native="handleFilter"
-      />
-      <el-input v-model="listQuery.isp" placeholder="因特网提供商" style="width: 120px;" class="filter-item"
+      <el-input v-model="listQuery.queryUsername" placeholder="操作用户" style="width: 180px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-date-picker
@@ -19,22 +10,30 @@
         align="right"
         unlink-panels
         range-separator="至"
-        start-placeholder="登入开始日期"
-        end-placeholder="登入结束日期"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
         value-format="yyyy-MM-dd HH:mm:ss"
         :picker-options="pickerOptions"
       />
-      <el-select v-model="listQuery.logout" placeholder="是否主动登出" clearable class="filter-item"
-                 style="width: 130px;" @change="handleFilter"
+      <el-input v-model="listQuery.ip" placeholder="访问IP地址" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.uri" placeholder="访问URI" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-select v-model="listQuery.methodType" placeholder="方法类型" clearable class="filter-item"
+                 style="width: 110px;" @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="GET" label="GET" />
+        <el-option value="POST" label="POST" />
+        <el-option value="PUT" label="PUT" />
+        <el-option value="DELETE" label="DELETE" />
       </el-select>
-      <el-select v-model="listQuery.queryOnline" placeholder="账号状态" clearable class="filter-item"
+      <el-select v-model="listQuery.result" placeholder="执行结果" clearable class="filter-item"
                  style="width: 110px;margin-right: 10px;" @change="handleFilter"
       >
-        <el-option value="true" label="在线" />
-        <el-option value="false" label="已登出" />
+        <el-option value="true" label="成功" />
+        <el-option value="false" label="失败" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
@@ -55,55 +54,72 @@
       size="mini"
       style="width: 100%;"
     >
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="操作信息">
+              <span>{{ props.row.description }}</span>
+            </el-form-item>
+            <el-form-item label="访问方法">
+              <span>{{ props.row.method }}</span>
+            </el-form-item>
+            <el-form-item v-if="props.row.exceptionName != null" label="异常名称">
+              <span>{{ props.row.exceptionName }}</span>
+            </el-form-item>
+            <el-form-item v-if="props.row.exceptionMessage != null" label="异常信息">
+              <span>{{ props.row.exceptionMessage }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
       <el-table-column label="序号" type="index" align="center" width="80" />
-      <el-table-column label="登入用户" width="120px" align="center">
+      <el-table-column label="操作用户" width="150px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登入IP地址" width="120px" align="center">
+      <el-table-column label="访问时间" width="200px" align="center" sortable prop="accessTime">
+        <template slot-scope="{row}">
+          <span>{{ row.accessTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="访问IP地址" width="120px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.ip }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登入地址" align="center">
+      <el-table-column label="访问URI" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.country }} {{ row.region }} {{ row.city }}</span>
+          <span>{{ row.uri }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="因特网提供商" width="100px" align="center">
+      <el-table-column label="访问方法类型" width="120px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.isp }}</span>
+          <span>{{ row.methodType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登入时间" width="140px" align="center" sortable prop="accessTime">
+      <el-table-column label="操作执行时间" width="120px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.loginTime }}</span>
+          <span>{{ row.executionTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登出时间" width="140px" align="center">
+      <el-table-column label="请求参数" width="80px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.logoutTime }}</span>
+          <span><el-link type="success" @click="viewRequestArgs(row)" style="font-size: 12px;">查看</el-link></span>
         </template>
       </el-table-column>
-      <el-table-column label="是否主动登出" width="100px" align="center">
+      <el-table-column label="执行结果" width="80px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.logout | logoutFilter }}</span>
+          <span>
+            <el-button v-if="row.result" size="mini" type="success" icon="el-icon-check" circle />
+            <el-button v-else size="mini" type="warning" icon="el-icon-message-solid" circle />
+          </span>
         </template>
       </el-table-column>
-      <el-table-column label="账号状态" width="80px" align="center">
+      <el-table-column label="操作" align="center" width="120px" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <span v-if="row.logout === false && Date.parse(row.logoutTime) > new Date()">在线</span>
-          <span v-else>已登出</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" width="250" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
-          <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
-            数据恢复
-          </el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleRecoverDelete(row)">
-            彻底删除
+          <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
+            删除
           </el-button>
         </template>
       </el-table-column>
@@ -115,29 +131,26 @@
                 :limit="page.size"
                 @pagination="handlePagination"
     />
+
+    <el-dialog :visible.sync="dialogVisible">
+      <json-editor ref="jsonEditor" v-model="requestArgs"/>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
 import {
-  getLoginLogRecoverPage,
-  recoverLoginLog,
-  recoverDeleteLoginLog
-} from '@/api/system/login-log'
+  getOperationLogPage,
+  deleteOperationLog,
+  exportOperationLogExcel
+} from '@/api/monitor/operation-log'
 import Pagination from '@/components/Pagination'
+import JsonEditor from '@/components/JsonEditor'
 
 export default {
-  name: 'LoginLog',
-  components: { Pagination },
-  filters: {
-    logoutFilter(logoutValue) {
-      if (logoutValue) {
-        return '是'
-      } else {
-        return '否'
-      }
-    }
-  },
+  name: 'OperationLog',
+  components: { Pagination, JsonEditor },
   data() {
     return {
       tableKey: 0,
@@ -151,13 +164,12 @@ export default {
       queryDate: null,
       listQuery: {
         ip: null,
-        isp: null,
-        logout: null,
+        uri: null,
+        methodType: null,
+        result: null,
         queryUsername: null,
-        queryAddress: null,
         queryStartDate: null,
-        queryEndDate: null,
-        queryOnline: null
+        queryEndDate: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
       downloadLoading: false,
@@ -187,7 +199,9 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }]
-      }
+      },
+      dialogVisible: false,
+      requestArgs: null
     }
   },
   watch: {
@@ -207,7 +221,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getLoginLogRecoverPage(this.page, this.listQuery).then(res => {
+      getOperationLogPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -224,18 +238,13 @@ export default {
       this.page.size = page.limit
       this.loadData()
     },
-    handleRecover(row) {
-      recoverLoginLog(row.id).then(res => {
-        this.loadData()
-      })
-    },
-    handleRecoverDelete(row) {
-      this.$confirm('此操作将彻底删除该登入日志, 数据将不可恢复, 是否继续?', '提示', {
+    deleteData(row) {
+      this.$confirm('此操作将删除该操作日志, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        recoverDeleteLoginLog(row.id).then(res => {
+        deleteOperationLog(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message
@@ -253,6 +262,10 @@ export default {
       this.page.currentPage = 1
       this.loadData()
     },
+    viewRequestArgs(row) {
+      this.dialogVisible = true
+      this.requestArgs = JSON.parse(row.requestArgs)
+    },
     sortChange(data) {
       const { prop, order } = data
       if (prop === 'id') {
@@ -268,18 +281,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-        const data = this.formatJson(filterVal)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: 'table-list'
-        })
-        this.downloadLoading = false
-      })
+      exportOperationLogExcel(this.listQuery, '系统日志列表')
     }
   }
 }

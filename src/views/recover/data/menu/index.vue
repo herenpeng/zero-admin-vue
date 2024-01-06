@@ -1,19 +1,23 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.uri" placeholder="资源路径" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.metaTitle" placeholder="菜单名称" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.description" placeholder="资源描述" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.path" placeholder="菜单路由路径" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.methodType" placeholder="方法类型" clearable class="filter-item"
-                 style="width: 130px" @change="handleFilter"
+      <el-input v-model="listQuery.name" placeholder="菜单模块名称" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-input v-model="listQuery.component" placeholder="菜单模块路径" style="width: 150px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-select v-model="listQuery.enabled" placeholder="是否启用" clearable style="width: 120px" class="filter-item"
+                 @change="handleFilter"
       >
-        <el-option value="GET" label="GET" />
-        <el-option value="POST" label="POST" />
-        <el-option value="PUT" label="PUT" />
-        <el-option value="DELETE" label="DELETE" />
+        <el-option value="true" label="是" />
+        <el-option value="false" label="否" />
       </el-select>
       <el-select v-model="listQuery.queryRoleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
                  class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
@@ -39,29 +43,59 @@
       :key="tableKey"
       v-loading="listLoading"
       :data="list"
+      row-key="id"
       border
       fit
       size="mini"
       style="width: 100%;"
+      :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="资源路径" width="260px" align="center">
+      <el-table-column label="菜单名称" width="110">
         <template slot-scope="{row}">
-          <span>{{ row.uri }}</span>
+          <span>
+            <i :class="row.metaIcon" />
+            {{ row.metaTitle }}
+          </span>
         </template>
       </el-table-column>
-      <el-table-column label="资源描述" width="350px" align="center">
+      <el-table-column label="菜单路由路径" width="150">
         <template slot-scope="{row}">
-          <span>{{ row.description }}</span>
+          <span>{{ row.path }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="方法类型" width="80px" align="center">
+      <el-table-column label="菜单模块名称" width="120">
         <template slot-scope="{row}">
-          <span>{{ row.methodType }}</span>
+          <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="拥有该资源的角色" class-name="status-col">
+      <el-table-column label="菜单模块路径" width="150">
+        <template slot-scope="{row}">
+          <span>{{ row.component }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否隐藏" width="70" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.hidden | hiddenFilter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否启用" width="150" align="center">
+        <template slot-scope="{row}">
+          <el-switch
+            v-model="row.enabled"
+            active-text="启用"
+            inactive-text="禁用"
+            disabled="true"
+          />
+        </template>
+      </el-table-column>
+      <el-table-column label="菜单排序" width="70" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.sort }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="菜单角色" class-name="status-col">
         <template slot-scope="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -96,25 +130,20 @@
 
   </div>
 </template>
-
 <script>
-import {
-  getResourcesRecoverPage,
-  recoverResources,
-  recoverDeleteResources
-} from '@/api/data/resources'
-import Pagination from '@/components/Pagination'
+import Pagination from '@/components/Pagination/index.vue'
+import { getMenuRecoverPage, recoverMenu, recoverDeleteMenu } from '@/api/data/menu'
 import { getRoleList } from '@/api/data/role'
 
 export default {
-  name: 'Resources',
+  name: 'Menu',
   components: { Pagination },
   filters: {
-    enabledFilter(enabledValue) {
-      if (enabledValue) {
-        return '启用'
+    hiddenFilter(hiddenValue) {
+      if (hiddenValue) {
+        return '隐藏'
       } else {
-        return '禁用'
+        return '显示'
       }
     }
   },
@@ -129,18 +158,14 @@ export default {
       },
       listLoading: false,
       listQuery: {
-        uri: null,
-        description: null,
-        methodType: null,
+        path: null,
+        name: null,
+        component: null,
+        metaTitle: null,
+        enabled: null,
         queryRoleId: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
-      resources: {
-        id: null,
-        uri: null,
-        description: null,
-        methodType: null
-      },
       roles: null,
       downloadLoading: false
     }
@@ -151,7 +176,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getResourcesRecoverPage(this.page, this.listQuery).then(res => {
+      getMenuRecoverPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -169,17 +194,17 @@ export default {
       this.loadData()
     },
     handleRecover(row) {
-      recoverResources(row.id).then(res => {
+      recoverMenu(row.id).then(res => {
         this.loadData()
       })
     },
     handleRecoverDelete(row) {
-      this.$confirm('此操作将彻底删除该系统资源, 数据将不可恢复, 是否继续?', '提示', {
+      this.$confirm('此操作将彻底删除该菜单, 数据将不可恢复, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        recoverDeleteResources(row.id).then(res => {
+        recoverDeleteMenu(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message
@@ -203,13 +228,6 @@ export default {
           this.roles = res.data
         })
       }
-    },
-    handleModifyStatus(row, status) {
-      this.$message({
-        message: '操作成功',
-        type: 'success'
-      })
-      row.status = status
     },
     sortChange(data) {
       const { prop, order } = data
@@ -242,6 +260,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-
-</style>

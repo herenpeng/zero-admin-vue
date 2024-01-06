@@ -17,7 +17,6 @@ export function generateMenu(menuList) {
       }
     }
     menu.path = item.path
-    menu.redirect = item.redirect
     menu.name = item.name
     menu.meta = {}
     menu.meta.title = item.metaTitle
