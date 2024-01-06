@@ -38,32 +38,32 @@
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
       <el-table-column label="常量键值" width="200px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.configConst.key }}</span>
         </template>
       </el-table-column>
       <el-table-column label="用户名" width="200px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="键值描述信息" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.configConst.description }}</span>
         </template>
       </el-table-column>
       <el-table-column label="系统配置的默认值" width="200px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.configConst.defaultValue }}</span>
         </template>
       </el-table-column>
       <el-table-column label="用户配置值" width="150px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.value }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200px">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
           </el-button>

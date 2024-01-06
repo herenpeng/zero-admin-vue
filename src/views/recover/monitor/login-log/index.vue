@@ -57,48 +57,48 @@
     >
       <el-table-column label="序号" type="index" align="center" width="80" />
       <el-table-column label="登入用户" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="登入IP地址" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.ip }}</span>
         </template>
       </el-table-column>
       <el-table-column label="登入地址" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.country }} {{ row.region }} {{ row.city }}</span>
         </template>
       </el-table-column>
       <el-table-column label="因特网提供商" width="100px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.isp }}</span>
         </template>
       </el-table-column>
       <el-table-column label="登入时间" width="140px" align="center" sortable prop="accessTime">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.loginTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="登出时间" width="140px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.logoutTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="是否主动登出" width="100px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.logout | logoutFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="账号状态" width="80px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span v-if="row.logout === false && Date.parse(row.logoutTime) > new Date()">在线</span>
           <span v-else>已登出</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="250" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复
           </el-button>

@@ -1,7 +1,9 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-
+      <el-col :span="6">
+        <el-tree :data="organTree" :props="organTreeProps" @node-click="handleNodeClick"></el-tree>
+      </el-col>
       <el-col :span="18">
         <div class="filter-container">
           <el-input v-model="listQuery.name" placeholder="组织机构名称" style="width: 200px;" class="filter-item"
@@ -36,17 +38,17 @@
         >
           <el-table-column label="序号" sortable="true" align="center" width="80" />
           <el-table-column label="组织机构名称" width="150px" align="center">
-            <template slot-scope="{row}">
+            <template v-slot="{row}">
               <span>{{ row.name }}</span>
             </template>
           </el-table-column>
           <el-table-column label="组织机构排序" width="150px" align="center">
-            <template slot-scope="{row}">
+            <template v-slot="{row}">
               <span>{{ row.sort }}</span>
             </template>
           </el-table-column>
           <el-table-column label="操作" align="left" class-name="small-padding fixed-width" width="300px">
-            <template slot-scope="{row}">
+            <template v-slot="{row}">
               <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
                 编辑
               </el-button>
@@ -82,9 +84,7 @@
           </div>
         </el-dialog>
       </el-col>
-      <el-col :span="6">
-        <el-tree :data="organTree" :props="organTreeProps" @node-click="handleNodeClick"></el-tree>
-      </el-col>
+
     </el-row>
   </div>
 </template>

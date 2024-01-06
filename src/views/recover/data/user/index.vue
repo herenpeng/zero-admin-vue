@@ -61,12 +61,12 @@
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
       <el-table-column label="用户名" width="150px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="是否启用" width="100px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-switch
             v-model="row.enabled"
             active-text="是"
@@ -76,22 +76,22 @@
         </template>
       </el-table-column>
       <el-table-column label="是否锁定" width="110px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.locked | lockedFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="账号是否过期" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.accountExpire | expireFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="密码是否过期" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.passwordExpire | expireFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="用户角色" class-name="status-col">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
             :key="index"
@@ -105,7 +105,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="250px" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复
           </el-button>

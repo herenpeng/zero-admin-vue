@@ -18,9 +18,10 @@ export function generateMenu(menuList) {
     }
     menu.path = item.path
     menu.name = item.name
-    menu.meta = {}
-    menu.meta.title = item.metaTitle
-    menu.meta.icon = item.metaIcon
+    menu.meta = {
+      title: item.metaTitle,
+      icon: item.metaIcon
+    }
     menu.hidden = item.hidden
     // 若遍历的当前路由存在子路由，需要对子路由进行递归遍历
     if (item.children && item.children.length) {

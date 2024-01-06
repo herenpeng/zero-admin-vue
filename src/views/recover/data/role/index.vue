@@ -36,17 +36,17 @@
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
       <el-table-column label="角色名称" width="150px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="角色描述" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.description }}</span>
         </template>
       </el-table-column>
       <el-table-column label="是否为默认角色" width="200px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-switch
             v-model="row.acquiescence"
             active-text="是"
@@ -56,7 +56,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="250px" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复
           </el-button>

@@ -27,7 +27,7 @@
           style="width: 100%"
         >
           <el-table-column type="expand">
-            <template slot-scope="props">
+            <template v-slot="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="核心数">
                   <span>{{ props.row.cpuNum }}</span>
@@ -54,7 +54,7 @@
           style="width: 100%"
         >
           <el-table-column type="expand">
-            <template slot-scope="props">
+            <template v-slot="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="总内存">
                   <span>{{ props.row.total }}G</span>
@@ -84,7 +84,7 @@
           style="width: 100%"
         >
           <el-table-column type="expand">
-            <template slot-scope="props">
+            <template v-slot="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="主机名称">
                   <span>{{ props.row.computerName }}</span>
@@ -114,7 +114,7 @@
           style="width: 100%"
         >
           <el-table-column type="expand">
-            <template slot-scope="props">
+            <template v-slot="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="占用的内存总数">
                   <span>{{ props.row.total }}MB</span>

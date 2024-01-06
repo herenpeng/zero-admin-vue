@@ -48,32 +48,32 @@
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
       <el-table-column label="文件名称">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="文件类型" width="80">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.type }}</span>
         </template>
       </el-table-column>
       <el-table-column label="上传时间" width="200">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.uploadTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="上传用户" width="135">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="查看" width="70" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span><el-link type="success" @click="view(row)" style="font-size: 12px;">查看</el-link></span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="left"  width="280" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-button v-if="row.parentId === 0" type="success" size="mini" icon="el-icon-document-copy"
                      @click="bakData(row)"
           >

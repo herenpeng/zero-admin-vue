@@ -68,12 +68,12 @@
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
       <el-table-column label="用户名" width="150px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="是否启用" width="150px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-switch
             v-model="row.enabled"
             active-text="是"
@@ -83,22 +83,22 @@
         </template>
       </el-table-column>
       <el-table-column label="是否锁定" width="110px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.locked | lockedFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="账号是否过期" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.accountExpire | expireFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="密码是否过期" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.passwordExpire | expireFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="账号状态" width="80px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-link v-if="row.onlineLoginLogs.length === 0" type="info" :underline="false" style="font-size: 12px;">未登录
           </el-link>
           <el-link v-else type="success" style="font-size: 12px;" @click="loginLog(row)">在线{{ row.onlineLoginLogs.length }}人
@@ -106,7 +106,7 @@
         </template>
       </el-table-column>
       <el-table-column label="用户角色" class-name="status-col">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
             :key="index"
@@ -134,7 +134,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200px">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
           </el-button>

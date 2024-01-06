@@ -52,22 +52,22 @@
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
       <el-table-column label="资源路径" width="260px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.uri }}</span>
         </template>
       </el-table-column>
       <el-table-column label="资源描述" width="350px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.description }}</span>
         </template>
       </el-table-column>
       <el-table-column label="方法类型" width="80px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.methodType }}</span>
         </template>
       </el-table-column>
       <el-table-column label="拥有该资源的角色" class-name="status-col">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
             :key="index"
@@ -95,7 +95,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="200px" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
           </el-button>

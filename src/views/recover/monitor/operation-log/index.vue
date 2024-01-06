@@ -55,7 +55,7 @@
       style="width: 100%;"
     >
       <el-table-column type="expand">
-        <template slot-scope="props">
+        <template v-slot="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="操作信息">
               <span>{{ props.row.description }}</span>
@@ -74,37 +74,37 @@
       </el-table-column>
       <el-table-column label="序号" type="index" align="center" width="60" />
       <el-table-column label="操作用户" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="访问时间" width="160px" align="center" sortable prop="accessTime">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.accessTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="访问IP地址" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.ip }}</span>
         </template>
       </el-table-column>
       <el-table-column label="访问URI" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.uri }}</span>
         </template>
       </el-table-column>
       <el-table-column label="访问方法类型" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.methodType }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作执行时间" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.executionTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="执行结果" width="80px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>
             <el-button v-if="row.result" size="mini" type="success" icon="el-icon-check" circle />
             <el-button v-else size="mini" type="warning" icon="el-icon-message-solid" circle />
@@ -112,7 +112,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="250" class-name="small-padding fixed-width">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复
           </el-button>

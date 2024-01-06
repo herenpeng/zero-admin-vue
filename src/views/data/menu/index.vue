@@ -69,7 +69,7 @@
         >
           <el-table-column label="序号" sortable="true" align="center" width="80" />
           <el-table-column label="菜单名称" width="110">
-            <template slot-scope="{row}">
+            <template v-slot="{row}">
           <span :style="{'font-weight': row.parentId === 0 ? 'bolder' : '','padding-left': row.parentId !== 0 ? '10px' : ''}">
             <i :class="row.metaIcon" />
             {{ row.metaTitle }}
@@ -77,22 +77,30 @@
             </template>
           </el-table-column>
           <el-table-column label="菜单路由路径" width="100">
-            <template slot-scope="{row}">
+            <template v-slot="{row}">
               <span>{{ row.path }}</span>
             </template>
           </el-table-column>
           <el-table-column label="菜单模块名称" width="100">
-            <template slot-scope="{row}">
+            <template v-slot="{row}">
               <span>{{ row.name }}</span>
             </template>
           </el-table-column>
           <el-table-column label="菜单模块路径" width="120">
-            <template slot-scope="{row}">
-              <span>{{ row.component }}</span>
+            <template v-slot="{row}">
+              <el-tag
+                v-if="row.component === 'Layout'"
+                :key="row.id"
+                type="success"
+                size="mini"
+                effect="dark">
+                {{ row.component }}
+              </el-tag>
+              <span v-else>{{ row.component }}</span>
             </template>
           </el-table-column>
           <el-table-column label="是否隐藏" width="150" align="center">
-            <template slot-scope="{row}">
+            <template v-slot="{row}">
               <el-switch
                 v-model="row.hidden"
                 active-text="隐藏"
@@ -102,7 +110,7 @@
             </template>
           </el-table-column>
           <el-table-column label="是否启用" width="150" align="center">
-            <template slot-scope="{row}">
+            <template v-slot="{row}">
               <el-switch
                 v-model="row.enabled"
                 active-text="启用"
@@ -112,12 +120,12 @@
             </template>
           </el-table-column>
           <el-table-column label="菜单排序" width="70" align="center">
-            <template slot-scope="{row}">
+            <template v-slot="{row}">
               <span>{{ row.sort }}</span>
             </template>
           </el-table-column>
           <el-table-column label="菜单角色" class-name="status-col">
-            <template slot-scope="{row}">
+            <template v-slot="{row}">
               <el-tag
                 v-for="(role,index) in row.roles"
                 :key="index"
@@ -146,7 +154,7 @@
             </template>
           </el-table-column>
           <el-table-column label="操作" align="left" class-name="small-padding fixed-width" width="250px">
-            <template slot-scope="{row}">
+            <template v-slot="{row}">
               <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
                 编辑
               </el-button>

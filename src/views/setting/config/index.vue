@@ -44,27 +44,27 @@
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
       <el-table-column label="常量键值" width="200px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.key }}</span>
         </template>
       </el-table-column>
       <el-table-column label="键值描述信息" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.description }}</span>
         </template>
       </el-table-column>
       <el-table-column label="系统配置的默认值" width="200px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.defaultValue }}</span>
         </template>
       </el-table-column>
       <el-table-column label="用户是否可配置" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.userable | userableFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200px">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             编辑
           </el-button>

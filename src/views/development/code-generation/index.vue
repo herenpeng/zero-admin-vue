@@ -45,52 +45,52 @@
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="60" />
       <el-table-column label="数据库表名称" width="100px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="数据库表描述" width="160px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.comment }}</span>
         </template>
       </el-table-column>
       <el-table-column label="实体类名称" width="90px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.entityName }}</span>
         </template>
       </el-table-column>
       <el-table-column label="类请求路径" width="90px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.requestMapping }}</span>
         </template>
       </el-table-column>
       <el-table-column label="包前缀名称" width="100px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.javaPackageName }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Java代码路径" width="100px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.javaCodePath }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Vue代码路径" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.vueCodePath }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Vue包路径" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.vuePackage }}</span>
         </template>
       </el-table-column>
       <el-table-column label="代码作者" width="100px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.codeAuthor }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <router-link :to="{path:'/development/code-setting',query: {id: row.id}}" style="margin-right: 10px">
             <el-button type="primary" size="mini" icon="el-icon-edit">
               编辑

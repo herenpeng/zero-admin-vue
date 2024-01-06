@@ -11,47 +11,47 @@
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
       <el-table-column label="字段名称" width="150px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="字段类型" width="110px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.databaseType }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Java属性" width="150px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.javaName }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Jave类型" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.javaType }}</span>
         </template>
       </el-table-column>
       <el-table-column label="JDBC类型" width="120px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.jdbcType }}</span>
         </template>
       </el-table-column>
       <el-table-column label="字段注释" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.comment }}</span>
         </template>
       </el-table-column>
       <el-table-column label="是否为查询字段" width="80px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.query | queryFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column label="字段排序顺序" width="80px" align="center">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="100px">
-        <template slot-scope="{row}">
+        <template v-slot="{row}">
           <el-button v-if="baseColumn(row.name)" type="primary" size="mini" icon="el-icon-edit" @click="handleUpdateTableColumn(row)">
             编辑
           </el-button>
