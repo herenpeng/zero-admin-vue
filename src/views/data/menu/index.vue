@@ -1,45 +1,69 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-      <el-col :span="3">
-        <el-tree :data="menuTree" :props="menuTreeProps" @node-click="handleNodeClick"></el-tree>
+      <el-col :span="6">
+        <el-input
+          v-model="filterText"
+          placeholder="输入关键字进行过滤"
+        />
+        <el-tree
+          ref="tree"
+          class="filter-tree"
+          :data="menuTree"
+          node-key="id"
+          :default-expanded-keys="expandedKeys"
+          :filter-node-method="filterNode"
+          @node-expand="nodeExpand"
+          @node-collapse="nodeCollapse"
+        >
+          <span slot-scope="{ node }" class="custom-tree-node">
+            <span><i :class="node.data.metaIcon" />{{ node.data.metaTitle }}</span>
+            <span>
+              <el-button
+                type="text"
+                size="mini"
+                @click="hidden(node.data)"
+              >
+                <span v-if="node.data.hidden" style="color: #67C23A">显示</span>
+                <span v-else style="color: #E5A13C">隐藏</span>
+              </el-button>
+              <el-button
+                type="text"
+                size="mini"
+                @click="enabled(node.data)"
+              >
+                <span v-if="node.data.enabled" style="color: red">禁用</span>
+                <span v-else style="color: #67C23A">启用</span>
+              </el-button>
+            </span>
+          </span>
+        </el-tree>
       </el-col>
-      <el-col :span="21">
+      <el-col :span="18">
         <div class="filter-container">
-          <el-input v-model="listQuery.metaTitle" placeholder="菜单名称" style="width: 150px;" class="filter-item"
-                    @keyup.enter.native="handleFilter"
-          />
-          <el-input v-model="listQuery.path" placeholder="菜单路由路径" style="width: 150px;" class="filter-item"
-                    @keyup.enter.native="handleFilter"
-          />
-          <el-input v-model="listQuery.name" placeholder="菜单模块名称" style="width: 150px;" class="filter-item"
-                    @keyup.enter.native="handleFilter"
-          />
-          <el-input v-model="listQuery.component" placeholder="菜单模块路径" style="width: 150px;" class="filter-item"
-                    @keyup.enter.native="handleFilter"
-          />
-          <el-select v-model="listQuery.hidden" placeholder="是否隐藏" clearable style="width: 120px" class="filter-item"
-                     @change="handleFilter"
-          >
-            <el-option value="true" label="是" />
-            <el-option value="false" label="否" />
-          </el-select>
-          <el-select v-model="listQuery.enabled" placeholder="是否启用" clearable style="width: 120px" class="filter-item"
-                     @change="handleFilter"
-          >
-            <el-option value="true" label="是" />
-            <el-option value="false" label="否" />
-          </el-select>
-          <el-select v-model="listQuery.queryRoleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
-                     class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
-          >
-            <el-option
-              v-for="role in roles"
-              :key="role.id"
-              :label="role.name"
-              :value="role.id"
-            />
-          </el-select>
+          <!--          <el-input v-model="listQuery.metaTitle" placeholder="菜单名称" style="width: 150px;" class="filter-item"-->
+          <!--                    @keyup.enter.native="handleFilter"-->
+          <!--          />-->
+          <!--          <el-input v-model="listQuery.path" placeholder="菜单路由路径" style="width: 150px;" class="filter-item"-->
+          <!--                    @keyup.enter.native="handleFilter"-->
+          <!--          />-->
+          <!--          <el-input v-model="listQuery.name" placeholder="菜单模块名称" style="width: 150px;" class="filter-item"-->
+          <!--                    @keyup.enter.native="handleFilter"-->
+          <!--          />-->
+          <!--          <el-input v-model="listQuery.component" placeholder="菜单模块路径" style="width: 150px;" class="filter-item"-->
+          <!--                    @keyup.enter.native="handleFilter"-->
+          <!--          />-->
+          <!--          <el-select v-model="listQuery.queryRoleId" placeholder="角色" clearable-->
+          <!--                     style="width: 100px;margin-right: 10px;"-->
+          <!--                     class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"-->
+          <!--          >-->
+          <!--            <el-option-->
+          <!--              v-for="role in roles"-->
+          <!--              :key="role.id"-->
+          <!--              :label="role.name"-->
+          <!--              :value="role.id"-->
+          <!--            />-->
+          <!--          </el-select>-->
           <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
             查询
           </el-button>
@@ -70,10 +94,12 @@
           <el-table-column label="序号" sortable="true" align="center" width="80" />
           <el-table-column label="菜单名称" width="110">
             <template v-slot="{row}">
-          <span :style="{'font-weight': row.parentId === 0 ? 'bolder' : '','padding-left': row.parentId !== 0 ? '10px' : ''}">
-            <i :class="row.metaIcon" />
-            {{ row.metaTitle }}
-          </span>
+              <span
+                :style="{'font-weight': row.parentId === 0 ? 'bolder' : '','padding-left': row.parentId !== 0 ? '10px' : ''}"
+              >
+                <i :class="row.metaIcon" />
+                {{ row.metaTitle }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column label="菜单路由路径" width="100">
@@ -93,30 +119,11 @@
                 :key="row.id"
                 type="success"
                 size="mini"
-                effect="dark">
+                effect="dark"
+              >
                 {{ row.component }}
               </el-tag>
               <span v-else>{{ row.component }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="是否隐藏" width="150" align="center">
-            <template v-slot="{row}">
-              <el-switch
-                v-model="row.hidden"
-                active-text="隐藏"
-                inactive-text="显示"
-                @change="hidden(row)"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="是否启用" width="150" align="center">
-            <template v-slot="{row}">
-              <el-switch
-                v-model="row.enabled"
-                active-text="启用"
-                inactive-text="禁用"
-                @change="enabled(row)"
-              />
             </template>
           </el-table-column>
           <el-table-column label="菜单排序" width="70" align="center">
@@ -166,13 +173,6 @@
           </el-table-column>
         </el-table>
 
-        <pagination v-show="page.total > 0"
-                    :total="page.total"
-                    :page="page.currentPage"
-                    :limit="page.size"
-                    @pagination="handlePagination"
-        />
-
         <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="60%">
           <el-form ref="dataForm" :rules="rules" :model="menu" label-position="left" label-width="180px"
                    style="width: 800px; margin-left:50px;" :inline="true"
@@ -199,16 +199,16 @@
             </el-form-item>
             <el-form-item label="是否隐藏" prop="hidden">
               <el-switch
-                style="width: 190px"
                 v-model="menu.hidden"
+                style="width: 190px"
                 active-text="隐藏"
                 inactive-text="显示"
               />
             </el-form-item>
             <el-form-item label="是否启用" prop="enabled">
               <el-switch
-                style="width: 190px"
                 v-model="menu.enabled"
+                style="width: 190px"
                 active-text="启用"
                 inactive-text="禁用"
               />
@@ -229,16 +229,15 @@
       :with-header="false"
       :before-close="handleClose"
     >
-      <icon :select="menu.metaIcon" @select-icon="selectIcon"/>
+      <icon :select="menu.metaIcon" @select-icon="selectIcon" />
     </el-drawer>
 
   </div>
 </template>
 <script>
-import Pagination from '@/components/Pagination/index'
 import Icon from './components/Icon'
 import {
-  getMenuPage,
+  getMenuList,
   createMenu,
   hidden,
   enabled,
@@ -253,16 +252,11 @@ import { getRoleList } from '@/api/data/role'
 
 export default {
   name: 'Menu',
-  components: { Pagination, Icon },
+  components: { Icon },
   data() {
     return {
       tableKey: 0,
       list: [],
-      page: {
-        currentPage: 1,
-        size: 10,
-        total: 0
-      },
       listLoading: false,
       listQuery: {
         path: null,
@@ -309,7 +303,14 @@ export default {
       menuTreeProps: {
         label: 'metaTitle',
         children: 'children'
-      }
+      },
+      filterText: '',
+      expandedKeys: []
+    }
+  },
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val)
     }
   },
   created() {
@@ -318,41 +319,41 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getMenuPage(this.page, this.listQuery).then(res => {
+      getMenuList(this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
           }
         }, 1000)
-        const page = res.data
-        this.list = page.records
-        this.page.total = page.total
+        this.list = res.data
         this.listLoading = false
-        this.buildTree()
+        this.menuTree = this.buildTree(this.list)
       })
     },
-    buildTree() {
-      this.menuTree = []
-      for (const menu of this.list) {
+    buildTree(menus) {
+      const tree = []
+      for (const menu of menus) {
+        menu.disabled = menu.hidden || !menu.enabled
         const node = JSON.parse(JSON.stringify(menu))
-        this.menuTree.push(node)
-        this.buildChildrenTree(node)
+        tree.push(node)
+        this.buildTree(node.children)
       }
+      return tree
     },
-    buildChildrenTree(menu) {
-      // 先寻找子组织，否则将用户加入子组织后，循环迭代会有问题
-      for (const node of menu.children) {
-        this.buildChildrenTree(node)
+    filterNode(value, data) {
+      if (!value) {
+        return true
       }
+      return data.metaTitle.indexOf(value) !== -1 || data.name.indexOf(value) !== -1 || data.path.indexOf(value) !== -1
     },
-    handlePagination(page) {
-      this.page.currentPage = page.page
-      this.page.size = page.limit
-      this.loadData()
+    nodeExpand(data) {
+      this.expandedKeys.push(data.id)
+    },
+    nodeCollapse(data) {
+      this.expandedKeys.remove(data.id)
     },
     hidden(row) {
-      console.log(row)
-      hidden(row.id, row.hidden).then(res => {
+      hidden(row.id, !row.hidden).then(res => {
         this.$notify({
           title: '成功',
           message: res.message,
@@ -363,7 +364,7 @@ export default {
       })
     },
     enabled(row) {
-      enabled(row.id, row.enabled).then(res => {
+      enabled(row.id, !row.enabled).then(res => {
         this.$notify({
           title: '成功',
           message: res.message,
@@ -487,7 +488,6 @@ export default {
       })
     },
     handleFilter() {
-      this.page.currentPage = 1
       this.loadData()
     },
     getRoleList(callback) {
@@ -526,7 +526,16 @@ export default {
 </script>
 
 <style>
-  .el-drawer__body {
-    overflow: auto;
-  }
+.el-drawer__body {
+  overflow: auto;
+}
+
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
+}
 </style>

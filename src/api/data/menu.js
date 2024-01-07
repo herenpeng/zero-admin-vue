@@ -1,6 +1,14 @@
 import request from '@/utils/request'
 import { exportExcel } from '@/utils/export-file'
 
+export function getMenuList(query) {
+  return request({
+    url: '/menu/list',
+    method: 'get',
+    params: query
+  })
+}
+
 export function getMenuPage(page, query) {
   query.size = page.size
   return request({

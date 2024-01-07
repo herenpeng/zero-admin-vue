@@ -71,7 +71,7 @@
             v-model="row.enabled"
             active-text="是"
             inactive-text="否"
-            disabled="true"
+            disabled="disabled"
           />
         </template>
       </el-table-column>

@@ -77,7 +77,7 @@
       </el-table-column>
       <el-table-column label="是否隐藏" width="70" align="center">
         <template v-slot="{row}">
-          <span>{{ row.hidden | hiddenFilter }}</span>
+          <span>{{ row.hidden ? '隐藏' : '显示' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="是否启用" width="150" align="center">
@@ -86,7 +86,7 @@
             v-model="row.enabled"
             active-text="启用"
             inactive-text="禁用"
-            disabled="true"
+            disabled="disabled"
           />
         </template>
       </el-table-column>
@@ -138,15 +138,6 @@ import { getRoleList } from '@/api/data/role'
 export default {
   name: 'Menu',
   components: { Pagination },
-  filters: {
-    hiddenFilter(hiddenValue) {
-      if (hiddenValue) {
-        return '隐藏'
-      } else {
-        return '显示'
-      }
-    }
-  },
   data() {
     return {
       tableKey: 0,

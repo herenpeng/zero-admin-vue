@@ -84,17 +84,17 @@
       </el-table-column>
       <el-table-column label="是否锁定" width="110px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.locked | lockedFilter }}</span>
+          <span>{{ row.locked ? '锁定' : '未锁定' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="账号是否过期" width="120px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.accountExpire | expireFilter }}</span>
+          <span>{{ row.accountExpire ? '过期' : '未过期' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="密码是否过期" width="120px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.passwordExpire | expireFilter }}</span>
+          <span>{{ row.passwordExpire ? '过期' : '未过期' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="账号状态" width="80px" align="center">
@@ -222,14 +222,6 @@ import { offline, online } from '@/api/monitor/login-log'
 export default {
   name: 'User',
   components: { Pagination, LoginLog },
-  filters: {
-    lockedFilter(lockedValue) {
-      return lockedValue ? '锁定' : '未锁定'
-    },
-    expireFilter(expireValue) {
-      return expireValue ? '过期' : '未过期'
-    }
-  },
   data() {
     const checkUsername = (rule, value, callback) => {
       if (value === this.oldUsername && this.dialogStatus === 'update') {

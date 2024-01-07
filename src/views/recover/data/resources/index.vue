@@ -109,15 +109,6 @@ import { getRoleList } from '@/api/data/role'
 export default {
   name: 'Resources',
   components: { Pagination },
-  filters: {
-    enabledFilter(enabledValue) {
-      if (enabledValue) {
-        return '启用'
-      } else {
-        return '禁用'
-      }
-    }
-  },
   data() {
     return {
       tableKey: 0,

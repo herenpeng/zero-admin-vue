@@ -133,7 +133,7 @@
     />
 
     <el-dialog :visible.sync="dialogVisible">
-      <json-editor ref="jsonEditor" v-model="requestArgs"/>
+      <json-editor ref="jsonEditor" v-model="requestArgs" />
     </el-dialog>
 
   </div>

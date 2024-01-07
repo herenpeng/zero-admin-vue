@@ -51,8 +51,7 @@
             v-model="row.acquiescence"
             active-text="是"
             inactive-text="否"
-            disabled="true"
-          />
+            disabled="disabled" />
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="250px" class-name="small-padding fixed-width">
