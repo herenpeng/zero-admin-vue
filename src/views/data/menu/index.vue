@@ -50,9 +50,6 @@
           <!--          <el-input v-model="listQuery.name" placeholder="菜单模块名称" style="width: 150px;" class="filter-item"-->
           <!--                    @keyup.enter.native="handleFilter"-->
           <!--          />-->
-          <!--          <el-input v-model="listQuery.component" placeholder="菜单模块路径" style="width: 150px;" class="filter-item"-->
-          <!--                    @keyup.enter.native="handleFilter"-->
-          <!--          />-->
           <!--          <el-select v-model="listQuery.queryRoleId" placeholder="角色" clearable-->
           <!--                     style="width: 100px;margin-right: 10px;"-->
           <!--                     class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"-->
@@ -110,20 +107,6 @@
           <el-table-column label="菜单模块名称" width="100">
             <template v-slot="{row}">
               <span>{{ row.name }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="菜单模块路径" width="120">
-            <template v-slot="{row}">
-              <el-tag
-                v-if="row.component === 'Layout'"
-                :key="row.id"
-                type="success"
-                size="mini"
-                effect="dark"
-              >
-                {{ row.component }}
-              </el-tag>
-              <span v-else>{{ row.component }}</span>
             </template>
           </el-table-column>
           <el-table-column label="菜单排序" width="70" align="center">
@@ -185,9 +168,6 @@
             </el-form-item>
             <el-form-item label="菜单模块名称" prop="name">
               <el-input v-model="menu.name" placeholder="User" />
-            </el-form-item>
-            <el-form-item label="菜单模块路径" prop="component">
-              <el-input v-model="menu.component" placeholder="data/user/index" :disabled="menu.parentId === 0" />
             </el-form-item>
             <el-form-item label="菜单图标" prop="metaIcon">
               <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" style="width: 190px;" readonly>
@@ -261,7 +241,6 @@ export default {
       listQuery: {
         path: null,
         name: null,
-        component: null,
         metaTitle: null,
         hidden: null,
         enabled: null,
@@ -271,7 +250,6 @@ export default {
       menu: {
         path: null,
         name: null,
-        component: 'Layout',
         metaTitle: null,
         metaIcon: null,
         hidden: false,
@@ -291,7 +269,6 @@ export default {
         metaTitle: [{ required: true, message: '请输入菜单名称', trigger: 'change' }],
         path: [{ required: true, message: '请输入菜单路由路径', trigger: 'change' }],
         name: [{ required: true, message: '请输入菜单模块名称', trigger: 'change' }],
-        component: [{ required: true, message: '请输入菜单模块路径', trigger: 'change' }],
         metaIcon: [{ required: true, message: '请输入菜单图标', trigger: 'change' }],
         sort: [{ required: true, message: '请输入菜单排序', trigger: 'change' }],
         hidden: [{ required: true, message: '请选择菜单是否隐藏', trigger: 'change' }],
@@ -375,16 +352,7 @@ export default {
       })
     },
     handleCreate(row) {
-      if (row !== null) {
-        this.menu = {
-          parentId: row.id
-        }
-      } else {
-        this.menu = {
-          component: 'Layout',
-          parentId: 0
-        }
-      }
+      this.menu.parentId = row === null ? 0 : row.id
       this.menu.hidden = false
       this.menu.enabled = true
       this.dialogStatus = 'create'

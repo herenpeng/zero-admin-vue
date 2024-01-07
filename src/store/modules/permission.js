@@ -3,18 +3,15 @@ import { getRoutes } from '@/api/data/menu'
 import Layout from '@/layout'
 import { Message } from 'element-ui'
 
-export function generateMenu(menuList) {
+export function generateMenu(menuList, componentParent = '') {
   const routes = []
   menuList.forEach(item => {
     const menu = {}
-    if (item.component) {
-      // 判断 item.component 是否等于 'Layout',若是则直接替换成引入的 Layout 组件
-      if (item.component === 'Layout') {
-        menu.component = Layout
-      } else {
-        //  item.component 不等于 'Layout',则说明它是组件路径地址，因此直接替换成路由引入的方法
-        menu.component = (resolve) => require([`@/views/${item.component}`], resolve)
-      }
+    const component = componentParent + (item.path.startsWith('/') ? item.path : '/' + item.path)
+    if (item.parentId === 0) {
+      menu.component = Layout
+    } else {
+      menu.component = (resolve) => require([`@/views${component}`], resolve)
     }
     menu.path = item.path
     menu.name = item.name
@@ -25,7 +22,7 @@ export function generateMenu(menuList) {
     menu.hidden = item.hidden
     // 若遍历的当前路由存在子路由，需要对子路由进行递归遍历
     if (item.children && item.children.length) {
-      menu.children = generateMenu(item.children)
+      menu.children = generateMenu(item.children, component)
     }
     routes.push(menu)
   })
