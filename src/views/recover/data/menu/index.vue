@@ -10,9 +10,6 @@
       <el-input v-model="listQuery.name" placeholder="菜单模块名称" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.component" placeholder="菜单模块路径" style="width: 150px;" class="filter-item"
-                @keyup.enter.native="handleFilter"
-      />
       <el-select v-model="listQuery.enabled" placeholder="是否启用" clearable style="width: 120px" class="filter-item"
                  @change="handleFilter"
       >
@@ -70,24 +67,14 @@
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单模块路径" width="150">
-        <template v-slot="{row}">
-          <span>{{ row.component }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="是否隐藏" width="70" align="center">
         <template v-slot="{row}">
           <span>{{ row.hidden ? '隐藏' : '显示' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="150" align="center">
+      <el-table-column label="是否启用" width="70" align="center">
         <template v-slot="{row}">
-          <el-switch
-            v-model="row.enabled"
-            active-text="启用"
-            inactive-text="禁用"
-            disabled="disabled"
-          />
+          <span>{{ row.enabled ? '启用' : '禁用' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="菜单排序" width="70" align="center">
@@ -151,7 +138,6 @@ export default {
       listQuery: {
         path: null,
         name: null,
-        component: null,
         metaTitle: null,
         enabled: null,
         queryRoleId: null

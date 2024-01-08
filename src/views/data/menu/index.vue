@@ -217,10 +217,10 @@
 <script>
 import Icon from './components/Icon'
 import {
-  getMenuList,
+  getMenuTree,
   createMenu,
-  hidden,
-  enabled,
+  hiddenMenu,
+  enabledMenu,
   deleteMenu,
   deleteMenuRole,
   updateMenu,
@@ -296,7 +296,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getMenuList(this.listQuery).then(res => {
+      getMenuTree(this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -330,7 +330,7 @@ export default {
       this.expandedKeys.remove(data.id)
     },
     hidden(row) {
-      hidden(row.id, !row.hidden).then(res => {
+      hiddenMenu(row.id, !row.hidden).then(res => {
         this.$notify({
           title: '成功',
           message: res.message,
@@ -341,7 +341,7 @@ export default {
       })
     },
     enabled(row) {
-      enabled(row.id, !row.enabled).then(res => {
+      enabledMenu(row.id, !row.enabled).then(res => {
         this.$notify({
           title: '成功',
           message: res.message,

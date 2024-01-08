@@ -10,7 +10,7 @@ export function getUserPage(page, query) {
   })
 }
 
-export function enabled(id, value) {
+export function enabledUser(id, value) {
   return request({
     url: '/user/enabled/' + id,
     method: 'put',

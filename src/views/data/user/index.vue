@@ -204,7 +204,7 @@
 <script>
 import {
   getUserPage,
-  enabled,
+  enabledUser,
   createUser,
   updateUser,
   deleteUser,
@@ -306,7 +306,7 @@ export default {
       this.loadData()
     },
     enabled(row) {
-      enabled(row.id, row.enabled).then(res => {
+      enabledUser(row.id, row.enabled).then(res => {
         this.$notify({
           title: '成功',
           message: res.message,

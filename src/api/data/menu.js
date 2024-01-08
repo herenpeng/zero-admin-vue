@@ -1,14 +1,6 @@
 import request from '@/utils/request'
 import { exportExcel } from '@/utils/export-file'
 
-export function getMenuList(query) {
-  return request({
-    url: '/menu/list',
-    method: 'get',
-    params: query
-  })
-}
-
 export function getMenuPage(page, query) {
   query.size = page.size
   return request({
@@ -18,14 +10,30 @@ export function getMenuPage(page, query) {
   })
 }
 
-export function hidden(id, value) {
+export function getMenuList(query) {
+  return request({
+    url: '/menu/list',
+    method: 'get',
+    params: query
+  })
+}
+
+export function getMenuTree(query) {
+  return request({
+    url: '/menu/tree',
+    method: 'get',
+    params: query
+  })
+}
+
+export function hiddenMenu(id, value) {
   return request({
     url: '/menu/hidden/' + id,
     method: 'put',
     params: { hidden: value }
   })
 }
-export function enabled(id, value) {
+export function enabledMenu(id, value) {
   return request({
     url: '/menu/enabled/' + id,
     method: 'put',
