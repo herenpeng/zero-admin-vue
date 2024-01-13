@@ -296,7 +296,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getMenuTree(this.listQuery).then(res => {
+      getMenuTree().then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false

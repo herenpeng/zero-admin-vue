@@ -84,6 +84,11 @@
           <span>{{ row.vuePackage }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="是否为树状结构" align="center">
+        <template v-slot="{row}">
+          <span>{{ row.tree ? '是' : '否'}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="代码作者" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.codeAuthor }}</span>
@@ -146,6 +151,13 @@
         </el-form-item>
         <el-form-item label="Vue包路径" prop="vuePackage">
           <el-input v-model="tableInfo.vuePackage" placeholder="data.user" />
+        </el-form-item>
+        <el-form-item label="是否为树状结构">
+          <el-switch
+            v-model="tableInfo.tree"
+            active-text="是"
+            inactive-text="否"
+          />
         </el-form-item>
         <el-form-item label="代码作者" prop="codeAuthor">
           <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" disabled="disabled" />

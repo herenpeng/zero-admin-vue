@@ -29,6 +29,13 @@
           <el-form-item label="Vue包路径" prop="vuePackage">
             <el-input v-model="tableInfo.vuePackage" placeholder="Vue包路径" />
           </el-form-item>
+          <el-form-item label="是否为树状结构">
+            <el-switch
+              v-model="tableInfo.tree"
+              active-text="是"
+              inactive-text="否"
+            />
+          </el-form-item>
           <el-form-item label="代码作者" prop="codeAuthor">
             <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" disabled="disabled" />
           </el-form-item>
@@ -70,6 +77,7 @@ export default {
         javaCodePath: null,
         vueCodePath: null,
         vuePackage: null,
+        tree: false,
         codeAuthor: null
       },
       dialogStatus: '',

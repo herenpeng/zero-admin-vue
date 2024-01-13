@@ -18,11 +18,10 @@ export function getMenuList(query) {
   })
 }
 
-export function getMenuTree(query) {
+export function getMenuTree() {
   return request({
     url: '/menu/tree',
-    method: 'get',
-    params: query
+    method: 'get'
   })
 }
 
