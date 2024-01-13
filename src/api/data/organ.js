@@ -10,6 +10,21 @@ export function getOrganPage(page, query) {
   })
 }
 
+export function getOrganList(query) {
+  return request({
+  url: '/organ/list',
+    method: 'get',
+    params: query
+  })
+}
+
+export function getOrganTree() {
+  return request({
+  url: '/organ/tree',
+  method: 'get'
+  })
+}
+
 export function createOrgan(organ) {
   return request({
     url: '/organ',

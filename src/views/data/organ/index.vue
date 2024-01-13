@@ -1,68 +1,84 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-            <el-input v-model="listQuery.name" placeholder="组织机构名称" style="width: 200px;" class="filter-item"
-                @keyup.enter.native="handleFilter"
-      />
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-        查询
-      </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
-                 @click="handleCreate"
-      >
-        添加
-      </el-button>
-      <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
-                 @click="handleDownload"
-      >
-        导出
-      </el-button>
-    </div>
-
-    <el-table
-      :key="tableKey"
-      v-loading="listLoading"
-      :data="list"
-      border
-      fit
-      size="mini"
-      style="width: 100%;"
-      @sort-change="sortChange"
-    >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="组织机构名称" width="150px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="组织机构排序" width="150px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.sort }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="父级组织机构主键，如果为顶级组织机构，值为0" width="150px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.parentId }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
-        <template v-slot="{row}">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
-            编辑
+        <el-row :gutter="20">
+      <el-col :span="6">
+        <el-input
+          v-model="filterText"
+          placeholder="输入关键字进行过滤"
+        />
+        <el-tree
+          ref="tree"
+          class="filter-tree"
+          :data="organTree"
+          node-key="id"
+          :default-expanded-keys="expandedKeys"
+          :filter-node-method="filterNode"
+          @node-expand="nodeExpand"
+          @node-collapse="nodeCollapse"
+        >
+          <span slot-scope="{ node }" class="custom-tree-node">
+            <span><i :class="node.data.name" />{{ node.data.name }}</span>
+          </span>
+        </el-tree>
+      </el-col>
+      <el-col :span="18">
+        <div class="filter-container">
+          <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+            查询
           </el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteData(row)">
-            删除
+          <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
+                     @click="handleCreate"
+          >
+            添加
           </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+          <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
+                     @click="handleDownload"
+          >
+            导出
+          </el-button>
+        </div>
 
-    <pagination v-show="page.total > 0"
-                :total="page.total"
-                :page="page.currentPage"
-                :limit="page.size"
-                @pagination="handlePagination"
-    />
+        <el-table
+          :key="tableKey"
+          v-loading="listLoading"
+          :data="list"
+          row-key="id"
+          border
+          fit
+          size="mini"
+          style="width: 100%;"
+          :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+          @sort-change="sortChange"
+        >
+          <el-table-column label="序号" sortable="true" align="center" width="80" />
+          <el-table-column label="组织机构名称" width="150px" align="center">
+            <template v-slot="{row}">
+              <span>{{ row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="组织机构排序" width="150px" align="center">
+            <template v-slot="{row}">
+              <span>{{ row.sort }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="父级组织机构主键，如果为顶级组织机构，值为0" width="150px" align="center">
+            <template v-slot="{row}">
+              <span>{{ row.parentId }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
+            <template v-slot="{row}">
+              <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
+                编辑
+              </el-button>
+              <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteData(row)">
+                删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="organ" label-position="left" label-width="120px"
@@ -89,26 +105,19 @@
 
 <script>
 import {
-  getOrganPage,
+  getOrganTree,
   createOrgan,
   updateOrgan,
   deleteOrgan,
   exportOrganExcel
 } from '@/api/data/organ'
-import Pagination from '@/components/Pagination'
 
 export default {
   name: 'Organ',
-  components: { Pagination },
   data() {
     return {
       tableKey: 0,
       list: [],
-      page: {
-        currentPage: 1,
-        size: 10,
-        total: 0
-      },
       listLoading: false,
       listQuery: {
         name: null
@@ -131,7 +140,15 @@ export default {
         sort: [{ required: true, message: '请输入组织机构排序', trigger: 'change' }],
         parentId: [{ required: true, message: '请输入父级组织机构主键，如果为顶级组织机构，值为0', trigger: 'change' }]
       },
-      downloadLoading: false
+      downloadLoading: false,
+      organTree: [],
+      filterText: '',
+      expandedKeys: []
+    }
+  },
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val)
     }
   },
   created() {
@@ -140,17 +157,38 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getOrganPage(this.page, this.listQuery).then(res => {
+      getOrganTree().then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
           }
         }, 1000)
-        const page = res.data
-        this.list = page.records
-        this.page.total = page.total
+        this.list = res.data
         this.listLoading = false
+        this.organTree = this.buildTree(this.list)
       })
+    },
+    buildTree(organs) {
+      const tree = []
+      for (const organ of organs) {
+        organ.disabled = organ.hidden || !organ.enabled
+        const node = JSON.parse(JSON.stringify(organ))
+        tree.push(node)
+        this.buildTree(node.children)
+      }
+      return tree
+    },
+    filterNode(value, data) {
+      if (!value) {
+        return true
+      }
+      return data.name.indexOf(value) !== -1
+    },
+    nodeExpand(data) {
+      this.expandedKeys.push(data.id)
+    },
+    nodeCollapse(data) {
+      this.expandedKeys.remove(data.id)
     },
     handlePagination(page) {
       this.page.currentPage = page.page
@@ -226,7 +264,6 @@ export default {
       })
     },
     handleFilter() {
-      this.page.currentPage = 1
       this.loadData()
     },
     sortChange(data) {

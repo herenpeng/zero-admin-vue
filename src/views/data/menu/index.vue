@@ -41,26 +41,6 @@
       </el-col>
       <el-col :span="18">
         <div class="filter-container">
-          <!--          <el-input v-model="listQuery.metaTitle" placeholder="菜单名称" style="width: 150px;" class="filter-item"-->
-          <!--                    @keyup.enter.native="handleFilter"-->
-          <!--          />-->
-          <!--          <el-input v-model="listQuery.path" placeholder="菜单路由路径" style="width: 150px;" class="filter-item"-->
-          <!--                    @keyup.enter.native="handleFilter"-->
-          <!--          />-->
-          <!--          <el-input v-model="listQuery.name" placeholder="菜单模块名称" style="width: 150px;" class="filter-item"-->
-          <!--                    @keyup.enter.native="handleFilter"-->
-          <!--          />-->
-          <!--          <el-select v-model="listQuery.queryRoleId" placeholder="角色" clearable-->
-          <!--                     style="width: 100px;margin-right: 10px;"-->
-          <!--                     class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"-->
-          <!--          >-->
-          <!--            <el-option-->
-          <!--              v-for="role in roles"-->
-          <!--              :key="role.id"-->
-          <!--              :label="role.name"-->
-          <!--              :value="role.id"-->
-          <!--            />-->
-          <!--          </el-select>-->
           <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
             查询
           </el-button>
@@ -91,9 +71,7 @@
           <el-table-column label="序号" sortable="true" align="center" width="80" />
           <el-table-column label="菜单名称" width="110">
             <template v-slot="{row}">
-              <span
-                :style="{'font-weight': row.parentId === 0 ? 'bolder' : '','padding-left': row.parentId !== 0 ? '10px' : ''}"
-              >
+              <span :style="{'font-weight': row.parentId === 0 ? 'bolder' : '','padding-left': row.parentId !== 0 ? '10px' : ''}">
                 <i :class="row.metaIcon" />
                 {{ row.metaTitle }}
               </span>
@@ -155,54 +133,52 @@
             </template>
           </el-table-column>
         </el-table>
-
-        <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="60%">
-          <el-form ref="dataForm" :rules="rules" :model="menu" label-position="left" label-width="180px"
-                   style="width: 800px; margin-left:50px;" :inline="true"
-          >
-            <el-form-item label="菜单名称" prop="metaTitle">
-              <el-input v-model="menu.metaTitle" placeholder="用户管理" />
-            </el-form-item>
-            <el-form-item label="菜单路由路径" prop="path">
-              <el-input v-model="menu.path" placeholder="user" />
-            </el-form-item>
-            <el-form-item label="菜单模块名称" prop="name">
-              <el-input v-model="menu.name" placeholder="User" />
-            </el-form-item>
-            <el-form-item label="菜单图标" prop="metaIcon">
-              <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" style="width: 190px;" readonly>
-                <template slot="append"><i class="el-icon-s-operation" @click="drawer = true" /></template>
-              </el-input>
-            </el-form-item>
-            <el-form-item label="菜单排序" prop="sort">
-              <el-input v-model="menu.sort" type="number" placeholder="请输入菜单排序" />
-            </el-form-item>
-            <el-form-item label="是否隐藏" prop="hidden">
-              <el-switch
-                v-model="menu.hidden"
-                style="width: 190px"
-                active-text="隐藏"
-                inactive-text="显示"
-              />
-            </el-form-item>
-            <el-form-item label="是否启用" prop="enabled">
-              <el-switch
-                v-model="menu.enabled"
-                style="width: 190px"
-                active-text="启用"
-                inactive-text="禁用"
-              />
-            </el-form-item>
-          </el-form>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">关闭</el-button>
-            <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">保存</el-button>
-          </div>
-        </el-dialog>
       </el-col>
 
     </el-row>
-
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="60%">
+      <el-form ref="dataForm" :rules="rules" :model="menu" label-position="left" label-width="180px"
+               style="width: 800px; margin-left:50px;" :inline="true"
+      >
+        <el-form-item label="菜单名称" prop="metaTitle">
+          <el-input v-model="menu.metaTitle" placeholder="用户管理" />
+        </el-form-item>
+        <el-form-item label="菜单路由路径" prop="path">
+          <el-input v-model="menu.path" placeholder="user" />
+        </el-form-item>
+        <el-form-item label="菜单模块名称" prop="name">
+          <el-input v-model="menu.name" placeholder="User" />
+        </el-form-item>
+        <el-form-item label="菜单图标" prop="metaIcon">
+          <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" style="width: 190px;" readonly>
+            <template slot="append"><i class="el-icon-s-operation" @click="drawer = true" /></template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="菜单排序" prop="sort">
+          <el-input v-model="menu.sort" type="number" placeholder="请输入菜单排序" />
+        </el-form-item>
+        <el-form-item label="是否隐藏" prop="hidden">
+          <el-switch
+            v-model="menu.hidden"
+            style="width: 190px"
+            active-text="隐藏"
+            inactive-text="显示"
+          />
+        </el-form-item>
+        <el-form-item label="是否启用" prop="enabled">
+          <el-switch
+            v-model="menu.enabled"
+            style="width: 190px"
+            active-text="启用"
+            inactive-text="禁用"
+          />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">关闭</el-button>
+        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">保存</el-button>
+      </div>
+    </el-dialog>
     <el-drawer
       title="菜单图标"
       :visible.sync="drawer"
@@ -277,10 +253,6 @@ export default {
       downloadLoading: false,
       drawer: false,
       menuTree: [],
-      menuTreeProps: {
-        label: 'metaTitle',
-        children: 'children'
-      },
       filterText: '',
       expandedKeys: []
     }
