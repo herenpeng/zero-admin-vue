@@ -146,24 +146,11 @@ export default {
 </script>
 
 <style lang="scss">
-$bg: #283443;
-$light_gray: #000000;
-$cursor: #000000;
-
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
-
-/* reset element-ui css */
 .login-container {
-
   .box-card {
     width: 580px;
     height: 360px;
     margin: 10% auto;
-    /*-webkit-box-shadow: 0 0 25px #409EFF, 0 0 4px #409EFF inset;*/
   }
 
   .el-input {
@@ -173,18 +160,11 @@ $cursor: #000000;
 
     input {
       background: transparent;
-      border: 0px;
+      border: 0;
       -webkit-appearance: none;
-      border-radius: 0px;
+      border-radius: 0;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
       height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
     }
   }
 
@@ -198,14 +178,12 @@ $cursor: #000000;
 </style>
 
 <style lang="scss" scoped>
-$bg: #ffffff;
 $dark_gray: #889aa4;
 $light_gray: #000000;
 
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
   overflow: hidden;
 
   .login-form {
@@ -253,7 +231,7 @@ $light_gray: #000000;
       position: absolute;
       top: 3px;
       font-size: 18px;
-      right: 0px;
+      right: 0;
       cursor: pointer;
     }
   }
