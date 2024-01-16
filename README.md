@@ -7,15 +7,15 @@
 github下载地址:https://github.com/herenpeng/zero-admin-vue.git
 
 ## 项目开发环境
-- node.js 12.14.0
+- node.js 18.14.0
 
 
 ## 运行项目
 1、从github地址上将项目下载下来。
 
-2、在项目目录下执行npm install，将项目需要的js依赖下载下来。
+2、在项目目录下执行`npm install`，将项目需要的js依赖下载下来。
 
-3、在项目目录下执行npm run dev，运行项目。
+3、在项目目录下执行`npm run dev`，运行项目。
 
 
 ## 补充说明
