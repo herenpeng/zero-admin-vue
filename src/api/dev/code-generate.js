@@ -46,13 +46,12 @@ export function deleteTableInfo(id) {
   })
 }
 
-export function codeGeneration(id) {
+export function codeGenerate(id) {
   return request({
-    url: '/table/info/code/generation/' + id,
+    url: '/table/info/code/generate/' + id,
     method: 'post'
   })
 }
-
 
 export function getTableInfoRecoverPage(page, query) {
   query.size = page.size

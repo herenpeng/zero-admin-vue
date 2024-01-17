@@ -14,14 +14,14 @@
           <el-form-item label="实体类名称" prop="entityName">
             <el-input v-model="tableInfo.entityName" placeholder="请输入实体类名称" />
           </el-form-item>
+          <el-form-item label="Java代码路径" prop="javaCodePath">
+            <el-input v-model="tableInfo.javaCodePath" placeholder="请输入Java代码路径" />
+          </el-form-item>
           <el-form-item label="类请求路径" prop="entityName">
             <el-input v-model="tableInfo.requestMapping" placeholder="请输入类请求路径" />
           </el-form-item>
           <el-form-item label="包前缀名称" prop="javaPackageName">
             <el-input v-model="tableInfo.javaPackageName" placeholder="请输入包前缀名称" />
-          </el-form-item>
-          <el-form-item label="Java代码路径" prop="javaCodePath">
-            <el-input v-model="tableInfo.javaCodePath" placeholder="请输入Java代码路径" />
           </el-form-item>
           <el-form-item label="Vue代码路径" prop="vueCodePath">
             <el-input v-model="tableInfo.vueCodePath" placeholder="请输入Vue代码路径" />
@@ -32,6 +32,13 @@
           <el-form-item label="是否为树状结构">
             <el-switch
               v-model="tableInfo.tree"
+              active-text="是"
+              inactive-text="否"
+            />
+          </el-form-item>
+          <el-form-item label="是否覆盖同名文件">
+            <el-switch
+              v-model="tableInfo.cover"
               active-text="是"
               inactive-text="否"
             />
@@ -56,7 +63,7 @@
 import {
   getById,
   updateTableInfo
-} from '@/api/development/code-generation'
+} from '@/api/dev/code-generate'
 
 import TableColumn from './components/TableColumn'
 
@@ -72,12 +79,13 @@ export default {
         name: null,
         comment: null,
         entityName: null,
+        javaCodePath: null,
         requestMapping: null,
         javaPackageName: null,
-        javaCodePath: null,
         vueCodePath: null,
         vuePackage: null,
         tree: false,
+        cover: false,
         codeAuthor: null
       },
       dialogStatus: '',

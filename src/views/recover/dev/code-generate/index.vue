@@ -110,11 +110,11 @@ import {
   getTableInfoRecoverPage,
   recoverTableInfo,
   recoverDeleteTableInfo
-} from '@/api/development/code-generation'
-import Pagination from '@/components/Pagination'
+} from '@/api/dev/code-generate'
+import Pagination from '@/components/Pagination/index.vue'
 
 export default {
-  name: 'CodeGeneration',
+  name: 'CodeGenerate',
   components: { Pagination },
   data() {
     return {

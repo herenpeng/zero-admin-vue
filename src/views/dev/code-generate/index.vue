@@ -59,6 +59,11 @@
           <span>{{ row.entityName }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="Java代码路径" width="100px" align="center">
+        <template v-slot="{row}">
+          <span>{{ row.javaCodePath }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="类请求路径" width="90px" align="center">
         <template v-slot="{row}">
           <span>{{ row.requestMapping }}</span>
@@ -67,11 +72,6 @@
       <el-table-column label="包前缀名称" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.javaPackageName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="Java代码路径" width="100px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.javaCodePath }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Vue代码路径" align="center">
@@ -86,7 +86,12 @@
       </el-table-column>
       <el-table-column label="是否为树状结构" align="center">
         <template v-slot="{row}">
-          <span>{{ row.tree ? '是' : '否'}}</span>
+          <span>{{ row.tree ? '是' : '否' }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否覆盖同名文件" align="center">
+        <template v-slot="{row}">
+          <span>{{ row.cover ? '是' : '否' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="代码作者" width="100px" align="center">
@@ -96,7 +101,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
         <template v-slot="{row}">
-          <router-link :to="{path:'/development/code-setting',query: {id: row.id}}" style="margin-right: 10px">
+          <router-link :to="{path:'/dev/code-setting',query: {id: row.id}}" style="margin-right: 10px">
             <el-button type="primary" size="mini" icon="el-icon-edit">
               编辑
             </el-button>
@@ -104,7 +109,7 @@
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
           </el-button>
-          <el-button icon="el-icon-refresh-right" size="mini" type="success" @click="codeGeneration(row)">
+          <el-button icon="el-icon-refresh-right" size="mini" type="success" @click="codeGenerate(row)">
             代码生成
           </el-button>
         </template>
@@ -137,14 +142,14 @@
         <el-form-item label="实体类名称" prop="entityName">
           <el-input v-model="tableInfo.entityName" placeholder="请输入实体类名称" />
         </el-form-item>
+        <el-form-item label="Java代码路径" prop="javaCodePath">
+          <el-input v-model="tableInfo.javaCodePath" placeholder="F:\IdeaCode\zero-admin\zero-sys" />
+        </el-form-item>
         <el-form-item label="类请求路径" prop="entityName">
           <el-input v-model="tableInfo.requestMapping" placeholder="请输入类请求路径" />
         </el-form-item>
         <el-form-item label="包前缀名称" prop="javaPackageName">
           <el-input v-model="tableInfo.javaPackageName" placeholder="com.zero.sys" />
-        </el-form-item>
-        <el-form-item label="Java代码路径" prop="javaCodePath">
-          <el-input v-model="tableInfo.javaCodePath" placeholder="F:\IdeaCode\zero-admin\zero-sys" />
         </el-form-item>
         <el-form-item label="Vue代码路径" prop="vueCodePath">
           <el-input v-model="tableInfo.vueCodePath" placeholder="F:\Js\zero-admin-vue" />
@@ -155,6 +160,13 @@
         <el-form-item label="是否为树状结构">
           <el-switch
             v-model="tableInfo.tree"
+            active-text="是"
+            inactive-text="否"
+          />
+        </el-form-item>
+        <el-form-item label="是否覆盖同名文件">
+          <el-switch
+            v-model="tableInfo.cover"
             active-text="是"
             inactive-text="否"
           />
@@ -179,12 +191,12 @@ import {
   getNotAddList,
   createTableInfo,
   deleteTableInfo,
-  codeGeneration
-} from '@/api/development/code-generation'
+  codeGenerate
+} from '@/api/dev/code-generate'
 import Pagination from '@/components/Pagination'
 
 export default {
-  name: 'CodeGeneration',
+  name: 'CodeGenerate',
   components: { Pagination },
   computed: {
     ...mapGetters([
@@ -214,11 +226,13 @@ export default {
         name: null,
         comment: null,
         entityName: null,
+        javaCodePath: null,
         requestMapping: null,
         javaPackageName: null,
-        javaCodePath: null,
         vueCodePath: null,
         vuePackage: null,
+        tree: false,
+        cover: false,
         codeAuthor: null
       },
       tableInfoList: [],
@@ -343,13 +357,13 @@ export default {
       this.page.currentPage = 1
       this.loadData()
     },
-    codeGeneration(row) {
+    codeGenerate(row) {
       this.$confirm('此操作将会覆盖代码生成路径下的同名文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        codeGeneration(row.id).then(res => {
+        codeGenerate(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message

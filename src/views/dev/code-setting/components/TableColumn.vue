@@ -134,7 +134,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getTableColumnPage, updateTableColumn } from '@/api/development/code-setting'
+import { getTableColumnPage, updateTableColumn } from '@/api/dev/code-setting'
 
 export default {
   name: 'TableColumn',
