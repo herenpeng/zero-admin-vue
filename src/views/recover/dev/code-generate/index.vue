@@ -114,7 +114,7 @@ import {
 import Pagination from '@/components/Pagination/index.vue'
 
 export default {
-  name: 'CodeGenerate',
+  name: 'RecoverCodeGenerate',
   components: { Pagination },
   data() {
     return {

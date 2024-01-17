@@ -123,7 +123,7 @@ import { getMenuRecoverPage, recoverMenu, recoverDeleteMenu } from '@/api/data/m
 import { getRoleList } from '@/api/data/role'
 
 export default {
-  name: 'Menu',
+  name: 'RecoverMenu',
   components: { Pagination },
   data() {
     return {

@@ -22,7 +22,7 @@
               <el-button
                 type="text"
                 size="mini"
-                @click="hidden(node.data)"
+                @click.stop="hidden(node.data)"
               >
                 <span v-if="node.data.hidden" style="color: #67C23A">显示</span>
                 <span v-else style="color: #E5A13C">隐藏</span>
@@ -30,7 +30,7 @@
               <el-button
                 type="text"
                 size="mini"
-                @click="enabled(node.data)"
+                @click.stop="enabled(node.data)"
               >
                 <span v-if="node.data.enabled" style="color: red">禁用</span>
                 <span v-else style="color: #67C23A">启用</span>
@@ -299,7 +299,12 @@ export default {
       this.expandedKeys.push(data.id)
     },
     nodeCollapse(data) {
-      this.expandedKeys.remove(data.id)
+      this.expandedKeys = this.expandedKeys.filter(num => num !== data.id)
+      if (data.children) {
+        for (const child of data.children) {
+          this.nodeCollapse(child)
+        }
+      }
     },
     hidden(row) {
       hiddenMenu(row.id, !row.hidden).then(res => {

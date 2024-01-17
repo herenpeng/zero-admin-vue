@@ -107,7 +107,7 @@ import Pagination from '@/components/Pagination/index.vue'
 import { getRoleList } from '@/api/data/role'
 
 export default {
-  name: 'Resources',
+  name: 'RecoverResources',
   components: { Pagination },
   data() {
     return {

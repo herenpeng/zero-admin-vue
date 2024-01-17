@@ -136,7 +136,7 @@ import { getRoleList } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
 
 export default {
-  name: 'User',
+  name: 'RecoverUser',
   components: { Pagination },
   filters: {
     lockedFilter(lockedValue) {

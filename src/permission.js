@@ -1,4 +1,4 @@
-import router from './router'
+import router, { resetRouter } from './router'
 import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
@@ -32,6 +32,7 @@ router.beforeEach(async(to, from, next) => {
         try {
           // 如果没有获取到用户信息，可能是用户刚刚登录或者刷新了页面，重新从后台获取动态路由
           const accessRoutes = await store.dispatch('permission/generateRoutes')
+          resetRouter()
           router.addRoutes(accessRoutes)
           const previousRoute = sessionStorage.getItem('previousRoute')
           // 如果sessionStorage中有上一个路由信息，说明是刷新页面，不是刚刚登录

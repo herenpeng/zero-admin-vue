@@ -127,7 +127,7 @@ import {
 import Pagination from '@/components/Pagination/index.vue'
 
 export default {
-  name: 'LoginLog',
+  name: 'RecoverLoginLog',
   components: { Pagination },
   filters: {
     logoutFilter(logoutValue) {

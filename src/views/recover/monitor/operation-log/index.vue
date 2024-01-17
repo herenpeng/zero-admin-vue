@@ -141,7 +141,7 @@ import {
 import Pagination from '@/components/Pagination'
 
 export default {
-  name: 'OperationLog',
+  name: 'RecoverOperationLog',
   components: { Pagination },
   data() {
     return {

@@ -102,7 +102,7 @@ import Pagination from '@/components/Pagination/index.vue'
 import { getFileManageRecoverPage, recoverFileManage, recoverDeleteFileManage } from '@/api/data/file-manage'
 
 export default {
-  name: 'FileManage',
+  name: 'RecoverFileManage',
   components: { Pagination },
   data() {
     return {

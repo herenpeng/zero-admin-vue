@@ -85,7 +85,7 @@ import {
 import Pagination from '@/components/Pagination'
 
 export default {
-  name: 'Role',
+  name: 'RecoverRole',
   components: { Pagination },
   data() {
     return {
