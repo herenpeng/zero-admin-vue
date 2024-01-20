@@ -84,12 +84,12 @@
           <span>{{ row.vuePackage }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否为树状结构" align="center">
+      <el-table-column label="是否为树状结构" width="80px" align="center">
         <template v-slot="{row}">
           <span>{{ row.tree ? '是' : '否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否覆盖同名文件" align="center">
+      <el-table-column label="是否覆盖同名文件" width="80px" align="center">
         <template v-slot="{row}">
           <span>{{ row.cover ? '是' : '否' }}</span>
         </template>

@@ -77,17 +77,17 @@
       </el-table-column>
       <el-table-column label="是否锁定" width="110px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.locked | lockedFilter }}</span>
+          <span>{{ row.locked ? '锁定' : '未锁定' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="账号是否过期" width="120px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.accountExpire | expireFilter }}</span>
+          <span>{{ row.accountExpire ? '过期' : '未过期' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="密码是否过期" width="120px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.passwordExpire | expireFilter }}</span>
+          <span>{{ row.passwordExpire ? '过期' : '未过期' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="用户角色" class-name="status-col">
@@ -138,22 +138,6 @@ import Pagination from '@/components/Pagination'
 export default {
   name: 'RecoverUser',
   components: { Pagination },
-  filters: {
-    lockedFilter(lockedValue) {
-      if (lockedValue) {
-        return '锁定'
-      } else {
-        return '未锁定'
-      }
-    },
-    expireFilter(expireValue) {
-      if (expireValue) {
-        return '过期'
-      } else {
-        return '未过期'
-      }
-    }
-  },
   data() {
     return {
       tableKey: 0,

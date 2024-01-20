@@ -88,7 +88,7 @@
       </el-table-column>
       <el-table-column label="是否主动登出" width="100px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.logout | logoutFilter }}</span>
+          <span>{{ row.logout ? '是' : '否' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="账号状态" width="80px" align="center">
@@ -129,15 +129,6 @@ import Pagination from '@/components/Pagination/index.vue'
 export default {
   name: 'RecoverLoginLog',
   components: { Pagination },
-  filters: {
-    logoutFilter(logoutValue) {
-      if (logoutValue) {
-        return '是'
-      } else {
-        return '否'
-      }
-    }
-  },
   data() {
     return {
       tableKey: 0,

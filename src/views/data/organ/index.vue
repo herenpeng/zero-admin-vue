@@ -29,7 +29,7 @@
             查询
           </el-button>
           <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
-                     @click="handleCreate"
+                     @click="handleCreate(null)"
           >
             添加
           </el-button>
@@ -63,11 +63,6 @@
               <span>{{ row.sort }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="父级组织机构主键，如果为顶级组织机构，值为0" width="150px" align="center">
-            <template v-slot="{row}">
-              <span>{{ row.parentId }}</span>
-            </template>
-          </el-table-column>
           <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
             <template v-slot="{row}">
               <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
@@ -76,6 +71,7 @@
               <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteData(row)">
                 删除
               </el-button>
+              <el-button size="mini" type="warning" icon="el-icon-circle-plus-outline" @click="handleCreate(row)" />
             </template>
           </el-table-column>
         </el-table>
@@ -91,9 +87,6 @@
         </el-form-item>
         <el-form-item label="组织机构排序" prop="sort">
           <el-input v-model="organ.sort" type="number" placeholder="请输入组织机构排序" />
-        </el-form-item>
-        <el-form-item label="父级组织机构主键，如果为顶级组织机构，值为0" prop="parentId">
-          <el-input v-model="organ.parentId" type="number" placeholder="请输入父级组织机构主键，如果为顶级组织机构，值为0" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -198,8 +191,9 @@ export default {
         }
       }
     },
-    handleCreate() {
+    handleCreate(row) {
       this.organ = {}
+      this.organ.parentId = row === null ? 0 : row.id
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
       this.$nextTick(() => {

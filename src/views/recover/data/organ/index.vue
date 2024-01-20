@@ -1,26 +1,14 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.name" placeholder="数据库表名称" style="width: 200px;" class="filter-item"
-                @keyup.enter.native="handleFilter"
-      />
-      <el-input v-model="listQuery.comment" placeholder="数据库表描述" style="width: 200px;" class="filter-item"
-                @keyup.enter.native="handleFilter"
-      />
-      <el-input v-model="listQuery.entityName" placeholder="实体类名称" style="width: 150px;" class="filter-item"
-                @keyup.enter.native="handleFilter"
-      />
-      <el-input v-model="listQuery.basePackageName" placeholder="包前缀名称" style="width: 150px;" class="filter-item"
-                @keyup.enter.native="handleFilter"
-      />
-      <el-input v-model="listQuery.codeAuthor" placeholder="代码作者" style="width: 150px;margin-right: 10px;" class="filter-item"
+            <el-input v-model="listQuery.name" placeholder="组织机构名称" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         查询
       </el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
-                 @click="handleDownload"
+             @click="handleDownload"
       >
         导出
       </el-button>
@@ -32,68 +20,22 @@
       :data="list"
       border
       fit
-      highlight-current-row
       size="mini"
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="60" />
-      <el-table-column label="数据库表名称" width="100px" align="center">
+      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
+      <el-table-column label="组织机构名称" width="150px" align="center">
         <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="数据库表描述" width="160px" align="center">
+      <el-table-column label="组织机构排序" width="150px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.comment }}</span>
+          <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="实体类名称" width="90px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.entityName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="Java代码路径" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.javaCodePath }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="类请求路径" width="90px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.requestMapping }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="包前缀名称" width="100px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.javaPackageName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="Vue代码路径" width="140px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.vueCodePath }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="Vue包路径" width="80px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.vuePackage }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="是否为树状结构" width="80px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.tree ? '是' : '否' }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="是否覆盖同名文件" width="80px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.cover ? '是' : '否' }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="代码作者" width="90px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.codeAuthor }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" width="250" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="250px" class-name="small-padding fixed-width">
         <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复
@@ -114,17 +56,16 @@
 
   </div>
 </template>
-
 <script>
 import {
-  getTableInfoRecoverPage,
-  recoverTableInfo,
-  recoverDeleteTableInfo
-} from '@/api/dev/code-generate'
+  getOrganRecoverPage,
+  recoverOrgan,
+  recoverDeleteOrgan
+} from '@/api/data/organ'
 import Pagination from '@/components/Pagination/index.vue'
 
 export default {
-  name: 'RecoverCodeGenerate',
+  name: 'RecoverOrgan',
   components: { Pagination },
   data() {
     return {
@@ -137,13 +78,14 @@ export default {
       },
       listLoading: false,
       listQuery: {
-        username: null,
+        path: null,
+        name: null,
+        metaTitle: null,
         enabled: null,
-        locked: null,
-        accountExpire: null,
-        passwordExpire: null
+        queryRoleId: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
+      roles: null,
       downloadLoading: false
     }
   },
@@ -153,7 +95,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      getTableInfoRecoverPage(this.page, this.listQuery).then(res => {
+      getOrganRecoverPage(this.page, this.listQuery).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
             this.listLoading = false
@@ -171,17 +113,17 @@ export default {
       this.loadData()
     },
     handleRecover(row) {
-      recoverTableInfo(row.id).then(res => {
+      recoverOrgan(row.id).then(res => {
         this.loadData()
       })
     },
     handleRecoverDelete(row) {
-      this.$confirm('此操作将彻底删除该表信息, 数据将不可恢复, 是否继续?', '提示', {
+      this.$confirm('此操作将彻底删除该菜单, 数据将不可恢复, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        recoverDeleteTableInfo(row.id).then(res => {
+        recoverDeleteOrgan(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message
@@ -230,6 +172,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-
-</style>

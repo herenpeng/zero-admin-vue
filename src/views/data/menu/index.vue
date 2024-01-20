@@ -332,6 +332,7 @@ export default {
       })
     },
     handleCreate(row) {
+      this.menu = {}
       this.menu.parentId = row === null ? 0 : row.id
       this.menu.hidden = false
       this.menu.enabled = true

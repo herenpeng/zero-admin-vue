@@ -60,7 +60,7 @@
       </el-table-column>
       <el-table-column label="用户是否可配置" width="120px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.userable | userableFilter }}</span>
+          <span>{{ row.userable ? '是' : '否' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200px">
@@ -126,15 +126,6 @@ import Pagination from '@/components/Pagination'
 export default {
   name: 'ConfigConst',
   components: { Pagination },
-  filters: {
-    userableFilter(ableValue) {
-      if (ableValue) {
-        return '是'
-      } else {
-        return '否'
-      }
-    }
-  },
   data() {
     return {
       tableKey: 0,

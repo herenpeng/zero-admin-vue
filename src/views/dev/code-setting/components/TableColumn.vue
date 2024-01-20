@@ -42,7 +42,7 @@
       </el-table-column>
       <el-table-column label="是否为查询字段" width="80px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.query | queryFilter }}</span>
+          <span>{{ row.query ? '是' : '否' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="字段排序顺序" width="80px" align="center">
@@ -143,15 +143,6 @@ export default {
     tableInfoId: {
       type: Number,
       default: null
-    }
-  },
-  filters: {
-    queryFilter(queryValue) {
-      if (queryValue) {
-        return '是'
-      } else {
-        return '否'
-      }
     }
   },
   data() {

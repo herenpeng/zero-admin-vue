@@ -131,7 +131,7 @@
               关闭
             </el-button>
           </template>
-          <span v-else>{{ userInfo.gender | genderFilter }}</span>
+          <span v-else>{{ userInfo.gender === null ? '点击编辑修改性别' : (userInfo.gender ? '男' : '女') }}</span>
         </el-col>
         <el-col :span="2">
           <el-button
@@ -417,14 +417,6 @@ import store from '@/store'
 
 export default {
   name: 'UserInfo',
-  filters: {
-    genderFilter(genderValue) {
-      if (genderValue === null) {
-        return '点击编辑修改性别'
-      }
-      return genderValue ? '男' : '女'
-    }
-  },
   data() {
     const checkOldPassword = (rule, value, callback) => {
       if (!value) {
