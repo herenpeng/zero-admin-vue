@@ -2,8 +2,8 @@
   <div class="app-container">
     <el-tabs v-model="activeName">
       <el-tab-pane label="表信息配置" name="tableInfo">
-        <el-form ref="dataForm" :rules="rules" :model="tableInfo" label-position="left" label-width="120px"
-                 style="width: 400px; margin-left:50px;"
+        <el-form ref="dataForm" :rules="rules" :model="tableInfo" label-position="left" label-width="180px"
+                 style="width: 800px; margin-left:50px;" :inline="true"
         >
           <el-form-item label="数据库表名称" prop="name">
             <el-input v-model="tableInfo.name" placeholder="请选择数据表名称" disabled="disabled" />
@@ -29,16 +29,18 @@
           <el-form-item label="Vue包路径" prop="vuePackage">
             <el-input v-model="tableInfo.vuePackage" placeholder="Vue包路径" />
           </el-form-item>
-          <el-form-item label="是否为树状结构">
+          <el-form-item label="是否为树状结构" prop="tree">
             <el-switch
               v-model="tableInfo.tree"
+              style="width: 190px"
               active-text="是"
               inactive-text="否"
             />
           </el-form-item>
-          <el-form-item label="是否覆盖同名文件">
+          <el-form-item label="是否覆盖同名文件" prop="cover">
             <el-switch
               v-model="tableInfo.cover"
+              style="width: 190px"
               active-text="是"
               inactive-text="否"
             />

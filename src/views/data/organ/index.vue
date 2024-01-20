@@ -14,6 +14,7 @@
           :default-expanded-keys="expandedKeys"
           :filter-node-method="filterNode"
           draggable
+          @node-drop="handleDrop"
           @node-expand="nodeExpand"
           @node-collapse="nodeCollapse"
         >
@@ -107,6 +108,7 @@
 <script>
 import {
   getOrganTree,
+  moveOrgan,
   createOrgan,
   updateOrgan,
   deleteOrgan,
@@ -266,6 +268,18 @@ export default {
     },
     handleFilter() {
       this.loadData()
+    },
+    handleDrop(draggingNode, dropNode, dropType, ev) {
+      // 更新父节点
+      const data = draggingNode.data
+      const dropData = dropNode.data
+      if (dropType === 'inner') {
+        data.parentId = dropData.id
+      } else {
+        data.parentId = dropData.parentId
+        data.sort = dropData.sort + (dropType === 'before' ? 0 : 1)
+      }
+      moveOrgan(data)
     },
     sortChange(data) {
       const { prop, order } = data

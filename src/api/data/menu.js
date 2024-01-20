@@ -25,6 +25,14 @@ export function getMenuTree() {
   })
 }
 
+export function moveMenu(menu) {
+  return request({
+    url: '/menu/move',
+    method: 'put',
+    data: menu
+  })
+}
+
 export function hiddenMenu(id, value) {
   return request({
     url: '/menu/hidden/' + id,
