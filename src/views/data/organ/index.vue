@@ -270,7 +270,6 @@ export default {
       this.loadData()
     },
     handleDrop(draggingNode, dropNode, dropType, ev) {
-      // 更新父节点
       const data = draggingNode.data
       const dropData = dropNode.data
       if (dropType === 'inner') {
