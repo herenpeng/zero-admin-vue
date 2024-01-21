@@ -93,14 +93,14 @@
           <span>{{ row.uri }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="访问方法类型" width="120px" align="center">
+      <el-table-column label="访问方法类型" width="100px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.methodType }}</span>
+          <span><el-tag :type="tagType[row.methodType]" effect="dark">{{ row.methodType }}</el-tag></span>
         </template>
       </el-table-column>
       <el-table-column label="操作执行时间" width="120px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.executionTime }}</span>
+          <span>{{ row.executionTime }}ms</span>
         </template>
       </el-table-column>
       <el-table-column label="执行结果" width="80px" align="center">
@@ -163,7 +163,7 @@ export default {
         queryStartDate: null,
         queryEndDate: null
       },
-      tagType: ['', 'success', 'info', 'warning', 'danger'],
+      tagType: { 'GET': '', 'POST': 'success', 'PUT': 'warning', 'DELETE': 'danger' },
       downloadLoading: false,
       pickerOptions: {
         shortcuts: [{

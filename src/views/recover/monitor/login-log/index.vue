@@ -83,7 +83,7 @@
       </el-table-column>
       <el-table-column label="浏览器名称" width="90px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.browserName }}</span>
+          <span><el-tag type="success" effect="dark">{{ row.browserName }}</el-tag></span>
         </template>
       </el-table-column>
       <el-table-column label="浏览器版本" width="90px" align="center">
