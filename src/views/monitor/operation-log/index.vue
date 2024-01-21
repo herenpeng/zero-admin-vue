@@ -100,12 +100,12 @@
       </el-table-column>
       <el-table-column label="操作执行时间" width="120px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.executionTime }}</span>
+          <span>{{ row.executionTime }}ms</span>
         </template>
       </el-table-column>
       <el-table-column label="请求参数" width="80px" align="center">
         <template v-slot="{row}">
-          <span><el-link type="success" @click="viewRequestArgs(row)" style="font-size: 12px;">查看</el-link></span>
+          <span><el-link type="success" style="font-size: 12px;" @click="viewRequestArgs(row)">查看</el-link></span>
         </template>
       </el-table-column>
       <el-table-column label="执行结果" width="80px" align="center">

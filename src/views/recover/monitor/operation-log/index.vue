@@ -75,7 +75,7 @@
       <el-table-column label="序号" type="index" align="center" width="60" />
       <el-table-column label="操作用户" width="120px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.username }}</span>
+          <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="访问时间" width="160px" align="center" sortable prop="accessTime">

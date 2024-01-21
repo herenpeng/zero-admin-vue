@@ -55,13 +55,13 @@
       size="mini"
       style="width: 100%;"
     >
-      <el-table-column label="序号" type="index" align="center" width="80" />
-      <el-table-column label="登入用户" width="150px" align="center">
+      <el-table-column label="序号" type="index" align="center" width="50" />
+      <el-table-column label="登入用户" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登入IP地址" width="120px" align="center">
+      <el-table-column label="登入IP地址" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.ip }}</span>
         </template>
@@ -76,6 +76,26 @@
           <span>{{ row.isp }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="是否为移动平台" width="70px" align="center">
+        <template v-slot="{row}">
+          <span>{{ row.mobile ? '是' : '否' }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="浏览器名称" width="90px" align="center">
+        <template v-slot="{row}">
+          <span>{{ row.browserName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="浏览器版本" width="90px" align="center">
+        <template v-slot="{row}">
+          <span>{{ row.browserVersion }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="客户端操作系统名称" width="100px" align="center">
+        <template v-slot="{row}">
+          <span>{{ row.osName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="登入时间" width="140px" align="center" sortable prop="accessTime">
         <template v-slot="{row}">
           <span>{{ row.loginTime }}</span>
@@ -86,7 +106,7 @@
           <span>{{ row.logoutTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否主动登出" width="100px" align="center">
+      <el-table-column label="是否主动登出" width="80px" align="center">
         <template v-slot="{row}">
           <span>{{ row.logout ? '是' : '否' }}</span>
         </template>
