@@ -201,7 +201,7 @@ import CpuChart from './components/CpuChart'
 import MemChart from './components/MemChart'
 import JvmChart from './components/JvmChart'
 import { getServerPieChartInfo, getServerInfo } from '@/api/monitor/server'
-import { closeWebSocket, connectWebSocket, supportWebSocket } from '@/utils/websocket'
+import webSocket, { EVENT_KEY } from '@/utils/websocket'
 
 export default {
   name: 'Info',
@@ -218,36 +218,27 @@ export default {
       jvmInfo: [],
       sysFiles: [],
       pieChart: {
-        cpu: {
-          used: 0,
-          sys: 0
-        },
-        mem: {
-          used: 0,
-          free: 0
-        },
-        jvm: {
-          used: 0,
-          free: 0
-        }
+        cpu: { used: 0, sys: 0 },
+        mem: { used: 0, free: 0 },
+        jvm: { used: 0, free: 0 }
       },
-      timer: null,
-      websocket: null
+      timer: null
     }
   },
   beforeDestroy() {
-    if (this.websocket === null) {
+    if (this.timer) {
       clearInterval(this.timer)
       this.timer = null
-    } else {
-      closeWebSocket(this.websocket)
-      this.websocket = null
     }
   },
   created() {
     this.loadData()
-    this.getServerPieChartInfo()
-    if (this.websocket === null) {
+    if (webSocket) {
+      webSocket.register(EVENT_KEY.SERVER, data => {
+        this.pieChart = JSON.parse(data)
+      })
+    } else {
+      this.getServerPieChartInfo()
       this.timer = setInterval(() => {
         this.getServerPieChartInfo()
       }, 3000)
@@ -264,22 +255,9 @@ export default {
       })
     },
     getServerPieChartInfo() {
-      const _this = this
-      if (supportWebSocket()) {
-        this.websocket = connectWebSocket('/websocket/server/piechart',
-          function() {},
-          function(evt) {
-            _this.pieChart = JSON.parse(evt.data)
-          },
-          function() {},
-          function() {
-            console.log('WebSocket连接错误')
-          })
-      } else {
-        getServerPieChartInfo().then(res => {
-          this.pieChart = res.data
-        })
-      }
+      getServerPieChartInfo().then(res => {
+        this.pieChart = res.data
+      })
     }
   }
 }

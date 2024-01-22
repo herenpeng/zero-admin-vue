@@ -136,7 +136,7 @@
 import {
   getOperationLogRecoverPage,
   recoverOperationLog,
-  recoverDeleteLog
+  recoverDeleteOperationLog
 } from '@/api/monitor/operation-log'
 import Pagination from '@/components/Pagination'
 
@@ -239,7 +239,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        recoverDeleteLog(row.id).then(res => {
+        recoverDeleteOperationLog(row.id).then(res => {
           this.$message({
             type: 'success',
             message: res.message

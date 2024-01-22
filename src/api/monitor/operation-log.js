@@ -33,13 +33,13 @@ export function recoverOperationLog(id) {
   })
 }
 
-export function recoverDeleteLog(id) {
+export function recoverDeleteOperationLog(id) {
   return request({
     url: '/operation/log/recover/' + id,
     method: 'delete'
   })
 }
 
-export function exportLogExcel(query, fileName) {
+export function exportOperationLogExcel(query, fileName) {
   exportExcel('/operation/log/export/excel', query, fileName)
 }
