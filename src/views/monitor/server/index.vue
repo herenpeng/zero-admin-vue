@@ -4,17 +4,17 @@
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <cpu-chart :cpu="pieChart.cpu" />
+          <cpu-chart :cpu="chart.cpu" />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <mem-chart :mem="pieChart.mem" />
+          <mem-chart :mem="chart.mem" />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <jvm-chart :jvm="pieChart.jvm" />
+          <jvm-chart :jvm="chart.jvm" />
         </div>
       </el-col>
     </el-row>
@@ -36,7 +36,7 @@
                   <span>{{ props.row.free }}%</span>
                 </el-form-item>
                 <el-form-item label="用户使用率">
-                  <span>{{ props.row.used }}%</span>
+                  <span>{{ props.row.user }}%</span>
                 </el-form-item>
                 <el-form-item label="系统使用率">
                   <span>{{ props.row.sys }}%</span>
@@ -200,7 +200,7 @@
 import CpuChart from './components/CpuChart'
 import MemChart from './components/MemChart'
 import JvmChart from './components/JvmChart'
-import { getServerPieChartInfo, getServerInfo } from '@/api/monitor/server'
+import { getServerChartInfo, getServerInfo } from '@/api/monitor/server'
 import webSocket, { EVENT_KEY } from '@/utils/websocket'
 
 export default {
@@ -217,8 +217,8 @@ export default {
       sysInfo: [],
       jvmInfo: [],
       sysFiles: [],
-      pieChart: {
-        cpu: { used: 0, sys: 0 },
+      chart: {
+        cpu: { user: 0, sys: 0 },
         mem: { used: 0, free: 0 },
         jvm: { used: 0, free: 0 }
       },
@@ -235,12 +235,13 @@ export default {
     this.loadData()
     if (webSocket) {
       webSocket.register(EVENT_KEY.SERVER, data => {
-        this.pieChart = JSON.parse(data)
+        console.log(data)
+        this.chart = JSON.parse(data)
       })
     } else {
-      this.getServerPieChartInfo()
+      this.getServerChartInfo()
       this.timer = setInterval(() => {
-        this.getServerPieChartInfo()
+        this.getServerChartInfo()
       }, 3000)
     }
   },
@@ -254,8 +255,8 @@ export default {
         this.sysFiles = res.data.sysFiles
       })
     },
-    getServerPieChartInfo() {
-      getServerPieChartInfo().then(res => {
+    getServerChartInfo() {
+      getServerChartInfo().then(res => {
         this.pieChart = res.data
       })
     }

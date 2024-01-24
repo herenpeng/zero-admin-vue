@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getServerPieChartInfo() {
+export function getServerChartInfo() {
   return request({
-    url: '/server/piechart',
+    url: '/server/chart',
     method: 'get'
   })
 }

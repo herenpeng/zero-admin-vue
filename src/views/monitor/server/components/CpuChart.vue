@@ -79,7 +79,7 @@ export default {
             radius: [15, 95],
             center: ['50%', '38%'],
             data: [
-              { value: this.cpu.used, name: '用户使用率' },
+              { value: this.cpu.user, name: '用户使用率' },
               { value: this.cpu.sys, name: '系统使用率' }
             ],
             animationEasing: 'cubicInOut',
