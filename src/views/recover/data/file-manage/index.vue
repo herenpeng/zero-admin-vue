@@ -72,7 +72,7 @@
           <span><el-link type="success" @click="view(row)">查看</el-link></span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left"  width="250" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="left" width="240px" class-name="small-padding fixed-width">
         <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复

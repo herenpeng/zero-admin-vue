@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.queryUsername" placeholder="登入用户" style="width: 120px;" class="filter-item"
+      <el-input v-model="listQuery.queryUsername" placeholder="登录用户" style="width: 120px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.ip" placeholder="登入IP地址" style="width: 120px;" class="filter-item"
+      <el-input v-model="listQuery.ip" placeholder="登录IP地址" style="width: 120px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.queryAddress" placeholder="登入地址" style="width: 120px;" class="filter-item"
+      <el-input v-model="listQuery.queryAddress" placeholder="登录地址" style="width: 120px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-input v-model="listQuery.isp" placeholder="因特网提供商" style="width: 120px;" class="filter-item"
@@ -19,8 +19,8 @@
         align="right"
         unlink-panels
         range-separator="至"
-        start-placeholder="登入开始日期"
-        end-placeholder="登入结束日期"
+        start-placeholder="登录开始日期"
+        end-placeholder="登录结束日期"
         value-format="yyyy-MM-dd HH:mm:ss"
         :picker-options="pickerOptions"
       />
@@ -56,17 +56,17 @@
       style="width: 100%;"
     >
       <el-table-column label="序号" type="index" align="center" width="50" />
-      <el-table-column label="登入用户" width="100px" align="center">
+      <el-table-column label="登录用户" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登入IP地址" width="100px" align="center">
+      <el-table-column label="登录IP地址" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.ip }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登入地址" align="center">
+      <el-table-column label="登录地址" width="150px" align="center">
         <template v-slot="{row}">
           <span>{{ row.country }} {{ row.region }} {{ row.city }}</span>
         </template>
@@ -91,12 +91,12 @@
           <span>{{ row.browserVersion }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="客户端操作系统名称" width="100px" align="center">
+      <el-table-column label="客户端操作系统名称" width="240px" align="center">
         <template v-slot="{row}">
           <span>{{ row.osName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登入时间" width="140px" align="center" sortable prop="accessTime">
+      <el-table-column label="登录时间" width="140px" align="center" sortable prop="accessTime">
         <template v-slot="{row}">
           <span>{{ row.loginTime }}</span>
         </template>
@@ -117,7 +117,7 @@
           <span v-else>已登出</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left" width="200px" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="left" width="190px" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             删除
@@ -240,7 +240,7 @@ export default {
       this.loadData()
     },
     deleteData(row) {
-      this.$confirm('此操作将删除该登入日志, 是否继续?', '提示', {
+      this.$confirm('此操作将删除该登录日志, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -260,13 +260,22 @@ export default {
       })
     },
     offline(row) {
-      offline(row.userId, row.tokenId).then(res => {
-        online(row.userId).then(res => {
+      this.$confirm('此操作将强制该用户的在线账号登出, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        offline(row.userId, row.tokenId).then(res => {
           this.loadData()
+          this.$message({
+            type: 'success',
+            message: '该登录用户已下线'
+          })
         })
+      }).catch(() => {
         this.$message({
-          type: 'success',
-          message: '该登入用户已下线'
+          type: 'info',
+          message: '已取消操作'
         })
       })
     },
@@ -289,7 +298,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportLoginLogExcel(this.listQuery, '登入日志列表')
+      exportLoginLogExcel(this.listQuery, '登录日志列表')
     }
   }
 }

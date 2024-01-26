@@ -436,14 +436,25 @@ export default {
       this.onlineLoginLogs = row.onlineLoginLogs
     },
     offline(userId, tokenId) {
-      offline(userId, tokenId).then(res => {
-        online(userId).then(res => {
-          this.onlineLoginLogs = res.data
-          this.loadData()
+      this.$confirm('此操作将强制该用户的在线账号登出, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        offline(userId, tokenId).then(res => {
+          online(userId).then(res => {
+            this.onlineLoginLogs = res.data
+            this.loadData()
+          })
+          this.$message({
+            type: 'success',
+            message: '该登录用户已下线'
+          })
         })
+      }).catch(() => {
         this.$message({
-          type: 'success',
-          message: '该登入用户已下线'
+          type: 'info',
+          message: '已取消操作'
         })
       })
     },

@@ -96,7 +96,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="250px" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="240px" class-name="small-padding fixed-width">
         <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复
