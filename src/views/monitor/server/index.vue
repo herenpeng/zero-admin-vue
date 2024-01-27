@@ -190,7 +190,7 @@
             label="资源的使用率"
           >
             <template v-slot="{row}">
-              {{ row.usage }}%
+              <span>{{ row.usage }}%</span>
             </template>
           </el-table-column>
         </el-table>
