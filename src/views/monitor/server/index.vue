@@ -44,7 +44,7 @@
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column>系统CPU信息</el-table-column>
+          <el-table-column>服务器CPU信息</el-table-column>
         </el-table>
       </el-col>
       <el-col :xs="36" :sm="36" :lg="12">
@@ -71,7 +71,55 @@
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column>系统内存信息</el-table-column>
+          <el-table-column>服务器内存信息</el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="64">
+      <el-col :xs="72" :sm="72" :lg="24">
+        <el-table
+          :data="jvmInfo"
+          :show-header="false"
+          style="width: 100%"
+        >
+          <el-table-column type="expand">
+            <template v-slot="props">
+              <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="JVM名称">
+                  <span>{{ props.row.name }}</span>
+                </el-form-item>
+                <el-form-item label="JDK版本">
+                  <span>{{ props.row.version }}</span>
+                </el-form-item>
+                <el-form-item label="JDK路径">
+                  <span>{{ props.row.home }}</span>
+                </el-form-item>
+                <el-form-item label="JVM启动时间">
+                  <span>{{ props.row.startTime }}</span>
+                </el-form-item>
+                <el-form-item label="JVM运行时间">
+                  <span>{{ props.row.runTime }}</span>
+                </el-form-item>
+                <el-form-item label="最大可用内存总数">
+                  <span>{{ props.row.max }}MB</span>
+                </el-form-item>
+                <el-form-item label="占用的内存总数">
+                  <span>{{ props.row.total }}MB</span>
+                </el-form-item>
+                <el-form-item label="内存使用率">
+                  <span>{{ props.row.usage }}%</span>
+                </el-form-item>
+                <el-form-item label="空闲内存">
+                  <span>{{ props.row.free }}MB</span>
+                </el-form-item>
+                <el-form-item label="使用内存">
+                  <span>{{ props.row.used }}MB</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column>Java虚拟机（JVM）信息</el-table-column>
         </el-table>
       </el-col>
     </el-row>
@@ -102,54 +150,6 @@
             </template>
           </el-table-column>
           <el-table-column>服务器信息</el-table-column>
-        </el-table>
-      </el-col>
-    </el-row>
-
-    <el-row :gutter="64">
-      <el-col :xs="72" :sm="72" :lg="24">
-        <el-table
-          :data="jvmInfo"
-          :show-header="false"
-          style="width: 100%"
-        >
-          <el-table-column type="expand">
-            <template v-slot="props">
-              <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="占用的内存总数">
-                  <span>{{ props.row.total }}MB</span>
-                </el-form-item>
-                <el-form-item label="最大可用内存总数">
-                  <span>{{ props.row.max }}MB</span>
-                </el-form-item>
-                <el-form-item label="空闲内存">
-                  <span>{{ props.row.free }}MB</span>
-                </el-form-item>
-                <el-form-item label="使用内存">
-                  <span>{{ props.row.used }}MB</span>
-                </el-form-item>
-                <el-form-item label="内存使用率">
-                  <span>{{ props.row.usage }}%</span>
-                </el-form-item>
-                <el-form-item label="JDK版本">
-                  <span>{{ props.row.version }}</span>
-                </el-form-item>
-                <el-form-item label="JDK路径">
-                  <span>{{ props.row.home }}</span>
-                </el-form-item>
-                <el-form-item label="JVM名称">
-                  <span>{{ props.row.name }}</span>
-                </el-form-item>
-                <el-form-item label="JVM启动时间">
-                  <span>{{ props.row.startTime }}</span>
-                </el-form-item>
-                <el-form-item label="JVM运行时间">
-                  <span>{{ props.row.runTime }}</span>
-                </el-form-item>
-              </el-form>
-            </template>
-          </el-table-column>
-          <el-table-column>Java虚拟机（JVM）信息</el-table-column>
         </el-table>
       </el-col>
     </el-row>
@@ -188,7 +188,11 @@
           <el-table-column
             prop="usage"
             label="资源的使用率"
-          />
+          >
+            <template v-slot="{row}">
+              {{ row.usage }}%
+            </template>
+          </el-table-column>
         </el-table>
       </el-col>
     </el-row>
