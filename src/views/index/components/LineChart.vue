@@ -33,7 +33,9 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      chartColor: ['#FF005A', '#3888fa', '#05ea2c'],
+      chartAnimationEasing: ['cubicInOut', 'quadraticOut']
     }
   },
   watch: {
@@ -61,7 +63,7 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.chartData)
     },
-    setOptions({ expectedData, actualData } = {}) {
+    setOptions(chartData) {
       this.chart.setOption({
         xAxis: {
           data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -85,38 +87,28 @@ export default {
           padding: [5, 10]
         },
         yAxis: {
-          axisTick: {
-            show: false
-          }
+          axisTick: { show: false }
         },
         legend: {
-          data: ['expected', 'actual']
+          data: Object.keys(chartData)
         },
-        series: [{
-          name: 'expected', itemStyle: {
-            normal: {
-              color: '#FF005A',
-              lineStyle: {
-                color: '#FF005A',
-                width: 2
-              }
-            }
-          },
-          smooth: true,
-          type: 'line',
-          data: expectedData,
-          animationDuration: 2800,
-          animationEasing: 'cubicInOut'
-        },
-        {
-          name: 'actual',
+        series: this.buildSeries(chartData)
+      }, true)
+    },
+    buildSeries(chartData) {
+      const series = []
+      for (const key in chartData) {
+        const color = this.chartColor[series.length % this.chartColor.length]
+        const animationEasing = this.chartAnimationEasing[series.length % this.chartAnimationEasing.length]
+        series.push({
+          name: key,
           smooth: true,
           type: 'line',
           itemStyle: {
             normal: {
-              color: '#3888fa',
+              color: color,
               lineStyle: {
-                color: '#3888fa',
+                color: color,
                 width: 2
               },
               areaStyle: {
@@ -124,11 +116,12 @@ export default {
               }
             }
           },
-          data: actualData,
+          data: chartData[key],
           animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        }]
-      })
+          animationEasing: animationEasing
+        })
+      }
+      return series
     }
   }
 }

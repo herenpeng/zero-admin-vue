@@ -5,10 +5,11 @@
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <login-map />
-    </el-row>
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <line-chart :chart-data="lineChartData" />
+    </el-row>
+
+    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+      <login-map />
     </el-row>
 
     <el-row :gutter="32">
@@ -53,8 +54,8 @@ import LoginMap from './components/LoginMap'
 
 const lineChartData = {
   newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
+    aaa: [300, 120, 161, 134, 105, 160, 165],
+    bbb: [120, 82, 91, 154, 162, 140, 145],
   },
   messages: {
     expectedData: [200, 192, 120, 144, 160, 130, 140],
