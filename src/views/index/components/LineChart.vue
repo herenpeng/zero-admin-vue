@@ -28,7 +28,7 @@ export default {
     },
     chartData: {
       type: Object,
-      required: true
+      required: false
     }
   },
   data() {
@@ -64,6 +64,9 @@ export default {
       this.setOptions(this.chartData)
     },
     setOptions(chartData) {
+      if (chartData === null) {
+        return
+      }
       this.chart.setOption({
         xAxis: {
           data: chartData.xaxis,
@@ -95,9 +98,9 @@ export default {
         series: this.buildSeries(chartData.data)
       }, true)
     },
-    buildSeries(chartData) {
+    buildSeries(data) {
       const series = []
-      for (const key in chartData) {
+      for (const key in data) {
         const color = this.chartColor[series.length % this.chartColor.length]
         const animationEasing = this.chartAnimationEasing[series.length % this.chartAnimationEasing.length]
         series.push({
@@ -116,7 +119,7 @@ export default {
               }
             }
           },
-          data: chartData[key],
+          data: data[key],
           animationDuration: 2800,
           animationEasing: animationEasing
         })

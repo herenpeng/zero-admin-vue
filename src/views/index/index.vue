@@ -79,7 +79,6 @@ export default {
     loadData() {
       indexChart().then(res => {
         this.indexChartData = res.data
-        console.log(this.indexChartData)
         this.lineChartData = this.indexChartData['userChart']
       })
     },

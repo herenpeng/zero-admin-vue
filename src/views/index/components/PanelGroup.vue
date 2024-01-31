@@ -9,7 +9,7 @@
           <div class="card-panel-text">
             用户
           </div>
-          <count-to :start-val="0" :end-val="chartData.userChart.num" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="userNum" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -22,7 +22,7 @@
           <div class="card-panel-text">
             资源
           </div>
-          <count-to :start-val="0" :end-val="chartData.resourcesChart.num" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="resourcesNum" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -35,7 +35,7 @@
           <div class="card-panel-text">
             消息
           </div>
-          <count-to :start-val="0" :end-val="chartData.userChart.num" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="userNum" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -48,7 +48,7 @@
           <div class="card-panel-text">
             购物
           </div>
-          <count-to :start-val="0" :end-val="chartData.userChart.num" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="userNum" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -66,11 +66,25 @@ export default {
   props: {
     chartData: {
       type: Object,
-      required: true
+      required: false
     }
   },
   data() {
     return {
+      userNum: 0,
+      resourcesNum: 0
+    }
+  },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        if (val === null) {
+          return
+        }
+        this.userNum = val.userChart.num
+        this.resourcesNum = val.resourcesChart.num
+      }
     }
   },
   created() {
