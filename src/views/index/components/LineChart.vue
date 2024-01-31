@@ -66,7 +66,7 @@ export default {
     setOptions(chartData) {
       this.chart.setOption({
         xAxis: {
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: chartData.xaxis,
           boundaryGap: false,
           axisTick: {
             show: false
@@ -90,9 +90,9 @@ export default {
           axisTick: { show: false }
         },
         legend: {
-          data: Object.keys(chartData)
+          data: Object.keys(chartData.data)
         },
-        series: this.buildSeries(chartData)
+        series: this.buildSeries(chartData.data)
       }, true)
     },
     buildSeries(chartData) {

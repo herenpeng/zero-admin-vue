@@ -7,9 +7,9 @@ export function getWeather() {
   })
 }
 
-export function getPanelGroup() {
+export function indexChart() {
   return request({
-    url: '/index/panel/group',
+    url: '/index/chart',
     method: 'get'
   })
 }
