@@ -86,6 +86,24 @@ export default {
     documentation: 'Documentation',
     github: 'Github Repository'
   },
+  index: {
+    data: {
+      user: 'User',
+      resources: 'Resources'
+    },
+    loginMap: {
+      name: 'System Access User Distribution Map'
+    },
+    todoList: {
+      name: 'Todo List',
+      all: 'all',
+      active: 'active',
+      completed: 'completed',
+      clearCompleted: 'Clear completed',
+      itemLeft: 'item left',
+      itemsLeft: 'items left'
+    }
+  },
   permission: {
     addRole: 'New Role',
     editPermission: 'Edit',

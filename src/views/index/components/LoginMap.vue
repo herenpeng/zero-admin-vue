@@ -65,7 +65,7 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
       this.chart.setOption({
         title: {
-          text: '系统访问用户分布地图',
+          text: this.$t('index.loginMap.name'),
           left: 'center'
         },
         // 鼠标移到图里面的浮动提示框

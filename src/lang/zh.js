@@ -86,6 +86,24 @@ export default {
     documentation: '文档',
     github: 'Github 地址'
   },
+  index: {
+    data: {
+      user: '用户',
+      resources: '资源'
+    },
+    loginMap: {
+      name: '系统访问用户分布地图'
+    },
+    todoList: {
+      name: '待办事项',
+      all: '全部',
+      active: '未完成',
+      completed: '已完成',
+      clearCompleted: '清除完成项',
+      itemLeft: '项剩余',
+      itemsLeft: '项剩余'
+    }
+  },
   permission: {
     addRole: '新增角色',
     editPermission: '编辑权限',

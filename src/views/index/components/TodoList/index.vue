@@ -2,7 +2,7 @@
   <section class="todoapp">
     <!-- header -->
     <header class="header">
-      <input class="new-todo" autocomplete="off" placeholder="Todo List" @keyup.enter="addTodo">
+      <input class="new-todo" autocomplete="off" :placeholder="$t('index.todoList.name')" @keyup.enter="addTodo">
     </header>
     <!-- main section -->
     <section v-show="todos.length" class="main">
@@ -23,16 +23,16 @@
     <footer v-show="todos.length" class="footer">
       <span class="todo-count">
         <strong>{{ remaining }}</strong>
-        {{ remaining | pluralize('item') }} left
+        {{ remaining === 1 ? $t('index.todoList.itemLeft') : $t('index.todoList.itemsLeft') }}
       </span>
       <ul class="filters">
-        <li v-for="(val, key) in filters" :key="key">
-          <a :class="{ selected: visibility === key }" @click.prevent="visibility = key">{{ key | capitalize }}</a>
+        <li>
+          <a :class="{ selected: visibility === 'all' }" @click.prevent="visibility = 'all'">{{ $t('index.todoList.all') }}</a>
+          <a :class="{ selected: visibility === 'active' }" @click.prevent="visibility = 'active'">{{ $t('index.todoList.active') }}</a>
+          <a :class="{ selected: visibility === 'completed' }" @click.prevent="visibility = 'completed'">{{ $t('index.todoList.completed') }}</a>
+          <a v-show="todos.length > remaining" @click="clearCompleted">{{ $t('index.todoList.clearCompleted') }}</a>
         </li>
       </ul>
-      <!-- <button class="clear-completed" v-show="todos.length > remaining" @click="clearCompleted">
-        Clear completed
-      </button> -->
     </footer>
   </section>
 </template>
@@ -46,28 +46,21 @@ const filters = {
   active: todos => todos.filter(todo => !todo.done),
   completed: todos => todos.filter(todo => todo.done)
 }
-const defalutList = [
-  { text: 'star this repository', done: false },
-  { text: 'fork this repository', done: false },
-  { text: 'follow author', done: false },
-  { text: 'vue-element-admin', done: true },
-  { text: 'vue', done: true },
-  { text: 'element-ui', done: true },
-  { text: 'axios', done: true },
-  { text: 'webpack', done: true }
+const defaultList = [
+  { text: '首页Todo List改造', done: true },
+  { text: '首页BoxCard改造', done: true },
+  { text: '首页Chart改造', done: false },
+  { text: '前端i18n', done: false },
+  { text: '后端i18n', done: false },
+  { text: '重构文件管理系统', done: false }
 ]
 export default {
   components: { Todo },
-  filters: {
-    pluralize: (n, w) => n === 1 ? w : w + 's',
-    capitalize: s => s.charAt(0).toUpperCase() + s.slice(1)
-  },
   data() {
     return {
       visibility: 'all',
       filters,
-      // todos: JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || defalutList
-      todos: defalutList
+      todos: defaultList
     }
   },
   computed: {
@@ -88,7 +81,8 @@ export default {
     addTodo(e) {
       const text = e.target.value
       if (text.trim()) {
-        this.todos.push({
+        // 在首位添加新的数据
+        this.todos.unshift({
           text,
           done: false
         })
@@ -115,8 +109,8 @@ export default {
     toggleAll({ done }) {
       this.todos.forEach(todo => {
         todo.done = done
-        this.setLocalStorage()
       })
+      this.setLocalStorage()
     }
   }
 }

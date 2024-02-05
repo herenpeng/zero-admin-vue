@@ -7,7 +7,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            用户
+            {{ $t('index.data.user') }}
           </div>
           <count-to :start-val="0" :end-val="userNum" :duration="3000" class="card-panel-num" />
         </div>
@@ -20,7 +20,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            资源
+            {{ $t('index.data.resources') }}
           </div>
           <count-to :start-val="0" :end-val="resourcesNum" :duration="3000" class="card-panel-num" />
         </div>
@@ -33,7 +33,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            消息
+            {{ $t('index.data.user') }}
           </div>
           <count-to :start-val="0" :end-val="userNum" :duration="3000" class="card-panel-num" />
         </div>
@@ -46,7 +46,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            购物
+            {{ $t('index.data.user') }}
           </div>
           <count-to :start-val="0" :end-val="userNum" :duration="3000" class="card-panel-num" />
         </div>
