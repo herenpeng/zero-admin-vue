@@ -52,7 +52,7 @@ const defaultList = [
   { text: '首页Chart改造', done: false },
   { text: '前端i18n', done: false },
   { text: '后端i18n', done: false },
-  { text: '重构文件管理系统', done: false }
+  { text: '重构文件管理系统', done: true }
 ]
 export default {
   components: { Todo },
