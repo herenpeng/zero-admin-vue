@@ -98,7 +98,7 @@
           <span><el-tag :type="tagType[row.methodType]" effect="dark">{{ row.methodType }}</el-tag></span>
         </template>
       </el-table-column>
-      <el-table-column label="操作执行时间" width="120px" align="center">
+      <el-table-column label="操作执行时间" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.executionTime }}ms</span>
         </template>

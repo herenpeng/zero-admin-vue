@@ -78,7 +78,7 @@
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="访问时间" width="200px" align="center" sortable prop="accessTime">
+      <el-table-column label="访问时间" width="160px" align="center" sortable prop="accessTime">
         <template v-slot="{row}">
           <span>{{ row.accessTime }}</span>
         </template>
@@ -98,7 +98,7 @@
           <span><el-tag :type="tagType[row.methodType]" effect="dark">{{ row.methodType }}</el-tag></span>
         </template>
       </el-table-column>
-      <el-table-column label="操作执行时间" width="120px" align="center">
+      <el-table-column label="操作执行时间" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.executionTime }}ms</span>
         </template>
