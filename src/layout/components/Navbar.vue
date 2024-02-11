@@ -20,16 +20,16 @@
           <el-dropdown-menu slot="dropdown" class="user-dropdown">
             <router-link to="/">
               <el-dropdown-item>
-                首页
+                {{ $t('navbar.dashboard') }}
               </el-dropdown-item>
             </router-link>
             <a target="_blank" href="https://github.com/herenpeng/zero-admin-vue">
               <el-dropdown-item>
-                项目地址
+                {{ $t('navbar.github') }}
               </el-dropdown-item>
             </a>
             <el-dropdown-item divided @click.native="logout">
-              <span style="display:block;">退出系统</span>
+              <span style="display:block;">{{ $t('navbar.logOut') }}</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>

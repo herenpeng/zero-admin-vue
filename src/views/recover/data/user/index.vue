@@ -40,12 +40,12 @@
         />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-        查询
+        {{ $t('table.search') }}
       </el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
                  @click="handleDownload"
       >
-        导出
+        {{ $t('table.export') }}
       </el-button>
     </div>
 
@@ -104,13 +104,13 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="240px" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="300px" class-name="small-padding fixed-width">
         <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
-            数据恢复
+            {{ $t('table.recovery') }}
           </el-button>
           <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleRecoverDelete(row)">
-            彻底删除
+            {{ $t('table.deleteRecovery') }}
           </el-button>
         </template>
       </el-table-column>

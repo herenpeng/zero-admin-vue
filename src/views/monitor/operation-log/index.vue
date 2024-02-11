@@ -36,12 +36,12 @@
         <el-option value="false" label="失败" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-        查询
+        {{ $t('table.search') }}
       </el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
                  @click="handleDownload"
       >
-        导出
+        {{ $t('table.export') }}
       </el-button>
     </div>
 
@@ -119,7 +119,7 @@
       <el-table-column label="操作" align="center" width="120px" class-name="small-padding fixed-width">
         <template v-slot="{row}">
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
-            删除
+            {{ $t('table.delete') }}
           </el-button>
         </template>
       </el-table-column>

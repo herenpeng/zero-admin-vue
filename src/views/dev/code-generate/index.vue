@@ -18,17 +18,17 @@
                 @keyup.enter.native="handleFilter"
       />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-        查询
+        {{ $t('table.search') }}
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
                  @click="handleCreate"
       >
-        添加
+        {{ $t('table.add') }}
       </el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
                  @click="handleDownload"
       >
-        导出
+        {{ $t('table.export') }}
       </el-button>
     </div>
 
@@ -99,18 +99,18 @@
           <span>{{ row.codeAuthor }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px" fixed="right">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="350px" fixed="right">
         <template v-slot="{row}">
           <router-link :to="{path:'/dev/code-setting',query: {id: row.id}}" style="margin-right: 10px">
             <el-button type="primary" size="mini" icon="el-icon-edit">
-              编辑
+              {{ $t('table.edit') }}
             </el-button>
           </router-link>
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
-            删除
+            {{ $t('table.delete') }}
           </el-button>
           <el-button icon="el-icon-refresh-right" size="mini" type="success" @click="codeGenerate(row)">
-            代码生成
+            {{ $t('table.codeGenerate') }}
           </el-button>
         </template>
       </el-table-column>

@@ -44,17 +44,17 @@
       <el-col :span="18">
         <div class="filter-container">
           <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-            查询
+            {{ $t('table.search') }}
           </el-button>
           <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
                      @click="handleCreate(null)"
           >
-            添加
+            {{ $t('table.add') }}
           </el-button>
           <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
                      @click="handleDownload"
           >
-            导出
+            {{ $t('table.export') }}
           </el-button>
         </div>
 
@@ -126,10 +126,10 @@
           <el-table-column label="操作" align="left" class-name="small-padding fixed-width" width="250px">
             <template v-slot="{row}">
               <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
-                编辑
+                {{ $t('table.edit') }}
               </el-button>
               <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
-                删除
+                {{ $t('table.delete') }}
               </el-button>
               <el-button size="mini" type="warning" icon="el-icon-circle-plus-outline" @click="handleCreate(row)" />
             </template>

@@ -37,12 +37,12 @@
         <el-option value="false" label="已登出" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-        查询
+        {{ $t('table.search') }}
       </el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
                  @click="handleDownload"
       >
-        导出
+        {{ $t('table.export') }}
       </el-button>
     </div>
 
@@ -117,15 +117,15 @@
           <span v-else>已登出</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left" width="190px" class-name="small-padding fixed-width" fixed="right">
+      <el-table-column label="操作" align="left" width="220px" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
-            删除
+            {{ $t('table.delete') }}
           </el-button>
           <el-button v-if="row.logout === false && Date.parse(row.logoutTime) > new Date()"
                      size="mini" type="danger" icon="el-icon-thumb" @click="offline(row)"
           >
-            下线
+            {{ $t('table.offline') }}
           </el-button>
         </template>
       </el-table-column>

@@ -25,12 +25,12 @@
         :picker-options="pickerOptions"
       />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-        查询
+        {{ $t('table.search') }}
       </el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
                  @click="handleDownload"
       >
-        导出
+        {{ $t('table.export') }}
       </el-button>
     </div>
 
@@ -69,21 +69,21 @@
       </el-table-column>
       <el-table-column label="查看" width="70" align="center">
         <template v-slot="{row}">
-          <span><el-link type="success" @click="view(row)" style="font-size: 12px;">查看</el-link></span>
+          <span><el-link type="success" style="font-size: 12px;" @click="view(row)">查看</el-link></span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left"  width="280" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="left" width="350" class-name="small-padding fixed-width">
         <template v-slot="{row}">
           <el-button v-if="row.parentId === 0" type="success" size="mini" icon="el-icon-document-copy"
                      @click="bakData(row)"
           >
-            备份
+            {{ $t('table.backups') }}
           </el-button>
           <el-button type="primary" size="mini" icon="el-icon-sort" @click="handleUpdate(row)">
-            替换
+            {{ $t('table.replace') }}
           </el-button>
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
-            删除
+            {{ $t('table.delete') }}
           </el-button>
         </template>
       </el-table-column>

@@ -8,7 +8,7 @@
       filterable
       default-first-option
       remote
-      placeholder="功能查询"
+      :placeholder="$t('navbar.functionQuery')"
       class="header-search-select"
       @change="change"
     >
