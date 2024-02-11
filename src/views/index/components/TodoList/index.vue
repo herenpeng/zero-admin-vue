@@ -47,13 +47,14 @@ const filters = {
   completed: todos => todos.filter(todo => todo.done)
 }
 const defaultList = [
-  { text: '首页Todo List改造', done: true },
-  { text: '首页BoxCard改造', done: true },
-  { text: '鉴权逻辑优化', done: true },
   { text: '首页Chart改造', done: false },
   { text: '前端i18n', done: false },
   { text: '后端i18n', done: false },
-  { text: '重构文件管理系统', done: true }
+  { text: '首页Todo List改造', done: true },
+  { text: '首页BoxCard改造', done: true },
+  { text: '重构文件管理系统', done: true },
+  { text: '鉴权逻辑优化', done: true },
+  { text: 'Root权限保护机制', done: true }
 ]
 export default {
   components: { Todo },

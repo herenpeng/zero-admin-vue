@@ -59,7 +59,7 @@
           <span>{{ row.entityName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Java代码路径" width="100px" align="center">
+      <el-table-column label="Java代码路径" width="120px" align="center">
         <template v-slot="{row}">
           <span>{{ row.javaCodePath }}</span>
         </template>
@@ -99,7 +99,7 @@
           <span>{{ row.codeAuthor }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px" fixed="right">
         <template v-slot="{row}">
           <router-link :to="{path:'/dev/code-setting',query: {id: row.id}}" style="margin-right: 10px">
             <el-button type="primary" size="mini" icon="el-icon-edit">

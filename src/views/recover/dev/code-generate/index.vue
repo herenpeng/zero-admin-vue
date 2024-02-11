@@ -53,7 +53,7 @@
           <span>{{ row.entityName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Java代码路径" align="center">
+      <el-table-column label="Java代码路径" width="120px" align="center">
         <template v-slot="{row}">
           <span>{{ row.javaCodePath }}</span>
         </template>
@@ -93,7 +93,7 @@
           <span>{{ row.codeAuthor }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="240px" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="240px" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             数据恢复
