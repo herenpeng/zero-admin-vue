@@ -49,6 +49,7 @@ const filters = {
 const defaultList = [
   { text: '首页Todo List改造', done: true },
   { text: '首页BoxCard改造', done: true },
+  { text: '鉴权逻辑优化', done: true },
   { text: '首页Chart改造', done: false },
   { text: '前端i18n', done: false },
   { text: '后端i18n', done: false },
