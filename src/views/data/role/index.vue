@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.name" placeholder="角色名称" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.name" :placeholder="$t('table.data.role.name')" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.description" placeholder="角色描述" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.description" :placeholder="$t('table.data.role.description')" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.acquiescence" placeholder="是否为默认角色" style="width: 150px;margin-right: 10px;"
+      <el-select v-model="listQuery.acquiescence" :placeholder="$t('table.data.role.acquiescence')" style="width: 150px;margin-right: 10px;"
                  clearable class="filter-item"
                  @change="handleFilter"
       >
@@ -39,18 +39,18 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="角色名称" width="150px" align="center">
+      <el-table-column :label="$t('table.id')" type="index" sortable="true" align="center" width="80" />
+      <el-table-column :label="$t('table.data.role.name')" width="150px" align="center">
         <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="角色描述" align="center">
+      <el-table-column :label="$t('table.data.role.description')" align="center">
         <template v-slot="{row}">
           <span>{{ row.description }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否为默认角色" width="200px" align="center">
+      <el-table-column :label="$t('table.data.role.acquiescence')" width="200px" align="center">
         <template v-slot="{row}">
           <el-switch
             v-model="row.acquiescence"
@@ -60,7 +60,7 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="220px" class-name="small-padding fixed-width" fixed="right">
+      <el-table-column :label="$t('table.actions')" align="center" width="220px" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             {{ $t('table.edit') }}
@@ -83,10 +83,10 @@
       <el-form ref="dataForm" :rules="rules" :model="role" label-position="left" label-width="120px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="角色名称" prop="name">
+        <el-form-item :label="$t('table.data.role.name')" prop="name">
           <el-input v-model="role.name" placeholder="请输入角色名称" />
         </el-form-item>
-        <el-form-item label="角色描述" prop="description">
+        <el-form-item :label="$t('table.data.role.description')" prop="description">
           <el-input v-model="role.description" type="textarea" placeholder="请输入角色描述" />
         </el-form-item>
       </el-form>

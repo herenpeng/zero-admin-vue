@@ -1,19 +1,19 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.name" placeholder="数据库表名称" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.name" :placeholder="$t('table.dev.codeGenerate.name')" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.comment" placeholder="数据库表描述" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.comment" :placeholder="$t('table.dev.codeGenerate.comment')" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.entityName" placeholder="实体类名称" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.entityName" :placeholder="$t('table.dev.codeGenerate.entityName')" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.javaPackageName" placeholder="包前缀名称" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.javaPackageName" :placeholder="$t('table.dev.codeGenerate.javaPackageName')" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.codeAuthor" placeholder="代码作者" style="width: 150px;margin-right: 10px;"
+      <el-input v-model="listQuery.codeAuthor" :placeholder="$t('table.dev.codeGenerate.codeAuthor')" style="width: 150px;margin-right: 10px;"
                 class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
@@ -43,63 +43,63 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="60" />
-      <el-table-column label="数据库表名称" width="100px" align="center">
+      <el-table-column :label="$t('table.id')" type="index" sortable="true" align="center" width="60" />
+      <el-table-column :label="$t('table.dev.codeGenerate.name')" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="数据库表描述" width="160px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.comment')" width="160px" align="center">
         <template v-slot="{row}">
           <span>{{ row.comment }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="实体类名称" width="90px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.entityName')" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.entityName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Java代码路径" width="120px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.javaCodePath')" width="120px" align="center">
         <template v-slot="{row}">
           <span>{{ row.javaCodePath }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="类请求路径" width="90px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.requestMapping')" width="90px" align="center">
         <template v-slot="{row}">
           <span>{{ row.requestMapping }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="包前缀名称" width="100px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.javaPackageName')" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.javaPackageName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Vue代码路径" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.vueCodePath')" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.vueCodePath }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Vue包路径" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.vuePackage')" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.vuePackage }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否为树状结构" width="80px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.tree')" width="80px" align="center">
         <template v-slot="{row}">
           <span>{{ row.tree ? '是' : '否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否覆盖同名文件" width="80px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.cover')" width="80px" align="center">
         <template v-slot="{row}">
           <span>{{ row.cover ? '是' : '否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="代码作者" width="100px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.codeAuthor')" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.codeAuthor }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="350px" fixed="right">
+      <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width" width="350px" fixed="right">
         <template v-slot="{row}">
           <router-link :to="{path:'/dev/code-setting',query: {id: row.id}}" style="margin-right: 10px">
             <el-button type="primary" size="mini" icon="el-icon-edit">
@@ -124,10 +124,10 @@
     />
 
     <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="tableInfo" label-position="left" label-width="120px"
+      <el-form ref="dataForm" :rules="rules" :model="tableInfo" label-position="left" label-width="150px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="数据库表名称" prop="name">
+        <el-form-item :label="$t('table.dev.codeGenerate.name')" prop="name">
           <el-select v-model="tableInfo.name" placeholder="请选择数据表名称" clearable style="width: 280px;"
                      class="filter-item" :disabled="dialogStatus==='update'" @change="handleTableName"
           >
@@ -136,42 +136,42 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="数据库表描述" prop="comment">
+        <el-form-item :label="$t('table.dev.codeGenerate.comment')" prop="comment">
           <el-input v-model="tableInfo.comment" placeholder="请输入数据库表描述" />
         </el-form-item>
-        <el-form-item label="实体类名称" prop="entityName">
+        <el-form-item :label="$t('table.dev.codeGenerate.entityName')" prop="entityName">
           <el-input v-model="tableInfo.entityName" placeholder="请输入实体类名称" />
         </el-form-item>
-        <el-form-item label="Java代码路径" prop="javaCodePath">
+        <el-form-item :label="$t('table.dev.codeGenerate.javaCodePath')" prop="javaCodePath">
           <el-input v-model="tableInfo.javaCodePath" placeholder="F:\IdeaCode\zero-admin\zero-sys" />
         </el-form-item>
-        <el-form-item label="类请求路径" prop="entityName">
+        <el-form-item :label="$t('table.dev.codeGenerate.requestMapping')" prop="entityName">
           <el-input v-model="tableInfo.requestMapping" placeholder="请输入类请求路径" />
         </el-form-item>
-        <el-form-item label="包前缀名称" prop="javaPackageName">
+        <el-form-item :label="$t('table.dev.codeGenerate.javaPackageName')" prop="javaPackageName">
           <el-input v-model="tableInfo.javaPackageName" placeholder="com.zero.sys" />
         </el-form-item>
-        <el-form-item label="Vue代码路径" prop="vueCodePath">
+        <el-form-item :label="$t('table.dev.codeGenerate.vueCodePath')" prop="vueCodePath">
           <el-input v-model="tableInfo.vueCodePath" placeholder="F:\Js\zero-admin-vue" />
         </el-form-item>
-        <el-form-item label="Vue包路径" prop="vuePackage">
+        <el-form-item :label="$t('table.dev.codeGenerate.vuePackage')" prop="vuePackage">
           <el-input v-model="tableInfo.vuePackage" placeholder="data.user" />
         </el-form-item>
-        <el-form-item label="是否为树状结构">
+        <el-form-item :label="$t('table.dev.codeGenerate.tree')">
           <el-switch
             v-model="tableInfo.tree"
             active-text="是"
             inactive-text="否"
           />
         </el-form-item>
-        <el-form-item label="是否覆盖同名文件">
+        <el-form-item :label="$t('table.dev.codeGenerate.cover')">
           <el-switch
             v-model="tableInfo.cover"
             active-text="是"
             inactive-text="否"
           />
         </el-form-item>
-        <el-form-item label="代码作者" prop="codeAuthor">
+        <el-form-item :label="$t('table.dev.codeGenerate.codeAuthor')" prop="codeAuthor">
           <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" disabled="disabled" />
         </el-form-item>
       </el-form>
@@ -251,8 +251,7 @@ export default {
         javaPackageName: [{ required: true, message: '请输入包前缀名称', trigger: 'change' }],
         javaCodePath: [{ required: true, message: '请输入Java代码路径', trigger: 'change' }],
         vueCodePath: [{ required: true, message: '请输入Vue代码路径', trigger: 'change' }],
-        vuePackage: [{ required: true, message: '请输入Vue包路径', trigger: 'change' }],
-        // codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
+        vuePackage: [{ required: true, message: '请输入Vue包路径', trigger: 'change' }]
       },
       downloadLoading: false
     }

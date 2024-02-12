@@ -4,7 +4,7 @@
       <el-col :span="6">
         <el-input
           v-model="filterText"
-          placeholder="输入关键字进行过滤"
+          :placeholder="$t('table.data.organ.filter')"
         />
         <el-tree
           ref="tree"
@@ -52,18 +52,18 @@
           :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
           @sort-change="sortChange"
         >
-          <el-table-column label="序号" sortable="true" align="center" width="80" />
-          <el-table-column label="组织机构名称" align="center">
+          <el-table-column :label="$t('table.id')" sortable="true" align="center" width="80" />
+          <el-table-column :label="$t('table.data.organ.name')" align="center">
             <template v-slot="{row}">
               <span>{{ row.name }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="组织机构排序" width="150px" align="center">
+          <el-table-column :label="$t('table.data.organ.sort')" width="150px" align="center">
             <template v-slot="{row}">
               <span>{{ row.sort }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="280px" fixed="right">
+          <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width" width="280px" fixed="right">
             <template v-slot="{row}">
               <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
                 {{ $t('table.edit') }}
@@ -79,13 +79,13 @@
     </el-row>
 
     <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="organ" label-position="left" label-width="120px"
+      <el-form ref="dataForm" :rules="rules" :model="organ" label-position="left" label-width="170px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="组织机构名称" prop="name">
+        <el-form-item :label="$t('table.data.organ.name')" prop="name">
           <el-input v-model="organ.name" placeholder="请输入组织机构名称" />
         </el-form-item>
-        <el-form-item label="组织机构排序" prop="sort">
+        <el-form-item :label="$t('table.data.organ.sort')" prop="sort">
           <el-input v-model="organ.sort" type="number" placeholder="请输入组织机构排序" />
         </el-form-item>
       </el-form>

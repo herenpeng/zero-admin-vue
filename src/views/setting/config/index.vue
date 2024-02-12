@@ -4,14 +4,14 @@
       <el-autocomplete
         v-model="listQuery.key"
         :fetch-suggestions="getKeyList"
-        placeholder="常量键值"
+        :placeholder="$t('table.setting.config.key')"
         clearable
         @select="handleFilter"
       />
-      <el-input v-model="listQuery.description" placeholder="键值描述信息" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.description" :placeholder="$t('table.setting.config.description')" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.userable" placeholder="用户是否可配置" clearable style="margin-right: 10px;" class="filter-item"
+      <el-select v-model="listQuery.custom" :placeholder="$t('table.setting.config.custom')" clearable style="margin-right: 10px;" class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
@@ -42,28 +42,28 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="常量键值" width="200px" align="center">
+      <el-table-column :label="$t('table.id')" type="index" sortable="true" align="center" width="80" />
+      <el-table-column :label="$t('table.setting.config.key')" width="200px" align="center">
         <template v-slot="{row}">
           <span>{{ row.key }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="键值描述信息" align="center">
+      <el-table-column :label="$t('table.setting.config.key')" align="center">
         <template v-slot="{row}">
           <span>{{ row.description }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="系统配置的默认值" width="200px" align="center">
+      <el-table-column :label="$t('table.setting.config.defaultValue')" width="200px" align="center">
         <template v-slot="{row}">
           <span>{{ row.defaultValue }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户是否可配置" width="120px" align="center">
+      <el-table-column :label="$t('table.setting.config.custom')" width="120px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.userable ? '是' : '否' }}</span>
+          <span>{{ row.custom ? '是' : '否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="220px" fixed="right">
+      <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width" width="220px" fixed="right">
         <template v-slot="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             {{ $t('table.edit') }}
@@ -86,18 +86,18 @@
       <el-form ref="dataForm" :rules="rules" :model="configConst" label-position="left" label-width="120px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="常量键值" prop="key">
+        <el-form-item :label="$t('table.setting.config.key')" prop="key">
           <el-input v-model="configConst.key" placeholder="请输入常量键值" />
         </el-form-item>
-        <el-form-item label="键值描述信息" prop="description">
+        <el-form-item :label="$t('table.setting.config.description')" prop="description">
           <el-input v-model="configConst.description" placeholder="请输入键值描述信息" />
         </el-form-item>
-        <el-form-item label="默认值" prop="defaultValue">
+        <el-form-item :label="$t('table.setting.config.defaultValue')" prop="defaultValue">
           <el-input v-model="configConst.defaultValue" placeholder="请输入默认值" />
         </el-form-item>
-        <el-form-item label="用户是否可配置" prop="userable">
+        <el-form-item :label="$t('table.setting.config.custom')" prop="custom">
           <el-switch
-            v-model="configConst.userable"
+            v-model="configConst.custom"
             active-text="是"
             inactive-text="否"
           />
@@ -139,7 +139,7 @@ export default {
       listQuery: {
         key: null,
         description: null,
-        userable: null
+        custom: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
       configConst: {
@@ -147,7 +147,7 @@ export default {
         key: null,
         description: null,
         defaultValue: null,
-        userable: false
+        custom: false
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -159,7 +159,7 @@ export default {
         key: [{ required: true, message: '请输入常量键值，标识，唯一', trigger: 'change' }],
         description: [{ required: true, message: '请输入键值描述信息', trigger: 'change' }],
         defaultValue: [{ required: true, message: '请输入系统配置的默认值', trigger: 'change' }],
-        userable: [{ required: true, message: '请输入用户可配置，true为可配置，false为不可配置', trigger: 'change' }]
+        custom: [{ required: true, message: '请输入用户可配置，true为可配置，false为不可配置', trigger: 'change' }]
       },
       downloadLoading: false
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.name" placeholder="组织机构名称" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.name" :placeholder="$t('table.data.organ.name')" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
@@ -24,18 +24,18 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="组织机构名称" align="center">
+      <el-table-column :label="$t('table.id')" type="index" sortable="true" align="center" width="80" />
+      <el-table-column :label="$t('table.data.organ.name')" align="center">
         <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="组织机构排序" width="150px" align="center">
+      <el-table-column :label="$t('table.data.organ.sort')" width="150px" align="center">
         <template v-slot="{row}">
           <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="300px" class-name="small-padding fixed-width" fixed="right">
+      <el-table-column :label="$t('table.actions')" align="center" width="300px" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             {{ $t('table.recovery') }}

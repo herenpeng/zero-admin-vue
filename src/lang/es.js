@@ -133,31 +133,31 @@ export default {
     cancel: 'Cancelar',
     confirm: 'Confirmar'
   },
-  example: {
-    warning: 'Creating and editing pages cannot be cached by keep-alive because keep-alive include does not currently support caching based on routes, so it is currently cached based on component name. If you want to achieve a similar caching effect, you can use a browser caching scheme such as localStorage. Or do not use keep-alive include to cache all pages directly. See details'
-  },
-  errorLog: {
-    tips: 'Please click the bug icon in the upper right corner',
-    description: 'Now the management system are basically the form of the spa, it enhances the user experience, but it also increases the possibility of page problems, a small negligence may lead to the entire page deadlock. Fortunately Vue provides a way to catch handling exceptions, where you can handle errors or report exceptions.',
-    documentation: 'Documento de introducción'
-  },
-  excel: {
-    export: 'Exportar',
-    selectedExport: 'Exportar seleccionados',
-    placeholder: 'Por favor escribe un nombre de fichero'
-  },
-  zip: {
-    export: 'Exportar',
-    placeholder: 'Por favor escribe un nombre de fichero'
-  },
-  pdf: {
-    tips: 'Here we use window.print() to implement the feature of downloading pdf.'
-  },
-  theme: {
-    change: 'Cambiar tema',
-    documentation: 'Documentación del tema',
-    tips: 'Tips: It is different from the theme-pick on the navbar is two different skinning methods, each with different application scenarios. Refer to the documentation for details.'
-  },
+  // example: {
+  //   warning: 'Creating and editing pages cannot be cached by keep-alive because keep-alive include does not currently support caching based on routes, so it is currently cached based on component name. If you want to achieve a similar caching effect, you can use a browser caching scheme such as localStorage. Or do not use keep-alive include to cache all pages directly. See details'
+  // },
+  // errorLog: {
+  //   tips: 'Please click the bug icon in the upper right corner',
+  //   description: 'Now the management system are basically the form of the spa, it enhances the user experience, but it also increases the possibility of page problems, a small negligence may lead to the entire page deadlock. Fortunately Vue provides a way to catch handling exceptions, where you can handle errors or report exceptions.',
+  //   documentation: 'Documento de introducción'
+  // },
+  // excel: {
+  //   export: 'Exportar',
+  //   selectedExport: 'Exportar seleccionados',
+  //   placeholder: 'Por favor escribe un nombre de fichero'
+  // },
+  // zip: {
+  //   export: 'Exportar',
+  //   placeholder: 'Por favor escribe un nombre de fichero'
+  // },
+  // pdf: {
+  //   tips: 'Here we use window.print() to implement the feature of downloading pdf.'
+  // },
+  // theme: {
+  //   change: 'Cambiar tema',
+  //   documentation: 'Documentación del tema',
+  //   tips: 'Tips: It is different from the theme-pick on the navbar is two different skinning methods, each with different application scenarios. Refer to the documentation for details.'
+  // },
   tagsView: {
     refresh: 'Actualizar',
     close: 'Cerrar',

@@ -4,7 +4,7 @@
       <el-col :span="6">
         <el-input
           v-model="filterText"
-          placeholder="输入关键字进行过滤"
+          :placeholder="$t('table.data.menu.filter')"
         />
         <el-tree
           ref="tree"
@@ -70,8 +70,8 @@
           :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
           @sort-change="sortChange"
         >
-          <el-table-column label="序号" sortable="true" align="center" width="80" />
-          <el-table-column label="菜单名称" width="110">
+          <el-table-column :label="$t('table.id')" sortable="true" align="center" width="80px" />
+          <el-table-column :label="$t('table.data.menu.title')" width="110px">
             <template v-slot="{row}">
               <span :style="{'font-weight': row.parentId === 0 ? 'bolder' : '','padding-left': row.parentId !== 0 ? '10px' : ''}">
                 <i :class="row.metaIcon" />
@@ -79,22 +79,22 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column label="菜单路由路径" width="100">
+          <el-table-column :label="$t('table.data.menu.path')" width="120px">
             <template v-slot="{row}">
               <span>{{ row.path }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="菜单模块名称" width="100">
+          <el-table-column :label="$t('table.data.menu.name')" width="100px">
             <template v-slot="{row}">
               <span>{{ row.name }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="菜单排序" width="70" align="center">
+          <el-table-column :label="$t('table.data.menu.sort')" width="120px" align="center">
             <template v-slot="{row}">
               <span>{{ row.sort }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="菜单角色" class-name="status-col">
+          <el-table-column :label="$t('table.data.menu.roles')" class-name="status-col">
             <template v-slot="{row}">
               <el-tag
                 v-for="(role,index) in row.roles"
@@ -123,7 +123,7 @@
               </el-dropdown>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="left" class-name="small-padding fixed-width" width="280px">
+          <el-table-column :label="$t('table.actions')" align="left" class-name="small-padding fixed-width" width="280px">
             <template v-slot="{row}">
               <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
                 {{ $t('table.edit') }}
@@ -142,24 +142,24 @@
       <el-form ref="dataForm" :rules="rules" :model="menu" label-position="left" label-width="180px"
                style="width: 800px; margin-left:50px;" :inline="true"
       >
-        <el-form-item label="菜单名称" prop="metaTitle">
+        <el-form-item :label="$t('table.data.menu.title')" prop="metaTitle">
           <el-input v-model="menu.metaTitle" placeholder="用户管理" />
         </el-form-item>
-        <el-form-item label="菜单路由路径" prop="path">
+        <el-form-item :label="$t('table.data.menu.path')" prop="path">
           <el-input v-model="menu.path" placeholder="user" />
         </el-form-item>
-        <el-form-item label="菜单模块名称" prop="name">
+        <el-form-item :label="$t('table.data.menu.name')" prop="name">
           <el-input v-model="menu.name" placeholder="User" />
         </el-form-item>
-        <el-form-item label="菜单图标" prop="metaIcon">
+        <el-form-item :label="$t('table.data.menu.icon')" prop="metaIcon">
           <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" style="width: 190px;" readonly>
             <template slot="append"><i class="el-icon-s-operation" @click="drawer = true" /></template>
           </el-input>
         </el-form-item>
-        <el-form-item label="菜单排序" prop="sort">
+        <el-form-item :label="$t('table.data.menu.sort')" prop="sort">
           <el-input v-model="menu.sort" type="number" placeholder="请输入菜单排序" />
         </el-form-item>
-        <el-form-item label="是否隐藏" prop="hidden">
+        <el-form-item :label="$t('table.data.menu.hidden')" prop="hidden">
           <el-switch
             v-model="menu.hidden"
             style="width: 190px"
@@ -167,7 +167,7 @@
             inactive-text="显示"
           />
         </el-form-item>
-        <el-form-item label="是否启用" prop="enabled">
+        <el-form-item :label="$t('table.data.menu.enabled')" prop="enabled">
           <el-switch
             v-model="menu.enabled"
             style="width: 190px"

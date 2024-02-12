@@ -9,48 +9,48 @@
       size="mini"
       style="width: 100%;"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="字段名称" width="150px" align="center">
+      <el-table-column :label="$t('table.id')" type="index" sortable="true" align="center" width="80" />
+      <el-table-column :label="$t('table.dev.codeGenerate.columnName')" width="150px" align="center">
         <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="字段类型" width="110px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.databaseType')" width="120px" align="center">
         <template v-slot="{row}">
           <span>{{ row.databaseType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Java属性" width="150px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.javaName')" width="150px" align="center">
         <template v-slot="{row}">
           <span>{{ row.javaName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Jave类型" width="120px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.javaType')" width="120px" align="center">
         <template v-slot="{row}">
           <span>{{ row.javaType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="JDBC类型" width="120px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.jdbcType')" width="120px" align="center">
         <template v-slot="{row}">
           <span>{{ row.jdbcType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="字段注释" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.columnComment')" align="center">
         <template v-slot="{row}">
           <span>{{ row.comment }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否为查询字段" width="80px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.query')" width="130px" align="center">
         <template v-slot="{row}">
           <span>{{ row.query ? '是' : '否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="字段排序顺序" width="80px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.sort')" width="90px" align="center">
         <template v-slot="{row}">
           <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="100px">
+      <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width" width="100px">
         <template v-slot="{row}">
           <el-button v-if="baseColumn(row.name)" type="primary" size="mini" icon="el-icon-edit" @click="handleUpdateTableColumn(row)">
             {{ $t('table.edit') }}
@@ -67,19 +67,19 @@
     />
 
     <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="tableColumn" label-position="left" label-width="120px"
+      <el-form ref="dataForm" :rules="rules" :model="tableColumn" label-position="left" label-width="150px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="字段名称" prop="name">
+        <el-form-item :label="$t('table.dev.codeGenerate.columnName')" prop="name">
           <el-input v-model="tableColumn.name" placeholder="请输入字段名称" disabled="disabled" />
         </el-form-item>
-        <el-form-item label="字段类型" prop="databaseType">
+        <el-form-item :label="$t('table.dev.codeGenerate.databaseType')" prop="databaseType">
           <el-input v-model="tableColumn.databaseType" placeholder="请输入字段类型" disabled="disabled" />
         </el-form-item>
-        <el-form-item label="Java属性" prop="javaName">
+        <el-form-item :label="$t('table.dev.codeGenerate.javaName')" prop="javaName">
           <el-input v-model="tableColumn.javaName" placeholder="请输入Java属性" />
         </el-form-item>
-        <el-form-item label="Java类型" prop="javaType">
+        <el-form-item :label="$t('table.dev.codeGenerate.javaType')" prop="javaType">
           <el-select v-model="tableColumn.javaType" placeholder="请输入Java类型" clearable class="filter-item"
                      style="width: 280px"
           >
@@ -92,7 +92,7 @@
             <el-option value="Double" label="Double" />
           </el-select>
         </el-form-item>
-        <el-form-item label="JDBC类型" prop="jdbcType">
+        <el-form-item :label="$t('table.dev.codeGenerate.jdbcType')" prop="jdbcType">
           <el-select v-model="tableColumn.jdbcType" placeholder="请输入JDBC类型" clearable class="filter-item"
                      style="width: 280px"
           >
@@ -110,17 +110,17 @@
             <el-option value="DOUBLE" label="DOUBLE" />
           </el-select>
         </el-form-item>
-        <el-form-item label="字段注释" prop="comment">
+        <el-form-item :label="$t('table.dev.codeGenerate.columnComment')" prop="comment">
           <el-input v-model="tableColumn.comment" placeholder="请输入字段注释" />
         </el-form-item>
-        <el-form-item label="是否为查询字段" prop="query">
+        <el-form-item :label="$t('table.dev.codeGenerate.query')" prop="query">
           <el-switch
             v-model="tableColumn.query"
             active-text="是"
             inactive-text="否"
           />
         </el-form-item>
-        <el-form-item label="字段排序顺序" prop="sort">
+        <el-form-item :label="$t('table.dev.codeGenerate.sort')" prop="sort">
           <el-input v-model="tableColumn.sort" placeholder="请输入字段排序顺序" />
         </el-form-item>
       </el-form>

@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.queryUsername" placeholder="登录用户" style="width: 120px;" class="filter-item"
+      <el-input v-model="listQuery.queryUsername" :placeholder="$t('table.monitor.loginLog.user')" style="width: 120px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.ip" placeholder="登录IP地址" style="width: 120px;" class="filter-item"
+      <el-input v-model="listQuery.ip" :placeholder="$t('table.monitor.loginLog.ip')" style="width: 120px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.queryAddress" placeholder="登录地址" style="width: 120px;" class="filter-item"
+      <el-input v-model="listQuery.queryAddress" :placeholder="$t('table.monitor.loginLog.address')" style="width: 120px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.isp" placeholder="因特网提供商" style="width: 120px;" class="filter-item"
+      <el-input v-model="listQuery.isp" :placeholder="$t('table.monitor.loginLog.isp')" style="width: 120px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-date-picker
@@ -18,19 +18,19 @@
         type="daterange"
         align="right"
         unlink-panels
-        range-separator="至"
-        start-placeholder="登录开始日期"
-        end-placeholder="登录结束日期"
+        range-separator="~"
+        :start-placeholder="$t('table.startTime')"
+        :end-placeholder="$t('table.endTime')"
         value-format="yyyy-MM-dd HH:mm:ss"
         :picker-options="pickerOptions"
       />
-      <el-select v-model="listQuery.logout" placeholder="是否主动登出" clearable class="filter-item"
+      <el-select v-model="listQuery.logout" :placeholder="$t('table.monitor.loginLog.logout')" clearable class="filter-item"
                  style="width: 130px;" @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.queryOnline" placeholder="账号状态" clearable class="filter-item"
+      <el-select v-model="listQuery.queryOnline" :placeholder="$t('table.monitor.loginLog.state')" clearable class="filter-item"
                  style="width: 110px;margin-right: 10px;" @change="handleFilter"
       >
         <el-option value="true" label="在线" />
@@ -55,69 +55,69 @@
       size="mini"
       style="width: 100%;"
     >
-      <el-table-column label="序号" type="index" align="center" width="50" />
-      <el-table-column label="登录用户" width="100px" align="center">
+      <el-table-column :label="$t('table.id')" type="index" align="center" width="50" />
+      <el-table-column :label="$t('table.monitor.loginLog.user')" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录IP地址" width="100px" align="center">
+      <el-table-column :label="$t('table.monitor.loginLog.ip')" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.ip }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录地址" width="150px" align="center">
+      <el-table-column :label="$t('table.monitor.loginLog.address')" width="150px" align="center">
         <template v-slot="{row}">
           <span>{{ row.country }} {{ row.region }} {{ row.city }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="因特网提供商" width="100px" align="center">
+      <el-table-column :label="$t('table.monitor.loginLog.isp')" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.isp }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否为移动平台" width="70px" align="center">
+      <el-table-column :label="$t('table.monitor.loginLog.mobile')" width="70px" align="center">
         <template v-slot="{row}">
           <span>{{ row.mobile ? '是' : '否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="浏览器名称" width="90px" align="center">
+      <el-table-column :label="$t('table.monitor.loginLog.browserName')" width="90px" align="center">
         <template v-slot="{row}">
           <span><el-tag type="success" effect="dark">{{ row.browserName }}</el-tag></span>
         </template>
       </el-table-column>
-      <el-table-column label="浏览器版本" width="90px" align="center">
+      <el-table-column :label="$t('table.monitor.loginLog.browserVersion')" width="90px" align="center">
         <template v-slot="{row}">
           <span>{{ row.browserVersion }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="客户端操作系统名称" width="240px" align="center">
+      <el-table-column :label="$t('table.monitor.loginLog.osName')" width="240px" align="center">
         <template v-slot="{row}">
           <span>{{ row.osName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录时间" width="140px" align="center" sortable prop="accessTime">
+      <el-table-column :label="$t('table.monitor.loginLog.loginTime')" width="140px" align="center" sortable prop="accessTime">
         <template v-slot="{row}">
           <span>{{ row.loginTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登出时间" width="140px" align="center">
+      <el-table-column :label="$t('table.monitor.loginLog.logoutTime')" width="140px" align="center">
         <template v-slot="{row}">
           <span>{{ row.logoutTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否主动登出" width="80px" align="center">
+      <el-table-column :label="$t('table.monitor.loginLog.logout')" width="80px" align="center">
         <template v-slot="{row}">
           <span>{{ row.logout ? '是' : '否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号状态" align="center">
+      <el-table-column :label="$t('table.monitor.loginLog.state')" align="center">
         <template v-slot="{row}">
           <span v-if="row.logout === false && Date.parse(row.logoutTime) > new Date()">在线</span>
           <span v-else>已登出</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left" width="260px" class-name="small-padding fixed-width" fixed="right">
+      <el-table-column :label="$t('table.actions')" align="left" width="260px" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             {{ $t('table.delete') }}

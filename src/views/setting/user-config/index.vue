@@ -4,11 +4,11 @@
       <el-autocomplete
         v-model="listQuery.queryKey"
         :fetch-suggestions="getKeyList"
-        placeholder="常量键值"
+        :placeholder="$t('table.setting.userConfig.key')"
         clearable
         @select="handleFilter"
       />
-      <el-input v-model="listQuery.queryUsername" placeholder="配置用户" style="width: 180px; margin-right: 10px;" class="filter-item"
+      <el-input v-model="listQuery.queryUsername" :placeholder="$t('table.setting.userConfig.username')" style="width: 180px; margin-right: 10px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
@@ -36,33 +36,33 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="常量键值" width="200px" align="center">
+      <el-table-column :label="$t('table.id')" type="index" sortable="true" align="center" width="80" />
+      <el-table-column :label="$t('table.setting.userConfig.key')" width="200px" align="center">
         <template v-slot="{row}">
           <span>{{ row.configConst.key }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户名" width="200px" align="center">
+      <el-table-column :label="$t('table.setting.userConfig.username')" width="200px" align="center">
         <template v-slot="{row}">
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="键值描述信息" align="center">
+      <el-table-column :label="$t('table.setting.userConfig.description')" align="center">
         <template v-slot="{row}">
           <span>{{ row.configConst.description }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="系统配置的默认值" width="200px" align="center">
+      <el-table-column :label="$t('table.setting.userConfig.defaultValue')" width="200px" align="center">
         <template v-slot="{row}">
           <span>{{ row.configConst.defaultValue }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="用户配置值" width="150px" align="center">
+      <el-table-column :label="$t('table.setting.userConfig.value')" width="150px" align="center">
         <template v-slot="{row}">
           <span>{{ row.value }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="220px" fixed="right">
+      <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width" width="220px" fixed="right">
         <template v-slot="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             {{ $t('table.edit') }}
@@ -85,7 +85,7 @@
       <el-form ref="dataForm" :rules="rules" :model="userConfig" label-position="left" label-width="120px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="用户配置值" prop="value">
+        <el-form-item :label="$t('table.setting.userConfig.value')" prop="value">
           <el-input v-model="userConfig.value" placeholder="请输入用户配置值" />
         </el-form-item>
       </el-form>

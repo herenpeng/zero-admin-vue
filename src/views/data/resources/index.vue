@@ -1,13 +1,10 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.uri" placeholder="资源路径" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.uri" :placeholder="$t('table.data.resources.uri')" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.description" placeholder="资源描述" style="width: 200px;" class="filter-item"
-                @keyup.enter.native="handleFilter"
-      />
-      <el-select v-model="listQuery.methodType" placeholder="方法类型" clearable class="filter-item"
+      <el-select v-model="listQuery.methodType" :placeholder="$t('table.data.resources.methodType')" clearable class="filter-item"
                  style="width: 130px" @change="handleFilter"
       >
         <el-option value="GET" label="GET" />
@@ -15,7 +12,10 @@
         <el-option value="PUT" label="PUT" />
         <el-option value="DELETE" label="DELETE" />
       </el-select>
-      <el-select v-model="listQuery.queryRoleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
+      <el-input v-model="listQuery.description" :placeholder="$t('table.data.resources.description')" style="width: 200px;" class="filter-item"
+                @keyup.enter.native="handleFilter"
+      />
+      <el-select v-model="listQuery.queryRoleId" :placeholder="$t('table.data.resources.roles')" clearable style="width: 100px;margin-right: 10px;"
                  class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
       >
         <el-option
@@ -50,23 +50,23 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="资源路径" width="260px" align="center">
+      <el-table-column :label="$t('table.id')" type="index" sortable="true" align="center" width="80" />
+      <el-table-column :label="$t('table.data.resources.uri')" width="260px" align="center">
         <template v-slot="{row}">
           <span>{{ row.uri }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="资源描述" width="350px" align="center">
-        <template v-slot="{row}">
-          <span>{{ row.description }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="方法类型" width="80px" align="center">
+      <el-table-column :label="$t('table.data.resources.methodType')" width="120px" align="center">
         <template v-slot="{row}">
           <span>{{ row.methodType }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="拥有该资源的角色" class-name="status-col">
+      <el-table-column :label="$t('table.data.resources.description')" width="350px" align="center">
+        <template v-slot="{row}">
+          <span>{{ row.description }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('table.data.resources.roles')" class-name="status-col">
         <template v-slot="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -94,7 +94,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="220px" class-name="small-padding fixed-width" fixed="right">
+      <el-table-column :label="$t('table.actions')" align="center" width="220px" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             {{ $t('table.edit') }}
@@ -114,22 +114,22 @@
     />
 
     <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="resources" label-position="left" label-width="120px"
+      <el-form ref="dataForm" :rules="rules" :model="resources" label-position="left" label-width="150px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="资源路径" prop="uri">
+        <el-form-item :label="$t('table.data.resources.uri')" prop="uri">
           <el-input v-model="resources.uri" placeholder="请输入资源路径" />
         </el-form-item>
-        <el-form-item label="资源描述" prop="description">
-          <el-input v-model="resources.description" placeholder="请输入资源描述" />
-        </el-form-item>
-        <el-form-item label="方法类型" prop="methodType">
+        <el-form-item :label="$t('table.data.resources.methodType')" prop="methodType">
           <el-select v-model="resources.methodType" placeholder="请选择方法类型" clearable class="filter-item">
             <el-option value="GET" label="GET" />
             <el-option value="POST" label="POST" />
             <el-option value="PUT" label="PUT" />
             <el-option value="DELETE" label="DELETE" />
           </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('table.data.resources.description')" prop="description">
+          <el-input v-model="resources.description" placeholder="请输入资源描述" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

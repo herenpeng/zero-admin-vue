@@ -1,37 +1,37 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.username" placeholder="用户名" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.username" :placeholder="$t('table.data.user.username')" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.enabled" placeholder="是否启用" clearable style="width: 120px" class="filter-item"
+      <el-select v-model="listQuery.enabled" :placeholder="$t('table.data.user.enabled')" clearable style="width: 120px" class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.locked" placeholder="是否锁定" clearable class="filter-item"
+      <el-select v-model="listQuery.locked" :placeholder="$t('table.data.user.locked')" clearable class="filter-item"
                  style="width: 120px"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.accountExpire" placeholder="账号是否过期" clearable style="width: 140px"
+      <el-select v-model="listQuery.accountExpire" :placeholder="$t('table.data.user.accountExpire')" clearable style="width: 140px"
                  class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.passwordExpire" placeholder="密码是否过期" clearable style="width: 140px;"
+      <el-select v-model="listQuery.passwordExpire" :placeholder="$t('table.data.user.passwordExpire')" clearable style="width: 140px;"
                  class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.queryRoleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
+      <el-select v-model="listQuery.queryRoleId" :placeholder="$t('table.data.user.roles')" clearable style="width: 100px;margin-right: 10px;"
                  class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
       >
         <el-option
@@ -66,13 +66,13 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="用户名" width="150px" align="center">
+      <el-table-column :label="$t('table.id')" type="index" sortable="true" align="center" width="80px" />
+      <el-table-column :label="$t('table.data.user.username')" width="150px" align="center">
         <template v-slot="{row}">
           <span>{{ row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="150px" align="center">
+      <el-table-column :label="$t('table.data.user.enabled')" width="150px" align="center">
         <template v-slot="{row}">
           <el-switch
             v-model="row.enabled"
@@ -82,22 +82,22 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="是否锁定" width="110px" align="center">
+      <el-table-column :label="$t('table.data.user.locked')" width="130px" align="center">
         <template v-slot="{row}">
           <span>{{ row.locked ? '锁定' : '未锁定' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号是否过期" width="120px" align="center">
+      <el-table-column :label="$t('table.data.user.accountExpire')" width="150px" align="center">
         <template v-slot="{row}">
           <span>{{ row.accountExpire ? '过期' : '未过期' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="密码是否过期" width="120px" align="center">
+      <el-table-column :label="$t('table.data.user.passwordExpire')" width="150px" align="center">
         <template v-slot="{row}">
           <span>{{ row.passwordExpire ? '过期' : '未过期' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号状态" width="80px" align="center">
+      <el-table-column :label="$t('table.data.user.state')" width="100px" align="center">
         <template v-slot="{row}">
           <el-link v-if="row.onlineLoginLogs.length === 0" type="info" :underline="false" style="font-size: 12px;">未登录
           </el-link>
@@ -105,7 +105,7 @@
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column label="用户角色" class-name="status-col">
+      <el-table-column :label="$t('table.data.user.roles')" class-name="status-col">
         <template v-slot="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -133,7 +133,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="220px" fixed="right">
+      <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width" width="220px" fixed="right">
         <template v-slot="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             {{ $t('table.edit') }}
@@ -153,34 +153,34 @@
     />
 
     <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="user" label-position="left" label-width="120px"
+      <el-form ref="dataForm" :rules="rules" :model="user" label-position="left" label-width="160px"
                style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="用户名" prop="username">
+        <el-form-item :label="$t('table.data.user.username')" prop="username">
           <el-input v-model="user.username" placeholder="请输入用户名" />
         </el-form-item>
-        <el-form-item label="是否启用" prop="enabled">
+        <el-form-item :label="$t('table.data.user.enabled')" prop="enabled">
           <el-switch
             v-model="user.enabled"
             active-text="启用"
             inactive-text="禁用"
           />
         </el-form-item>
-        <el-form-item label="是否锁定" prop="locked">
+        <el-form-item :label="$t('table.data.user.locked')" prop="locked">
           <el-switch
             v-model="user.locked"
             active-text="锁定"
             inactive-text="未锁定"
           />
         </el-form-item>
-        <el-form-item label="账号是否过期">
+        <el-form-item :label="$t('table.data.user.accountExpire')">
           <el-switch
             v-model="user.accountExpire"
             active-text="过期"
             inactive-text="未过期"
           />
         </el-form-item>
-        <el-form-item label="密码是否过期">
+        <el-form-item :label="$t('table.data.user.passwordExpire')">
           <el-switch
             v-model="user.passwordExpire"
             active-text="过期"

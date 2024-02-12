@@ -23,7 +23,7 @@
               >
                 <i class="el-icon-plus" />
               </el-upload>
-              <el-button style="margin-top: 54px;" type="primary" @click="uploadAvatar">点击上传</el-button>
+              <el-button style="margin-top: 54px;" type="primary" @click="uploadAvatar">{{ $t('table.upload') }}</el-button>
             </el-col>
             <el-col :span="12">
               <div class="banner">
@@ -54,8 +54,8 @@
                   <el-input v-model="settingForm.checkPassword" type="password" autocomplete="new-password" :show-password="true" />
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="submitForm()">提交</el-button>
-                  <el-button @click="resetForm()">重置</el-button>
+                  <el-button type="primary" @click="submitForm()">{{ $t('table.submit') }}</el-button>
+                  <el-button @click="resetForm()">{{ $t('table.resetting') }}</el-button>
                 </el-form-item>
               </el-form>
             </el-col>
@@ -80,9 +80,9 @@
         <el-col :span="2">
           姓名：
         </el-col>
-        <el-col :span="8">
+        <el-col :span="7">
           <template v-if="edit.name">
-            <el-input v-model="userInfo.name" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-input v-model="userInfo.name" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
             <el-button
               class="cancel-btn"
               size="small"
@@ -95,7 +95,7 @@
           </template>
           <span v-else>{{ userInfo.name || '点击编辑修改姓名' }}</span>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="3">
           <el-button
             v-if="edit.name"
             type="success"
@@ -118,9 +118,9 @@
         <el-col :span="2">
           性别：
         </el-col>
-        <el-col :span="8">
+        <el-col :span="7">
           <template v-if="edit.gender">
-            <el-switch v-model="userInfo.gender" active-text="男" inactive-text="女" style="width: 300px;margin-right: 30px;padding-left: 150px;" />
+            <el-switch v-model="userInfo.gender" active-text="男" inactive-text="女" style="width: 280px;margin-right: 30px;padding-left: 150px;" />
             <el-button
               class="cancel-btn"
               size="small"
@@ -133,7 +133,7 @@
           </template>
           <span v-else>{{ userInfo.gender === null ? '点击编辑修改性别' : (userInfo.gender ? '男' : '女') }}</span>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="3">
           <el-button
             v-if="edit.gender"
             type="success"
@@ -158,9 +158,9 @@
         <el-col :span="2">
           手机号码：
         </el-col>
-        <el-col :span="8">
+        <el-col :span="7">
           <template v-if="edit.mobile">
-            <el-input v-model="userInfo.mobile" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-input v-model="userInfo.mobile" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
             <el-button
               class="cancel-btn"
               size="small"
@@ -173,7 +173,7 @@
           </template>
           <span v-else>{{ userInfo.mobile || '点击编辑修改手机号码' }}</span>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="3">
           <el-button
             v-if="edit.mobile"
             type="success"
@@ -196,9 +196,9 @@
         <el-col :span="2">
           电子邮箱：
         </el-col>
-        <el-col :span="8">
+        <el-col :span="7">
           <template v-if="edit.mail">
-            <el-input v-model="userInfo.mail" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-input v-model="userInfo.mail" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
             <el-button
               class="cancel-btn"
               size="small"
@@ -211,7 +211,7 @@
           </template>
           <span v-else>{{ userInfo.mail || '点击编辑修改电子邮箱' }}</span>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="3">
           <el-button
             v-if="edit.mail"
             type="success"
@@ -236,7 +236,7 @@
         <el-col :span="2">
           出生日期：
         </el-col>
-        <el-col :span="8">
+        <el-col :span="7">
           <template v-if="edit.birthday">
             <el-date-picker
               v-model="userInfo.birthday"
@@ -244,7 +244,7 @@
               value-format="yyyy-MM-dd"
               placeholder="选择出生日期"
               :picker-options="pickerOptions"
-              style="width: 300px;margin-right: 30px;"
+              style="width: 280px;margin-right: 30px;"
             />
             <el-button
               class="cancel-btn"
@@ -258,7 +258,7 @@
           </template>
           <span v-else>{{ userInfo.birthday || '点击编辑修改出生日期' }}</span>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="3">
           <el-button
             v-if="edit.birthday"
             type="success"
@@ -281,9 +281,9 @@
         <el-col :span="2">
           身份证号：
         </el-col>
-        <el-col :span="8">
+        <el-col :span="7">
           <template v-if="edit.idNumber">
-            <el-input v-model="userInfo.idNumber" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-input v-model="userInfo.idNumber" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
             <el-button
               class="cancel-btn"
               size="small"
@@ -296,7 +296,7 @@
           </template>
           <span v-else>{{ userInfo.idNumber || '点击编辑修改身份证号' }}</span>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="3">
           <el-button
             v-if="edit.idNumber"
             type="success"
@@ -321,9 +321,9 @@
         <el-col :span="2">
           QQ：
         </el-col>
-        <el-col :span="8">
+        <el-col :span="7">
           <template v-if="edit.qq">
-            <el-input v-model="userInfo.qq" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-input v-model="userInfo.qq" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
             <el-button
               class="cancel-btn"
               size="small"
@@ -336,7 +336,7 @@
           </template>
           <span v-else>{{ userInfo.qq || '点击编辑修改QQ号码' }}</span>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="3">
           <el-button
             v-if="edit.qq"
             type="success"
@@ -359,9 +359,9 @@
         <el-col :span="2">
           微信：
         </el-col>
-        <el-col :span="8">
+        <el-col :span="7">
           <template v-if="edit.weChat">
-            <el-input v-model="userInfo.weChat" class="edit-input" size="medium" style="width: 300px;margin-right: 30px;" />
+            <el-input v-model="userInfo.weChat" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
             <el-button
               class="cancel-btn"
               size="small"
@@ -374,7 +374,7 @@
           </template>
           <span v-else>{{ userInfo.weChat || '点击编辑修改微信号码' }}</span>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="3">
           <el-button
             v-if="edit.weChat"
             type="success"
@@ -404,8 +404,8 @@
     >
       <el-input v-model="verify" class="edit-input" size="medium" placeholder="请输入邮箱验证码" />
       <span slot="footer" class="dialog-footer">
-        <el-button @click="verifyMailDialogVisible = false; cancelEdit('mail')">取 消</el-button>
-        <el-button type="primary" @click="verifyMail">确 定</el-button>
+        <el-button @click="verifyMailDialogVisible = false; cancelEdit('mail')">{{ $t('table.cancel') }}</el-button>
+        <el-button type="primary" @click="verifyMail">{{ $t('table.confirm') }}</el-button>
       </span>
     </el-dialog>
   </div>

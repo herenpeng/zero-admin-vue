@@ -1,35 +1,35 @@
 <template>
   <div class="app-container">
     <el-tabs v-model="activeName">
-      <el-tab-pane label="表信息配置" name="tableInfo">
+      <el-tab-pane :label="$t('table.dev.codeGenerate.tableInfo')" name="tableInfo">
         <el-form ref="dataForm" :rules="rules" :model="tableInfo" label-position="left" label-width="180px"
                  style="width: 800px; margin-left:50px;" :inline="true"
         >
-          <el-form-item label="数据库表名称" prop="name">
+          <el-form-item :label="$t('table.dev.codeGenerate.name')" prop="name">
             <el-input v-model="tableInfo.name" placeholder="请选择数据表名称" disabled="disabled" />
           </el-form-item>
-          <el-form-item label="数据库表描述" prop="comment">
+          <el-form-item :label="$t('table.dev.codeGenerate.comment')" prop="comment">
             <el-input v-model="tableInfo.comment" placeholder="请输入数据库表描述" />
           </el-form-item>
-          <el-form-item label="实体类名称" prop="entityName">
+          <el-form-item :label="$t('table.dev.codeGenerate.entityName')" prop="entityName">
             <el-input v-model="tableInfo.entityName" placeholder="请输入实体类名称" />
           </el-form-item>
-          <el-form-item label="Java代码路径" prop="javaCodePath">
+          <el-form-item :label="$t('table.dev.codeGenerate.javaCodePath')" prop="javaCodePath">
             <el-input v-model="tableInfo.javaCodePath" placeholder="请输入Java代码路径" />
           </el-form-item>
-          <el-form-item label="类请求路径" prop="entityName">
+          <el-form-item :label="$t('table.dev.codeGenerate.requestMapping')" prop="requestMapping">
             <el-input v-model="tableInfo.requestMapping" placeholder="请输入类请求路径" />
           </el-form-item>
-          <el-form-item label="包前缀名称" prop="javaPackageName">
+          <el-form-item :label="$t('table.dev.codeGenerate.javaPackageName')" prop="javaPackageName">
             <el-input v-model="tableInfo.javaPackageName" placeholder="请输入包前缀名称" />
           </el-form-item>
-          <el-form-item label="Vue代码路径" prop="vueCodePath">
+          <el-form-item :label="$t('table.dev.codeGenerate.vueCodePath')" prop="vueCodePath">
             <el-input v-model="tableInfo.vueCodePath" placeholder="请输入Vue代码路径" />
           </el-form-item>
-          <el-form-item label="Vue包路径" prop="vuePackage">
+          <el-form-item :label="$t('table.dev.codeGenerate.vuePackage')" prop="vuePackage">
             <el-input v-model="tableInfo.vuePackage" placeholder="Vue包路径" />
           </el-form-item>
-          <el-form-item label="是否为树状结构" prop="tree">
+          <el-form-item :label="$t('table.dev.codeGenerate.tree')" prop="tree">
             <el-switch
               v-model="tableInfo.tree"
               style="width: 190px"
@@ -37,7 +37,7 @@
               inactive-text="否"
             />
           </el-form-item>
-          <el-form-item label="是否覆盖同名文件" prop="cover">
+          <el-form-item :label="$t('table.dev.codeGenerate.cover')" prop="cover">
             <el-switch
               v-model="tableInfo.cover"
               style="width: 190px"
@@ -45,7 +45,7 @@
               inactive-text="否"
             />
           </el-form-item>
-          <el-form-item label="代码作者" prop="codeAuthor">
+          <el-form-item :label="$t('table.dev.codeGenerate.codeAuthor')" prop="codeAuthor">
             <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" disabled="disabled" />
           </el-form-item>
         </el-form>
@@ -54,7 +54,7 @@
         </div>
       </el-tab-pane>
 
-      <el-tab-pane label="表字段配置" name="tableColumn">
+      <el-tab-pane :label="$t('table.dev.codeGenerate.tableColumn')" name="tableColumn">
         <table-column :table-info-id="tableInfo.id" />
       </el-tab-pane>
     </el-tabs>

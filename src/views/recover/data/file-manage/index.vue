@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.name" placeholder="文件名称" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.name" :placeholder="$t('table.data.fileManage.name')" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.type" placeholder="文件类型" clearable style="width: 120px" class="filter-item"
+      <el-select v-model="listQuery.type" :placeholder="$t('table.data.fileManage.type')" clearable style="width: 120px" class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="IMAGE" label="图片" />
         <el-option value="PDF" label="PDF" />
       </el-select>
-      <el-input v-model="listQuery.queryUsername" placeholder="上传用户" style="width: 200px;" class="filter-item"
+      <el-input v-model="listQuery.queryUsername" :placeholder="$t('table.data.fileManage.username')" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-date-picker
@@ -18,9 +18,9 @@
         type="daterange"
         align="right"
         unlink-panels
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
+        range-separator="~"
+        :start-placeholder="$t('table.startTime')"
+        :end-placeholder="$t('table.endTime')"
         value-format="yyyy-MM-dd HH:mm:ss"
         :picker-options="pickerOptions"
       />
@@ -46,33 +46,33 @@
       :tree-props="{children: 'bakFiles', hasChildren: 'hasChildren'}"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="文件名称">
+      <el-table-column :label="$t('table.id')" type="index" sortable="true" align="center" width="80" />
+      <el-table-column :label="$t('table.data.fileManage.name')">
         <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="文件类型" width="80">
+      <el-table-column :label="$t('table.data.fileManage.type')" width="110px">
         <template v-slot="{row}">
           <span>{{ row.type }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="上传时间" width="200">
+      <el-table-column :label="$t('table.data.fileManage.uploadTime')" width="200">
         <template v-slot="{row}">
           <span>{{ row.uploadTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="上传用户" width="135">
+      <el-table-column :label="$t('table.data.fileManage.username')" width="135px">
         <template v-slot="{row}">
           <span>{{ row.user.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="查看" width="70" align="center">
+      <el-table-column :label="$t('table.data.fileManage.view')" width="120px" align="center">
         <template v-slot="{row}">
-          <span><el-link type="success" @click="view(row)">查看</el-link></span>
+          <span><el-link type="success" style="font-size: 12px;" @click="view(row)">{{ $t('table.data.fileManage.view') }}</el-link></span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left" width="300px" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('table.actions')" align="left" width="300px" class-name="small-padding fixed-width">
         <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             {{ $t('table.recovery') }}

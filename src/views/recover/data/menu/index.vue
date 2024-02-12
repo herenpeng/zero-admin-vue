@@ -1,22 +1,22 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.metaTitle" placeholder="菜单名称" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.metaTitle" :placeholder="$t('table.data.menu.title')" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.path" placeholder="菜单路由路径" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.path" :placeholder="$t('table.data.menu.path')" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.name" placeholder="菜单模块名称" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.name" :placeholder="$t('table.data.menu.name')" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.enabled" placeholder="是否启用" clearable style="width: 120px" class="filter-item"
+      <el-select v-model="listQuery.enabled" :placeholder="$t('table.data.menu.enabled')" clearable style="width: 120px" class="filter-item"
                  @change="handleFilter"
       >
         <el-option value="true" label="是" />
         <el-option value="false" label="否" />
       </el-select>
-      <el-select v-model="listQuery.queryRoleId" placeholder="角色" clearable style="width: 100px;margin-right: 10px;"
+      <el-select v-model="listQuery.queryRoleId" :placeholder="$t('table.data.menu.roles')" clearable style="width: 100px;margin-right: 10px;"
                  class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
       >
         <el-option
@@ -48,8 +48,8 @@
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       @sort-change="sortChange"
     >
-      <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="菜单名称" width="110">
+      <el-table-column :label="$t('table.id')" type="index" sortable="true" align="center" width="80" />
+      <el-table-column :label="$t('table.data.menu.title')" width="110">
         <template v-slot="{row}">
           <span>
             <i :class="row.metaIcon" />
@@ -57,32 +57,32 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单路由路径" width="150">
+      <el-table-column :label="$t('table.data.menu.path')" width="150">
         <template v-slot="{row}">
           <span>{{ row.path }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单模块名称" width="120">
+      <el-table-column :label="$t('table.data.menu.name')" width="100px">
         <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否隐藏" width="70" align="center">
+      <el-table-column :label="$t('table.data.menu.hidden')" width="70px" align="center">
         <template v-slot="{row}">
           <span>{{ row.hidden ? '隐藏' : '显示' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="是否启用" width="70" align="center">
+      <el-table-column :label="$t('table.data.menu.enabled')" width="100px" align="center">
         <template v-slot="{row}">
           <span>{{ row.enabled ? '启用' : '禁用' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单排序" width="70" align="center">
+      <el-table-column :label="$t('table.data.menu.sort')" width="120px" align="center">
         <template v-slot="{row}">
           <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="菜单角色" class-name="status-col">
+      <el-table-column :label="$t('table.data.menu.roles')" class-name="status-col">
         <template v-slot="{row}">
           <el-tag
             v-for="(role,index) in row.roles"
@@ -96,7 +96,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="300px" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('table.actions')" align="center" width="300px" class-name="small-padding fixed-width">
         <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             {{ $t('table.recovery') }}
