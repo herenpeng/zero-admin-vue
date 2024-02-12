@@ -72,7 +72,7 @@
           <span><el-link type="success" style="font-size: 12px;" @click="view(row)">查看</el-link></span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left" width="350" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="left" width="360" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button v-if="row.parentId === 0" type="success" size="mini" icon="el-icon-document-copy"
                      @click="bakData(row)"
@@ -96,7 +96,7 @@
                 @pagination="handlePagination"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="60%">
+    <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible" width="60%">
       <el-upload
         action="#"
         list-type="picture-card"
@@ -112,7 +112,7 @@
       </el-upload>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">关闭</el-button>
+        <el-button @click="dialogFormVisible = false">{{ $t('table.close') }}</el-button>
         <el-button style="margin-top: 10px;" type="primary" @click="replaceFile">点击替换</el-button>
       </div>
     </el-dialog>

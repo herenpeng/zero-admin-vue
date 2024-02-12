@@ -53,7 +53,7 @@
           @sort-change="sortChange"
         >
           <el-table-column label="序号" sortable="true" align="center" width="80" />
-          <el-table-column label="组织机构名称" width="150px" align="center">
+          <el-table-column label="组织机构名称" align="center">
             <template v-slot="{row}">
               <span>{{ row.name }}</span>
             </template>
@@ -63,7 +63,7 @@
               <span>{{ row.sort }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="300px">
+          <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="280px" fixed="right">
             <template v-slot="{row}">
               <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
                 {{ $t('table.edit') }}
@@ -78,7 +78,7 @@
       </el-col>
     </el-row>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="organ" label-position="left" label-width="120px"
                style="width: 400px; margin-left:50px;"
       >
@@ -90,8 +90,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">关闭</el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">保存</el-button>
+        <el-button @click="dialogFormVisible = false">{{ $t('table.close') }}</el-button>
+        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">{{ $t('table.save') }}</el-button>
       </div>
     </el-dialog>
 
@@ -128,8 +128,8 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
-        create: '添加',
-        update: '编辑'
+        create: 'table.add',
+        update: 'table.edit'
       },
       rules: {
         name: [{ required: true, message: '请输入组织机构名称', trigger: 'change' }],

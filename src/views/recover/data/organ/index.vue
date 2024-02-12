@@ -25,7 +25,7 @@
       @sort-change="sortChange"
     >
       <el-table-column label="序号" type="index" sortable="true" align="center" width="80" />
-      <el-table-column label="组织机构名称" width="150px" align="center">
+      <el-table-column label="组织机构名称" align="center">
         <template v-slot="{row}">
           <span>{{ row.name }}</span>
         </template>
@@ -35,7 +35,7 @@
           <span>{{ row.sort }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="300px" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="300px" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button type="success" size="mini" icon="el-icon-finished" @click="handleRecover(row)">
             {{ $t('table.recovery') }}

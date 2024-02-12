@@ -60,7 +60,7 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="200px"  class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="220px" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button type="primary" size="mini" icon="el-icon-edit" @click="handleUpdate(row)">
             {{ $t('table.edit') }}
@@ -79,7 +79,7 @@
                 @pagination="handlePagination"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="role" label-position="left" label-width="120px"
                style="width: 400px; margin-left:50px;"
       >
@@ -91,8 +91,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">关闭</el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">保存</el-button>
+        <el-button @click="dialogFormVisible = false">{{ $t('table.close') }}</el-button>
+        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">{{ $t('table.save') }}</el-button>
       </div>
     </el-dialog>
 
@@ -152,8 +152,8 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
-        create: '添加',
-        update: '编辑'
+        create: 'table.add',
+        update: 'table.edit'
       },
       roleList: [],
       rules: {

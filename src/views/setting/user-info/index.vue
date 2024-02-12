@@ -90,7 +90,7 @@
               icon="el-icon-close"
               @click="cancelEdit('name')"
             >
-              关闭
+              {{ $t('table.close') }}
             </el-button>
           </template>
           <span v-else>{{ userInfo.name || '点击编辑修改姓名' }}</span>
@@ -103,7 +103,7 @@
             icon="el-icon-check"
             @click="confirmEdit('name')"
           >
-            确定
+            {{ $t('table.save') }}
           </el-button>
           <el-button
             v-else
@@ -112,7 +112,7 @@
             icon="el-icon-edit"
             @click="edit.name=!edit.name"
           >
-            编辑
+            {{ $t('table.edit') }}
           </el-button>
         </el-col>
         <el-col :span="2">
@@ -128,7 +128,7 @@
               icon="el-icon-close"
               @click="cancelEdit('gender')"
             >
-              关闭
+              {{ $t('table.close') }}
             </el-button>
           </template>
           <span v-else>{{ userInfo.gender === null ? '点击编辑修改性别' : (userInfo.gender ? '男' : '女') }}</span>
@@ -141,7 +141,7 @@
             icon="el-icon-check"
             @click="confirmEdit('gender')"
           >
-            确定
+            {{ $t('table.save') }}
           </el-button>
           <el-button
             v-else
@@ -150,7 +150,7 @@
             icon="el-icon-edit"
             @click="edit.gender=!edit.gender"
           >
-            编辑
+            {{ $t('table.edit') }}
           </el-button>
         </el-col>
       </el-row>
@@ -168,7 +168,7 @@
               icon="el-icon-close"
               @click="cancelEdit('mobile')"
             >
-              关闭
+              {{ $t('table.close') }}
             </el-button>
           </template>
           <span v-else>{{ userInfo.mobile || '点击编辑修改手机号码' }}</span>
@@ -181,7 +181,7 @@
             icon="el-icon-check"
             @click="confirmEdit('mobile')"
           >
-            确定
+            {{ $t('table.save') }}
           </el-button>
           <el-button
             v-else
@@ -190,7 +190,7 @@
             icon="el-icon-edit"
             @click="edit.mobile=!edit.mobile"
           >
-            编辑
+            {{ $t('table.edit') }}
           </el-button>
         </el-col>
         <el-col :span="2">
@@ -206,7 +206,7 @@
               icon="el-icon-close"
               @click="cancelEdit('mail')"
             >
-              关闭
+              {{ $t('table.close') }}
             </el-button>
           </template>
           <span v-else>{{ userInfo.mail || '点击编辑修改电子邮箱' }}</span>
@@ -219,7 +219,7 @@
             icon="el-icon-check"
             @click="sendVerifyMail()"
           >
-            确定
+            {{ $t('table.save') }}
           </el-button>
           <el-button
             v-else
@@ -228,7 +228,7 @@
             icon="el-icon-edit"
             @click="edit.mail=!edit.mail"
           >
-            编辑
+            {{ $t('table.edit') }}
           </el-button>
         </el-col>
       </el-row>
@@ -253,7 +253,7 @@
               icon="el-icon-close"
               @click="cancelEdit('birthday')"
             >
-              关闭
+              {{ $t('table.close') }}
             </el-button>
           </template>
           <span v-else>{{ userInfo.birthday || '点击编辑修改出生日期' }}</span>
@@ -266,7 +266,7 @@
             icon="el-icon-check"
             @click="confirmEdit('birthday')"
           >
-            确定
+            {{ $t('table.save') }}
           </el-button>
           <el-button
             v-else
@@ -275,7 +275,7 @@
             icon="el-icon-edit"
             @click="edit.birthday=!edit.birthday"
           >
-            编辑
+            {{ $t('table.edit') }}
           </el-button>
         </el-col>
         <el-col :span="2">
@@ -291,7 +291,7 @@
               icon="el-icon-close"
               @click="cancelEdit('idNumber')"
             >
-              关闭
+              {{ $t('table.close') }}
             </el-button>
           </template>
           <span v-else>{{ userInfo.idNumber || '点击编辑修改身份证号' }}</span>
@@ -304,7 +304,7 @@
             icon="el-icon-check"
             @click="confirmEdit('idNumber')"
           >
-            确定
+            {{ $t('table.save') }}
           </el-button>
           <el-button
             v-else
@@ -313,7 +313,7 @@
             icon="el-icon-edit"
             @click="edit.idNumber=!edit.idNumber"
           >
-            编辑
+            {{ $t('table.edit') }}
           </el-button>
         </el-col>
       </el-row>
@@ -331,7 +331,7 @@
               icon="el-icon-close"
               @click="cancelEdit('qq')"
             >
-              关闭
+              {{ $t('table.close') }}
             </el-button>
           </template>
           <span v-else>{{ userInfo.qq || '点击编辑修改QQ号码' }}</span>
@@ -344,7 +344,7 @@
             icon="el-icon-check"
             @click="confirmEdit('qq')"
           >
-            确定
+            {{ $t('table.save') }}
           </el-button>
           <el-button
             v-else
@@ -353,7 +353,7 @@
             icon="el-icon-edit"
             @click="edit.qq=!edit.qq"
           >
-            编辑
+            {{ $t('table.edit') }}
           </el-button>
         </el-col>
         <el-col :span="2">
@@ -369,7 +369,7 @@
               icon="el-icon-close"
               @click="cancelEdit('weChat')"
             >
-              关闭
+              {{ $t('table.close') }}
             </el-button>
           </template>
           <span v-else>{{ userInfo.weChat || '点击编辑修改微信号码' }}</span>
@@ -382,7 +382,7 @@
             icon="el-icon-check"
             @click="confirmEdit('weChat')"
           >
-            确定
+            {{ $t('table.save') }}
           </el-button>
           <el-button
             v-else
@@ -391,7 +391,7 @@
             icon="el-icon-edit"
             @click="edit.weChat=!edit.weChat"
           >
-            编辑
+            {{ $t('table.edit') }}
           </el-button>
         </el-col>
       </el-row>

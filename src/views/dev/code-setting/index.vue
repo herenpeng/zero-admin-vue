@@ -50,7 +50,7 @@
           </el-form-item>
         </el-form>
         <div style="text-align: center">
-          <el-button type="primary" :disabled="disabled" @click="updateTableInfo()">保存</el-button>
+          <el-button type="primary" :disabled="disabled" @click="updateTableInfo()">{{ $t('table.save') }}</el-button>
         </div>
       </el-tab-pane>
 
@@ -92,8 +92,8 @@ export default {
       },
       dialogStatus: '',
       textMap: {
-        create: '添加',
-        update: '编辑'
+        create: 'table.add',
+        update: 'table.edit'
       },
       rules: {
         name: [{ required: true, message: '请选择数据表名称', trigger: 'change' }],

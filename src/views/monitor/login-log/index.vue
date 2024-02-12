@@ -111,13 +111,13 @@
           <span>{{ row.logout ? '是' : '否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号状态" width="80px" align="center">
+      <el-table-column label="账号状态" align="center">
         <template v-slot="{row}">
           <span v-if="row.logout === false && Date.parse(row.logoutTime) > new Date()">在线</span>
           <span v-else>已登出</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="left" width="220px" class-name="small-padding fixed-width" fixed="right">
+      <el-table-column label="操作" align="left" width="260px" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             {{ $t('table.delete') }}

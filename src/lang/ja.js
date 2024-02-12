@@ -70,7 +70,8 @@ export default {
     logOut: 'ログアウト',
     profile: 'プロフィール',
     theme: 'テーマ変更',
-    size: '画面サイズ'
+    size: '画面サイズ',
+    functionQuery: '機能照会'
   },
   login: {
     title: 'ユーザログイン',
@@ -83,6 +84,24 @@ export default {
   documentation: {
     documentation: 'ドキュメント',
     github: 'Github Link'
+  },
+  index: {
+    data: {
+      user: 'ユーザー',
+      resources: 'リソース'
+    },
+    loginMap: {
+      name: 'システムアクセスユーザ分布マップ'
+    },
+    todoList: {
+      name: '未処理事項',
+      all: 'すべて',
+      active: 'まだ終わらない',
+      completed: '完了',
+      clearCompleted: '完了アイテムの消去',
+      itemLeft: '項目の残り',
+      itemsLeft: '項目の残り'
+    }
   },
   permission: {
     addRole: 'ロール追加',
@@ -131,7 +150,15 @@ export default {
     draft: '下書き',
     delete: 'キャンセル',
     cancel: 'キャンセル',
-    confirm: '確認'
+    confirm: '確認',
+    backups: 'バックアップ',
+    replace: '置換',
+    offline: 'オフライン',
+    codeGenerate: 'コード生成',
+    recovery: 'データ・リカバリ',
+    deleteRecovery: '完全に削除',
+    close: '閉じる',
+    save: '保存＃ホゾン＃'
   },
   example: {
     warning: '新規作成と編集画面は keep-alive を使えないです。keep-alive の include はrouteのキャッシュは使えないです。そのため、component name を使ってキャッシュさせるようにします。このようなキャッシュ機能を作りたい場合，localStorageを使う手があります。もしくは keep-alive の includeを使って、全ページキャッシュする方法はあります。'

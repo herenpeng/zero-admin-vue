@@ -116,7 +116,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="120px" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="125px" class-name="small-padding fixed-width" fixed="right">
         <template v-slot="{row}">
           <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteData(row)">
             {{ $t('table.delete') }}

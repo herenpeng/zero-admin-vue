@@ -53,7 +53,7 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="100px">
         <template v-slot="{row}">
           <el-button v-if="baseColumn(row.name)" type="primary" size="mini" icon="el-icon-edit" @click="handleUpdateTableColumn(row)">
-            编辑
+            {{ $t('table.edit') }}
           </el-button>
         </template>
       </el-table-column>
@@ -66,7 +66,7 @@
                 @pagination="handlePagination"
     />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="tableColumn" label-position="left" label-width="120px"
                style="width: 400px; margin-left:50px;"
       >
@@ -125,8 +125,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">关闭</el-button>
-        <el-button type="primary" @click="updateTableColumn()">保存</el-button>
+        <el-button @click="dialogFormVisible = false">{{ $t('table.close') }}</el-button>
+        <el-button type="primary" @click="updateTableColumn()">{{ $t('table.save') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -169,8 +169,8 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
-        create: '添加',
-        update: '编辑'
+        create: 'table.add',
+        update: 'table.edit'
       },
       rules: {
         name: [{ required: true, message: '请输入字段名称', trigger: 'change' }],
