@@ -6,47 +6,47 @@
                  style="width: 800px; margin-left:50px;" :inline="true"
         >
           <el-form-item :label="$t('table.dev.codeGenerate.name')" prop="name">
-            <el-input v-model="tableInfo.name" placeholder="请选择数据表名称" disabled="disabled" />
+            <el-input v-model="tableInfo.name" :placeholder="$t('table.dev.codeGenerate.namePlaceholder')" disabled="disabled" />
           </el-form-item>
           <el-form-item :label="$t('table.dev.codeGenerate.comment')" prop="comment">
-            <el-input v-model="tableInfo.comment" placeholder="请输入数据库表描述" />
+            <el-input v-model="tableInfo.comment" :placeholder="$t('table.dev.codeGenerate.commentPlaceholder')" />
           </el-form-item>
           <el-form-item :label="$t('table.dev.codeGenerate.entityName')" prop="entityName">
-            <el-input v-model="tableInfo.entityName" placeholder="请输入实体类名称" />
+            <el-input v-model="tableInfo.entityName" :placeholder="$t('table.dev.codeGenerate.entityNamePlaceholder')" />
           </el-form-item>
           <el-form-item :label="$t('table.dev.codeGenerate.javaCodePath')" prop="javaCodePath">
-            <el-input v-model="tableInfo.javaCodePath" placeholder="请输入Java代码路径" />
+            <el-input v-model="tableInfo.javaCodePath" :placeholder="$t('table.dev.codeGenerate.javaCodePathPlaceholder')" />
           </el-form-item>
           <el-form-item :label="$t('table.dev.codeGenerate.requestMapping')" prop="requestMapping">
-            <el-input v-model="tableInfo.requestMapping" placeholder="请输入类请求路径" />
+            <el-input v-model="tableInfo.requestMapping" :placeholder="$t('table.dev.codeGenerate.requestMappingPlaceholder')" />
           </el-form-item>
           <el-form-item :label="$t('table.dev.codeGenerate.javaPackageName')" prop="javaPackageName">
-            <el-input v-model="tableInfo.javaPackageName" placeholder="请输入包前缀名称" />
+            <el-input v-model="tableInfo.javaPackageName" :placeholder="$t('table.dev.codeGenerate.javaPackageNamePlaceholder')" />
           </el-form-item>
           <el-form-item :label="$t('table.dev.codeGenerate.vueCodePath')" prop="vueCodePath">
-            <el-input v-model="tableInfo.vueCodePath" placeholder="请输入Vue代码路径" />
+            <el-input v-model="tableInfo.vueCodePath" :placeholder="$t('table.dev.codeGenerate.vueCodePathPlaceholder')" />
           </el-form-item>
           <el-form-item :label="$t('table.dev.codeGenerate.vuePackage')" prop="vuePackage">
-            <el-input v-model="tableInfo.vuePackage" placeholder="Vue包路径" />
+            <el-input v-model="tableInfo.vuePackage" :placeholder="$t('table.dev.codeGenerate.vuePackagePlaceholder')" />
           </el-form-item>
           <el-form-item :label="$t('table.dev.codeGenerate.tree')" prop="tree">
             <el-switch
               v-model="tableInfo.tree"
               style="width: 190px"
-              active-text="是"
-              inactive-text="否"
+              :active-text="$t('common.true')"
+              :inactive-text="$t('common.false')"
             />
           </el-form-item>
           <el-form-item :label="$t('table.dev.codeGenerate.cover')" prop="cover">
             <el-switch
               v-model="tableInfo.cover"
               style="width: 190px"
-              active-text="是"
-              inactive-text="否"
+              :active-text="$t('common.true')"
+              :inactive-text="$t('common.false')"
             />
           </el-form-item>
           <el-form-item :label="$t('table.dev.codeGenerate.codeAuthor')" prop="codeAuthor">
-            <el-input v-model="tableInfo.codeAuthor" placeholder="请输入代码作者" disabled="disabled" />
+            <el-input v-model="tableInfo.codeAuthor" :placeholder="$t('table.dev.codeGenerate.codeAuthorPlaceholder')" disabled="disabled" />
           </el-form-item>
         </el-form>
         <div style="text-align: center">
@@ -96,15 +96,14 @@ export default {
         update: 'table.edit'
       },
       rules: {
-        name: [{ required: true, message: '请选择数据表名称', trigger: 'change' }],
-        comment: [{ required: true, message: '请输入数据库表描述', trigger: 'change' }],
-        entityName: [{ required: true, message: '请输入实体类名称', trigger: 'change' }],
-        requestMapping: [{ required: true, message: '请输入类请求路径', trigger: 'change' }],
-        javaPackageName: [{ required: true, message: '请输入包前缀名称', trigger: 'change' }],
-        javaCodePath: [{ required: true, message: '请输入Java代码路径', trigger: 'change' }],
-        vueCodePath: [{ required: true, message: '请输入Vue代码路径', trigger: 'change' }],
-        vuePackage: [{ required: true, message: '请输入Vue包路径', trigger: 'change' }],
-        // codeAuthor: [{ required: true, message: '请输入代码作者', trigger: 'change' }]
+        name: [{ required: true, message: this.$t('table.dev.codeGenerate.nameRule'), trigger: 'change' }],
+        comment: [{ required: true, message: this.$t('table.dev.codeGenerate.commentRule'), trigger: 'change' }],
+        entityName: [{ required: true, message: this.$t('table.dev.codeGenerate.entityNameRule'), trigger: 'change' }],
+        requestMapping: [{ required: true, message: this.$t('table.dev.codeGenerate.requestMappingRule'), trigger: 'change' }],
+        javaPackageName: [{ required: true, message: this.$t('table.dev.codeGenerate.javaPackageNameRule'), trigger: 'change' }],
+        javaCodePath: [{ required: true, message: this.$t('table.dev.codeGenerate.javaCodePathRule'), trigger: 'change' }],
+        vueCodePath: [{ required: true, message: this.$t('table.dev.codeGenerate.vueCodePathRule'), trigger: 'change' }],
+        vuePackage: [{ required: true, message: this.$t('table.dev.codeGenerate.vuePackageRule'), trigger: 'change' }]
       }
     }
   },

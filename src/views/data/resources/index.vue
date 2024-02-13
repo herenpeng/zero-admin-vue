@@ -118,10 +118,10 @@
                style="width: 400px; margin-left:50px;"
       >
         <el-form-item :label="$t('table.data.resources.uri')" prop="uri">
-          <el-input v-model="resources.uri" placeholder="请输入资源路径" />
+          <el-input v-model="resources.uri" :placeholder="$t('table.data.resources.uriPlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.data.resources.methodType')" prop="methodType">
-          <el-select v-model="resources.methodType" placeholder="请选择方法类型" clearable class="filter-item">
+          <el-select v-model="resources.methodType" :placeholder="$t('table.data.resources.methodTypePlaceholder')" clearable class="filter-item">
             <el-option value="GET" label="GET" />
             <el-option value="POST" label="POST" />
             <el-option value="PUT" label="PUT" />
@@ -129,7 +129,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('table.data.resources.description')" prop="description">
-          <el-input v-model="resources.description" placeholder="请输入资源描述" />
+          <el-input v-model="resources.description" :placeholder="$t('table.data.resources.descriptionPlaceholder')" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -26,16 +26,16 @@
                 size="mini"
                 @click.stop="hidden(node.data)"
               >
-                <span v-if="node.data.hidden" style="color: #67C23A">显示</span>
-                <span v-else style="color: #E5A13C">隐藏</span>
+                <span v-if="node.data.hidden" style="color: #67C23A">{{ $t('table.data.menu.display') }}</span>
+                <span v-else style="color: #E5A13C">{{ $t('table.data.menu.hide') }}</span>
               </el-button>
               <el-button
                 type="text"
                 size="mini"
                 @click.stop="enabled(node.data)"
               >
-                <span v-if="node.data.enabled" style="color: red">禁用</span>
-                <span v-else style="color: #67C23A">启用</span>
+                <span v-if="node.data.enabled" style="color: red">{{ $t('table.data.menu.disable') }}</span>
+                <span v-else style="color: #67C23A">{{ $t('table.data.menu.enable') }}</span>
               </el-button>
             </span>
           </span>
@@ -139,40 +139,40 @@
 
     </el-row>
     <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible" width="60%">
-      <el-form ref="dataForm" :rules="rules" :model="menu" label-position="left" label-width="180px"
+      <el-form ref="dataForm" :rules="rules" :model="menu" label-position="left" label-width="160px"
                style="width: 800px; margin-left:50px;" :inline="true"
       >
         <el-form-item :label="$t('table.data.menu.title')" prop="metaTitle">
-          <el-input v-model="menu.metaTitle" placeholder="用户管理" />
+          <el-input v-model="menu.metaTitle" :placeholder="$t('table.data.menu.titlePlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.data.menu.path')" prop="path">
-          <el-input v-model="menu.path" placeholder="user" />
+          <el-input v-model="menu.path" :placeholder="$t('table.data.menu.pathPlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.data.menu.name')" prop="name">
-          <el-input v-model="menu.name" placeholder="User" />
+          <el-input v-model="menu.name" :placeholder="$t('table.data.menu.namePlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.data.menu.icon')" prop="metaIcon">
-          <el-input v-model="menu.metaIcon" placeholder="请输入菜单图标" style="width: 190px;" readonly>
+          <el-input v-model="menu.metaIcon" :placeholder="$t('table.data.menu.iconPlaceholder')" style="width: 190px;" readonly>
             <template slot="append"><i class="el-icon-s-operation" @click="drawer = true" /></template>
           </el-input>
         </el-form-item>
         <el-form-item :label="$t('table.data.menu.sort')" prop="sort">
-          <el-input v-model="menu.sort" type="number" placeholder="请输入菜单排序" />
+          <el-input v-model="menu.sort" type="number" :placeholder="$t('table.data.menu.sortPlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.data.menu.hidden')" prop="hidden">
           <el-switch
             v-model="menu.hidden"
             style="width: 190px"
-            active-text="隐藏"
-            inactive-text="显示"
+            :active-text="$t('table.data.menu.hide')"
+            :inactive-text="$t('table.data.menu.display')"
           />
         </el-form-item>
         <el-form-item :label="$t('table.data.menu.enabled')" prop="enabled">
           <el-switch
             v-model="menu.enabled"
             style="width: 190px"
-            active-text="启用"
-            inactive-text="禁用"
+            :active-text="$t('table.data.menu.enable')"
+            :inactive-text="$t('table.data.menu.disable')"
           />
         </el-form-item>
       </el-form>

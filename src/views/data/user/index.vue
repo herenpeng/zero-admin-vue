@@ -7,29 +7,29 @@
       <el-select v-model="listQuery.enabled" :placeholder="$t('table.data.user.enabled')" clearable style="width: 120px" class="filter-item"
                  @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="true" :label="$t('common.true')" />
+        <el-option value="false" :label="$t('common.false')" />
       </el-select>
       <el-select v-model="listQuery.locked" :placeholder="$t('table.data.user.locked')" clearable class="filter-item"
                  style="width: 120px"
                  @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="true" :label="$t('common.true')" />
+        <el-option value="false" :label="$t('common.false')" />
       </el-select>
       <el-select v-model="listQuery.accountExpire" :placeholder="$t('table.data.user.accountExpire')" clearable style="width: 140px"
                  class="filter-item"
                  @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="true" :label="$t('common.true')" />
+        <el-option value="false" :label="$t('common.false')" />
       </el-select>
       <el-select v-model="listQuery.passwordExpire" :placeholder="$t('table.data.user.passwordExpire')" clearable style="width: 140px;"
                  class="filter-item"
                  @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="true" :label="$t('common.true')" />
+        <el-option value="false" :label="$t('common.false')" />
       </el-select>
       <el-select v-model="listQuery.queryRoleId" :placeholder="$t('table.data.user.roles')" clearable style="width: 100px;margin-right: 10px;"
                  class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
@@ -72,29 +72,29 @@
           <span>{{ row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.data.user.enabled')" width="150px" align="center">
+      <el-table-column :label="$t('table.data.user.enabled')" width="160px" align="center">
         <template v-slot="{row}">
           <el-switch
             v-model="row.enabled"
-            active-text="是"
-            inactive-text="否"
+            :active-text="$t('common.true')"
+            :inactive-text="$t('common.false')"
             @change="enabled(row)"
           />
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.data.user.locked')" width="130px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.locked ? '锁定' : '未锁定' }}</span>
+          <span>{{ row.locked ? $t('table.data.user.lock') : $t('table.data.user.unlocked') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.data.user.accountExpire')" width="150px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.accountExpire ? '过期' : '未过期' }}</span>
+          <span>{{ row.accountExpire ? $t('table.data.user.expire') : $t('table.data.user.unexpired') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.data.user.passwordExpire')" width="150px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.passwordExpire ? '过期' : '未过期' }}</span>
+          <span>{{ row.passwordExpire ? $t('table.data.user.expire') : $t('table.data.user.unexpired') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.data.user.state')" width="100px" align="center">
@@ -154,37 +154,37 @@
 
     <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="user" label-position="left" label-width="160px"
-               style="width: 400px; margin-left:50px;"
+               style="width: 450px; margin-left:50px;"
       >
         <el-form-item :label="$t('table.data.user.username')" prop="username">
-          <el-input v-model="user.username" placeholder="请输入用户名" />
+          <el-input v-model="user.username" :placeholder="$t('table.data.user.usernamePlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.data.user.enabled')" prop="enabled">
           <el-switch
             v-model="user.enabled"
-            active-text="启用"
-            inactive-text="禁用"
+            :active-text="$t('table.data.user.enable')"
+            :inactive-text="$t('table.data.user.disable')"
           />
         </el-form-item>
         <el-form-item :label="$t('table.data.user.locked')" prop="locked">
           <el-switch
             v-model="user.locked"
-            active-text="锁定"
-            inactive-text="未锁定"
+            :active-text="$t('table.data.user.lock')"
+            :inactive-text="$t('table.data.user.unlocked')"
           />
         </el-form-item>
         <el-form-item :label="$t('table.data.user.accountExpire')">
           <el-switch
             v-model="user.accountExpire"
-            active-text="过期"
-            inactive-text="未过期"
+            :active-text="$t('table.data.user.expire')"
+            :inactive-text="$t('table.data.user.unexpired')"
           />
         </el-form-item>
         <el-form-item :label="$t('table.data.user.passwordExpire')">
           <el-switch
             v-model="user.passwordExpire"
-            active-text="过期"
-            inactive-text="未过期"
+            :active-text="$t('table.data.user.expire')"
+            :inactive-text="$t('table.data.user.unexpired')"
           />
         </el-form-item>
       </el-form>
@@ -273,7 +273,7 @@ export default {
       notRoleList: [],
       rules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'change' },
+          { required: true, message: this.$t('table.data.user.usernameRule'), trigger: 'change' },
           { validator: checkUsername, trigger: 'change' }
         ]
       },

@@ -11,8 +11,8 @@
                  clearable class="filter-item"
                  @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="true" :label="$t('common.true')" />
+        <el-option value="false" :label="$t('common.false')" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         {{ $t('table.search') }}
@@ -54,8 +54,8 @@
         <template v-slot="{row}">
           <el-switch
             v-model="row.acquiescence"
-            active-text="是"
-            inactive-text="否"
+            :active-text="$t('common.true')"
+            :inactive-text="$t('common.false')"
             @change="setAcquiescence(row.id, row.acquiescence)"
           />
         </template>
@@ -84,10 +84,10 @@
                style="width: 400px; margin-left:50px;"
       >
         <el-form-item :label="$t('table.data.role.name')" prop="name">
-          <el-input v-model="role.name" placeholder="请输入角色名称" />
+          <el-input v-model="role.name" :placeholder="$t('table.data.role.namePlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.data.role.description')" prop="description">
-          <el-input v-model="role.description" type="textarea" placeholder="请输入角色描述" />
+          <el-input v-model="role.description" type="textarea" :placeholder="$t('table.data.role.descriptionPlaceholder')" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -158,10 +158,10 @@ export default {
       roleList: [],
       rules: {
         name: [
-          { required: true, message: '请输入角色名称', trigger: 'change' },
+          { required: true, message: this.$t('table.data.role.nameRule'), trigger: 'change' },
           { validator: checkName, trigger: 'change' }
         ],
-        description: [{ required: true, message: '请输入角色描述', trigger: 'change' }]
+        description: [{ required: true, message: this.$t('table.data.role.descriptionRule'), trigger: 'change' }]
       },
       downloadLoading: false
     }

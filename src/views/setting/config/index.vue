@@ -83,23 +83,23 @@
     />
 
     <el-dialog :title="$t(textMap[dialogStatus])" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="configConst" label-position="left" label-width="120px"
+      <el-form ref="dataForm" :rules="rules" :model="configConst" label-position="left" label-width="140px"
                style="width: 400px; margin-left:50px;"
       >
         <el-form-item :label="$t('table.setting.config.key')" prop="key">
-          <el-input v-model="configConst.key" placeholder="请输入常量键值" />
+          <el-input v-model="configConst.key" :placeholder="$t('table.setting.config.keyPlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.setting.config.description')" prop="description">
-          <el-input v-model="configConst.description" placeholder="请输入键值描述信息" />
+          <el-input v-model="configConst.description" :placeholder="$t('table.setting.config.descriptionPlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.setting.config.defaultValue')" prop="defaultValue">
-          <el-input v-model="configConst.defaultValue" placeholder="请输入默认值" />
+          <el-input v-model="configConst.defaultValue" :placeholder="$t('table.setting.config.defaultValuePlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.setting.config.custom')" prop="custom">
           <el-switch
             v-model="configConst.custom"
-            active-text="是"
-            inactive-text="否"
+            :active-text="$t('common.true')"
+            :inactive-text="$t('common.false')"
           />
         </el-form-item>
       </el-form>
@@ -156,9 +156,9 @@ export default {
         update: 'table.edit'
       },
       rules: {
-        key: [{ required: true, message: '请输入常量键值，标识，唯一', trigger: 'change' }],
-        description: [{ required: true, message: '请输入键值描述信息', trigger: 'change' }],
-        defaultValue: [{ required: true, message: '请输入系统配置的默认值', trigger: 'change' }],
+        key: [{ required: true, message: this.$t('table.setting.config.keyRule'), trigger: 'change' }],
+        description: [{ required: true, message: this.$t('table.setting.config.descriptionRule'), trigger: 'change' }],
+        defaultValue: [{ required: true, message: this.$t('table.setting.config.defaultValueRule'), trigger: 'change' }],
         custom: [{ required: true, message: '请输入用户可配置，true为可配置，false为不可配置', trigger: 'change' }]
       },
       downloadLoading: false

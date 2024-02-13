@@ -83,10 +83,10 @@
                style="width: 400px; margin-left:50px;"
       >
         <el-form-item :label="$t('table.data.organ.name')" prop="name">
-          <el-input v-model="organ.name" placeholder="请输入组织机构名称" />
+          <el-input v-model="organ.name" :placeholder="$t('table.data.organ.namePlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.data.organ.sort')" prop="sort">
-          <el-input v-model="organ.sort" type="number" placeholder="请输入组织机构排序" />
+          <el-input v-model="organ.sort" type="number" :placeholder="$t('table.data.organ.sortPlaceholder')" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -106,6 +106,10 @@ export default {
       itemsLeft: 'items left'
     }
   },
+  common: {
+    true: 'True',
+    false: 'False'
+  },
   // permission: {
   //   addRole: 'New Role',
   //   editPermission: 'Edit',
@@ -175,18 +179,39 @@ export default {
         accountExpire: 'AccountExpire',
         passwordExpire: 'PasswordExpire',
         state: 'State',
-        roles: 'Roles'
+        roles: 'Roles',
+        lock: 'Lock',
+        unlocked: 'Unlocked',
+        expire: 'Expire',
+        unexpired: 'Unexpired',
+        enable: 'Enable',
+        disable: 'Disable',
+        usernamePlaceholder: 'Please enter username',
+        usernameRule: 'Please enter username',
+        loginTime: 'Login Time',
+        loginAddress: 'Login Address',
+        loginIp: 'IP',
+        loginIsp: 'ISP',
+        offline: 'Offline'
       },
       role: {
         name: 'Name',
         description: 'Description',
-        acquiescence: 'Default'
+        acquiescence: 'Default',
+        namePlaceholder: 'Please enter role name',
+        descriptionPlaceholder: 'Please enter role description',
+        nameRule: 'Please enter role name',
+        descriptionRule: 'Please enter role description'
+
       },
       resources: {
         uri: 'URI',
         methodType: 'MethodType',
         description: 'Description',
-        roles: 'Roles'
+        roles: 'Roles',
+        uriPlaceholder: 'Please enter uri',
+        methodTypePlaceholder: 'Please enter methodType',
+        descriptionPlaceholder: 'Please enter description'
       },
       menu: {
         title: 'Title',
@@ -197,12 +222,23 @@ export default {
         hidden: 'Hidden',
         enabled: 'Enabled',
         roles: 'Roles',
-        filter: 'Enter keywords for filtering'
+        filter: 'Enter keywords for filtering',
+        display: 'Display',
+        hide: 'Hide',
+        enable: 'Enable',
+        disable: 'Disable',
+        titlePlaceholder: 'User Management',
+        pathPlaceholder: 'user',
+        namePlaceholder: 'User',
+        iconPlaceholder: 'Please enter menu icon',
+        sortPlaceholder: 'Please enter menu sort'
       },
       organ: {
         name: 'Name',
         sort: 'Sort',
-        filter: 'Enter keywords for filtering'
+        filter: 'Enter keywords for filtering',
+        namePlaceholder: 'Please enter organ name',
+        sortPlaceholder: 'Please enter organ sort'
       },
       fileManage: {
         name: 'Name',
@@ -248,14 +284,21 @@ export default {
         key: 'KEY',
         description: 'Description',
         defaultValue: 'DefaultValue',
-        custom: 'Custom'
+        custom: 'Custom',
+        keyPlaceholder: 'Please enter key',
+        descriptionPlaceholder: 'Please enter description',
+        defaultValuePlaceholder: 'Please enter defaultValue',
+        keyRule: 'Please enter key',
+        descriptionRule: 'Please enter description',
+        defaultValueRule: 'Please enter defaultValue'
       },
       userConfig: {
         key: 'KEY',
         username: 'Username',
         description: 'Description',
         defaultValue: 'DefaultValue',
-        value: 'Value'
+        value: 'Value',
+        valuePlaceholder: 'Please enter value'
       }
     },
     dev: {
@@ -280,7 +323,25 @@ export default {
         jdbcType: 'JDBCType',
         columnComment: 'ColumnComment',
         query: 'Query',
-        sort: 'Sort'
+        sort: 'Sort',
+        namePlaceholder: 'Please select table name',
+        commentPlaceholder: 'Please enter comment',
+        entityNamePlaceholder: 'Please enter entityName',
+        javaCodePathPlaceholder: 'Please enter javaCodePath',
+        requestMappingPlaceholder: 'Please enter requestMapping',
+        javaPackageNamePlaceholder: 'Please enter javaPackageName',
+        vueCodePathPlaceholder: 'Please enter vueCodePath',
+        vuePackagePlaceholder: 'Please enter vuePackage',
+        codeAuthorPlaceholder: 'Please enter codeAuthor',
+        nameRule: 'Please select table name',
+        commentRule: 'Please enter comment',
+        entityNameRule: 'Please enter entityName',
+        javaCodePathRule: 'Please enter javaCodePath',
+        requestMappingRule: 'Please enter requestMapping',
+        javaPackageNameRule: 'Please enter javaPackageName',
+        vueCodePathRule: 'Please enter vueCodePath',
+        vuePackageRule: 'Please enter vuePackage',
+        codeAuthorRule: 'Please enter codeAuthor'
       }
     }
   },

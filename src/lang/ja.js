@@ -104,6 +104,10 @@ export default {
       itemsLeft: '項目の残り'
     }
   },
+  common: {
+    true: 'はい',
+    false: 'いいえ'
+  },
   // permission: {
   //   addRole: 'ロール追加',
   //   editPermission: 'ロール変更',
@@ -174,18 +178,38 @@ export default {
         accountExpire: 'アカウントは有効です',
         passwordExpire: 'パスワードが有効です',
         state: 'ステータス',
-        roles: 'ロール＃ロール＃'
+        roles: 'ロール＃ロール＃',
+        lock: 'ロック＃ロック＃',
+        unlocked: 'ロック解除',
+        expire: '期限が切れる',
+        unexpired: '期限が切れていません',
+        enable: '有効化',
+        disable: '無効化',
+        usernamePlaceholder: 'ユーザー名を入力してください',
+        usernameRule: 'ユーザー名を入力してください',
+        loginTime: 'ログイン時間',
+        loginAddress: 'ログイン場所',
+        loginIp: 'IP',
+        loginIsp: 'ISP',
+        offline: 'オフライン'
       },
       role: {
         name: 'ロール名',
         description: 'ロールの説明',
-        acquiescence: 'デフォルトロールかどうか'
+        acquiescence: 'デフォルトロールかどうか',
+        namePlaceholder: 'ロール名を入力してください',
+        descriptionPlaceholder: '役割の説明を入力してください',
+        nameRule: 'ロール名を入力してください',
+        descriptionRule: '役割の説明を入力してください'
       },
       resources: {
         uri: 'URI',
         methodType: 'メソッド・タイプ',
         description: 'リソースの説明',
-        roles: 'リソースを持つ役割'
+        roles: 'リソースを持つ役割',
+        uriPlaceholder: 'リソースパスを入力してください',
+        methodTypePlaceholder: 'メソッドタイプを選択してください',
+        descriptionPlaceholder: 'リソースの説明を入力してください'
       },
       menu: {
         title: 'メニュー名',
@@ -196,12 +220,23 @@ export default {
         hidden: '非表示',
         enabled: '有効かどうか',
         roles: 'メニューロール',
-        filter: 'フィルタリングするキーワードを入力'
+        filter: 'フィルタリングするキーワードを入力',
+        display: '表示',
+        hide: '非表示',
+        enable: '有効化',
+        disable: '無効化',
+        titlePlaceholder: 'ユーザー管理',
+        pathPlaceholder: 'user',
+        namePlaceholder: 'User',
+        iconPlaceholder: 'メニューアイコンを入力してください',
+        sortPlaceholder: 'メニューのソートを入力してください'
       },
       organ: {
         name: '組織機構名',
         sort: '組織組織組織のソート',
-        filter: 'フィルタリングするキーワードを入力'
+        filter: 'フィルタリングするキーワードを入力',
+        namePlaceholder: '組織組織組織名を入力してください',
+        sortPlaceholder: '組織組織ソートを入力してください'
       },
       fileManage: {
         name: 'ファイル名',
@@ -247,14 +282,21 @@ export default {
         key: '定数キー値',
         description: 'キー値記述情報',
         defaultValue: 'デフォルト値',
-        custom: 'カスタム構成'
+        custom: 'カスタム構成',
+        keyPlaceholder: '定数キー値を入力してください',
+        descriptionPlaceholder: 'キー値の説明情報を入力してください',
+        defaultValuePlaceholder: 'デフォルト値を入力してください',
+        keyRule: '定数キー値を入力してください',
+        descriptionRule: 'キー値の説明情報を入力してください',
+        defaultValueRule: 'デフォルト値を入力してください'
       },
       userConfig: {
         key: '定数キー値',
         username: 'ユーザー名',
         description: 'キー値記述情報',
         defaultValue: 'デフォルト値',
-        value: 'ユーザー構成値'
+        value: 'ユーザー構成値',
+        valuePlaceholder: 'ユーザー構成値を入力してください'
       }
     },
     dev: {
@@ -279,7 +321,25 @@ export default {
         jdbcType: 'JDBCタイプ',
         columnComment: 'フィールドコメント',
         query: 'クエリーフィールド',
-        sort: 'じゅんじょ'
+        sort: 'じゅんじょ',
+        namePlaceholder: 'データテーブル名を選択してください',
+        commentPlaceholder: 'データベーステーブルの説明を入力してください',
+        entityNamePlaceholder: 'エンティティークラス名を入力してください',
+        javaCodePathPlaceholder: 'Javaコードパスを入力してください',
+        requestMappingPlaceholder: 'クラス要求パスを入力してください',
+        javaPackageNamePlaceholder: 'パッケージの接頭辞名を入力してください',
+        vueCodePathPlaceholder: 'Vueコードパスを入力してください',
+        vuePackagePlaceholder: 'Vueパケットパスを入力してください',
+        codeAuthorPlaceholder: 'コード作成者を入力してください',
+        nameRule: 'データテーブル名を選択してください',
+        commentRule: 'データベーステーブルの説明を入力してください',
+        entityNameRule: 'エンティティークラス名を入力してください',
+        javaCodePathRule: 'Javaコードパスを入力してください',
+        requestMappingRule: 'クラス要求パスを入力してください',
+        javaPackageNameRule: 'パッケージの接頭辞名を入力してください',
+        vueCodePathRule: 'Vueコードパスを入力してください',
+        vuePackageRule: 'Vueパケットパスを入力してください',
+        codeAuthorRule: 'コード作成者を入力してください'
       }
     }
   },

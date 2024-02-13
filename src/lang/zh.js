@@ -106,6 +106,10 @@ export default {
       itemsLeft: '项剩余'
     }
   },
+  common: {
+    true: '是',
+    false: '否'
+  },
   // permission: {
   //   addRole: '新增角色',
   //   editPermission: '编辑权限',
@@ -175,18 +179,38 @@ export default {
         accountExpire: '账号是否过期',
         passwordExpire: '密码是否过期',
         state: '账号状态',
-        roles: '用户角色'
+        roles: '用户角色',
+        lock: '锁定',
+        unlocked: '未锁定',
+        expire: '过期',
+        unexpired: '未过期',
+        enable: '启用',
+        disable: '禁用',
+        usernamePlaceholder: '请输入用户名',
+        usernameRule: '请输入用户名',
+        loginTime: '登录时间',
+        loginAddress: '登录地点',
+        loginIp: '登录IP',
+        loginIsp: '因特网提供商',
+        offline: '下线'
       },
       role: {
         name: '角色名称',
         description: '角色描述',
-        acquiescence: '是否为默认角色'
+        acquiescence: '是否为默认角色',
+        namePlaceholder: '请输入角色名称',
+        descriptionPlaceholder: '请输入角色描述',
+        nameRule: '请输入角色名称',
+        descriptionRule: '请输入角色描述'
       },
       resources: {
         uri: '资源路径',
         methodType: '方法类型',
         description: '资源描述',
-        roles: '拥有该资源的角色'
+        roles: '拥有该资源的角色',
+        uriPlaceholder: '请输入资源路径',
+        methodTypePlaceholder: '请选择方法类型',
+        descriptionPlaceholder: '请输入资源描述'
       },
       menu: {
         title: '菜单名称',
@@ -197,12 +221,23 @@ export default {
         hidden: '是否隐藏',
         enabled: '是否启用',
         roles: '菜单角色',
-        filter: '输入关键字进行过滤'
+        filter: '输入关键字进行过滤',
+        display: '显示',
+        hide: '隐藏',
+        enable: '启用',
+        disable: '禁用',
+        titlePlaceholder: '用户管理',
+        pathPlaceholder: 'user',
+        namePlaceholder: 'User',
+        iconPlaceholder: '请输入菜单图标',
+        sortPlaceholder: '请输入菜单排序'
       },
       organ: {
         name: '组织机构名称',
         sort: '组织机构排序',
-        filter: '输入关键字进行过滤'
+        filter: '输入关键字进行过滤',
+        namePlaceholder: '请输入组织机构名称',
+        sortPlaceholder: '请输入组织机构排序'
       },
       fileManage: {
         name: '文件名称',
@@ -248,14 +283,21 @@ export default {
         key: '常量键值',
         description: '键值描述信息',
         defaultValue: '系统配置的默认值',
-        custom: '是否可自定义配置'
+        custom: '是否可自定义配置',
+        keyPlaceholder: '请输入常量键值',
+        descriptionPlaceholder: '请输入键值描述信息',
+        defaultValuePlaceholder: '请输入默认值',
+        keyRule: '请输入常量键值',
+        descriptionRule: '请输入键值描述信息',
+        defaultValueRule: '请输入默认值'
       },
       userConfig: {
         key: '常量键值',
         username: '用户名',
         description: '键值描述信息',
         defaultValue: '系统配置的默认值',
-        value: '用户配置值'
+        value: '用户配置值',
+        valuePlaceholder: '请输入用户配置值'
       }
     },
     dev: {
@@ -280,7 +322,25 @@ export default {
         jdbcType: 'JDBC类型',
         columnComment: '字段注释',
         query: '是否为查询字段',
-        sort: '字段排序顺序'
+        sort: '字段排序顺序',
+        namePlaceholder: '请选择数据表名称',
+        commentPlaceholder: '请输入数据库表描述',
+        entityNamePlaceholder: '请输入实体类名称',
+        javaCodePathPlaceholder: '请输入Java代码路径',
+        requestMappingPlaceholder: '请输入类请求路径',
+        javaPackageNamePlaceholder: '请输入包前缀名称',
+        vueCodePathPlaceholder: '请输入Vue代码路径',
+        vuePackagePlaceholder: '请输入Vue包路径',
+        codeAuthorPlaceholder: '请输入代码作者',
+        nameRule: '请选择数据表名称',
+        commentRule: '请输入数据库表描述',
+        entityNameRule: '请输入实体类名称',
+        javaCodePathRule: '请输入Java代码路径',
+        requestMappingRule: '请输入类请求路径',
+        javaPackageNameRule: '请输入包前缀名称',
+        vueCodePathRule: '请输入Vue代码路径',
+        vuePackageRule: '请输入Vue包路径',
+        codeAuthorRule: '请输入代码作者'
       }
     }
   },

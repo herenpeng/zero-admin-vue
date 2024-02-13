@@ -86,7 +86,7 @@
                style="width: 400px; margin-left:50px;"
       >
         <el-form-item :label="$t('table.setting.userConfig.value')" prop="value">
-          <el-input v-model="userConfig.value" placeholder="请输入用户配置值" />
+          <el-input v-model="userConfig.value" :placeholder="$t('table.setting.userConfig.valuePlaceholder')" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
