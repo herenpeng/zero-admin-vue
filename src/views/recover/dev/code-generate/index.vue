@@ -80,12 +80,12 @@
       </el-table-column>
       <el-table-column :label="$t('table.dev.codeGenerate.tree')" width="80px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.tree ? '是' : '否' }}</span>
+          <span>{{ row.tree ? $t('common.true') : $t('common.false') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.dev.codeGenerate.cover')" width="80px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.cover ? '是' : '否' }}</span>
+          <span>{{ row.cover ? $t('common.true') : $t('common.false') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.dev.codeGenerate.codeAuthor')" width="100px" align="center">

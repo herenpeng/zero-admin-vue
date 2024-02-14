@@ -110,24 +110,12 @@ import {
   setAcquiescence
 } from '@/api/data/role'
 import Pagination from '@/components/Pagination'
+import { checkUsername } from '@/api/data/user'
 
 export default {
   name: 'Role',
   components: { Pagination },
   data() {
-    const checkName = (rule, value, callback) => {
-      if (value === this.oldRoleName && this.dialogStatus === 'update') {
-        callback()
-      } else {
-        this.checkName(value).then(res => {
-          if (res.data) {
-            callback(new Error('该角色已存在'))
-          } else {
-            callback()
-          }
-        })
-      }
-    }
     return {
       tableKey: 0,
       list: null,
@@ -156,14 +144,30 @@ export default {
         update: 'table.edit'
       },
       roleList: [],
-      rules: {
+      downloadLoading: false
+    }
+  },
+  computed: {
+    rules() {
+      return {
         name: [
           { required: true, message: this.$t('table.data.role.nameRule'), trigger: 'change' },
-          { validator: checkName, trigger: 'change' }
+          { validator: (rule, value, callback) => {
+            if (value === this.oldRoleName && this.dialogStatus === 'update') {
+              callback()
+            } else {
+              checkName(value).then(res => {
+                if (res.data) {
+                  callback(new Error('该角色已存在'))
+                } else {
+                  callback()
+                }
+              })
+            }
+          }, trigger: 'change' }
         ],
         description: [{ required: true, message: this.$t('table.data.role.descriptionRule'), trigger: 'change' }]
-      },
-      downloadLoading: false
+      }
     }
   },
   created() {
@@ -189,9 +193,6 @@ export default {
       this.page.size = page.limit
       this.loadData()
     },
-    checkName(value) {
-      return checkName(value)
-    },
     handleCreate() {
       this.role = {}
       this.dialogStatus = 'create'
@@ -206,7 +207,7 @@ export default {
           createRole(this.role).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000
@@ -231,7 +232,7 @@ export default {
           updateRole(this.role).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000
@@ -244,7 +245,7 @@ export default {
     setAcquiescence(id, acquiescence) {
       setAcquiescence(id, acquiescence).then((res) => {
         this.$notify({
-          title: '成功',
+          title: this.$t('common.success'),
           message: res.message,
           type: 'success',
           duration: 2000

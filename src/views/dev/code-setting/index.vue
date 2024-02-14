@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-tabs v-model="activeName">
+    <el-tabs v-model="tabPaneName">
       <el-tab-pane :label="$t('table.dev.codeGenerate.tableInfo')" name="tableInfo">
         <el-form ref="dataForm" :rules="rules" :model="tableInfo" label-position="left" label-width="180px"
                  style="width: 800px; margin-left:50px;" :inline="true"
@@ -68,13 +68,14 @@ import {
 } from '@/api/dev/code-generate'
 
 import TableColumn from './components/TableColumn'
+import tabPane from 'element-ui/packages/tab-pane'
 
 export default {
   name: 'CodeSetting',
   components: { TableColumn },
   data() {
     return {
-      activeName: 'tableInfo',
+      tabPaneName: 'tableInfo',
       disabled: false,
       tableInfo: {
         id: null,
@@ -94,8 +95,12 @@ export default {
       textMap: {
         create: 'table.add',
         update: 'table.edit'
-      },
-      rules: {
+      }
+    }
+  },
+  computed: {
+    rules() {
+      return {
         name: [{ required: true, message: this.$t('table.dev.codeGenerate.nameRule'), trigger: 'change' }],
         comment: [{ required: true, message: this.$t('table.dev.codeGenerate.commentRule'), trigger: 'change' }],
         entityName: [{ required: true, message: this.$t('table.dev.codeGenerate.entityNameRule'), trigger: 'change' }],
@@ -126,7 +131,7 @@ export default {
         if (valid) {
           updateTableInfo(this.tableInfo).then((res) => {
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000

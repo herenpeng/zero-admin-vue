@@ -131,15 +131,19 @@ export default {
         create: 'table.add',
         update: 'table.edit'
       },
-      rules: {
-        name: [{ required: true, message: '请输入组织机构名称', trigger: 'change' }],
-        sort: [{ required: true, message: '请输入组织机构排序', trigger: 'change' }],
-        parentId: [{ required: true, message: '请输入父级组织机构主键，如果为顶级组织机构，值为0', trigger: 'change' }]
-      },
       downloadLoading: false,
       organTree: [],
       filterText: '',
       expandedKeys: []
+    }
+  },
+  computed: {
+    rules() {
+      return {
+        name: [{ required: true, message: this.$t('table.data.organ.nameRule'), trigger: 'change' }],
+        sort: [{ required: true, message: this.$t('table.data.organ.sortRule'), trigger: 'change' }],
+        // parentId: [{ required: true, message: '请输入父级组织机构主键，如果为顶级组织机构，值为0', trigger: 'change' }]
+      }
     }
   },
   watch: {
@@ -206,7 +210,7 @@ export default {
           createOrgan(this.organ).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000
@@ -230,7 +234,7 @@ export default {
           updateOrgan(this.organ).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000

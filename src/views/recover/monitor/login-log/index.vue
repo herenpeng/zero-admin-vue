@@ -27,14 +27,14 @@
       <el-select v-model="listQuery.logout" :placeholder="$t('table.monitor.loginLog.logout')" clearable class="filter-item"
                  style="width: 130px;" @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="true" :label="$t('common.true')" />
+        <el-option value="false" :label="$t('common.false')" />
       </el-select>
       <el-select v-model="listQuery.queryOnline" :placeholder="$t('table.monitor.loginLog.state')" clearable class="filter-item"
                  style="width: 110px;margin-right: 10px;" @change="handleFilter"
       >
-        <el-option value="true" label="在线" />
-        <el-option value="false" label="已登出" />
+        <el-option value="true" :label="$t('table.monitor.loginLog.online')" />
+        <el-option value="false" :label="$t('table.monitor.loginLog.offline')" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         {{ $t('table.search') }}
@@ -78,7 +78,7 @@
       </el-table-column>
       <el-table-column :label="$t('table.monitor.loginLog.mobile')" width="70px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.mobile ? '是' : '否' }}</span>
+          <span>{{ row.mobile ? $t('common.true') : $t('common.false') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.monitor.loginLog.browserName')" width="90px" align="center">
@@ -108,13 +108,13 @@
       </el-table-column>
       <el-table-column :label="$t('table.monitor.loginLog.logout')" width="80px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.logout ? '是' : '否' }}</span>
+          <span>{{ row.logout ? $t('common.true') : $t('common.false') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.monitor.loginLog.state')" width="80px" align="center">
         <template v-slot="{row}">
-          <span v-if="row.logout === false && Date.parse(row.logoutTime) > new Date()">在线</span>
-          <span v-else>已登出</span>
+          <span v-if="row.logout === false && Date.parse(row.logoutTime) > new Date()">{{ $t('table.monitor.loginLog.online') }}</span>
+          <span v-else>{{ $t('table.monitor.loginLog.offline') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.actions')" align="center" width="300px" class-name="small-padding fixed-width" fixed="right">

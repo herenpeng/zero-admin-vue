@@ -82,10 +82,6 @@ export default {
     any: 'password',
     thirdParty: '外部IDでログイン'
   },
-  // documentation: {
-  //   documentation: 'ドキュメント',
-  //   github: 'Github Link'
-  // },
   index: {
     data: {
       user: 'ユーザー',
@@ -106,31 +102,9 @@ export default {
   },
   common: {
     true: 'はい',
-    false: 'いいえ'
+    false: 'いいえ',
+    success: '成功'
   },
-  // permission: {
-  //   addRole: 'ロール追加',
-  //   editPermission: 'ロール変更',
-  //   roles: 'ロール',
-  //   switchRoles: 'ロール切替',
-  //   tips: 'v-permissionは使えない時があります。例えば: Element-UI の el-tab、 el-table-column 及び他の dom。v-ifを使う必要があります。',
-  //   delete: '削除',
-  //   confirm: '確認',
-  //   cancel: 'キャンセル'
-  // },
-  // guide: {
-  //   description: 'ガイドは各機能の説明です。',
-  //   button: 'ガイドを見る'
-  // },
-  // components: {
-  //   documentation: 'ドキュメント',
-  //   tinymceTips: 'tinymceは管理画面に重要な機能ですが、その同時に落とし穴がありあす。tinymceを使う道のりが大変でした。Tinymceを使う時に各自のプロジェクト状況で判断が必要です。ドキュメントはこちら',
-  //   dropzoneTips: 'Third partyのパッケージを使わず、独自の実装しています。詳細は @/components/Dropzone',
-  //   stickyTips: 'ページの指定位置へスクロールした場合、表示されます。',
-  //   backToTopTips1: 'トップへスクロールが表示されます。',
-  //   backToTopTips2: 'ボタンのスタイルはカスタマイズできます。例えば、show/hide、height、position。 またはElementのel-tooltipを使って、ツールチップを実装できます。',
-  //   imageUploadTips: 'mockjsは使えないため、カスタマイズしています。公式の最新バージョンを使ってください。'
-  // },
   table: {
     dynamicTips1: '先頭は固定、最後に追加',
     dynamicTips2: '戦後に追加せず、指定列に追加',
@@ -209,7 +183,10 @@ export default {
         roles: 'リソースを持つ役割',
         uriPlaceholder: 'リソースパスを入力してください',
         methodTypePlaceholder: 'メソッドタイプを選択してください',
-        descriptionPlaceholder: 'リソースの説明を入力してください'
+        descriptionPlaceholder: 'リソースの説明を入力してください',
+        uriRule: 'リソースパスを入力してください',
+        methodTypeRule: 'メソッドタイプを選択してください',
+        descriptionRule: 'リソースの説明を入力してください'
       },
       menu: {
         title: 'メニュー名',
@@ -229,14 +206,23 @@ export default {
         pathPlaceholder: 'user',
         namePlaceholder: 'User',
         iconPlaceholder: 'メニューアイコンを入力してください',
-        sortPlaceholder: 'メニューのソートを入力してください'
+        sortPlaceholder: 'メニューのソートを入力してください',
+        titleRule: 'メニュー名を入力してください',
+        pathRule: 'メニュールーティングパスを入力してください',
+        nameRule: 'メニューモジュール名を入力してください',
+        iconRule: 'メニューアイコンを入力してください',
+        sortRule: 'メニューのソートを入力してください',
+        hiddenRule: 'メニューを非表示にするかどうかを選択してください',
+        enabledRule: 'メニューを有効にするかどうかを選択してください'
       },
       organ: {
         name: '組織機構名',
         sort: '組織組織組織のソート',
         filter: 'フィルタリングするキーワードを入力',
         namePlaceholder: '組織組織組織名を入力してください',
-        sortPlaceholder: '組織組織ソートを入力してください'
+        sortPlaceholder: '組織組織ソートを入力してください',
+        nameRule: '組織組織組織名を入力してください',
+        sortRule: '組織組織ソートを入力してください'
       },
       fileManage: {
         name: 'ファイル名',
@@ -259,7 +245,9 @@ export default {
         loginTime: 'ログイン時間',
         logoutTime: 'ログオン時間',
         logout: 'アクティブ・ログイン',
-        state: 'アカウントステータス'
+        state: 'アカウントステータス',
+        online: 'オンライン',
+        offline: 'オフライン'
       },
       operationLog: {
         user: '操作ユーザー',
@@ -274,7 +262,9 @@ export default {
         description: 'オペレーション情報',
         method: 'アクセス方法',
         exceptionName: '例外名',
-        exceptionMessage: '例外情報'
+        exceptionMessage: '例外情報',
+        success: '成功',
+        fail: 'に失敗'
       }
     },
     setting: {
@@ -288,7 +278,8 @@ export default {
         defaultValuePlaceholder: 'デフォルト値を入力してください',
         keyRule: '定数キー値を入力してください',
         descriptionRule: 'キー値の説明情報を入力してください',
-        defaultValueRule: 'デフォルト値を入力してください'
+        defaultValueRule: 'デフォルト値を入力してください',
+        customRule: '設定可能な設定をカスタマイズできるかどうかを選択してください'
       },
       userConfig: {
         key: '定数キー値',
@@ -296,7 +287,8 @@ export default {
         description: 'キー値記述情報',
         defaultValue: 'デフォルト値',
         value: 'ユーザー構成値',
-        valuePlaceholder: 'ユーザー構成値を入力してください'
+        valuePlaceholder: 'ユーザー構成値を入力してください',
+        valueRule: 'ユーザー構成値を入力してください'
       }
     },
     dev: {
@@ -339,35 +331,24 @@ export default {
         javaPackageNameRule: 'パッケージの接頭辞名を入力してください',
         vueCodePathRule: 'Vueコードパスを入力してください',
         vuePackageRule: 'Vueパケットパスを入力してください',
-        codeAuthorRule: 'コード作成者を入力してください'
+        codeAuthorRule: 'コード作成者を入力してください',
+        columnNamePlaceholder: 'フィールド名を入力してください',
+        databaseTypePlaceholder: 'フィールドタイプを入力してください',
+        javaNamePlaceholder: 'Javaプロパティを入力してください',
+        javaTypePlaceholder: 'Javaタイプを選択してください',
+        jdbcTypePlaceholder: 'JDBCタイプを選択してください',
+        columnCommentPlaceholder: 'フィールドコメントを入力してください',
+        sortPlaceholder: 'フィールドのソート順を入力してください',
+        columnNameRule: 'フィールド名を入力してください',
+        databaseTypeRule: 'フィールドタイプを入力してください',
+        javaNameRule: 'Javaプロパティを入力してください',
+        javaTypeRule: 'Javaタイプを選択してください',
+        jdbcTypeRule: 'JDBCタイプを選択してください',
+        columnCommentRule: 'フィールドコメントを入力してください',
+        sortRule: 'フィールドのソート順を入力してください'
       }
     }
   },
-  // example: {
-  //   warning: '新規作成と編集画面は keep-alive を使えないです。keep-alive の include はrouteのキャッシュは使えないです。そのため、component name を使ってキャッシュさせるようにします。このようなキャッシュ機能を作りたい場合，localStorageを使う手があります。もしくは keep-alive の includeを使って、全ページキャッシュする方法はあります。'
-  // },
-  // errorLog: {
-  //   tips: '右上のbugアイコンをクリックしてください。',
-  //   description: '管理画面はspaを使う場合が多い、ユーザ体現向上はできますが、想定外エラーが発生する場合があります。Vueはそのエラーハンドリング機能を提供し、エラーレポートができます。',
-  //   documentation: 'ドキュメント'
-  // },
-  // excel: {
-  //   export: 'エクスポート',
-  //   selectedExport: 'エクスポート対象を選択してください。',
-  //   placeholder: 'ファイル名を入力してください。'
-  // },
-  // zip: {
-  //   export: 'エクスポート',
-  //   placeholder: 'ファイル名を入力してください。'
-  // },
-  // pdf: {
-  //   tips: 'window.print() を使ってPDFダウンロードしています。'
-  // },
-  // theme: {
-  //   change: 'テーマ切替',
-  //   documentation: 'ドキュメント',
-  //   tips: 'Tips: テーマの切り替え方法はnavbarのtheme-pickと異なります、使い方はドキュメントを確認してください。'
-  // },
   tagsView: {
     refresh: '更新',
     close: '閉じる',

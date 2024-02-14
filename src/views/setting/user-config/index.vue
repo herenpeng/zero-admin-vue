@@ -143,12 +143,16 @@ export default {
         create: 'table.add',
         update: 'table.edit'
       },
-      rules: {
-        userId: [{ required: true, message: '请输入用户主键', trigger: 'change' }],
-        configId: [{ required: true, message: '请输入配置主键', trigger: 'change' }],
-        value: [{ required: true, message: '请输入用户配置值', trigger: 'change' }]
-      },
       downloadLoading: false
+    }
+  },
+  computed: {
+    rules() {
+      return {
+        // userId: [{ required: true, message: '请输入用户主键', trigger: 'change' }],
+        // configId: [{ required: true, message: '请输入配置主键', trigger: 'change' }],
+        value: [{ required: true, message: this.$t('table.setting.userConfig.valueRule'), trigger: 'change' }]
+      }
     }
   },
   created() {
@@ -188,7 +192,7 @@ export default {
           createUserConfig(this.userConfig).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000
@@ -212,7 +216,7 @@ export default {
           updateUserConfig(this.userConfig).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000

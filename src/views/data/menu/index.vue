@@ -244,20 +244,24 @@ export default {
         update: 'table.edit'
       },
       roleList: [],
-      rules: {
-        metaTitle: [{ required: true, message: '请输入菜单名称', trigger: 'change' }],
-        path: [{ required: true, message: '请输入菜单路由路径', trigger: 'change' }],
-        name: [{ required: true, message: '请输入菜单模块名称', trigger: 'change' }],
-        metaIcon: [{ required: true, message: '请输入菜单图标', trigger: 'change' }],
-        sort: [{ required: true, message: '请输入菜单排序', trigger: 'change' }],
-        hidden: [{ required: true, message: '请选择菜单是否隐藏', trigger: 'change' }],
-        enabled: [{ required: true, message: '请选择菜单是否启用', trigger: 'change' }]
-      },
       downloadLoading: false,
       drawer: false,
       menuTree: [],
       filterText: '',
       expandedKeys: []
+    }
+  },
+  computed: {
+    rules() {
+      return {
+        metaTitle: [{ required: true, message: this.$t('table.data.menu.titleRule'), trigger: 'change' }],
+        path: [{ required: true, message: this.$t('table.data.menu.pathRule'), trigger: 'change' }],
+        name: [{ required: true, message: this.$t('table.data.menu.nameRule'), trigger: 'change' }],
+        metaIcon: [{ required: true, message: this.$t('table.data.menu.iconRule'), trigger: 'change' }],
+        sort: [{ required: true, message: this.$t('table.data.menu.sortRule'), trigger: 'change' }],
+        hidden: [{ required: true, message: this.$t('table.data.menu.hiddenRule'), trigger: 'change' }],
+        enabled: [{ required: true, message: this.$t('table.data.menu.enabledRule'), trigger: 'change' }]
+      }
     }
   },
   watch: {
@@ -312,7 +316,7 @@ export default {
     hidden(row) {
       hiddenMenu(row.id, !row.hidden).then(res => {
         this.$notify({
-          title: '成功',
+          title: this.$t('common.success'),
           message: res.message,
           type: 'success',
           duration: 2000
@@ -323,7 +327,7 @@ export default {
     enabled(row) {
       enabledMenu(row.id, !row.enabled).then(res => {
         this.$notify({
-          title: '成功',
+          title: this.$t('common.success'),
           message: res.message,
           type: 'success',
           duration: 2000
@@ -348,7 +352,7 @@ export default {
           createMenu(this.menu).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000
@@ -374,7 +378,7 @@ export default {
           updateMenu(this.menu).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000

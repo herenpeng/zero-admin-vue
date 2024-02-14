@@ -11,8 +11,8 @@
                  clearable class="filter-item"
                  @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="true" :label="$t('common.true')" />
+        <el-option value="false" :label="$t('common.false')" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         {{ $t('table.search') }}
@@ -49,9 +49,10 @@
         <template v-slot="{row}">
           <el-switch
             v-model="row.acquiescence"
-            active-text="是"
-            inactive-text="否"
-            disabled="disabled" />
+            :active-text="$t('common.true')"
+            :inactive-text="$t('common.false')"
+            disabled="disabled"
+          />
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.actions')" align="center" width="300px" class-name="small-padding fixed-width">

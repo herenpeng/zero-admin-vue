@@ -14,8 +14,8 @@
       <el-select v-model="listQuery.custom" :placeholder="$t('table.setting.config.custom')" clearable style="margin-right: 10px;" class="filter-item"
                  @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="true" :label="$t('common.true')" />
+        <el-option value="false" :label="$t('common.false')" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         {{ $t('table.search') }}
@@ -60,7 +60,7 @@
       </el-table-column>
       <el-table-column :label="$t('table.setting.config.custom')" width="120px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.custom ? '是' : '否' }}</span>
+          <span>{{ row.custom ? $t('common.true') : $t('common.false') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width" width="220px" fixed="right">
@@ -155,13 +155,17 @@ export default {
         create: 'table.add',
         update: 'table.edit'
       },
-      rules: {
+      downloadLoading: false
+    }
+  },
+  computed: {
+    rules() {
+      return {
         key: [{ required: true, message: this.$t('table.setting.config.keyRule'), trigger: 'change' }],
         description: [{ required: true, message: this.$t('table.setting.config.descriptionRule'), trigger: 'change' }],
         defaultValue: [{ required: true, message: this.$t('table.setting.config.defaultValueRule'), trigger: 'change' }],
-        custom: [{ required: true, message: '请输入用户可配置，true为可配置，false为不可配置', trigger: 'change' }]
-      },
-      downloadLoading: false
+        custom: [{ required: true, message: this.$t('table.setting.config.customRule'), trigger: 'change' }]
+      }
     }
   },
   created() {
@@ -201,7 +205,7 @@ export default {
           createConfigConst(this.configConst).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000
@@ -225,7 +229,7 @@ export default {
           updateConfigConst(this.configConst).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000

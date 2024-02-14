@@ -198,11 +198,6 @@ import Pagination from '@/components/Pagination'
 export default {
   name: 'CodeGenerate',
   components: { Pagination },
-  computed: {
-    ...mapGetters([
-      'username'
-    ])
-  },
   data() {
     return {
       tableKey: 0,
@@ -243,7 +238,15 @@ export default {
         update: 'table.edit'
       },
       roleList: [],
-      rules: {
+      downloadLoading: false
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'username'
+    ]),
+    rules() {
+      return {
         name: [{ required: true, message: this.$t('table.dev.codeGenerate.nameRule'), trigger: 'change' }],
         comment: [{ required: true, message: this.$t('table.dev.codeGenerate.commentRule'), trigger: 'change' }],
         entityName: [{ required: true, message: this.$t('table.dev.codeGenerate.entityNameRule'), trigger: 'change' }],
@@ -252,8 +255,7 @@ export default {
         javaCodePath: [{ required: true, message: this.$t('table.dev.codeGenerate.javaCodePathRule'), trigger: 'change' }],
         vueCodePath: [{ required: true, message: this.$t('table.dev.codeGenerate.vueCodePathRule'), trigger: 'change' }],
         vuePackage: [{ required: true, message: this.$t('table.dev.codeGenerate.vuePackageRule'), trigger: 'change' }]
-      },
-      downloadLoading: false
+      }
     }
   },
   created() {
@@ -296,7 +298,7 @@ export default {
           createTableInfo(this.tableInfo).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000

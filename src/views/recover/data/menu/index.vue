@@ -13,8 +13,8 @@
       <el-select v-model="listQuery.enabled" :placeholder="$t('table.data.menu.enabled')" clearable style="width: 120px" class="filter-item"
                  @change="handleFilter"
       >
-        <el-option value="true" label="是" />
-        <el-option value="false" label="否" />
+        <el-option value="true" :label="$t('common.true')" />
+        <el-option value="false" :label="$t('common.false')" />
       </el-select>
       <el-select v-model="listQuery.queryRoleId" :placeholder="$t('table.data.menu.roles')" clearable style="width: 100px;margin-right: 10px;"
                  class="filter-item" @change="handleFilter" @visible-change="getRoleList($event)"
@@ -69,12 +69,12 @@
       </el-table-column>
       <el-table-column :label="$t('table.data.menu.hidden')" width="70px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.hidden ? '隐藏' : '显示' }}</span>
+          <span>{{ row.hidden ? $t('table.data.menu.hide') : $t('table.data.menu.display') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.data.menu.enabled')" width="100px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.enabled ? '启用' : '禁用' }}</span>
+          <span>{{ row.enabled ? $t('table.data.menu.enable') : $t('table.data.menu.disable') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.data.menu.sort')" width="120px" align="center">

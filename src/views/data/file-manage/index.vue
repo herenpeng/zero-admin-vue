@@ -310,7 +310,7 @@ export default {
         replaceFile(this.fileManage.id, this.file).then(async(res) => {
           this.dialogFormVisible = false
           this.$notify({
-            title: '成功',
+            title: this.$t('common.success'),
             message: '文件替换成功',
             type: 'success',
             duration: 2000

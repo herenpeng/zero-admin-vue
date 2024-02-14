@@ -32,8 +32,8 @@
       <el-select v-model="listQuery.result" :placeholder="$t('table.monitor.operationLog.user')" clearable class="filter-item"
                  style="width: 110px;margin-right: 10px;" @change="handleFilter"
       >
-        <el-option value="true" label="成功" />
-        <el-option value="false" label="失败" />
+        <el-option value="true" :label="$t('table.monitor.operationLog.success')" />
+        <el-option value="false" :label="$t('table.monitor.operationLog.fail')" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         {{ $t('table.search') }}

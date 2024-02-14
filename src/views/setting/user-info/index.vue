@@ -544,7 +544,7 @@ export default {
     },
     updateSuccess(message) {
       this.$notify({
-        title: '成功',
+        title: this.$t('common.success'),
         message: message,
         type: 'success',
         duration: 2000
@@ -566,7 +566,7 @@ export default {
       }).then(() => {
         uploadAvatar(this.file).then(async(res) => {
           this.$notify({
-            title: '成功',
+            title: this.$t('common.success'),
             message: '头像上传成功',
             type: 'success',
             duration: 2000
@@ -660,7 +660,7 @@ export default {
         if (valid) {
           resetPassword(this.settingForm.oldPassword, this.settingForm.newPassword).then((res) => {
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000

@@ -42,7 +42,7 @@
       </el-table-column>
       <el-table-column :label="$t('table.dev.codeGenerate.query')" width="130px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.query ? '是' : '否' }}</span>
+          <span>{{ row.query ? $t('common.true') : $t('common.false') }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.dev.codeGenerate.sort')" width="90px" align="center">
@@ -71,16 +71,16 @@
                style="width: 400px; margin-left:50px;"
       >
         <el-form-item :label="$t('table.dev.codeGenerate.columnName')" prop="name">
-          <el-input v-model="tableColumn.name" placeholder="请输入字段名称" disabled="disabled" />
+          <el-input v-model="tableColumn.name" :placeholder="$t('table.dev.codeGenerate.columnNamePlaceholder')" disabled="disabled" />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.databaseType')" prop="databaseType">
-          <el-input v-model="tableColumn.databaseType" placeholder="请输入字段类型" disabled="disabled" />
+          <el-input v-model="tableColumn.databaseType" :placeholder="$t('table.dev.codeGenerate.databaseTypePlaceholder')" disabled="disabled" />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.javaName')" prop="javaName">
-          <el-input v-model="tableColumn.javaName" placeholder="请输入Java属性" />
+          <el-input v-model="tableColumn.javaName" :placeholder="$t('table.dev.codeGenerate.javaNamePlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.javaType')" prop="javaType">
-          <el-select v-model="tableColumn.javaType" placeholder="请输入Java类型" clearable class="filter-item"
+          <el-select v-model="tableColumn.javaType" :placeholder="$t('table.dev.codeGenerate.javaTypePlaceholder')" clearable class="filter-item"
                      style="width: 280px"
           >
             <el-option value="Integer" label="Integer" />
@@ -93,7 +93,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.jdbcType')" prop="jdbcType">
-          <el-select v-model="tableColumn.jdbcType" placeholder="请输入JDBC类型" clearable class="filter-item"
+          <el-select v-model="tableColumn.jdbcType" :placeholder="$t('table.dev.codeGenerate.jdbcTypePlaceholder')" clearable class="filter-item"
                      style="width: 280px"
           >
             <el-option value="INTEGER" label="INTEGER" />
@@ -111,17 +111,17 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.columnComment')" prop="comment">
-          <el-input v-model="tableColumn.comment" placeholder="请输入字段注释" />
+          <el-input v-model="tableColumn.comment" :placeholder="$t('table.dev.codeGenerate.columnCommentPlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.query')" prop="query">
           <el-switch
             v-model="tableColumn.query"
-            active-text="是"
-            inactive-text="否"
+            :active-text="$t('common.true')"
+            :inactive-text="$t('common.false')"
           />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.sort')" prop="sort">
-          <el-input v-model="tableColumn.sort" placeholder="请输入字段排序顺序" />
+          <el-input v-model="tableColumn.sort" :placeholder="$t('table.dev.codeGenerate.sortPlaceholder')" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -172,17 +172,20 @@ export default {
         create: 'table.add',
         update: 'table.edit'
       },
-      rules: {
-        name: [{ required: true, message: '请输入字段名称', trigger: 'change' }],
-        databaseType: [{ required: true, message: '请输入字段类型', trigger: 'change' }],
-        javaName: [{ required: true, message: '请输入Java属性', trigger: 'change' }],
-        javaType: [{ required: true, message: '请输入Java类型', trigger: 'change' }],
-        jdbcType: [{ required: true, message: '请输入JDBC类型', trigger: 'change' }],
-        comment: [{ required: true, message: '请输入字段注释', trigger: 'change' }],
-        query: [{ required: true, message: '请输入选择是否为查询字段', trigger: 'change' }],
-        sort: [{ required: true, message: '请输入字段排序顺序', trigger: 'change' }]
-      },
       baseColumnArray: ['id', 'create_time', 'create_user_id', 'update_time', 'update_user_id', 'deleted']
+    }
+  },
+  computed: {
+    rules() {
+      return {
+        name: [{ required: true, message: this.$t('table.dev.codeGenerate.columnNameRule'), trigger: 'change' }],
+        databaseType: [{ required: true, message: this.$t('table.dev.codeGenerate.databaseTypeRule'), trigger: 'change' }],
+        javaName: [{ required: true, message: this.$t('table.dev.codeGenerate.javaNameRule'), trigger: 'change' }],
+        javaType: [{ required: true, message: this.$t('table.dev.codeGenerate.javaTypeRule'), trigger: 'change' }],
+        jdbcType: [{ required: true, message: this.$t('table.dev.codeGenerate.jdbcTypeRule'), trigger: 'change' }],
+        comment: [{ required: true, message: this.$t('table.dev.codeGenerate.columnCommentRule'), trigger: 'change' }],
+        sort: [{ required: true, message: this.$t('table.dev.codeGenerate.sortRule'), trigger: 'change' }]
+      }
     }
   },
   watch: {
@@ -225,7 +228,7 @@ export default {
           updateTableColumn(this.tableColumn).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000

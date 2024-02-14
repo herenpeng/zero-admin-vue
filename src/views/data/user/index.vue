@@ -223,19 +223,6 @@ export default {
   name: 'User',
   components: { Pagination, LoginLog },
   data() {
-    const checkUsername = (rule, value, callback) => {
-      if (value === this.oldUsername && this.dialogStatus === 'update') {
-        callback()
-      } else {
-        this.checkUsername(value).then(res => {
-          if (res.data) {
-            callback(new Error('该用户已存在'))
-          } else {
-            callback()
-          }
-        })
-      }
-    }
     return {
       tableKey: 0,
       list: null,
@@ -271,15 +258,31 @@ export default {
         update: 'table.edit'
       },
       notRoleList: [],
-      rules: {
-        username: [
-          { required: true, message: this.$t('table.data.user.usernameRule'), trigger: 'change' },
-          { validator: checkUsername, trigger: 'change' }
-        ]
-      },
       downloadLoading: false,
       loginLogDialogVisible: false,
       onlineLoginLogs: []
+    }
+  },
+  computed: {
+    rules() {
+      return {
+        username: [
+          { required: true, message: this.$t('table.data.user.usernameRule'), trigger: 'change' },
+          { validator: (rule, value, callback) => {
+            if (value === this.oldUsername && this.dialogStatus === 'update') {
+              callback()
+            } else {
+              checkUsername(value).then(res => {
+                if (res.data) {
+                  callback(new Error('该用户已存在'))
+                } else {
+                  callback()
+                }
+              })
+            }
+          }, trigger: 'change' }
+        ]
+      }
     }
   },
   created() {
@@ -308,16 +311,13 @@ export default {
     enabled(row) {
       enabledUser(row.id, row.enabled).then(res => {
         this.$notify({
-          title: '成功',
+          title: this.$t('common.success'),
           message: res.message,
           type: 'success',
           duration: 2000
         })
         this.loadData()
       })
-    },
-    checkUsername(value) {
-      return checkUsername(value)
     },
     handleCreate() {
       this.user = {}
@@ -333,7 +333,7 @@ export default {
           createUser(this.user).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000
@@ -358,7 +358,7 @@ export default {
           updateUser(this.user).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000

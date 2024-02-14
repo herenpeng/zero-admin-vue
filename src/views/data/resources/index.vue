@@ -188,12 +188,16 @@ export default {
         update: 'table.edit'
       },
       roleList: [],
-      rules: {
-        uri: [{ required: true, message: '请输入资源路径', trigger: 'change' }],
-        description: [{ required: true, message: '请输入资源描述', trigger: 'change' }],
-        methodType: [{ required: true, message: '请选择方法类型', trigger: 'change' }]
-      },
       downloadLoading: false
+    }
+  },
+  computed: {
+    rules() {
+      return {
+        uri: [{ required: true, message: this.$t('table.data.resources.uriRule'), trigger: 'change' }],
+        description: [{ required: true, message: this.$t('table.data.resources.methodTypeRule'), trigger: 'change' }],
+        methodType: [{ required: true, message: this.$t('table.data.resources.descriptionRule'), trigger: 'change' }]
+      }
     }
   },
   created() {
@@ -233,7 +237,7 @@ export default {
           createResources(this.resources).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000
@@ -257,7 +261,7 @@ export default {
           updateResources(this.resources).then((res) => {
             this.dialogFormVisible = false
             this.$notify({
-              title: '成功',
+              title: this.$t('common.success'),
               message: res.message,
               type: 'success',
               duration: 2000
