@@ -7,8 +7,8 @@
       <el-select v-model="listQuery.type" :placeholder="$t('table.data.fileManage.type')" clearable style="width: 120px" class="filter-item"
                  @change="handleFilter"
       >
-        <el-option value="IMAGE" label="图片" />
-        <el-option value="PDF" label="PDF" />
+        <el-option value="IMAGE" :label="$t('table.data.fileManage.image')" />
+        <el-option value="PDF" :label="$t('table.data.fileManage.pdf')" />
       </el-select>
       <el-input v-model="listQuery.queryUsername" :placeholder="$t('table.data.fileManage.username')" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
@@ -127,8 +127,6 @@
 import Pagination from '@/components/Pagination/index'
 import {
   getFileManagePage,
-  createFileManage,
-  updateFileManage,
   bakFileManage,
   replaceFile,
   deleteFileManage,
@@ -169,13 +167,20 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
-        create: '添加',
-        update: '替换'
+        create: 'table.add',
+        update: 'table.replace'
       },
       downloadLoading: false,
-      pickerOptions: {
+      dialogVisible: false,
+      dialogImageUrl: null,
+      file: null
+    }
+  },
+  computed: {
+    pickerOptions() {
+      return {
         shortcuts: [{
-          text: '最近一周',
+          text: this.$t('date.lastWeek'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -183,7 +188,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }, {
-          text: '最近一个月',
+          text: this.$t('date.lastMonth'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -191,7 +196,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }, {
-          text: '最近三个月',
+          text: this.$t('date.lastThreeMonths'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -199,10 +204,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }]
-      },
-      dialogVisible: false,
-      dialogImageUrl: null,
-      file: null
+      }
     }
   },
   watch: {
@@ -246,9 +248,9 @@ export default {
       this.dialogFormVisible = true
     },
     bakData(row) {
-      this.$confirm('此操作将备份该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.data.fileManage.bakTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         bakFileManage(row.id).then(res => {
@@ -261,14 +263,14 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消备份'
+          message: this.$t('table.data.fileManage.cancelBak')
         })
       })
     },
     deleteData(row) {
-      this.$confirm('此操作将删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.data.fileManage.deleteTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         deleteFileManage(row.id).then(res => {
@@ -281,7 +283,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('common.cancelDelete')
         })
       })
     },
@@ -298,20 +300,20 @@ export default {
       if (this.file === null) {
         this.$message({
           type: 'info',
-          message: '请选择替换的文件'
+          message: this.$t('table.data.fileManage.replaceFile')
         })
         return
       }
-      this.$confirm('上传该文件, 将会替换原文件, 是否继续?', '提示', {
-        confirmButtonText: '继续上传',
-        cancelButtonText: '取消上传',
+      this.$confirm(this.$t('table.data.fileManage.replaceFileTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('table.data.fileManage.confirmReplace'),
+        cancelButtonText: this.$t('table.data.fileManage.cancelReplace'),
         type: 'warning'
       }).then(() => {
         replaceFile(this.fileManage.id, this.file).then(async(res) => {
           this.dialogFormVisible = false
           this.$notify({
             title: this.$t('common.success'),
-            message: '文件替换成功',
+            message: this.$t('table.data.fileManage.replaceSuccess'),
             type: 'success',
             duration: 2000
           })
@@ -319,7 +321,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消上传'
+          message: this.$t('table.data.fileManage.cancel')
         })
       })
     },

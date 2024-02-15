@@ -145,7 +145,7 @@ import {
   getLoginLogPage,
   deleteLoginLog,
   exportLoginLogExcel,
-  offline,
+  offline
 } from '@/api/monitor/login-log'
 import Pagination from '@/components/Pagination'
 
@@ -174,10 +174,14 @@ export default {
         queryOnline: null
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
-      downloadLoading: false,
-      pickerOptions: {
+      downloadLoading: false
+    }
+  },
+  computed: {
+    pickerOptions() {
+      return {
         shortcuts: [{
-          text: '最近一周',
+          text: this.$t('date.lastWeek'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -185,7 +189,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }, {
-          text: '最近一个月',
+          text: this.$t('date.lastMonth'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -193,7 +197,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }, {
-          text: '最近三个月',
+          text: this.$t('date.lastThreeMonths'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -239,9 +243,9 @@ export default {
       this.loadData()
     },
     deleteData(row) {
-      this.$confirm('此操作将删除该登录日志, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.monitor.loginLog.deleteTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         deleteLoginLog(row.id).then(res => {
@@ -254,27 +258,27 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('common.cancelDelete')
         })
       })
     },
     offline(row) {
-      this.$confirm('此操作将强制该用户的在线账号登出, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.monitor.loginLog.offlineTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         offline(row.userId, row.tokenId).then(res => {
           this.loadData()
           this.$message({
             type: 'success',
-            message: '该登录用户已下线'
+            message: this.$t('table.monitor.loginLog.userOffline')
           })
         })
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消操作'
+          message: this.$t('common.cancelOperation')
         })
       })
     },
@@ -297,7 +301,7 @@ export default {
       this.handleFilter()
     },
     handleDownload() {
-      exportLoginLogExcel(this.listQuery, '登录日志列表')
+      exportLoginLogExcel(this.listQuery, this.$t('table.monitor.operationLog.exportFileName'))
     }
   }
 }

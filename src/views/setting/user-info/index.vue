@@ -559,7 +559,7 @@ export default {
         })
         return
       }
-      this.$confirm('上传该图片作为头像, 将会覆盖原头像, 是否继续?', '提示', {
+      this.$confirm('上传该图片作为头像, 将会覆盖原头像, 是否继续?', this.$t('common.tip'), {
         confirmButtonText: '继续上传',
         cancelButtonText: '取消上传',
         type: 'warning'

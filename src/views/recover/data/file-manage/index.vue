@@ -7,8 +7,8 @@
       <el-select v-model="listQuery.type" :placeholder="$t('table.data.fileManage.type')" clearable style="width: 120px" class="filter-item"
                  @change="handleFilter"
       >
-        <el-option value="IMAGE" label="图片" />
-        <el-option value="PDF" label="PDF" />
+        <el-option value="IMAGE" :label="$t('table.data.fileManage.image')" />
+        <el-option value="PDF" :label="$t('table.data.fileManage.pdf')" />
       </el-select>
       <el-input v-model="listQuery.queryUsername" :placeholder="$t('table.data.fileManage.username')" style="width: 200px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
@@ -123,9 +123,15 @@ export default {
         queryEndDate: null
       },
       downloadLoading: false,
-      pickerOptions: {
+      dialogVisible: false,
+      dialogImageUrl: null
+    }
+  },
+  computed: {
+    pickerOptions() {
+      return {
         shortcuts: [{
-          text: '最近一周',
+          text: this.$t('date.lastWeek'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -133,7 +139,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }, {
-          text: '最近一个月',
+          text: this.$t('date.lastMonth'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -141,7 +147,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }, {
-          text: '最近三个月',
+          text: this.$t('date.lastThreeMonths'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -149,9 +155,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }]
-      },
-      dialogVisible: false,
-      dialogImageUrl: null
+      }
     }
   },
   watch: {
@@ -194,9 +198,9 @@ export default {
       })
     },
     handleRecoverDelete(row) {
-      this.$confirm('此操作将彻底删除该文件, 数据将不可恢复, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.data.fileManage.recoverDeleteTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         recoverDeleteFileManage(row.id).then(res => {
@@ -209,7 +213,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('common.cancelDelete')
         })
       })
     },

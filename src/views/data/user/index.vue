@@ -274,7 +274,7 @@ export default {
             } else {
               checkUsername(value).then(res => {
                 if (res.data) {
-                  callback(new Error('该用户已存在'))
+                  callback(new Error(this.$t('table.data.user.usernameExists')))
                 } else {
                   callback()
                 }
@@ -369,9 +369,9 @@ export default {
       })
     },
     deleteData(row) {
-      this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.data.user.deleteTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         deleteUser(row.id).then(res => {
@@ -384,7 +384,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('common.cancelDelete')
         })
       })
     },
@@ -436,9 +436,9 @@ export default {
       this.onlineLoginLogs = row.onlineLoginLogs
     },
     offline(userId, tokenId) {
-      this.$confirm('此操作将强制该用户的在线账号登出, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.monitor.loginLog.offlineTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         offline(userId, tokenId).then(res => {
@@ -448,13 +448,13 @@ export default {
           })
           this.$message({
             type: 'success',
-            message: '该登录用户已下线'
+            message: this.$t('table.monitor.loginLog.userOffline')
           })
         })
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消操作'
+          message: this.$t('common.cancelOperation')
         })
       })
     },

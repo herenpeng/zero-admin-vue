@@ -1,69 +1,7 @@
 export default {
   route: {
     index: '首页',
-    dashboard: '首页',
-    documentation: '文档',
-    guide: '引导页',
-    permission: '权限测试页',
-    rolePermission: '角色权限',
-    pagePermission: '页面权限',
-    directivePermission: '指令权限',
-    icons: '图标',
-    components: '组件',
-    tinymce: '富文本编辑器',
-    markdown: 'Markdown',
-    jsonEditor: 'JSON 编辑器',
-    dndList: '列表拖拽',
-    splitPane: 'Splitpane',
-    avatarUpload: '头像上传',
-    dropzone: 'Dropzone',
-    sticky: 'Sticky',
-    countTo: 'Count To',
-    componentMixin: '小组件',
-    backToTop: '返回顶部',
-    dragDialog: '拖拽 Dialog',
-    dragSelect: '拖拽 Select',
-    dragKanban: '可拖拽看板',
-    charts: '图表',
-    keyboardChart: '键盘图表',
-    lineChart: '折线图',
-    mixChart: '混合图表',
-    example: '综合实例',
-    nested: '路由嵌套',
-    menu1: '菜单1',
-    'menu1-1': '菜单 1-1',
-    'menu1-2': '菜单 1-2',
-    'menu1-2-1': '菜单 1-2-1',
-    'menu1-2-2': '菜单 1-2-2',
-    'menu1-3': '菜单 1-3',
-    menu2: '菜单 2',
-    Table: 'Table',
-    dynamicTable: '动态 Table',
-    dragTable: '拖拽 Table',
-    inlineEditTable: 'Table 内编辑',
-    complexTable: '综合 Table',
-    tab: 'Tab',
-    form: '表单',
-    createArticle: '创建文章',
-    editArticle: '编辑文章',
-    articleList: '文章列表',
-    errorPages: '错误页面',
-    page401: '401',
-    page404: '404',
-    errorLog: '错误日志',
-    excel: 'Excel',
-    exportExcel: '导出 Excel',
-    selectExcel: '导出 已选择项',
-    mergeHeader: '导出 多级表头',
-    uploadExcel: '上传 Excel',
-    zip: 'Zip',
-    pdf: 'PDF',
-    exportZip: 'Export Zip',
-    theme: '换肤',
-    clipboardDemo: 'Clipboard',
-    i18n: '国际化',
-    externalLink: '外链',
-    profile: '个人中心'
+    dashboard: '首页'
   },
   navbar: {
     dashboard: '首页',
@@ -105,13 +43,25 @@ export default {
   common: {
     true: '是',
     false: '否',
-    success: '成功'
+    success: '成功',
+    tip: '提示',
+    confirm: '确定',
+    cancel: '取消',
+    cancelDelete: '已取消删除',
+    cancelOperation: '已取消操作',
+    deleteTip: '此操作将删除该数据, 是否继续?',
+    exportFileName: '数据列表',
+    recoverDeleteTip: '此操作将彻底删除该数据, 数据将不可恢复, 是否继续?'
+  },
+  tree: {
+    filter: '输入关键字进行过滤'
+  },
+  date: {
+    lastWeek: '最近一周',
+    lastMonth: '最近一个月',
+    lastThreeMonths: '最近三个月'
   },
   table: {
-    dynamicTips1: '固定表头, 按照表头顺序排序',
-    dynamicTips2: '不固定表头, 按照点击顺序排序',
-    dragTips1: '默认顺序',
-    dragTips2: '拖拽后顺序',
     title: '标题',
     importance: '重要性',
     type: '类型',
@@ -166,7 +116,10 @@ export default {
         loginAddress: '登录地点',
         loginIp: '登录IP',
         loginIsp: '因特网提供商',
-        offline: '下线'
+        offline: '下线',
+        usernameExists: '该用户已存在',
+        deleteTip: '此操作将删除该用户, 是否继续?',
+        recoverDeleteTip: '此操作将彻底删除该用户, 数据将不可恢复, 是否继续?'
       },
       role: {
         name: '角色名称',
@@ -175,7 +128,10 @@ export default {
         namePlaceholder: '请输入角色名称',
         descriptionPlaceholder: '请输入角色描述',
         nameRule: '请输入角色名称',
-        descriptionRule: '请输入角色描述'
+        descriptionRule: '请输入角色描述',
+        roleExists: '该角色已存在',
+        deleteTip: '此操作将删除该角色, 是否继续?',
+        recoverDeleteTip: '此操作将彻底删除该角色, 数据将不可恢复, 是否继续?'
       },
       resources: {
         uri: '资源路径',
@@ -187,7 +143,9 @@ export default {
         descriptionPlaceholder: '请输入资源描述',
         uriRule: '请输入资源路径',
         methodTypeRule: '请选择方法类型',
-        descriptionRule: '请输入资源描述'
+        descriptionRule: '请输入资源描述',
+        deleteTip: '此操作将删除该系统资源, 是否继续?',
+        recoverDeleteTip: '此操作将彻底删除该系统资源, 数据将不可恢复, 是否继续?'
       },
       menu: {
         title: '菜单名称',
@@ -198,7 +156,6 @@ export default {
         hidden: '是否隐藏',
         enabled: '是否启用',
         roles: '菜单角色',
-        filter: '输入关键字进行过滤',
         display: '显示',
         hide: '隐藏',
         enable: '启用',
@@ -214,23 +171,37 @@ export default {
         iconRule: '请输入菜单图标',
         sortRule: '请输入菜单排序',
         hiddenRule: '请选择菜单是否隐藏',
-        enabledRule: '请选择菜单是否启用'
+        enabledRule: '请选择菜单是否启用',
+        deleteTip: '此操作将删除该菜单, 是否继续?',
+        recoverDeleteTip: '此操作将彻底删除该菜单, 数据将不可恢复, 是否继续?'
       },
       organ: {
         name: '组织机构名称',
         sort: '组织机构排序',
-        filter: '输入关键字进行过滤',
         namePlaceholder: '请输入组织机构名称',
         sortPlaceholder: '请输入组织机构排序',
         nameRule: '请输入组织机构名称',
-        sortRule: '请输入组织机构排序'
+        sortRule: '请输入组织机构排序',
+        recoverDeleteTip: '此操作将彻底删除该组织机构, 数据将不可恢复, 是否继续?'
       },
       fileManage: {
         name: '文件名称',
         type: '文件类型',
         uploadTime: '上传时间',
         username: '上传用户',
-        view: '查看'
+        view: '查看',
+        image: '图片',
+        pdf: 'PDF',
+        bakTip: '此操作将备份该文件, 是否继续?',
+        cancelBak: '已取消备份',
+        deleteTip: '此操作将删除该文件, 是否继续?',
+        replaceFile: '请选择替换的文件',
+        replaceFileTip: '上传该文件, 将会替换原文件, 是否继续?',
+        confirmReplace: '继续上传',
+        cancelReplace: '取消上传',
+        replaceSuccess: '文件替换成功',
+        cancel: '已取消上传',
+        recoverDeleteTip: '此操作将彻底删除该文件, 数据将不可恢复, 是否继续?'
       }
     },
     monitor: {
@@ -248,7 +219,12 @@ export default {
         logout: '是否主动登出',
         state: '账号状态',
         online: '在线',
-        offline: '离线'
+        offline: '离线',
+        deleteTip: '此操作将删除该登录日志, 是否继续?',
+        offlineTip: '此操作将强制该用户的在线账号登出, 是否继续?',
+        userOffline: '该登录用户已下线',
+        recoverDeleteTip: '此操作将彻底删除该登录日志, 数据将不可恢复, 是否继续?',
+        exportFileName: '登录日志列表'
       },
       operationLog: {
         user: '操作用户',
@@ -265,7 +241,10 @@ export default {
         exceptionName: '异常名称',
         exceptionMessage: '异常信息',
         success: '成功',
-        fail: '失败'
+        fail: '失败',
+        deleteTip: '此操作将删除该操作日志, 是否继续?',
+        recoverDeleteTip: '此操作将彻底删除该操作日志, 数据将不可恢复, 是否继续?',
+        exportFileName: '系统日志列表'
       }
     },
     setting: {
@@ -346,7 +325,10 @@ export default {
         javaTypeRule: '请选择Java类型',
         jdbcTypeRule: '请选择JDBC类型',
         columnCommentRule: '请输入字段注释',
-        sortRule: '请输入字段排序顺序'
+        sortRule: '请输入字段排序顺序',
+        deleteTip: '此操作将删除该表信息, 是否继续?',
+        codeGenerateTip: '此操作将会覆盖代码生成路径下的同名文件, 是否继续?',
+        recoverDeleteTip: '此操作将彻底删除该表信息, 数据将不可恢复, 是否继续?'
       }
     }
   },

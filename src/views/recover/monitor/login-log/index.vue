@@ -172,9 +172,13 @@ export default {
       },
       tagType: ['', 'success', 'info', 'warning', 'danger'],
       downloadLoading: false,
-      pickerOptions: {
+    }
+  },
+  computed: {
+    pickerOptions() {
+      return {
         shortcuts: [{
-          text: '最近一周',
+          text: this.$t('date.lastWeek'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -182,7 +186,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }, {
-          text: '最近一个月',
+          text: this.$t('date.lastMonth'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -190,7 +194,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }, {
-          text: '最近三个月',
+          text: this.$t('date.lastThreeMonths'),
           onClick(picker) {
             const end = new Date()
             const start = new Date()
@@ -241,9 +245,9 @@ export default {
       })
     },
     handleRecoverDelete(row) {
-      this.$confirm('此操作将彻底删除该登录日志, 数据将不可恢复, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.monitor.loginLog.recoverDeleteTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         recoverDeleteLoginLog(row.id).then(res => {
@@ -256,7 +260,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('common.cancelDelete')
         })
       })
     },

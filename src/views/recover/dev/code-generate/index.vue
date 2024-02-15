@@ -176,9 +176,9 @@ export default {
       })
     },
     handleRecoverDelete(row) {
-      this.$confirm('此操作将彻底删除该表信息, 数据将不可恢复, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.dev.codeGenerate.recoverDeleteTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         recoverDeleteTableInfo(row.id).then(res => {
@@ -191,7 +191,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('common.cancelDelete')
         })
       })
     },

@@ -1,68 +1,7 @@
 export default {
   route: {
     dashboard: 'トップ',
-    documentation: 'ドキュメント',
-    guide: 'ガイド',
-    permission: '権限',
-    rolePermission: '権限ロール',
-    pagePermission: 'ページ権限',
-    directivePermission: 'ディレクティブ権限',
-    icons: 'アイコン',
-    components: 'コンポーネント',
-    tinymce: 'TinyMCE',
-    markdown: 'Markdown',
-    jsonEditor: 'JSON Editor',
-    dndList: 'Drag-And-Drop',
-    splitPane: 'パネル',
-    avatarUpload: 'アバターアップロード',
-    dropzone: 'Dropzone',
-    sticky: 'Sticky',
-    countTo: 'Count To',
-    componentMixin: 'コンポーネントMixin',
-    backToTop: 'BackToTop',
-    dragDialog: 'Drag Dialog',
-    dragSelect: 'Drag Select',
-    dragKanban: 'Drag 看板',
-    charts: 'チャート',
-    keyboardChart: 'Keyboardチャート',
-    lineChart: 'Lineチャート',
-    mixChart: 'Mixチャート',
-    example: 'Example',
-    nested: 'Nested Routes',
-    menu1: 'メニュー１',
-    'menu1-1': 'メニュー 1-1',
-    'menu1-2': 'メニュー 1-2',
-    'menu1-2-1': 'メニュー 1-2-1',
-    'menu1-2-2': 'メニュー 1-2-2',
-    'menu1-3': 'メニュー 1-3',
-    menu2: 'メニュー 2',
-    Table: 'Table',
-    dynamicTable: '可変 Table',
-    dragTable: 'Drag Table',
-    inlineEditTable: 'Inline Edit Table',
-    complexTable: 'Complex Table',
-    tab: 'Tab',
-    form: 'フォーム',
-    createArticle: '投稿作成',
-    editArticle: '投稿編集',
-    articleList: '投稿リスト',
-    errorPages: 'エラーページ',
-    page401: '401',
-    page404: '404',
-    errorLog: 'エラーログ',
-    excel: 'Excel',
-    exportExcel: '一括エクスポート',
-    selectExcel: '複数選択エクスポート',
-    mergeHeader: 'ヘッダーマージ',
-    uploadExcel: 'アップロード',
-    zip: 'Zip',
-    pdf: 'PDF',
-    exportZip: 'Export Zip',
-    theme: 'テーマ変更',
-    clipboardDemo: 'Clipboard',
-    i18n: '多言語',
-    externalLink: '外部リンク',
-    profile: 'プロフィール'
+    documentation: 'ドキュメント'
   },
   navbar: {
     dashboard: 'トップ',
@@ -103,13 +42,25 @@ export default {
   common: {
     true: 'はい',
     false: 'いいえ',
-    success: '成功'
+    success: '成功',
+    tip: 'ヒント',
+    confirm: 'を選択して、',
+    cancel: 'キャンセル',
+    cancelDelete: '削除がキャンセルされました',
+    cancelOperation: 'キャンセルされた操作',
+    deleteTip: 'この操作によりデータが削除されます。続行しますか？',
+    exportFileName: 'データリスト',
+    recoverDeleteTip: 'この操作により、データは完全に削除され、復元できなくなります。続行しますか？'
+  },
+  tree: {
+    filter: 'フィルタリングするキーワードを入力'
+  },
+  date: {
+    lastWeek: '最近の週',
+    lastMonth: '最近1か月',
+    lastThreeMonths: '最近3か月'
   },
   table: {
-    dynamicTips1: '先頭は固定、最後に追加',
-    dynamicTips2: '戦後に追加せず、指定列に追加',
-    dragTips1: 'デフォルト順番',
-    dragTips2: 'Drag後の順番',
     title: 'タイトル',
     importance: '重要',
     type: 'タイプ',
@@ -165,7 +116,10 @@ export default {
         loginAddress: 'ログイン場所',
         loginIp: 'IP',
         loginIsp: 'ISP',
-        offline: 'オフライン'
+        offline: 'オフライン',
+        usernameExists: 'ユーザーはすでに存在します',
+        deleteTip: 'この操作によりユーザーが削除されます。続行しますか？',
+        recoverDeleteTip: 'この操作により、ユーザーは完全に削除され、データはリカバリできなくなります。続行しますか？'
       },
       role: {
         name: 'ロール名',
@@ -174,7 +128,10 @@ export default {
         namePlaceholder: 'ロール名を入力してください',
         descriptionPlaceholder: '役割の説明を入力してください',
         nameRule: 'ロール名を入力してください',
-        descriptionRule: '役割の説明を入力してください'
+        descriptionRule: '役割の説明を入力してください',
+        roleExists: 'このロールは既に存在します',
+        deleteTip: 'この操作によりロールが削除されます。続行しますか？',
+        recoverDeleteTip: 'この操作により、ロールは完全に削除され、データはリカバリできなくなります。続行しますか？'
       },
       resources: {
         uri: 'URI',
@@ -186,7 +143,9 @@ export default {
         descriptionPlaceholder: 'リソースの説明を入力してください',
         uriRule: 'リソースパスを入力してください',
         methodTypeRule: 'メソッドタイプを選択してください',
-        descriptionRule: 'リソースの説明を入力してください'
+        descriptionRule: 'リソースの説明を入力してください',
+        deleteTip: 'この操作により、システムリソースが削除されます。続行しますか？',
+        recoverDeleteTip: 'この操作により、システムリソースが完全に削除され、データはリカバリできなくなります。続行しますか？'
       },
       menu: {
         title: 'メニュー名',
@@ -197,7 +156,6 @@ export default {
         hidden: '非表示',
         enabled: '有効かどうか',
         roles: 'メニューロール',
-        filter: 'フィルタリングするキーワードを入力',
         display: '表示',
         hide: '非表示',
         enable: '有効化',
@@ -213,23 +171,37 @@ export default {
         iconRule: 'メニューアイコンを入力してください',
         sortRule: 'メニューのソートを入力してください',
         hiddenRule: 'メニューを非表示にするかどうかを選択してください',
-        enabledRule: 'メニューを有効にするかどうかを選択してください'
+        enabledRule: 'メニューを有効にするかどうかを選択してください',
+        deleteTip: 'この操作によりメニューが削除されます。続行しますか？',
+        recoverDeleteTip: 'この操作により、メニューは完全に削除され、データは復元できなくなります。続行しますか？'
       },
       organ: {
         name: '組織機構名',
         sort: '組織組織組織のソート',
-        filter: 'フィルタリングするキーワードを入力',
         namePlaceholder: '組織組織組織名を入力してください',
         sortPlaceholder: '組織組織ソートを入力してください',
         nameRule: '組織組織組織名を入力してください',
-        sortRule: '組織組織ソートを入力してください'
+        sortRule: '組織組織ソートを入力してください',
+        recoverDeleteTip: 'この操作により組織は完全に削除され、データはリカバリできなくなります。続行しますか？'
       },
       fileManage: {
         name: 'ファイル名',
         type: 'ファイルの種類',
         uploadTime: 'アップロード時間',
         username: 'ユーザー',
-        view: '表示＃ヒョウジ＃'
+        view: '表示＃ヒョウジ＃',
+        image: '画像',
+        pdf: 'PDF',
+        bakTip: 'この操作はファイルをバックアップします。続行しますか？',
+        cancelBak: 'バックアップがキャンセルされました',
+        deleteTip: 'この操作によりファイルが削除されます。続行しますか？',
+        replaceFile: '置換するファイルを選択してください',
+        replaceFileTip: 'ファイルをアップロードすると、元のファイルが置き換えられます。続行しますか？',
+        confirmReplace: 'アップロードを続行',
+        cancelReplace: 'アップロードのキャンセル',
+        replaceSuccess: 'ファイル置換に成功しました',
+        cancel: 'アップロードがキャンセルされました',
+        recoverDeleteTip: 'この操作により、ファイルは完全に削除され、データは復元できなくなります。続行しますか？'
       }
     },
     monitor: {
@@ -247,7 +219,12 @@ export default {
         logout: 'アクティブ・ログイン',
         state: 'アカウントステータス',
         online: 'オンライン',
-        offline: 'オフライン'
+        offline: 'オフライン',
+        deleteTip: 'この操作によりログインログが削除されます。続行しますか？',
+        offlineTip: 'この操作により、ユーザーのオンラインアカウントが強制的にログインされます。続行しますか？',
+        userOffline: 'ログインユーザがラインオフしました',
+        recoverDeleteTip: 'この操作により、ログが完全に削除され、データはリカバリできなくなります。続行しますか？',
+        exportFileName: 'ログインログリスト'
       },
       operationLog: {
         user: '操作ユーザー',
@@ -264,7 +241,10 @@ export default {
         exceptionName: '例外名',
         exceptionMessage: '例外情報',
         success: '成功',
-        fail: 'に失敗'
+        fail: 'に失敗',
+        deleteTip: 'この操作により操作ログが削除されます。続行しますか？',
+        recoverDeleteTip: 'この操作により、操作ログが完全に削除され、データはリカバリできなくなります。続行しますか？',
+        exportFileName: 'システムログリスト'
       }
     },
     setting: {
@@ -345,7 +325,10 @@ export default {
         javaTypeRule: 'Javaタイプを選択してください',
         jdbcTypeRule: 'JDBCタイプを選択してください',
         columnCommentRule: 'フィールドコメントを入力してください',
-        sortRule: 'フィールドのソート順を入力してください'
+        sortRule: 'フィールドのソート順を入力してください',
+        deleteTip: 'この操作により、テーブル情報が削除されます。続行しますか？',
+        codeGenerateTip: 'この操作は、コード生成パスの下の同じ名前のファイルを上書きします。続行しますか？',
+        recoverDeleteTip: 'この操作により、テーブル情報が完全に削除され、データはリカバリできなくなります。続行しますか？'
       }
     }
   },

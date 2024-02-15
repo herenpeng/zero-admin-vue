@@ -158,7 +158,7 @@ export default {
             } else {
               checkName(value).then(res => {
                 if (res.data) {
-                  callback(new Error('该角色已存在'))
+                  callback(new Error(this.$t('table.data.role.roleExists')))
                 } else {
                   callback()
                 }
@@ -254,9 +254,9 @@ export default {
       })
     },
     deleteData(row) {
-      this.$confirm('此操作将删除该角色, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.data.role.deleteTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         deleteRole(row.id).then(res => {
@@ -269,7 +269,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('common.cancelDelete')
         })
       })
     },

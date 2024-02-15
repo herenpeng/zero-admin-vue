@@ -1,69 +1,7 @@
 export default {
   route: {
     index: 'Index',
-    dashboard: 'Dashboard',
-    documentation: 'Documentation',
-    guide: 'Guide',
-    permission: 'Permission',
-    pagePermission: 'Page Permission',
-    rolePermission: 'Role Permission',
-    directivePermission: 'Directive Permission',
-    icons: 'Icons',
-    components: 'Components',
-    tinymce: 'Tinymce',
-    markdown: 'Markdown',
-    jsonEditor: 'JSON Editor',
-    dndList: 'Dnd List',
-    splitPane: 'SplitPane',
-    avatarUpload: 'Avatar Upload',
-    dropzone: 'Dropzone',
-    sticky: 'Sticky',
-    countTo: 'Count To',
-    componentMixin: 'Mixin',
-    backToTop: 'Back To Top',
-    dragDialog: 'Drag Dialog',
-    dragSelect: 'Drag Select',
-    dragKanban: 'Drag Kanban',
-    charts: 'Charts',
-    keyboardChart: 'Keyboard Chart',
-    lineChart: 'Line Chart',
-    mixChart: 'Mix Chart',
-    example: 'Example',
-    nested: 'Nested Routes',
-    menu1: 'Menu 1',
-    'menu1-1': 'Menu 1-1',
-    'menu1-2': 'Menu 1-2',
-    'menu1-2-1': 'Menu 1-2-1',
-    'menu1-2-2': 'Menu 1-2-2',
-    'menu1-3': 'Menu 1-3',
-    menu2: 'Menu 2',
-    Table: 'Table',
-    dynamicTable: 'Dynamic Table',
-    dragTable: 'Drag Table',
-    inlineEditTable: 'Inline Edit',
-    complexTable: 'Complex Table',
-    tab: 'Tab',
-    form: 'Form',
-    createArticle: 'Create Article',
-    editArticle: 'Edit Article',
-    articleList: 'Article List',
-    errorPages: 'Error Pages',
-    page401: '401',
-    page404: '404',
-    errorLog: 'Error Log',
-    excel: 'Excel',
-    exportExcel: 'Export Excel',
-    selectExcel: 'Export Selected',
-    mergeHeader: 'Merge Header',
-    uploadExcel: 'Upload Excel',
-    zip: 'Zip',
-    pdf: 'PDF',
-    exportZip: 'Export Zip',
-    theme: 'Theme',
-    clipboardDemo: 'Clipboard',
-    i18n: 'I18n',
-    externalLink: 'External Link',
-    profile: 'Profile'
+    dashboard: 'Dashboard'
   },
   navbar: {
     dashboard: 'Dashboard',
@@ -105,13 +43,25 @@ export default {
   common: {
     true: 'True',
     false: 'False',
-    success: 'Success'
+    success: 'Success',
+    tip: 'Tip',
+    confirm: 'Confirm',
+    cancel: 'Cancel',
+    cancelDelete: 'Cancelled deletion',
+    cancelOperation: 'Operation canceled',
+    deleteTip: 'This operation will delete the data. Do you want to continue?',
+    exportFileName: 'Data list',
+    recoverDeleteTip: 'This operation will completely delete the data and it will be unrecoverable. Do you want to continue?'
+  },
+  tree: {
+    filter: 'Enter keywords for filtering'
+  },
+  date: {
+    lastWeek: 'Last Week',
+    lastMonth: 'Last month',
+    lastThreeMonths: 'Last three months'
   },
   table: {
-    dynamicTips1: 'Fixed header, sorted by header order',
-    dynamicTips2: 'Not fixed header, sorted by click order',
-    dragTips1: 'The default order',
-    dragTips2: 'The after dragging order',
     title: 'Title',
     importance: 'Imp',
     type: 'Type',
@@ -166,7 +116,10 @@ export default {
         loginAddress: 'Login Address',
         loginIp: 'IP',
         loginIsp: 'ISP',
-        offline: 'Offline'
+        offline: 'Offline',
+        usernameExists: 'The user already exists',
+        deleteTip: 'This operation will delete the user. Do you want to continue?',
+        recoverDeleteTip: 'This operation will completely delete the user and the data will be unrecoverable. Do you want to continue?'
       },
       role: {
         name: 'Name',
@@ -175,8 +128,10 @@ export default {
         namePlaceholder: 'Please enter role name',
         descriptionPlaceholder: 'Please enter role description',
         nameRule: 'Please enter role name',
-        descriptionRule: 'Please enter role description'
-
+        descriptionRule: 'Please enter role description',
+        roleExists: 'The role already exists',
+        deleteTip: 'This operation will delete the role. Do you want to continue?',
+        recoverDeleteTip: 'This operation will completely delete the role and the data will not be recoverable. Do you want to continue?'
       },
       resources: {
         uri: 'URI',
@@ -188,7 +143,9 @@ export default {
         descriptionPlaceholder: 'Please enter description',
         uriRule: 'Please enter uri',
         methodTypeRule: 'Please enter methodType',
-        descriptionRule: 'Please enter description'
+        descriptionRule: 'Please enter description',
+        deleteTip: 'This operation will delete the system resource. Do you want to continue?',
+        recoverDeleteTip: 'This operation will completely delete the system resources, and the data will be unrecoverable. Do you want to continue?'
       },
       menu: {
         title: 'Title',
@@ -199,7 +156,6 @@ export default {
         hidden: 'Hidden',
         enabled: 'Enabled',
         roles: 'Roles',
-        filter: 'Enter keywords for filtering',
         display: 'Display',
         hide: 'Hide',
         enable: 'Enable',
@@ -215,23 +171,37 @@ export default {
         iconRule: 'Please enter menu icon',
         sortRule: 'Please enter menu sort',
         hiddenRule: 'Please choose whether to hide the menu',
-        enabledRule: 'Please select whether the menu is enabled or not'
+        enabledRule: 'Please select whether the menu is enabled or not',
+        deleteTip: 'This operation will delete the menu. Do you want to continue?',
+        recoverDeleteTip: 'This operation will completely delete the menu and the data will not be recoverable. Do you want to continue?'
       },
       organ: {
         name: 'Name',
         sort: 'Sort',
-        filter: 'Enter keywords for filtering',
         namePlaceholder: 'Please enter organ name',
         sortPlaceholder: 'Please enter organ sort',
         nameRule: 'Please enter organ name',
-        sortRule: 'Please enter organ sort'
+        sortRule: 'Please enter organ sort',
+        recoverDeleteTip: 'This operation will completely delete the organizational structure, and the data will not be recoverable. Do you want to continue?'
       },
       fileManage: {
         name: 'Name',
         type: 'Type',
         uploadTime: 'UploadTime',
         username: 'Upload Username',
-        view: 'View'
+        view: 'View',
+        image: 'Image',
+        pdf: 'PDF',
+        bakTip: 'This operation will back up the file. Do you want to continue?',
+        cancelBak: 'Backup canceled',
+        deleteTip: 'This operation will delete the file. Do you want to continue?',
+        replaceFile: 'Please select a replacement file',
+        replaceFileTip: 'Uploading this file will replace the original file. Do you want to continue?',
+        confirmReplace: 'Continue uploading',
+        cancelReplace: 'Cancel Upload',
+        replaceSuccess: 'File replacement successful',
+        cancel: 'Uploaded canceled',
+        recoverDeleteTip: 'This operation will completely delete the file and the data will be unrecoverable. Do you want to continue?'
       }
     },
     monitor: {
@@ -249,7 +219,12 @@ export default {
         logout: 'Proactively log out',
         state: 'State',
         online: 'Online',
-        offline: 'Offline'
+        offline: 'Offline',
+        deleteTip: 'This operation will delete the login log. Do you want to continue?',
+        offlineTip: 'This operation will force the user\'s online account to log out. Do you want to continue?',
+        userOffline: 'The logged in user has been taken offline',
+        recoverDeleteTip: 'This operation will completely delete the login log, and the data will be unrecoverable. Do you want to continue?',
+        exportFileName: 'Login log list'
       },
       operationLog: {
         user: 'OperationUser',
@@ -266,7 +241,10 @@ export default {
         exceptionName: 'ExceptionName',
         exceptionMessage: 'ExceptionMessage',
         success: 'Success',
-        fail: 'Fail'
+        fail: 'Fail',
+        deleteTip: 'This operation will delete the operation log. Do you want to continue?',
+        recoverDeleteTip: 'This operation will completely delete the operation log, and the data will be unrecoverable. Do you want to continue?',
+        exportFileName: 'System log list'
       }
     },
     setting: {
@@ -347,7 +325,10 @@ export default {
         javaTypeRule: 'Please select javaType',
         jdbcTypeRule: 'Please select jdbcType',
         columnCommentRule: 'Please enter column comment',
-        sortRule: 'Please enter sort'
+        sortRule: 'Please enter sort',
+        deleteTip: 'This operation will delete the table information. Do you want to continue?',
+        codeGenerateTip: 'This operation will overwrite the file with the same name in the code generation path. Do you want to continue?',
+        recoverDeleteTip: 'This operation will completely delete the table information, and the data will be unrecoverable. Do you want to continue?'
       }
     }
   },

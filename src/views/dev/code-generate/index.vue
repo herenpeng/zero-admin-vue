@@ -335,9 +335,9 @@ export default {
       return strArr.join('')
     },
     deleteData(row) {
-      this.$confirm('此操作将删除该表信息, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.dev.codeGenerate.deleteTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         deleteTableInfo(row.id).then(res => {
@@ -350,7 +350,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('common.cancelDelete')
         })
       })
     },
@@ -359,9 +359,9 @@ export default {
       this.loadData()
     },
     codeGenerate(row) {
-      this.$confirm('此操作将会覆盖代码生成路径下的同名文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.dev.codeGenerate.codeGenerateTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         codeGenerate(row.id).then(res => {
@@ -373,7 +373,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消操作'
+          message: this.$t('common.cancelOperation')
         })
       })
     },

@@ -4,7 +4,7 @@
       <el-col :span="6">
         <el-input
           v-model="filterText"
-          :placeholder="$t('table.data.menu.filter')"
+          :placeholder="$t('tree.filter')"
         />
         <el-tree
           ref="tree"
@@ -389,9 +389,9 @@ export default {
       })
     },
     deleteData(row) {
-      this.$confirm('此操作将删除该菜单, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('table.data.menu.deleteTip'), this.$t('common.tip'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         deleteMenu(row.id).then(res => {
@@ -404,7 +404,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: this.$t('common.cancelDelete')
         })
       })
     },
