@@ -17,6 +17,7 @@ export default {
     title: 'ユーザログイン',
     logIn: 'ログイン',
     username: 'ユーザ名',
+    usernameTip: 'ユーザー名を空白にすることはできません',
     password: 'パスワード',
     any: 'password',
     thirdParty: '外部IDでログイン'
@@ -61,23 +62,12 @@ export default {
     lastThreeMonths: '最近3か月'
   },
   table: {
-    title: 'タイトル',
-    importance: '重要',
-    type: 'タイプ',
-    remark: '評価',
     search: '検索',
     add: '追加',
     export: 'エクスポート',
-    reviewer: 'レビュアー',
     id: '番号',
-    date: '日時',
-    author: '作成者',
-    readings: '閲覧数',
-    status: 'ステータス',
     actions: '操作',
     edit: '編集',
-    publish: '公開',
-    draft: '下書き',
     delete: 'キャンセル',
     cancel: 'キャンセル',
     confirm: '確認',
@@ -94,7 +84,6 @@ export default {
     upload: 'アップロード',
     startTime: '開始日',
     endTime: '終了日',
-    rangeSeparator: '至',
     data: {
       user: {
         username: 'ユーザー名',
