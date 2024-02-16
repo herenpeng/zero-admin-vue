@@ -10,7 +10,7 @@
       <el-input v-model="listQuery.entityName" :placeholder="$t('table.dev.codeGenerate.entityName')" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.javaPackageName" :placeholder="$t('table.dev.codeGenerate.javaPackageName')" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.javaPackage" :placeholder="$t('table.dev.codeGenerate.javaPackage')" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-input v-model="listQuery.codeAuthor" :placeholder="$t('table.dev.codeGenerate.codeAuthor')" style="width: 150px;margin-right: 10px;"
@@ -69,9 +69,9 @@
           <span>{{ row.requestMapping }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.dev.codeGenerate.javaPackageName')" width="100px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.javaPackage')" width="100px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.javaPackageName }}</span>
+          <span>{{ row.javaPackage }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.dev.codeGenerate.vueCodePath')" width="100px" align="center">
@@ -143,16 +143,32 @@
           <el-input v-model="tableInfo.entityName" :placeholder="$t('table.dev.codeGenerate.entityNamePlaceholder')" />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.javaCodePath')" prop="javaCodePath">
-          <el-input v-model="tableInfo.javaCodePath" placeholder="F:\IdeaCode\zero-admin\zero-sys" />
+          <el-autocomplete
+            v-model="tableInfo.javaCodePath"
+            class="inline-input"
+            :fetch-suggestions="(querySearch, cb) => {
+              return cb([{ 'value': 'F:\\IdeaCode\\zero-admin\\zero-sys' }])
+            }"
+            placeholder="F:\IdeaCode\zero-admin\zero-sys"
+            style="width: 350px;"
+          />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.requestMapping')" prop="requestMapping">
           <el-input v-model="tableInfo.requestMapping" :placeholder="$t('table.dev.codeGenerate.requestMappingPlaceholder')" />
         </el-form-item>
-        <el-form-item :label="$t('table.dev.codeGenerate.javaPackageName')" prop="javaPackageName">
-          <el-input v-model="tableInfo.javaPackageName" placeholder="com.zero.sys" />
+        <el-form-item :label="$t('table.dev.codeGenerate.javaPackage')" prop="javaPackage">
+          <el-input v-model="tableInfo.javaPackage" placeholder="com.zero.sys" />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.vueCodePath')" prop="vueCodePath">
-          <el-input v-model="tableInfo.vueCodePath" placeholder="F:\Js\zero-admin-vue" />
+          <el-autocomplete
+            v-model="tableInfo.vueCodePath"
+            class="inline-input"
+            :fetch-suggestions="(querySearch, cb) => {
+              return cb([{ 'value': 'F:\\Js\\zero-admin-vue' }])
+            }"
+            placeholder="F:\Js\zero-admin-vue"
+            style="width: 350px;"
+          />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.vuePackage')" prop="vuePackage">
           <el-input v-model="tableInfo.vuePackage" placeholder="data.user" />
@@ -223,7 +239,7 @@ export default {
         entityName: null,
         javaCodePath: null,
         requestMapping: null,
-        javaPackageName: null,
+        javaPackage: null,
         vueCodePath: null,
         vuePackage: null,
         tree: false,
@@ -251,7 +267,7 @@ export default {
         comment: [{ required: true, message: this.$t('table.dev.codeGenerate.commentRule'), trigger: 'change' }],
         entityName: [{ required: true, message: this.$t('table.dev.codeGenerate.entityNameRule'), trigger: 'change' }],
         requestMapping: [{ required: true, message: this.$t('table.dev.codeGenerate.requestMappingRule'), trigger: 'change' }],
-        javaPackageName: [{ required: true, message: this.$t('table.dev.codeGenerate.javaPackageNameRule'), trigger: 'change' }],
+        javaPackage: [{ required: true, message: this.$t('table.dev.codeGenerate.javaPackageRule'), trigger: 'change' }],
         javaCodePath: [{ required: true, message: this.$t('table.dev.codeGenerate.javaCodePathRule'), trigger: 'change' }],
         vueCodePath: [{ required: true, message: this.$t('table.dev.codeGenerate.vueCodePathRule'), trigger: 'change' }],
         vuePackage: [{ required: true, message: this.$t('table.dev.codeGenerate.vuePackageRule'), trigger: 'change' }]

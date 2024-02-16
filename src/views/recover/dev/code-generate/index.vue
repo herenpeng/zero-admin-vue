@@ -10,7 +10,7 @@
       <el-input v-model="listQuery.entityName" :placeholder="$t('table.dev.codeGenerate.entityName')" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
-      <el-input v-model="listQuery.javaPackageName" :placeholder="$t('table.dev.codeGenerate.javaPackageName')" style="width: 150px;" class="filter-item"
+      <el-input v-model="listQuery.javaPackage" :placeholder="$t('table.dev.codeGenerate.javaPackage')" style="width: 150px;" class="filter-item"
                 @keyup.enter.native="handleFilter"
       />
       <el-input v-model="listQuery.codeAuthor" :placeholder="$t('table.dev.codeGenerate.codeAuthor')" style="width: 150px;margin-right: 10px;" class="filter-item"
@@ -63,9 +63,9 @@
           <span>{{ row.requestMapping }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.dev.codeGenerate.javaPackageName')" width="100px" align="center">
+      <el-table-column :label="$t('table.dev.codeGenerate.javaPackage')" width="100px" align="center">
         <template v-slot="{row}">
-          <span>{{ row.javaPackageName }}</span>
+          <span>{{ row.javaPackage }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="$t('table.dev.codeGenerate.vueCodePath')" width="140px" align="center">

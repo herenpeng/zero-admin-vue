@@ -26,7 +26,11 @@ router.beforeEach(async(to, from, next) => {
       const hasGetUserInfo = store.getters.username
       if (hasGetUserInfo) {
         // 当正常跳转的路由路径存入sessionStorage中
-        sessionStorage.setItem('previousRoute', to.path)
+        let query
+        if (to.query) {
+          query = '?' + Object.keys(to.query).map(key => key + '=' + to.query[key]).join('&')
+        }
+        sessionStorage.setItem('previousRoute', to.path + query)
         next()
       } else {
         try {
