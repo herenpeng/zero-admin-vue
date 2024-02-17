@@ -4,69 +4,11 @@
     <el-row :gutter="20">
       <!--上传头像-->
       <el-col :span="12">
-        <el-card shadow="hover">
-          <div slot="header">
-            <span>上传头像</span>
-          </div>
-          <el-row>
-            <el-col :span="12">
-              <el-upload
-                action="#"
-                list-type="picture-card"
-                :auto-upload="false"
-                :limit="1"
-                fit="scale-down"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-change="handlerChange"
-                :on-exceed="handleExceed"
-              >
-                <i class="el-icon-plus" />
-              </el-upload>
-              <el-button style="margin-top: 54px;" type="primary" @click="uploadAvatar">{{ $t('table.upload') }}</el-button>
-            </el-col>
-            <el-col :span="12">
-              <div class="banner">
-                <el-avatar :size="150" :src="userInfo.avatar" />
-              </div>
-            </el-col>
-          </el-row>
-        </el-card>
+        <upload-avatar :avatar="userInfo.avatar" @upload-avatar="avatar => {userInfo.avatar = avatar}" />
       </el-col>
       <!--密码设置-->
       <el-col :span="12">
-        <el-card shadow="hover">
-          <div slot="header">
-            <span>密码设置</span>
-          </div>
-          <el-row>
-            <el-col :span="12">
-              <el-form ref="settingForm" :model="settingForm" status-icon :rules="rules" label-width="100px"
-                       class="demo-ruleForm"
-              >
-                <el-form-item label="旧密码" prop="oldPassword">
-                  <el-input v-model="settingForm.oldPassword" />
-                </el-form-item>
-                <el-form-item label="新密码" prop="newPassword">
-                  <el-input v-model="settingForm.newPassword" type="password" autocomplete="new-password" :show-password="true" />
-                </el-form-item>
-                <el-form-item label="确认密码" prop="checkPassword">
-                  <el-input v-model="settingForm.checkPassword" type="password" autocomplete="new-password" :show-password="true" />
-                </el-form-item>
-                <el-form-item>
-                  <el-button type="primary" @click="submitForm()">{{ $t('table.submit') }}</el-button>
-                  <el-button @click="resetForm()">{{ $t('table.resetting') }}</el-button>
-                </el-form-item>
-              </el-form>
-            </el-col>
-            <el-col :span="12">
-              <div class="banner">
-                <el-progress type="dashboard" :percentage="percentage" :color="colors" />
-                <div>新密码强度</div>
-              </div>
-            </el-col>
-          </el-row>
-        </el-card>
+        <password-setting />
       </el-col>
     </el-row>
 
@@ -78,7 +20,7 @@
     <el-card shadow="hover" style="margin-top: 20px;">
       <el-row style="line-height: 50px;text-align: center;width: 100%;">
         <el-col :span="2">
-          姓名：
+          {{ $t('table.setting.userInfo.name') }}：
         </el-col>
         <el-col :span="7">
           <template v-if="edit.name">
@@ -93,7 +35,7 @@
               {{ $t('table.close') }}
             </el-button>
           </template>
-          <span v-else>{{ userInfo.name || '点击编辑修改姓名' }}</span>
+          <span v-else>{{ userInfo.name || $t('table.setting.userInfo.nameEdit') }}</span>
         </el-col>
         <el-col :span="3">
           <el-button
@@ -116,11 +58,11 @@
           </el-button>
         </el-col>
         <el-col :span="2">
-          性别：
+          {{ $t('table.setting.userInfo.gender') }}：
         </el-col>
         <el-col :span="7">
           <template v-if="edit.gender">
-            <el-switch v-model="userInfo.gender" active-text="男" inactive-text="女" style="width: 280px;margin-right: 30px;padding-left: 150px;" />
+            <el-switch v-model="userInfo.gender" :active-text="$t('common.male')" :inactive-text="$t('common.female')" style="width: 280px;margin-right: 30px;padding-left: 150px;" />
             <el-button
               class="cancel-btn"
               size="small"
@@ -131,7 +73,7 @@
               {{ $t('table.close') }}
             </el-button>
           </template>
-          <span v-else>{{ userInfo.gender === null ? '点击编辑修改性别' : (userInfo.gender ? '男' : '女') }}</span>
+          <span v-else>{{ userInfo.gender === null ? $t('table.setting.userInfo.genderEdit') : (userInfo.gender ? $t('common.male') : $t('common.female')) }}</span>
         </el-col>
         <el-col :span="3">
           <el-button
@@ -156,7 +98,7 @@
       </el-row>
       <el-row style="line-height: 50px;text-align: center;width: 100%;">
         <el-col :span="2">
-          手机号码：
+          {{ $t('table.setting.userInfo.mobile') }}：
         </el-col>
         <el-col :span="7">
           <template v-if="edit.mobile">
@@ -171,7 +113,7 @@
               {{ $t('table.close') }}
             </el-button>
           </template>
-          <span v-else>{{ userInfo.mobile || '点击编辑修改手机号码' }}</span>
+          <span v-else>{{ userInfo.mobile || $t('table.setting.userInfo.mobileEdit') }}</span>
         </el-col>
         <el-col :span="3">
           <el-button
@@ -194,7 +136,7 @@
           </el-button>
         </el-col>
         <el-col :span="2">
-          电子邮箱：
+          {{ $t('table.setting.userInfo.mail') }}：
         </el-col>
         <el-col :span="7">
           <template v-if="edit.mail">
@@ -209,7 +151,7 @@
               {{ $t('table.close') }}
             </el-button>
           </template>
-          <span v-else>{{ userInfo.mail || '点击编辑修改电子邮箱' }}</span>
+          <span v-else>{{ userInfo.mail || $t('table.setting.userInfo.mailEdit') }}</span>
         </el-col>
         <el-col :span="3">
           <el-button
@@ -234,7 +176,7 @@
       </el-row>
       <el-row style="line-height: 50px;text-align: center;width: 100%;">
         <el-col :span="2">
-          出生日期：
+          {{ $t('table.setting.userInfo.birthday') }}：
         </el-col>
         <el-col :span="7">
           <template v-if="edit.birthday">
@@ -256,7 +198,7 @@
               {{ $t('table.close') }}
             </el-button>
           </template>
-          <span v-else>{{ userInfo.birthday || '点击编辑修改出生日期' }}</span>
+          <span v-else>{{ userInfo.birthday || $t('table.setting.userInfo.birthdayEdit') }}</span>
         </el-col>
         <el-col :span="3">
           <el-button
@@ -279,7 +221,7 @@
           </el-button>
         </el-col>
         <el-col :span="2">
-          身份证号：
+          {{ $t('table.setting.userInfo.idNumber') }}：
         </el-col>
         <el-col :span="7">
           <template v-if="edit.idNumber">
@@ -294,7 +236,7 @@
               {{ $t('table.close') }}
             </el-button>
           </template>
-          <span v-else>{{ userInfo.idNumber || '点击编辑修改身份证号' }}</span>
+          <span v-else>{{ userInfo.idNumber || $t('table.setting.userInfo.idNumberEdit') }}</span>
         </el-col>
         <el-col :span="3">
           <el-button
@@ -319,7 +261,7 @@
       </el-row>
       <el-row style="line-height: 50px;text-align: center;width: 100%;">
         <el-col :span="2">
-          QQ：
+          {{ $t('table.setting.userInfo.qq') }}：
         </el-col>
         <el-col :span="7">
           <template v-if="edit.qq">
@@ -334,7 +276,7 @@
               {{ $t('table.close') }}
             </el-button>
           </template>
-          <span v-else>{{ userInfo.qq || '点击编辑修改QQ号码' }}</span>
+          <span v-else>{{ userInfo.qq || $t('table.setting.userInfo.qqEdit') }}</span>
         </el-col>
         <el-col :span="3">
           <el-button
@@ -357,7 +299,7 @@
           </el-button>
         </el-col>
         <el-col :span="2">
-          微信：
+          {{ $t('table.setting.userInfo.weChat') }}：
         </el-col>
         <el-col :span="7">
           <template v-if="edit.weChat">
@@ -372,7 +314,7 @@
               {{ $t('table.close') }}
             </el-button>
           </template>
-          <span v-else>{{ userInfo.weChat || '点击编辑修改微信号码' }}</span>
+          <span v-else>{{ userInfo.weChat || $t('table.setting.userInfo.weChatEdit') }}</span>
         </el-col>
         <el-col :span="3">
           <el-button
@@ -398,11 +340,11 @@
     </el-card>
 
     <el-dialog
-      title="邮件验证"
+      :title="$t('table.setting.userInfo.mailVerify')"
       :visible.sync="verifyMailDialogVisible"
       width="30%"
     >
-      <el-input v-model="verify" class="edit-input" size="medium" placeholder="请输入邮箱验证码" />
+      <el-input v-model="verify" class="edit-input" size="medium" :placeholder="$t('table.setting.userInfo.mailVerifyPlaceholder')" />
       <span slot="footer" class="dialog-footer">
         <el-button @click="verifyMailDialogVisible = false; cancelEdit('mail')">{{ $t('table.cancel') }}</el-button>
         <el-button type="primary" @click="verifyMail">{{ $t('table.confirm') }}</el-button>
@@ -411,68 +353,14 @@
   </div>
 </template>
 <script>
-import { getInfo, updateUserInfo, uploadAvatar, sendVerifyMail, verifyMail } from '@/api/setting/user-info'
-import { checkPassword, resetPassword } from '@/api/setting/password'
-import store from '@/store'
+import { getInfo, updateUserInfo, sendVerifyMail, verifyMail } from '@/api/setting/user-info'
+import PasswordSetting from './components/PasswordSetting'
+import UploadAvatar from './components/UploadAvatar'
 
 export default {
   name: 'UserInfo',
+  components: { PasswordSetting, UploadAvatar },
   data() {
-    const checkOldPassword = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('密码不能为空'))
-      } else {
-        this.checkPassword(value).then(res => {
-          if (res.data) {
-            callback()
-          } else {
-            callback(new Error('密码输入错误'))
-          }
-        })
-      }
-    }
-    const validateNewPassword = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error('请输入新密码'))
-      } else {
-        if (value.length < 6) {
-          callback(new Error('密码长度不能小于6位数'))
-        }
-        if (this.settingForm.checkPassword !== '') {
-          this.$refs.settingForm.validateField('checkPassword')
-        }
-        callback()
-      }
-    }
-    const validatePasswordStrength = (rule, value, callback) => {
-      this.percentage = value.length
-      const numberRegex = /\d+/
-      const letterRegex = /[a-zA-Z]+/
-      const specialCharactersRegex = /\W+/
-      if (numberRegex.test(value)) {
-        this.percentage += 10
-      }
-      if (letterRegex.test(value)) {
-        this.percentage += 20
-      }
-      if (specialCharactersRegex.test(value)) {
-        this.percentage += 30
-      }
-      if (this.percentage < 30) {
-        callback(new Error('新密码强度不足'))
-      } else {
-        callback()
-      }
-    }
-    const validateCheckPassword = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error('请再次输入新密码'))
-      } else if (value !== this.settingForm.newPassword) {
-        callback(new Error('两次输入的新密码不一致!'))
-      } else {
-        callback()
-      }
-    }
     return {
       file: null,
       dialogImageUrl: '',
@@ -497,39 +385,7 @@ export default {
         }
       },
       verifyMailDialogVisible: false,
-      verify: null,
-      settingForm: {
-        oldPassword: '',
-        newPassword: '',
-        checkPassword: ''
-      },
-      rules: {
-        oldPassword: [{ validator: checkOldPassword, trigger: 'blur' }],
-        newPassword: [
-          { validator: validateNewPassword, trigger: 'blur' },
-          { validator: validatePasswordStrength, trigger: 'change' }
-        ],
-        checkPassword: [{ validator: validateCheckPassword, trigger: 'blur' }]
-      },
-      percentage: 0,
-      colors: [
-        { color: '#fa0000', percentage: 20 },
-        { color: '#ff7700', percentage: 40 },
-        { color: '#fcf700', percentage: 60 },
-        { color: '#007dfc', percentage: 80 },
-        { color: '#09ff00', percentage: 100 }
-      ]
-    }
-  },
-  watch: {
-    // newValue为新值,oldValue为旧值;
-    percentage(newValue, oldValue) {
-      if (newValue < 0) {
-        this.percentage = 0
-      }
-      if (newValue > 100) {
-        this.percentage = 100
-      }
+      verify: null
     }
   },
   created() {
@@ -551,52 +407,6 @@ export default {
       })
       this.getInfo()
     },
-    uploadAvatar() {
-      if (this.file === null) {
-        this.$message({
-          type: 'info',
-          message: '请选择需要上传的图片'
-        })
-        return
-      }
-      this.$confirm('上传该图片作为头像, 将会覆盖原头像, 是否继续?', this.$t('common.tip'), {
-        confirmButtonText: '继续上传',
-        cancelButtonText: '取消上传',
-        type: 'warning'
-      }).then(() => {
-        uploadAvatar(this.file).then(async(res) => {
-          this.$notify({
-            title: this.$t('common.success'),
-            message: '头像上传成功',
-            type: 'success',
-            duration: 2000
-          })
-          this.userInfo.avatar = res.data
-          await store.dispatch('user/resetAvatar', this.userInfo.avatar)
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消上传'
-        })
-      })
-    },
-    handlerChange(file, fileList) {
-      this.file = file.raw
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
-    },
-    handleRemove(file) {
-      this.file = null
-    },
-    handleExceed(files, fileList) {
-      this.$message({
-        type: 'info',
-        message: '只允许上传一张图片作为头像'
-      })
-    },
     cancelEdit(key) {
       this.userInfo[key] = this.sourceUserInfo[key]
       this.edit[key] = !this.edit[key]
@@ -615,7 +425,7 @@ export default {
       if (!this.userInfo.mail) {
         this.$message({
           type: 'warning',
-          message: '电子邮箱不允许为空，请输入电子邮箱'
+          message: this.$t('table.setting.userInfo.mailVerifyTip')
         })
         return
       }
@@ -628,12 +438,12 @@ export default {
         if (res.data) {
           this.$message({
             type: 'success',
-            message: '邮箱验证码邮件发送成功，请注意查收'
+            message: this.$t('table.setting.userInfo.mailSendSuccessTip')
           })
         } else {
           this.$message({
             type: 'error',
-            message: '邮箱验证码邮件发送失败，请重新发送'
+            message: this.$t('table.setting.userInfo.mailSendFailTip')
           })
         }
       })
@@ -649,34 +459,11 @@ export default {
         } else {
           this.$message({
             type: 'error',
-            message: '邮箱验证码错误，验证失败'
+            message: this.$t('table.setting.userInfo.mailVerifyErrorTip')
           })
           this.cancelEdit('mail')
         }
       })
-    },
-    submitForm() {
-      this.$refs['settingForm'].validate((valid) => {
-        if (valid) {
-          resetPassword(this.settingForm.oldPassword, this.settingForm.newPassword).then((res) => {
-            this.$notify({
-              title: this.$t('common.success'),
-              message: res.message,
-              type: 'success',
-              duration: 2000
-            })
-            setTimeout(() => {
-              this.logout()
-            }, 2000)
-          })
-        }
-      })
-    },
-    checkPassword(value) {
-      return checkPassword(value)
-    },
-    resetForm() {
-      this.$refs['settingForm'].resetFields()
     },
     async logout() {
       await this.$store.dispatch('user/logout')
@@ -685,10 +472,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-  .banner {
-    display:block;
-    position:relative;
-    text-align: center;
-  }
-</style>

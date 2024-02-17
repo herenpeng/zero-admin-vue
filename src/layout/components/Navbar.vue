@@ -65,11 +65,6 @@ export default {
       'avatar'
     ])
   },
-  watch: {
-    avatar(newValue, oldValue) {
-      this.avatar = newValue
-    }
-  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
