@@ -205,7 +205,7 @@ import CpuChart from './components/CpuChart'
 import MemChart from './components/MemChart'
 import JvmChart from './components/JvmChart'
 import { getServerChartInfo, getServerInfo } from '@/api/monitor/server'
-import webSocket, { EVENT_KEY } from '@/utils/websocket'
+import webSocket, { WEBSOCKET_CMD } from '@/utils/websocket'
 
 export default {
   name: 'Info',
@@ -238,8 +238,7 @@ export default {
   created() {
     this.loadData()
     if (webSocket) {
-      webSocket.register(EVENT_KEY.SERVER, data => {
-        console.log(data)
+      webSocket.register(WEBSOCKET_CMD.SERVER, data => {
         this.chart = JSON.parse(data)
       })
     } else {
@@ -261,7 +260,7 @@ export default {
     },
     getServerChartInfo() {
       getServerChartInfo().then(res => {
-        this.pieChart = res.data
+        this.chart = res.data
       })
     }
   }

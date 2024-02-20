@@ -1,7 +1,8 @@
-const eventMap = new Map()
+const cmdMap = new Map()
 
+const KEY = '@'
 // 事件键值
-export const EVENT_KEY = { SERVER: 1 }
+export const WEBSOCKET_CMD = { SERVER: 1 }
 
 // 判断当前的浏览器是否支持websocket协议
 function supportWebSocket() {
@@ -21,12 +22,12 @@ function initWebSocket() {
   }
   webSocket.onmessage = (evt) => {
     const message = evt.data
-    const index = message.indexOf('@')
+    const index = message.indexOf(KEY)
     if (index < 0) {
       return
     }
-    const event = message.substring(0, index)
-    const callback = eventMap.get(Number(event))
+    const cmd = message.substring(0, index)
+    const callback = cmdMap.get(Number(cmd))
     if (callback) {
       callback(message.substring(index + 1))
     }
@@ -38,12 +39,12 @@ function initWebSocket() {
     console.log('[WebSocket链接]链接发生错误')
   }
   // 自己定义添加的方法
-  webSocket.register = (event, callback) => {
-    eventMap.set(event, callback)
+  webSocket.register = (cmd, callback) => {
+    cmdMap.set(cmd, callback)
   }
-  webSocket.sendMessage = (event, message) => {
+  webSocket.sendMessage = (cmd, message) => {
     if (webSocket.readyState === webSocket.OPEN) {
-      webSocket.send(message)
+      webSocket.send(cmd + KEY + message)
       return true
     }
     return false
