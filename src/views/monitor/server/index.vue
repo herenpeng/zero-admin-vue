@@ -4,17 +4,26 @@
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <cpu-chart :cpu="chart.cpu" />
+          <chart title="服务器CPU" series-name="服务器CPU使用情况"
+                 :legend-data="['用户使用率', '系统使用率']"
+                 :series-data="[chart.cpu.user, chart.cpu.sys]"
+          />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <mem-chart :mem="chart.mem" />
+          <chart title="服务器内存" series-name="服务器内存使用情况"
+                 :legend-data="['已用内存', '剩余内存']"
+                 :series-data="[chart.mem.used, chart.mem.free]"
+          />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <jvm-chart :jvm="chart.jvm" />
+          <chart title="Java虚拟机（JVM）" series-name="JVM内存使用情况"
+                 :legend-data="['JVM已使用内存', 'JVM未使用内存']"
+                 :series-data="[chart.jvm.used, chart.jvm.free]"
+          />
         </div>
       </el-col>
     </el-row>
@@ -201,18 +210,14 @@
 </template>
 
 <script>
-import CpuChart from './components/CpuChart'
-import MemChart from './components/MemChart'
-import JvmChart from './components/JvmChart'
+import Chart from './components/Chart'
 import { getServerChartInfo, getServerInfo } from '@/api/monitor/server'
 import webSocket, { WEBSOCKET_CMD } from '@/utils/websocket'
 
 export default {
   name: 'Info',
   components: {
-    CpuChart,
-    MemChart,
-    JvmChart
+    Chart
   },
   data() {
     return {
@@ -268,51 +273,55 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .dashboard-editor-container {
-    padding: 32px;
-    background-color: rgb(240, 242, 245);
-    position: relative;
+.dashboard-editor-container {
+  padding: 32px;
+  background-color: rgb(240, 242, 245);
+  position: relative;
 
-    .github-corner {
-      position: absolute;
-      top: 0px;
-      border: 0;
-      right: 0;
-    }
-
-    .chart-wrapper {
-      background: #fff;
-      padding: 16px 16px 0;
-      margin-bottom: 32px;
-    }
+  .github-corner {
+    position: absolute;
+    top: 0px;
+    border: 0;
+    right: 0;
   }
 
-  .el-row {
-    margin-bottom: 20px;
-    &:first-child {
-      margin-bottom: 0;
-    }
-    &:last-child {
-      margin-bottom: 0;
-    }
+  .chart-wrapper {
+    background: #fff;
+    padding: 16px 16px 0;
+    margin-bottom: 32px;
   }
+}
 
-  @media (max-width: 1024px) {
-    .chart-wrapper {
-      padding: 8px;
-    }
-  }
+.el-row {
+  margin-bottom: 20px;
 
-  .demo-table-expand {
-    font-size: 0;
-  }
-  .demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
+  &:first-child {
     margin-bottom: 0;
-    width: 50%;
   }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .chart-wrapper {
+    padding: 8px;
+  }
+}
+
+.demo-table-expand {
+  font-size: 0;
+}
+
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
 </style>

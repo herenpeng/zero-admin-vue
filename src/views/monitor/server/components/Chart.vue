@@ -9,7 +9,7 @@ require('echarts/theme/macarons') // echarts theme
 import resize from '@/components/mixins/resize'
 
 export default {
-  name: 'JvmChart',
+  name: 'Chart',
   mixins: [resize],
   props: {
     className: {
@@ -24,9 +24,25 @@ export default {
       type: String,
       default: '320px'
     },
-    jvm: {
-      type: Object,
-      default: null
+    title: {
+      type: String,
+      default: ''
+    },
+    legendData: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    seriesName: {
+      type: String,
+      default: ''
+    },
+    seriesData: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   data() {
@@ -35,8 +51,8 @@ export default {
     }
   },
   watch: {
-    // n为新值,o为旧值;
-    jvm(newValue, oloValue) {
+    // newValue为新值,oldValue为旧值;
+    seriesData(newValue, oldValue) {
       this.initChart()
     }
   },
@@ -57,10 +73,14 @@ export default {
   },
   methods: {
     initChart() {
+      const data = []
+      for (let i = 0; i < this.seriesData.length; i++) {
+        data.push({ value: this.seriesData[i], name: this.legendData[i] })
+      }
       this.chart = echarts.init(this.$el, 'macarons')
       this.chart.setOption({
         title: {
-          text: 'Java虚拟机（JVM）'
+          text: this.title
         },
         tooltip: {
           trigger: 'item',
@@ -69,19 +89,16 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['JVM已使用内存', 'JVM未使用内存']
+          data: this.legendData
         },
         series: [
           {
-            name: 'JVM内存使用情况',
+            name: this.seriesName,
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
-            data: [
-              { value: this.jvm.used, name: 'JVM已使用内存' },
-              { value: this.jvm.free, name: 'JVM未使用内存' }
-            ],
+            data: data,
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }

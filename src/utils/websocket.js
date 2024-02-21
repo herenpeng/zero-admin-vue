@@ -1,6 +1,9 @@
+import { getToken } from '@/utils/auth'
+
 const cmdMap = new Map()
 
 const KEY = '@'
+let reconnectTimer = null
 // 事件键值
 export const WEBSOCKET_CMD = { SERVER: 1 }
 
@@ -16,9 +19,12 @@ function initWebSocket() {
     return null
   }
   // 打开一个 webSocket
-  const webSocket = new WebSocket(process.env.VUE_APP_BASE_WX_API + '/websocket')
+  const webSocket = new WebSocket(process.env.VUE_APP_BASE_WX_API + '/websocket/' + getToken())
   webSocket.onopen = () => {
     console.log('[WebSocket链接]链接开启')
+    if (reconnectTimer) {
+      clearInterval(reconnectTimer)
+    }
   }
   webSocket.onmessage = (evt) => {
     const message = evt.data
@@ -34,9 +40,11 @@ function initWebSocket() {
   }
   webSocket.onclose = () => {
     console.log('[WebSocket链接]链接关闭')
+    reconnect()
   }
   webSocket.onerror = () => {
     console.log('[WebSocket链接]链接发生错误')
+    reconnect()
   }
   // 自己定义添加的方法
   webSocket.register = (cmd, callback) => {
@@ -52,6 +60,18 @@ function initWebSocket() {
   return webSocket
 }
 
-const webSocket = initWebSocket()
+let webSocket = initWebSocket()
+
+// 重连
+function reconnect() {
+  if (reconnectTimer) {
+    return
+  }
+  console.log('[WebSocket链接]开始准备重连')
+  reconnectTimer = setInterval(() => {
+    console.log('[WebSocket链接]链接重连中……')
+    webSocket = initWebSocket()
+  }, 3000)
+}
 
 export default webSocket
