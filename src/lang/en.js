@@ -256,6 +256,7 @@ export default {
         mailEdit: 'Click to edit and modify the email address',
         birthday: 'Birthday',
         birthdayEdit: 'Click to edit and modify the date of birth',
+        birthdayPlaceholder: 'Select date of birth',
         idNumber: 'ID Number',
         idNumberEdit: 'Click Edit to modify ID number',
         qq: 'QQ',

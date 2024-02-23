@@ -50,6 +50,7 @@ const defaultList = [
   { text: '首页Chart改造', done: false },
   { text: '前端i18n', done: false },
   { text: '后端i18n', done: false },
+  { text: '用户设置页面优化', done: true },
   { text: '监控页面饼图优化', done: true },
   { text: 'WebSocket绑定用户', done: true },
   { text: '首页Todo List改造', done: true },

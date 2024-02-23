@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 import { fileUpload } from '@/utils/file-upload'
 
-export function getInfo() {
+export function getUserInfo() {
   return request({
     url: '/user/info',
     method: 'get'

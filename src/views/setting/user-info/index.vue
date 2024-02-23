@@ -19,322 +19,93 @@
     <!--用户信息-->
     <el-card shadow="hover" style="margin-top: 20px;">
       <el-row style="line-height: 50px;text-align: center;width: 100%;">
-        <el-col :span="2">
-          {{ $t('table.setting.userInfo.name') }}：
+        <el-col :span="12">
+          <user-info-input :name="$t('table.setting.userInfo.name')"
+                           :value="userInfo.name"
+                           :edit-state="edit.name"
+                           :edit-tip="$t('table.setting.userInfo.nameEdit')"
+                           @edit="edit.name=!edit.name"
+                           @cancel="edit.name=!edit.name"
+                           @confirm="data => confirmEdit('name', data)"
+          />
         </el-col>
-        <el-col :span="7">
-          <template v-if="edit.name">
-            <el-input v-model="userInfo.name" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
-            <el-button
-              class="cancel-btn"
-              size="small"
-              type="warning"
-              icon="el-icon-close"
-              @click="cancelEdit('name')"
-            >
-              {{ $t('table.close') }}
-            </el-button>
-          </template>
-          <span v-else>{{ userInfo.name || $t('table.setting.userInfo.nameEdit') }}</span>
-        </el-col>
-        <el-col :span="3">
-          <el-button
-            v-if="edit.name"
-            type="success"
-            size="small"
-            icon="el-icon-check"
-            @click="confirmEdit('name')"
-          >
-            {{ $t('table.save') }}
-          </el-button>
-          <el-button
-            v-else
-            type="primary"
-            size="small"
-            icon="el-icon-edit"
-            @click="edit.name=!edit.name"
-          >
-            {{ $t('table.edit') }}
-          </el-button>
-        </el-col>
-        <el-col :span="2">
-          {{ $t('table.setting.userInfo.gender') }}：
-        </el-col>
-        <el-col :span="7">
-          <template v-if="edit.gender">
-            <el-switch v-model="userInfo.gender" :active-text="$t('common.male')" :inactive-text="$t('common.female')" style="width: 280px;margin-right: 30px;padding-left: 150px;" />
-            <el-button
-              class="cancel-btn"
-              size="small"
-              type="warning"
-              icon="el-icon-close"
-              @click="cancelEdit('gender')"
-            >
-              {{ $t('table.close') }}
-            </el-button>
-          </template>
-          <span v-else>{{ userInfo.gender === null ? $t('table.setting.userInfo.genderEdit') : (userInfo.gender ? $t('common.male') : $t('common.female')) }}</span>
-        </el-col>
-        <el-col :span="3">
-          <el-button
-            v-if="edit.gender"
-            type="success"
-            size="small"
-            icon="el-icon-check"
-            @click="confirmEdit('gender')"
-          >
-            {{ $t('table.save') }}
-          </el-button>
-          <el-button
-            v-else
-            type="primary"
-            size="small"
-            icon="el-icon-edit"
-            @click="edit.gender=!edit.gender"
-          >
-            {{ $t('table.edit') }}
-          </el-button>
+        <el-col :span="12">
+          <user-info-switch :name="$t('table.setting.userInfo.gender')"
+                            :value="userInfo.gender"
+                            :active-text="$t('common.male')"
+                            :inactive-text="$t('common.female')"
+                            :edit-state="edit.gender"
+                            :edit-tip="$t('table.setting.userInfo.nameEdit')"
+                            @edit="edit.gender=!edit.gender"
+                            @cancel="edit.gender=!edit.gender"
+                            @confirm="data => confirmEdit('gender', data)"
+          />
         </el-col>
       </el-row>
       <el-row style="line-height: 50px;text-align: center;width: 100%;">
-        <el-col :span="2">
-          {{ $t('table.setting.userInfo.mobile') }}：
+        <el-col :span="12">
+          <user-info-input :name="$t('table.setting.userInfo.mobile')"
+                           :value="userInfo.mobile"
+                           :edit-state="edit.mobile"
+                           :edit-tip="$t('table.setting.userInfo.mobileEdit')"
+                           @edit="edit.mobile=!edit.mobile"
+                           @cancel="edit.mobile=!edit.mobile"
+                           @confirm="data => confirmEdit('mobile', data)"
+          />
         </el-col>
-        <el-col :span="7">
-          <template v-if="edit.mobile">
-            <el-input v-model="userInfo.mobile" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
-            <el-button
-              class="cancel-btn"
-              size="small"
-              type="warning"
-              icon="el-icon-close"
-              @click="cancelEdit('mobile')"
-            >
-              {{ $t('table.close') }}
-            </el-button>
-          </template>
-          <span v-else>{{ userInfo.mobile || $t('table.setting.userInfo.mobileEdit') }}</span>
-        </el-col>
-        <el-col :span="3">
-          <el-button
-            v-if="edit.mobile"
-            type="success"
-            size="small"
-            icon="el-icon-check"
-            @click="confirmEdit('mobile')"
-          >
-            {{ $t('table.save') }}
-          </el-button>
-          <el-button
-            v-else
-            type="primary"
-            size="small"
-            icon="el-icon-edit"
-            @click="edit.mobile=!edit.mobile"
-          >
-            {{ $t('table.edit') }}
-          </el-button>
-        </el-col>
-        <el-col :span="2">
-          {{ $t('table.setting.userInfo.mail') }}：
-        </el-col>
-        <el-col :span="7">
-          <template v-if="edit.mail">
-            <el-input v-model="userInfo.mail" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
-            <el-button
-              class="cancel-btn"
-              size="small"
-              type="warning"
-              icon="el-icon-close"
-              @click="cancelEdit('mail')"
-            >
-              {{ $t('table.close') }}
-            </el-button>
-          </template>
-          <span v-else>{{ userInfo.mail || $t('table.setting.userInfo.mailEdit') }}</span>
-        </el-col>
-        <el-col :span="3">
-          <el-button
-            v-if="edit.mail"
-            type="success"
-            size="small"
-            icon="el-icon-check"
-            @click="sendVerifyMail()"
-          >
-            {{ $t('table.save') }}
-          </el-button>
-          <el-button
-            v-else
-            type="primary"
-            size="small"
-            icon="el-icon-edit"
-            @click="edit.mail=!edit.mail"
-          >
-            {{ $t('table.edit') }}
-          </el-button>
+        <el-col :span="12">
+          <user-info-input :name="$t('table.setting.userInfo.mail')"
+                           :value="userInfo.mail"
+                           :edit-state="edit.mail"
+                           :edit-tip="$t('table.setting.userInfo.mailEdit')"
+                           @edit="edit.mail=!edit.mail"
+                           @cancel="edit.mail=!edit.mail"
+                           @confirm="data => sendVerifyMail(data)"
+          />
         </el-col>
       </el-row>
       <el-row style="line-height: 50px;text-align: center;width: 100%;">
-        <el-col :span="2">
-          {{ $t('table.setting.userInfo.birthday') }}：
+        <el-col :span="12">
+          <user-info-picker :name="$t('table.setting.userInfo.birthday')"
+                            :value="userInfo.birthday"
+                            :edit-state="edit.birthday"
+                            :edit-tip="$t('table.setting.userInfo.birthdayEdit')"
+                            @edit="edit.birthday=!edit.birthday"
+                            @cancel="edit.birthday=!edit.birthday"
+                            @confirm="data => confirmEdit('birthday', data)"
+          />
         </el-col>
-        <el-col :span="7">
-          <template v-if="edit.birthday">
-            <el-date-picker
-              v-model="userInfo.birthday"
-              type="date"
-              value-format="yyyy-MM-dd"
-              placeholder="选择出生日期"
-              :picker-options="pickerOptions"
-              style="width: 280px;margin-right: 30px;"
-            />
-            <el-button
-              class="cancel-btn"
-              size="small"
-              type="warning"
-              icon="el-icon-close"
-              @click="cancelEdit('birthday')"
-            >
-              {{ $t('table.close') }}
-            </el-button>
-          </template>
-          <span v-else>{{ userInfo.birthday || $t('table.setting.userInfo.birthdayEdit') }}</span>
-        </el-col>
-        <el-col :span="3">
-          <el-button
-            v-if="edit.birthday"
-            type="success"
-            size="small"
-            icon="el-icon-check"
-            @click="confirmEdit('birthday')"
-          >
-            {{ $t('table.save') }}
-          </el-button>
-          <el-button
-            v-else
-            type="primary"
-            size="small"
-            icon="el-icon-edit"
-            @click="edit.birthday=!edit.birthday"
-          >
-            {{ $t('table.edit') }}
-          </el-button>
-        </el-col>
-        <el-col :span="2">
-          {{ $t('table.setting.userInfo.idNumber') }}：
-        </el-col>
-        <el-col :span="7">
-          <template v-if="edit.idNumber">
-            <el-input v-model="userInfo.idNumber" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
-            <el-button
-              class="cancel-btn"
-              size="small"
-              type="warning"
-              icon="el-icon-close"
-              @click="cancelEdit('idNumber')"
-            >
-              {{ $t('table.close') }}
-            </el-button>
-          </template>
-          <span v-else>{{ userInfo.idNumber || $t('table.setting.userInfo.idNumberEdit') }}</span>
-        </el-col>
-        <el-col :span="3">
-          <el-button
-            v-if="edit.idNumber"
-            type="success"
-            size="small"
-            icon="el-icon-check"
-            @click="confirmEdit('idNumber')"
-          >
-            {{ $t('table.save') }}
-          </el-button>
-          <el-button
-            v-else
-            type="primary"
-            size="small"
-            icon="el-icon-edit"
-            @click="edit.idNumber=!edit.idNumber"
-          >
-            {{ $t('table.edit') }}
-          </el-button>
+        <el-col :span="12">
+          <user-info-input :name="$t('table.setting.userInfo.idNumber')"
+                           :value="userInfo.idNumber"
+                           :edit-state="edit.idNumber"
+                           :edit-tip="$t('table.setting.userInfo.idNumberEdit')"
+                           @edit="edit.idNumber=!edit.idNumber"
+                           @cancel="edit.idNumber=!edit.idNumber"
+                           @confirm="data => confirmEdit('idNumber', data)"
+          />
         </el-col>
       </el-row>
       <el-row style="line-height: 50px;text-align: center;width: 100%;">
-        <el-col :span="2">
-          {{ $t('table.setting.userInfo.qq') }}：
+        <el-col :span="12">
+          <user-info-input :name="$t('table.setting.userInfo.qq')"
+                           :value="userInfo.qq"
+                           :edit-state="edit.qq"
+                           :edit-tip="$t('table.setting.userInfo.qqEdit')"
+                           @edit="edit.qq=!edit.qq"
+                           @cancel="edit.qq=!edit.qq"
+                           @confirm="data => confirmEdit('qq', data)"
+          />
         </el-col>
-        <el-col :span="7">
-          <template v-if="edit.qq">
-            <el-input v-model="userInfo.qq" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
-            <el-button
-              class="cancel-btn"
-              size="small"
-              type="warning"
-              icon="el-icon-close"
-              @click="cancelEdit('qq')"
-            >
-              {{ $t('table.close') }}
-            </el-button>
-          </template>
-          <span v-else>{{ userInfo.qq || $t('table.setting.userInfo.qqEdit') }}</span>
-        </el-col>
-        <el-col :span="3">
-          <el-button
-            v-if="edit.qq"
-            type="success"
-            size="small"
-            icon="el-icon-check"
-            @click="confirmEdit('qq')"
-          >
-            {{ $t('table.save') }}
-          </el-button>
-          <el-button
-            v-else
-            type="primary"
-            size="small"
-            icon="el-icon-edit"
-            @click="edit.qq=!edit.qq"
-          >
-            {{ $t('table.edit') }}
-          </el-button>
-        </el-col>
-        <el-col :span="2">
-          {{ $t('table.setting.userInfo.weChat') }}：
-        </el-col>
-        <el-col :span="7">
-          <template v-if="edit.weChat">
-            <el-input v-model="userInfo.weChat" class="edit-input" size="medium" style="width: 280px;margin-right: 30px;" />
-            <el-button
-              class="cancel-btn"
-              size="small"
-              type="warning"
-              icon="el-icon-close"
-              @click="cancelEdit('weChat')"
-            >
-              {{ $t('table.close') }}
-            </el-button>
-          </template>
-          <span v-else>{{ userInfo.weChat || $t('table.setting.userInfo.weChatEdit') }}</span>
-        </el-col>
-        <el-col :span="3">
-          <el-button
-            v-if="edit.weChat"
-            type="success"
-            size="small"
-            icon="el-icon-check"
-            @click="confirmEdit('weChat')"
-          >
-            {{ $t('table.save') }}
-          </el-button>
-          <el-button
-            v-else
-            type="primary"
-            size="small"
-            icon="el-icon-edit"
-            @click="edit.weChat=!edit.weChat"
-          >
-            {{ $t('table.edit') }}
-          </el-button>
+        <el-col :span="12">
+          <user-info-input :name="$t('table.setting.userInfo.weChat')"
+                           :value="userInfo.weChat"
+                           :edit-state="edit.weChat"
+                           :edit-tip="$t('table.setting.userInfo.weChatEdit')"
+                           @edit="edit.weChat=!edit.weChat"
+                           @cancel="edit.weChat=!edit.weChat"
+                           @confirm="data => confirmEdit('weChat', data)"
+          />
         </el-col>
       </el-row>
     </el-card>
@@ -346,20 +117,23 @@
     >
       <el-input v-model="verify" class="edit-input" size="medium" :placeholder="$t('table.setting.userInfo.mailVerifyPlaceholder')" />
       <span slot="footer" class="dialog-footer">
-        <el-button @click="verifyMailDialogVisible = false; cancelEdit('mail')">{{ $t('table.cancel') }}</el-button>
+        <el-button @click="cancelVerify()">{{ $t('table.cancel') }}</el-button>
         <el-button type="primary" @click="verifyMail">{{ $t('table.confirm') }}</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
-import { getInfo, updateUserInfo, sendVerifyMail, verifyMail } from '@/api/setting/user-info'
+import { getUserInfo, updateUserInfo, sendVerifyMail, verifyMail } from '@/api/setting/user-info'
 import PasswordSetting from './components/PasswordSetting'
 import UploadAvatar from './components/UploadAvatar'
+import UserInfoInput from './components/UserInfoInput'
+import UserInfoSwitch from './components/UserInfoSwitch'
+import UserInfoPicker from './components/UserInfoPicker'
 
 export default {
   name: 'UserInfo',
-  components: { PasswordSetting, UploadAvatar },
+  components: { PasswordSetting, UploadAvatar, UserInfoInput, UserInfoSwitch, UserInfoPicker },
   data() {
     return {
       file: null,
@@ -367,7 +141,6 @@ export default {
       dialogVisible: false,
       disabled: false,
       userInfo: {},
-      sourceUserInfo: {},
       edit: {
         name: false,
         gender: false,
@@ -378,23 +151,17 @@ export default {
         birthday: false,
         idNumber: false
       },
-      pickerOptions: {
-        disabledDate(time) {
-          // 如果没有后面的-8.64e6就是不可以选择今天的
-          return time.getTime() > Date.now() - 8.64e6
-        }
-      },
+      mail: '',
       verifyMailDialogVisible: false,
       verify: null
     }
   },
   created() {
-    this.getInfo()
+    this.getUserInfo()
   },
   methods: {
-    getInfo() {
-      getInfo().then(res => {
-        this.sourceUserInfo = Object.assign({}, res.data)
+    getUserInfo() {
+      getUserInfo().then(res => {
         this.userInfo = res.data
       })
     },
@@ -405,34 +172,32 @@ export default {
         type: 'success',
         duration: 2000
       })
-      this.getInfo()
     },
-    cancelEdit(key) {
-      this.userInfo[key] = this.sourceUserInfo[key]
-      this.edit[key] = !this.edit[key]
-    },
-    confirmEdit(key) {
-      if (this.userInfo[key] === this.sourceUserInfo[key]) {
-        this.cancelEdit(key)
+    confirmEdit(key, data) {
+      if (this.userInfo[key] === data) {
+        this.edit[key] = !this.edit[key]
         return
       }
       this.edit[key] = !this.edit[key]
+      this.userInfo[key] = data
       updateUserInfo(this.userInfo).then(res => {
         this.updateSuccess(res.message)
       })
     },
-    sendVerifyMail() {
-      if (!this.userInfo.mail) {
+    sendVerifyMail(data) {
+      if (!data) {
         this.$message({
           type: 'warning',
           message: this.$t('table.setting.userInfo.mailVerifyTip')
         })
         return
       }
-      if (this.userInfo.mail === this.sourceUserInfo.mail) {
-        this.cancelEdit('mail')
+      if (this.userInfo.mail === data) {
+        this.edit.mail = !this.edit.mail
         return
       }
+      this.mail = this.userInfo.mail
+      this.userInfo.mail = data
       this.verifyMailDialogVisible = true
       sendVerifyMail(this.userInfo.mail).then(res => {
         if (res.data) {
@@ -448,20 +213,24 @@ export default {
         }
       })
     },
+    cancelVerify() {
+      this.verifyMailDialogVisible = false
+      this.userInfo.mail = this.mail
+      this.edit.mail = !this.edit.mail
+    },
     verifyMail() {
       verifyMail(this.userInfo.mail, this.verify).then(res => {
         this.verify = null
         this.verifyMailDialogVisible = false
+        this.edit.mail = !this.edit.mail
         if (res.data) {
-          this.edit['mail'] = !this.edit['mail']
           this.updateSuccess(res.message)
-          // this.confirmEdit('mail')
         } else {
+          this.userInfo.mail = this.mail
           this.$message({
             type: 'error',
             message: this.$t('table.setting.userInfo.mailVerifyErrorTip')
           })
-          this.cancelEdit('mail')
         }
       })
     },

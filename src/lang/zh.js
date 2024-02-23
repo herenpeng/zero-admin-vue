@@ -256,6 +256,7 @@ export default {
         mailEdit: '点击编辑修改电子邮箱',
         birthday: '出生日期',
         birthdayEdit: '点击编辑修改出生日期',
+        birthdayPlaceholder: '选择出生日期',
         idNumber: '身份证号',
         idNumberEdit: '点击编辑修改身份证号',
         qq: 'QQ',
