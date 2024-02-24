@@ -141,8 +141,7 @@ export default {
     rules() {
       return {
         name: [{ required: true, message: this.$t('table.data.organ.nameRule'), trigger: 'change' }],
-        sort: [{ required: true, message: this.$t('table.data.organ.sortRule'), trigger: 'change' }],
-        // parentId: [{ required: true, message: '请输入父级组织机构主键，如果为顶级组织机构，值为0', trigger: 'change' }]
+        sort: [{ required: true, message: this.$t('table.data.organ.sortRule'), trigger: 'change' }]
       }
     }
   },
