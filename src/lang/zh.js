@@ -22,6 +22,15 @@ export default {
     any: '随便填',
     thirdParty: '第三方登录'
   },
+  request: {
+    loginError: '登录错误',
+    insufficientPermissions: '您的访问权限不足，无法访问该页面数据，或进行该操作',
+    loginAgainTip: '您的账号已登出，可以取消以保留在该页面上，或者重新登录',
+    loginAgainTitle: '重新登录',
+    loginAgain: '重新登录',
+    loginCancel: '取消',
+    systemError: '系统错误'
+  },
   index: {
     data: {
       user: '用户',

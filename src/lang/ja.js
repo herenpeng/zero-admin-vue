@@ -22,6 +22,15 @@ export default {
     any: 'password',
     thirdParty: '外部IDでログイン'
   },
+  request: {
+    loginError: 'ログインエラー',
+    insufficientPermissions: 'ページデータにアクセスできなかったり、操作できなかったりするアクセス権限が不足しています',
+    loginAgainTip: 'アカウントが登録されています。キャンセルしてページに保存したり、再ログインしたりすることができます',
+    loginAgainTitle: '再ログイン',
+    loginAgain: '再ログイン',
+    loginCancel: 'キャンセル',
+    systemError: 'システムエラー'
+  },
   index: {
     data: {
       user: 'ユーザー',

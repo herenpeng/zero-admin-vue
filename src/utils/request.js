@@ -2,6 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import i18n from '../lang'
 
 // 创建一个axios实例
 const service = axios.create({
@@ -37,14 +38,14 @@ service.interceptors.response.use(
       // 30000：登录错误
       if (res.code === 30000) {
         Message({
-          message: res.message || '登录错误',
+          message: res.message || i18n.t('request.loginError'),
           type: 'error',
           duration: 2 * 1000
         })
       }
       if (res.code === 40003) {
         Message({
-          message: res.message || '您的访问权限不足，无法访问该页面数据，或进行该操作',
+          message: res.message || i18n.t('request.insufficientPermissions'),
           type: 'warning',
           duration: 2 * 1000
         })
@@ -53,20 +54,20 @@ service.interceptors.response.use(
       // 40002：未登录或者访问凭证失效，需要重新登录
       if (res.code === 40002) {
         // to re-login
-        MessageBox.confirm('您的账号已登出，可以取消以保留在该页面上，或者重新登录', '重新登录', {
-          confirmButtonText: '重新登录',
-          cancelButtonText: '取消',
+        MessageBox.confirm(i18n.t('request.loginAgainTip'), i18n.t('request.loginAgainTitle'), {
+          confirmButtonText: i18n.t('request.loginAgain'),
+          cancelButtonText: i18n.t('request.loginCancel'),
           type: 'warning'
         }).then(() => {
           store.dispatch('user/resetToken').then(() => {
             location.reload()
           })
         })
-        return res
+        return null
       }
       // 其他类型的异常信息在这里进行处理
       Message({
-        message: res.message || '系统错误',
+        message: res.message || i18n.t('request.systemError'),
         type: 'error',
         duration: 2 * 1000
       })

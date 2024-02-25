@@ -22,6 +22,15 @@ export default {
     any: 'any',
     thirdParty: 'Or connect with'
   },
+  request: {
+    loginError: 'Login Error',
+    insufficientPermissions: 'Your access permissions are insufficient to access the data on this page or perform the operation',
+    loginAgainTip: 'Your account has been logged out, you can cancel it to keep it on this page, or log in again',
+    loginAgainTitle: 'Login Again',
+    loginAgain: 'Login Again',
+    loginCancel: 'Cancel',
+    systemError: 'System Error'
+  },
   index: {
     data: {
       user: 'User',

@@ -28,7 +28,8 @@ export default {
     },
     chartData: {
       type: Object,
-      required: true
+      default: null,
+      required: false
     }
   },
   data() {
