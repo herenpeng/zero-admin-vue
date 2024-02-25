@@ -27,6 +27,12 @@ export default {
       user: '用户',
       resources: '资源'
     },
+    lineChart: {
+      loginUserNum: '登录用户数',
+      loginNum: '登录用户次数',
+      accessNum: '访问次数',
+      consumeTime: '访问耗时'
+    },
     loginMap: {
       name: '系统访问用户分布地图'
     },
@@ -53,7 +59,10 @@ export default {
     cancelOperation: '已取消操作',
     deleteTip: '此操作将删除该数据, 是否继续?',
     exportFileName: '数据列表',
-    recoverDeleteTip: '此操作将彻底删除该数据, 数据将不可恢复, 是否继续?'
+    recoverDeleteTip: '此操作将彻底删除该数据, 数据将不可恢复, 是否继续?',
+    addSuccess: '添加成功',
+    editSuccess: '更新成功',
+    deleteSuccess: '删除成功'
   },
   tree: {
     filter: '输入关键字进行过滤'

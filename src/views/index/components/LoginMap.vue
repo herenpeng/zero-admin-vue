@@ -40,6 +40,9 @@ export default {
     // newValue为新值,oldValue为旧值;
     loginMap(newValue, oldValue) {
       this.initChart()
+    },
+    '$i18n.locale'(newValue, oldValue) {
+      this.initChart()
     }
   },
   mounted() {

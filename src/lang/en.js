@@ -27,6 +27,12 @@ export default {
       user: 'User',
       resources: 'Resources'
     },
+    lineChart: {
+      loginUserNum: 'Login User Num',
+      loginNum: 'Login Num',
+      accessNum: 'Access Num',
+      consumeTime: 'Consume Time'
+    },
     loginMap: {
       name: 'System Access User Distribution Map'
     },
@@ -53,7 +59,10 @@ export default {
     cancelOperation: 'Operation canceled',
     deleteTip: 'This operation will delete the data. Do you want to continue?',
     exportFileName: 'Data list',
-    recoverDeleteTip: 'This operation will completely delete the data and it will be unrecoverable. Do you want to continue?'
+    recoverDeleteTip: 'This operation will completely delete the data and it will be unrecoverable. Do you want to continue?',
+    addSuccess: 'Added successfully',
+    editSuccess: 'update success',
+    deleteSuccess: 'Delete successful'
   },
   tree: {
     filter: 'Enter keywords for filtering'

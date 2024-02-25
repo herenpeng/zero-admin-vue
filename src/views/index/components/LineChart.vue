@@ -28,7 +28,7 @@ export default {
     },
     chartData: {
       type: Object,
-      required: false
+      required: true
     }
   },
   data() {
@@ -44,6 +44,9 @@ export default {
       handler(val) {
         this.setOptions(val)
       }
+    },
+    '$i18n.locale'(newValue, oldValue) {
+      this.setOptions(this.chartData)
     }
   },
   mounted() {
@@ -93,7 +96,7 @@ export default {
           axisTick: { show: false }
         },
         legend: {
-          data: Object.keys(chartData.data)
+          data: Object.keys(chartData.data).map(key => this.$t(key))
         },
         series: this.buildSeries(chartData.data)
       }, true)
@@ -104,7 +107,7 @@ export default {
         const color = this.chartColor[series.length % this.chartColor.length]
         const animationEasing = this.chartAnimationEasing[series.length % this.chartAnimationEasing.length]
         series.push({
-          name: key,
+          name: this.$t(key),
           smooth: true,
           type: 'line',
           itemStyle: {

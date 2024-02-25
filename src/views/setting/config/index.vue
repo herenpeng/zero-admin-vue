@@ -206,7 +206,7 @@ export default {
             this.dialogFormVisible = false
             this.$notify({
               title: this.$t('common.success'),
-              message: res.message,
+              message: this.$t(res.message),
               type: 'success',
               duration: 2000
             })
@@ -230,7 +230,7 @@ export default {
             this.dialogFormVisible = false
             this.$notify({
               title: this.$t('common.success'),
-              message: res.message,
+              message: this.$t(res.message),
               type: 'success',
               duration: 2000
             })

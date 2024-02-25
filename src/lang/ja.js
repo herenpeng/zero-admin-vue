@@ -27,6 +27,12 @@ export default {
       user: 'ユーザー',
       resources: 'リソース'
     },
+    lineChart: {
+      loginUserNum: 'ログインユーザー',
+      loginNum: 'ログインユーザー数',
+      accessNum: 'アクセス回数',
+      consumeTime: 'アクセスに時間がかかる'
+    },
     loginMap: {
       name: 'システムアクセスユーザ分布マップ'
     },
@@ -53,7 +59,10 @@ export default {
     cancelOperation: 'キャンセルされた操作',
     deleteTip: 'この操作によりデータが削除されます。続行しますか？',
     exportFileName: 'データリスト',
-    recoverDeleteTip: 'この操作により、データは完全に削除され、復元できなくなります。続行しますか？'
+    recoverDeleteTip: 'この操作により、データは完全に削除され、復元できなくなります。続行しますか？',
+    addSuccess: '追加成功',
+    editSuccess: '更新に成功しました',
+    deleteSuccess: '削除に成功しました'
   },
   tree: {
     filter: 'フィルタリングするキーワードを入力'
