@@ -19,7 +19,7 @@
           @node-collapse="nodeCollapse"
         >
           <span slot-scope="{ node }" class="custom-tree-node">
-            <span><i :class="node.data.name" />{{ node.data.name }}</span>
+            <span><i :class="node.data.member ? 'el-icon-user-solid' : 'el-icon-paperclip'" />{{ node.data.name }}</span>
           </span>
         </el-tree>
       </el-col>
@@ -170,7 +170,13 @@ export default {
     buildTree(organs) {
       const tree = []
       for (const organ of organs) {
+        if (organ.member) {
+          continue
+        }
         organ.disabled = organ.hidden || !organ.enabled
+        for (const user of organ.users) {
+          organ.children.push({ name: user.username, member: true })
+        }
         const node = JSON.parse(JSON.stringify(organ))
         tree.push(node)
         this.buildTree(node.children)

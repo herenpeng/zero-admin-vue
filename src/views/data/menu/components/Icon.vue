@@ -28,8 +28,7 @@ export default {
     this.iconList = iconList
   },
   methods: {
-    clickHandler: function(icon) {
-      this.select = icon
+    clickHandler(icon) {
       this.$emit('select-icon', icon)
     }
   }
