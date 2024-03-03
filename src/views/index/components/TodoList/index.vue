@@ -47,7 +47,7 @@ const filters = {
   completed: todos => todos.filter(todo => todo.done)
 }
 const defaultList = [
-  { text: '无需验证接口功能', done: false },
+  { text: '无需验证接口功能', done: true },
   { text: '代码生成功能同步最新表数据', done: true },
   { text: '首页Chart改造', done: true },
   { text: '前端i18n', done: true },
