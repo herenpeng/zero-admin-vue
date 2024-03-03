@@ -99,6 +99,8 @@ export default {
     deleteRecovery: '彻底删除',
     close: '关闭',
     save: '保存',
+    back: '返回',
+    synchron: '同步',
     submit: '提交',
     resetting: '重置',
     upload: '上传',

@@ -171,7 +171,7 @@
           />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.vuePackage')" prop="vuePackage">
-          <el-input v-model="tableInfo.vuePackage" placeholder="data.user" />
+          <el-input v-model="tableInfo.vuePackage" placeholder="data" />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.tree')">
           <el-switch

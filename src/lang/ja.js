@@ -99,6 +99,8 @@ export default {
     deleteRecovery: '完全に削除',
     close: '閉じる',
     save: '保存＃ホゾン＃',
+    back: 'リターンマッチ',
+    synchron: '同期',
     submit: '送信',
     resetting: 'リセット',
     upload: 'アップロード',

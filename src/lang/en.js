@@ -99,6 +99,8 @@ export default {
     deleteRecovery: 'Delete Completely',
     close: 'Close',
     save: 'Save',
+    back: 'Return',
+    synchron: 'Synchron',
     submit: 'Submit',
     resetting: 'Resetting',
     upload: 'Upload',

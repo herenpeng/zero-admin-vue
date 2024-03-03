@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div class="filter-container">
+      <el-button type="primary" icon="el-icon-refresh" @click="synchron">
+        {{ $t('table.synchron') }}
+      </el-button>
+      <router-link :to="{path:'/dev/code-generate'}" style="margin-left: 10px">
+        <el-button type="success" icon="el-icon-back">{{ $t('table.back') }}</el-button>
+      </router-link>
+    </div>
     <el-table
       :key="tableKey"
       v-loading="listLoading"
@@ -52,7 +60,7 @@
       </el-table-column>
       <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width" width="100px">
         <template v-slot="{row}">
-          <el-button v-if="baseColumn(row.name)" type="primary" size="mini" icon="el-icon-edit" @click="handleUpdateTableColumn(row)">
+          <el-button v-if="baseColumnArray.indexOf(row.name) === -1" type="primary" size="mini" icon="el-icon-edit" @click="handleUpdateTableColumn(row)">
             {{ $t('table.edit') }}
           </el-button>
         </template>
@@ -134,17 +142,11 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getTableColumnPage, updateTableColumn } from '@/api/dev/code-setting'
+import { getTableColumnPage, updateTableColumn, synchronTableColumn } from '@/api/dev/code-setting'
 
 export default {
   name: 'TableColumn',
   components: { Pagination },
-  props: {
-    tableInfoId: {
-      type: Number,
-      default: null
-    }
-  },
   data() {
     return {
       tableKey: 0,
@@ -189,14 +191,17 @@ export default {
     }
   },
   watch: {
-    tableInfoId: function() {
+    '$route.query.id'(newValue, oldValue) {
       this.getTableColumnPage()
     }
+  },
+  created() {
+    this.getTableColumnPage()
   },
   methods: {
     getTableColumnPage() {
       this.listLoading = true
-      const tableInfoId = this.tableInfoId
+      const tableInfoId = this.$route.query.id
       getTableColumnPage(this.page, { tableInfoId }).then(res => {
         setTimeout(() => {
           if (this.listLoading === true) {
@@ -238,12 +243,18 @@ export default {
         }
       })
     },
-    baseColumn(name) {
-      // 如果是基础字段，不允许编辑修改
-      if (this.baseColumnArray.indexOf(name) !== -1) {
-        return false
-      }
-      return true
+    synchron() {
+      this.listLoading = true
+      const tableInfoId = this.$route.query.id
+      synchronTableColumn(tableInfoId).then(res => {
+        setTimeout(() => {
+          if (this.listLoading === true) {
+            this.listLoading = false
+          }
+        }, 1000)
+        this.listLoading = false
+        this.getTableColumnPage()
+      })
     }
   }
 }

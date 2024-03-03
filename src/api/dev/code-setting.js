@@ -23,3 +23,10 @@ export function updateTableColumn(tableColumn) {
     data: tableColumn
   })
 }
+
+export function synchronTableColumn(tableInfoId) {
+  return request({
+    url: '/table/column/synchron/' + tableInfoId,
+    method: 'put'
+  })
+}
