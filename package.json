@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
-    "build:prod": "vue-cli-service build",
+    "build:prod": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
     "build:stage": "vue-cli-service build --mode staging",
     "preview": "node build/index.js --preview",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
