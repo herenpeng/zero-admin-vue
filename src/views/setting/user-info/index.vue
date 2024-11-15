@@ -168,7 +168,7 @@ export default {
     updateSuccess(message) {
       this.$notify({
         title: this.$t('common.success'),
-        message: message,
+        message: this.$t(message),
         type: 'success',
         duration: 2000
       })
