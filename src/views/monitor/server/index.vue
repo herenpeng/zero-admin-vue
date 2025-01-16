@@ -101,14 +101,17 @@
                 <el-form-item label="JDK版本">
                   <span>{{ props.row.version }}</span>
                 </el-form-item>
-                <el-form-item label="JDK路径">
-                  <span>{{ props.row.home }}</span>
-                </el-form-item>
                 <el-form-item label="JVM启动时间">
                   <span>{{ props.row.startTime }}</span>
                 </el-form-item>
                 <el-form-item label="JVM运行时间">
                   <span>{{ props.row.runTime }}</span>
+                </el-form-item>
+                <el-form-item label="JDK路径">
+                  <span>{{ props.row.home }}</span>
+                </el-form-item>
+                <el-form-item label="项目路径">
+                  <span>{{ sysInfo[0].userDir }}</span>
                 </el-form-item>
                 <el-form-item label="最大可用内存总数">
                   <span>{{ props.row.max }}MB</span>
@@ -116,14 +119,20 @@
                 <el-form-item label="占用的内存总数">
                   <span>{{ props.row.total }}MB</span>
                 </el-form-item>
-                <el-form-item label="内存使用率">
-                  <span>{{ props.row.usage }}%</span>
-                </el-form-item>
                 <el-form-item label="空闲内存">
                   <span>{{ props.row.free }}MB</span>
                 </el-form-item>
                 <el-form-item label="使用内存">
                   <span>{{ props.row.used }}MB</span>
+                </el-form-item>
+                <el-form-item label="内存使用率">
+                  <span>{{ props.row.usage }}%</span>
+                </el-form-item>
+                <el-form-item>
+                  <span></span>
+                </el-form-item>
+                <el-form-item label="运行参数" style="width: 100%">
+                  <div v-for="arg in props.row.arguments">{{ arg }}</div>
                 </el-form-item>
               </el-form>
             </template>

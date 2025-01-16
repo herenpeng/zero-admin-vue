@@ -14,6 +14,7 @@
           :default-expanded-keys="expandedKeys"
           :filter-node-method="filterNode"
           draggable
+          @node-drag-start="handleDragStart"
           @node-drop="handleDrop"
           @node-expand="nodeExpand"
           @node-collapse="nodeCollapse"
@@ -271,6 +272,11 @@ export default {
     },
     handleFilter() {
       this.loadData()
+    },
+    handleDragStart(node, ev) {
+      if (node.data.member) {
+        ev.preventDefault()
+      }
     },
     handleDrop(draggingNode, dropNode, dropType, ev) {
       const data = draggingNode.data
