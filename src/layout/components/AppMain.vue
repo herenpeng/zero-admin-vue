@@ -1,5 +1,5 @@
 <template>
-  <section class="app-main">
+  <section ref="container" class="app-main">
     <transition name="fade-transform" mode="out-in">
       <keep-alive :include="cachedViews">
         <router-view :key="key" />
@@ -9,6 +9,9 @@
 </template>
 
 <script>
+import Watermark from '@/utils/waterMark'
+import store from '@/store'
+
 export default {
   name: 'AppMain',
   computed: {
@@ -18,6 +21,12 @@ export default {
     key() {
       return this.$route.path
     }
+  },
+  mounted() {
+    // 想要设置为水印的内容
+    const username = store.getters.username
+    // container 元素标签
+    Watermark.set(username, this.$refs.container)
   }
 }
 </script>
