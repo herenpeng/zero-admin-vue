@@ -131,16 +131,16 @@
           <el-select v-model="tableInfo.name" :placeholder="$t('table.dev.codeGenerate.namePlaceholder')" clearable style="width: 280px;"
                      class="filter-item" :disabled="dialogStatus==='update'" @change="handleTableName"
           >
-            <el-option v-for="(tableInfo,index) in tableInfoList" :key="index" :value="tableInfo"
-                       :label="tableInfo.name"
+            <el-option v-for="(table,index) in tableInfoList" :key="index" :value="table"
+                       :label="table.name"
             />
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.comment')" prop="comment">
-          <el-input v-model="tableInfo.comment" :placeholder="$t('table.dev.codeGenerate.commentPlaceholder')" />
+          <el-input v-model="tableInfo.comment" :placeholder="$t('table.dev.codeGenerate.commentPlaceholder')" @input="forceUpdate($event)"/>
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.entityName')" prop="entityName">
-          <el-input v-model="tableInfo.entityName" :placeholder="$t('table.dev.codeGenerate.entityNamePlaceholder')" />
+          <el-input v-model="tableInfo.entityName" :placeholder="$t('table.dev.codeGenerate.entityNamePlaceholder')" @input="forceUpdate($event)"/>
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.javaCodePath')" prop="javaCodePath">
           <el-autocomplete
@@ -154,7 +154,7 @@
           />
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.requestMapping')" prop="requestMapping">
-          <el-input v-model="tableInfo.requestMapping" :placeholder="$t('table.dev.codeGenerate.requestMappingPlaceholder')" />
+          <el-input v-model="tableInfo.requestMapping" :placeholder="$t('table.dev.codeGenerate.requestMappingPlaceholder')" @input="forceUpdate($event)"/>
         </el-form-item>
         <el-form-item :label="$t('table.dev.codeGenerate.javaPackage')" prop="javaPackage">
           <el-input v-model="tableInfo.javaPackage" placeholder="com.zero.sys" />
@@ -359,7 +359,7 @@ export default {
         deleteTableInfo(row.id).then(res => {
           this.$message({
             type: 'success',
-            message: res.message
+            message: this.$t(res.message)
           })
           this.loadData()
         })
@@ -369,6 +369,10 @@ export default {
           message: this.$t('common.cancelDelete')
         })
       })
+    },
+    forceUpdate(e) {
+      // 强制刷新
+      this.$forceUpdate()
     },
     handleFilter() {
       this.page.currentPage = 1
